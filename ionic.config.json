@@ -1,0 +1,7 @@
+{
+  "name": "JaipurServiceCompanyCustomer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
