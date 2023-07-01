@@ -24,3 +24,16 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+@import 'swiper/css/bundle';
+
+
+
+// globals styles
+
+ion-header{
+    box-shadow: none !important;
+}
+
+h1,h2,h3,h4,h6,p{
+    margin:0px;
+}

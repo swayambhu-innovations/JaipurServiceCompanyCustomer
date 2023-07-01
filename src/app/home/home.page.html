@@ -1,20 +1,16 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-home-header [MAX_ADDRESS_LINE_LENGTH]="30"></app-home-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content class="ion-padding" [fullscreen]="true">
+    <button id="search" routerLink="../search">
+        <p>Search what you need</p>
+        <span>
+            <!-- <ion-icon name="search-outline"></ion-icon> -->
+            <img src="assets/ui_icons/search.svg" alt="">
+        </span>
+    </button>
+    <swiper class="swiperContainer" [config]="slideConfig" [pagination]="true" [autoplay]="autoplayOptions" [loop]="true" autoplay-interval="9000">
+        <ng-template swiperSlide *ngFor="let item of promotionalBanners">
+            <img [src]="item.image">
+        </ng-template>
+    </swiper>
 </ion-content>
