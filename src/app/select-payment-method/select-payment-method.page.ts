@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select-payment-method',
@@ -41,7 +42,7 @@ export class SelectPaymentMethodPage implements OnInit {
           name: 'PhonePe'
         },
         {
-          imgSource: 'assets/icon/select-payment-method/phonepe.png',
+          imgSource: 'assets/icon/select-payment-method/upi.png',
           name: 'Pay via another UPI ID'
         }
       ]
@@ -49,16 +50,22 @@ export class SelectPaymentMethodPage implements OnInit {
     {
       heading: 'Other Option', method: [
         {
-          imgSource: 'assets/icon/select-payment-method/card.svg',
+          imgSource: 'assets/icon/select-payment-method/cod.png',
           name: 'Cash on Delivery'
         }
       ]
     },
   ];
 
-  constructor() { }
+  constructor(
+    private router:Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  confirmBookingNavigate(){
+    this.router.navigate(['/confirm-booking']);
   }
 
 }

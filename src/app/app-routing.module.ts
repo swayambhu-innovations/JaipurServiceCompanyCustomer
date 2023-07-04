@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'select-payment-method',
     loadChildren: () => import('./select-payment-method/select-payment-method.module').then( m => m.SelectPaymentMethodPageModule)
   },
+  {
+    path: 'confirm-booking',
+    loadChildren: () => import('./confirm-booking/confirm-booking.module').then( m => m.ConfirmBookingPageModule)
+  },
 
 ];
 

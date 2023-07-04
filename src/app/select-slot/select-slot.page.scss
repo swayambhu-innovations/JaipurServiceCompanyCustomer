@@ -85,12 +85,8 @@ ion-content {
             }
 
             button:hover {
-                background-color: black;
+                background-color: #181F29;
                 color: #fff;
-            }
-
-            button:active {
-                background-color: black;
             }
         }
 
@@ -121,7 +117,7 @@ ion-content {
             }
 
             button:hover {
-                background-color: black;
+                background-color: #181F29;
                 color: #fff;
             }
 
@@ -134,9 +130,9 @@ ion-content {
 
 
     .button {
-        margin: 16px;
-        --background: black;
+        --background: #1A1D1F;
         --background-activated: #8d8686;
+        --border-radius: 10px;
     }
 
 }
