@@ -1,0 +1,16 @@
+<app-header1 [name]="name"></app-header1>
+
+<ion-content>
+  <div class="container" *ngFor="let m of methods">
+    <p>{{m.heading}}</p>
+    <div class="row" *ngFor="let n of m.method">
+      <div class="left">
+        <img src="{{n.imgSource}}" alt="">
+        <div class="name">{{n.name}}</div>
+      </div>
+      <div class="right">
+        <img src="assets/icon/select-payment-method/right-arrow.svg" alt="">
+      </div>
+    </div>
+  </div>
+</ion-content>

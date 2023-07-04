@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'select-slot',
     loadChildren: () => import('./select-slot/select-slot.module').then( m => m.SelectSlotPageModule)
   },
+  {
+    path: 'select-payment-method',
+    loadChildren: () => import('./select-payment-method/select-payment-method.module').then( m => m.SelectPaymentMethodPageModule)
+  },
 
 ];
 
