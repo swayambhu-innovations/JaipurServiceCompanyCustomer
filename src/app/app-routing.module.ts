@@ -10,7 +10,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'select-slot',
+    loadChildren: () => import('./select-slot/select-slot.module').then( m => m.SelectSlotPageModule)
   },
+
 ];
 
 @NgModule({
