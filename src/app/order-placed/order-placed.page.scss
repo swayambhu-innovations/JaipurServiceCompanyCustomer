@@ -1,0 +1,180 @@
+h2,
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+ion-content {
+    --background: #f7f7f7;
+    // --ion-background-color:red;
+    font-family: Lato;
+    $primary: #1A1D1F;
+    $secondary: #6F767E;
+    $green: #579540;
+
+    .container {
+        // padding: 12px 16px 12px 16px;
+
+        .first-section {
+            background-color: #fff;
+            padding: 12px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--line, #E9E9E9);
+
+            section {
+                display: flex;
+                // height: 171px;
+                padding: 25px;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: #CDF4DF;
+                border-radius: 12px;
+
+                /* card sahdow 2 */
+                box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+
+                h2 {
+                    margin-top: 16px;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: $primary;
+                }
+
+                p {
+                    margin-top: 4px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    color: $secondary;
+                }
+            }
+
+            img {
+                height: 67px;
+                width: 117px;
+            }
+        }
+
+        .second-section {
+            background-color: #fff;
+            padding: 12px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--line, #E9E9E9);
+
+            .head {
+                font-size: 18px;
+                color: $primary;
+                font-weight: 700;
+            }
+
+            .body {
+                font-size: 12px;
+                font-weight: 500;
+                color: $secondary;
+            }
+
+            .row-2 {
+                margin-top: 12px;
+                display: flex;
+                justify-content: space-between;
+
+                .left {
+                    display: flex;
+                }
+
+                .right {
+                    margin-top: 5px;
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: $green;
+                }
+            }
+        }
+
+        .third-section {
+            background-color: #fff;
+            padding: 12px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--line, #E9E9E9);
+
+            .head {
+                font-size: 18px;
+                color: $primary;
+                font-weight: 700;
+            }
+
+            .row-2 {
+
+                border-radius: 12px;
+                border: 1px solid var(--line, #E9E9E9);
+                padding: 12px;
+                margin-top: 8px;
+                /* card sahdow 2 */
+                box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+                display: flex;
+
+                .head {
+                    font-size: 14px;
+                    color: $secondary;
+                    font-weight: 500;
+                }
+
+                .body {
+                    font-size: 14px;
+                    font-weight: 700;
+                    color: $primary;
+                }
+            }
+        }
+
+        .forth-section {
+            background-color: #fff;
+            padding: 12px 16px;
+            margin-top: 4px;
+            border: 1px solid var(--line, #E9E9E9);
+
+            .head {
+                font-size: 18px;
+                color: $primary;
+                font-weight: 700;
+            }
+
+            .row-2 {
+
+                border-radius: 12px;
+                border: 1px solid var(--line, #E9E9E9);
+                padding: 15px;
+                margin-top: 8px;
+                /* card sahdow 2 */
+                box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+                display: flex;
+
+                .head {
+                    color: $primary;
+                    font-size: 14px;
+                    font-family: Manrope;
+                    font-weight: 700;
+                }
+
+                .body {
+                    color: #444;
+                    font-size: 12px;
+                    font-family: Nunito Sans;
+                    font-weight: 400;
+                    letter-spacing: 0.36px;
+                    margin-top: 4px;
+                }
+            }
+        }
+
+
+
+
+        ion-button {
+            margin-top: 24px;
+            padding: 0px 16px;
+        }
+    }
+
+
+}

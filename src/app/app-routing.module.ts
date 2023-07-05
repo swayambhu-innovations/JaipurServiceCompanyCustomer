@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'confirm-booking',
     loadChildren: () => import('./confirm-booking/confirm-booking.module').then( m => m.ConfirmBookingPageModule)
   },
+  {
+    path: 'order-placed',
+    loadChildren: () => import('./order-placed/order-placed.module').then( m => m.OrderPlacedPageModule)
+  },
 
 ];
 
