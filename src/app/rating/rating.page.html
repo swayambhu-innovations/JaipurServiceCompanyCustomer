@@ -1,0 +1,27 @@
+<app-header1 [name]="name"></app-header1>
+
+<ion-content>
+  <div class="container">
+    <div class="center-container">
+      <div class="top">
+        <img src="assets/icon/rating/logo.png" alt="">
+      </div>
+
+      <div class="middle">
+        <p id="head">Rate Jaipur Clap App</p>
+        <p id="body">Your feedback will help us to make improvements</p>
+        <app-rate (starEvent)="getStars($event)" [isSelected]="isSelected"></app-rate>
+      </div>
+
+
+      <div class="bottom">
+        <ion-button color="light">
+          No, Thanks
+        </ion-button>
+        <ion-button color="dark" (click)="selected()">
+          Rate on Play Store
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

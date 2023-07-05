@@ -10,7 +10,8 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'select-slot',
     loadChildren: () => import('./select-slot/select-slot.module').then( m => m.SelectSlotPageModule)
   },
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'order-placed',
     loadChildren: () => import('./order-placed/order-placed.module').then( m => m.OrderPlacedPageModule)
+  },
+  {
+    path: 'rating',
+    loadChildren: () => import('./rating/rating.module').then( m => m.RatingPageModule)
   },
 
 ];
