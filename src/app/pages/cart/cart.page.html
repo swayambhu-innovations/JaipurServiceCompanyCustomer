@@ -1,0 +1,169 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <img src="../../../assets/images/back-button.png" alt="">
+    </ion-buttons>
+    <ion-title>Cart</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../../assets/images/bell.svg" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="page-body">
+  <div >
+  <!-- <div *ngFor="let num of numbersArray"> -->
+  <ng-container *ngFor="let looper of services">
+  <hr class="divider">
+  <div class="order-card">
+    <!-- <div class="content"> -->
+    <div class="maskimage">
+      <img src={{looper.serviceThumbnailPath}} alt="" />
+      <!-- <span class="discount"><p>10% OFF</p></span> -->
+    </div>
+    <div class="card-right">
+      <div class="card-right-top">
+        <p class="card-title">{{looper.serviceName}}</p>
+        <div class="card-image"><img (click)="removeService(looper)" class="delete-button" src="../../../assets/images/Delete 2.svg" alt=""></div>
+      </div>
+      <div class="card-right-mid">
+        <p class="card-subtitle">
+          • {{looper.serviceTime.hours}} Hour {{looper.serviceTime.minutes}} Min
+        </p>
+        <span class="spacer"></span>
+        <div class="rating">
+          <img class="rating-btn" src="../../../assets/images/rating-star.png" alt="rating">
+          <p class="rating-text">{{looper.serviceRating}} <span class="rating-user">({{looper.serviceTotalRatingCount}})</span> </p>
+        </div>
+      </div>
+      <div class="card-right-bottom">
+        <p class="price">
+          <span class="discounted-price">
+            ₹{{(looper.serviceOriginalPrice)*(looper.serviceOrderCount)-(offerDiscount)*(looper.serviceOrderCount)/(totalServiceCount)}}
+          </span>
+          <span class="original-price">
+            ₹{{(looper.serviceOriginalPrice)*(looper.serviceOrderCount)}}
+          </span>
+        </p>
+        <div class="stock">
+          <img (click)="deccreaseServiceCount(looper)" src="../../../assets/images/remove.svg" alt="">
+          <p class="item-count">{{looper.serviceOrderCount}}</p>
+        <img (click)="increaseServiceCount(looper)" class="plus" src="../../../assets/images/plus.png" alt="">
+        </div>
+      </div>
+    </div>
+  
+  <!-- coupon and offers section     -->
+  </div>
+ <hr class="divider">
+<!-- </div> -->
+</ng-container>
+</div>
+<!-- when coupon is not applied -->
+<ng-container *ngIf="appliedCoupons.length===0">
+  <div (click)="onOffersClick()" class="apply-coupon">
+    <div class="coupon-items">
+      <img src="../../../assets/images/Ticket Discount.png" alt="">
+      <span class="spacer"></span>
+      <span class="apply-coupon-text">Apply Coupons</span>
+    </div>
+    <div class="coupon-items">
+      <span class="offer-count-text">2 offers</span>
+      <span class="spacer"></span>
+      <img src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png" alt="">
+    </div>
+  </div>
+</ng-container>
+<!-- When coupon is applied -->
+<ng-container *ngIf="appliedCoupons.length!==0">
+  <div class="applied-coupon">
+    <div class="text">
+      <p class="saved-rs">Saved ₹260</p>
+      <p class="coupon-applied-successfuly">Coupon applied successfully!</p>
+    </div>
+    <div class="line-style">
+      <!-- <div class="circle-top style-circle"></div> -->
+      <hr class="verti-line">
+      <!-- <div class="circle-bottom style-circle"></div> -->
+    </div>
+    <div class="applied-content">
+      <img src="../../../assets/images/tick-circle.png" alt="">
+      <p class="applied-text">Applied!</p>
+    </div>
+    <div class="remove-coupon">
+      <ion-icon (click)="emptyAppliedCouponsArray()" name="close"></ion-icon>
+    </div>
+  </div>
+  <!-- <ion-button (click)="setOpen(true)">Open</ion-button> -->
+<!-- <ion-action-sheet
+  [isOpen]=true
+  header="Actions"
+  [buttons]="actionSheetButtons"
+  (didDismiss)="setOpen(false)"
+></ion-action-sheet> -->
+  <ion-modal [initialBreakpoint]="0.2" [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Modal</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
+          reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque,
+          dicta.
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ng-container>
+
+
+  <!-- payment detail section -->
+  <div class="payment-details">
+    <h6 class="payment-detials-text">
+      Payment Details
+    </h6>
+    <div class="breakup">
+      <div class="breakup-item">
+        <p class="left-title">Total Duration</p>
+        <p class="right-sub">{{totalTimeNeeded.hours}} Hour {{totalTimeNeeded.minutes}} Min</p>
+      </div>
+      <div class="breakup-item">
+        <p class="left-title">Total (MRP)</p>
+        <p class="right-sub">₹{{totalMRP}}</p>
+      </div>
+      <div class="breakup-item">
+        <p class="left-title">Discount</p>
+        <p class="right-sub discount-off">-₹{{offerDiscount}}</p>
+      </div>
+      <div class="breakup-item">
+        <p class="left-title">Discounted Price</p>
+        <p class="right-sub">₹{{totalMRP-offerDiscount}}</p>
+      </div>
+    </div>
+    <hr class="dotted-line">
+    <div class="breakup-item">
+      <p class="total-text">Total</p>
+      <p class="total-text" >₹{{totalMRP-offerDiscount}}</p>
+    </div>
+  </div>
+
+  <div class="offer-bar">
+    <img class="tag-image" src="../../../assets/images/tag.png" alt="">
+    <p class="tag-text">
+      Yay! You have saved ₹550 on final bill
+    </p>
+  </div>
+
+  <!-- <span  style="height: 32px; color: aqua;" ></span> -->
+  <button class="select-address-button">Select Address</button>
+
+
+</ion-content>
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>

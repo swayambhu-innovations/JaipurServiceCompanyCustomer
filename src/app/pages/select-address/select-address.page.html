@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <img src="../../../assets/images/back-button.png" alt="">
+    </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../../assets/images/bell.svg" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="add-address">
+      <p class="left-content">Select Address</p>
+    <div class="right-content">
+      <p class="right-content-text">Add new</p>
+      <img src="../../../assets/images/add-circle (1).png" alt="">
+    </div>
+  </div>
+
+  <ion-radio-group [(ngModel)]="radioState">
+  <div class="address-card">
+    <div class="first-box">
+      <!-- <span> -->
+        <!-- <img src="../../../assets/images/Icon Radio On.png" alt=""> -->
+        <!-- <ion-icon name="radio-button-on"></ion-icon> -->
+      <!-- </span> -->
+        <ion-radio value="on" checked>
+          <img [src]="radioOnImage" alt="On Image">
+          <!-- <img src={{radioOnImage}} alt=""> -->
+        </ion-radio>
+      <div class="textt">
+        <p class="name">Arpita</p>
+        <p class="number">9125332151</p>
+        <p class="address">4517 Washington Ave. Manchester, Kentucky 39495</p>
+      </div>
+    </div>
+    <div class="second-box">
+      <img src="../../../assets/images/Edit Square.png" alt="">
+      <img (click)="openActionSheet()" src="../../../assets/images/Delete 2.png" alt="">
+    </div>
+  </div>
+  <div class="address-card">
+    <div class="first-box">
+      <ion-radio value="off">
+        <img [src]="radioOffImage" alt="Off Image">
+      </ion-radio>
+      <div class="textt">
+        <p class="name">Arpita</p>
+        <p class="number">9125332151</p>
+        <p class="address">4517 Washington Ave. Manchester, Kentucky 39495</p>
+      </div>
+    </div>
+    <div class="second-box">
+      <img src="../../../assets/images/Edit Square.png" alt="">
+      <img (click)="openActionSheet()" src="../../../assets/images/Delete 2.png" alt="">
+    </div>
+  </div>
+</ion-radio-group>
+  <div class="spacer"></div>
+  <button class="select-slot-button">Select Slot</button>
+</ion-content>

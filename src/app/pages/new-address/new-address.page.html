@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <img src="../../../assets/images/back-button.png" alt="">
+    </ion-buttons>
+    <ion-title>Add New Address</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../../assets/images/bell.svg" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="input-address">
+    <ion-item class="address-box">
+      <ion-input type="text" placeholder="  House/Flat/Block/Building" class="address-text"></ion-input>
+    </ion-item>
+    <ion-item class="address-box">
+      <ion-input type="text" placeholder="  Street, Society or Landmark" class="address-text"></ion-input>
+    </ion-item>
+    <ion-item class="address-box">
+      <ion-input type="text" placeholder="  Pincode" class="address-text"></ion-input>
+    </ion-item> 
+      <!-- <ion-text slot="end" class="coupon-button">Apply</ion-text> -->
+  </div>  
+  <img class="map-img" src="../../../assets/images/map-photo.png" alt="">
+  <button class="save-address-button">Save Address</button>
+</ion-content>
