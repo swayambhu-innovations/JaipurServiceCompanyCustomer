@@ -39,7 +39,7 @@
     </div>
     <div class="second-box">
       <img src="../../../assets/images/Edit Square.png" alt="">
-      <img (click)="openActionSheet()" src="../../../assets/images/Delete 2.png" alt="">
+      <img (click)="setOpen(true)" src="../../../assets/images/Delete 2.png" alt="">
     </div>
   </div>
   <div class="address-card">
@@ -55,10 +55,27 @@
     </div>
     <div class="second-box">
       <img src="../../../assets/images/Edit Square.png" alt="">
-      <img (click)="openActionSheet()" src="../../../assets/images/Delete 2.png" alt="">
+      <img (click)="setOpen(true)" src="../../../assets/images/Delete 2.png" alt="">
     </div>
   </div>
 </ion-radio-group>
   <div class="spacer"></div>
   <button class="select-slot-button">Select Slot</button>
+
+  <ion-modal [initialBreakpoint]="0.30" [isOpen]="isModalOpen">
+    <ng-template>
+        <div class="action-sheet-header">
+          <p class="action-sheet-header-text">Delete Address</p>
+    </div>
+      <ion-content >
+        <p class="modal-bottom-text">
+          are you sure you want to delete address?
+        </p>
+        <div class="option-buttons">
+          <button (click)="setOpen(false)" class="go-back-button">No, go back</button>
+          <button (click)="setOpen(false)" class="yes-delete-button">Yes, Delete</button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

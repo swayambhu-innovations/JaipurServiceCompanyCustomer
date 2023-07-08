@@ -2,7 +2,7 @@ import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedArrayService } from '../../shared-array.service';
-import { ActionSheetController } from '@ionic/angular';
+// import { ActionSheetController } from '@ionic/angular';
 
 
 

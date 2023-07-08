@@ -204,7 +204,7 @@ ion-content{
     --background-color: #181F29;
 }
 
-.select-address-button {
+.select-address-button,.got-it-button {
     width: 90%;
     margin: 0 5%;
     background-color: #1A1D1F;
@@ -332,4 +332,34 @@ ion-content{
 
 ion-content{
         --ion-background-color: #ffffff;       
+}
+
+.action-sheet-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 16px;
+    margin-bottom: 0px;
+
+    .action-sheet-header-text{
+        margin: 12px 0px;
+        color: #181F29;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: 'Lato', sans-serif;
+    }
+    .action-sheet-header-img{
+        margin: 12px 0px;
+    }
+}
+.got-it-button{
+     margin: 30px 16px;
+}
+.modal-bottom-text{
+    color: #6F767E;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    margin-left: 16px;
 }
