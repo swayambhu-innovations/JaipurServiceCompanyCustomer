@@ -1,0 +1,246 @@
+a {
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+}
+
+.booking {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--line, #E9E9E9);
+    background: #FFF;
+    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.10);
+}
+
+.booking-creds {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line, #E9E9E9);
+}
+
+.booking-creds .service {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.booking-creds .service h3 {
+    color: #1A1D1F;
+    font-family: Lato;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.32px;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.booking-creds .service small {
+    color: var(--neutral-04, #6F767E);
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.24px;
+}
+
+.booking-creds .service-price h5 {
+    color: #579540;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.booking-details {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.booking-details .booking-status {
+    display: flex;
+    justify-content: space-between;
+}
+
+.booking-details .booking-status h4 {
+    color: #6F767E;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.14px;
+}
+
+.booking-details .booking-status h5 {
+    color: #141414;
+    text-align: right;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.24px;
+    display: grid;
+    place-items: center;
+    border-radius: 5px;
+    padding: 0 8px;
+    background: #f5f5f5;
+    text-transform: capitalize;
+}
+
+.booking-details .booking-status h5.confirmed {
+    color: #579540;
+    background: #ECF8F1;
+}
+
+.booking-details .booking-status h5.pending {
+    color: #EB833C;
+    background: rgba(235, 131, 60, 0.25);
+}
+
+.booking-details .booking-status h5.cancelled {
+    color: #D3424A;
+    background: #FFE1E3;
+}
+
+.booking-details .booking-status h5.completed {
+    color: #6A5DFF;
+    background: #F0EFFF;
+}
+
+.schedule {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.schedule .time {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3px;
+    width: 100%;
+}
+
+.schedule .time h4 {
+    color: var(--neutral-07, #1A1D1F);
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.24px;
+}
+
+.schedule .time h5 {
+    color: var(--neutral-04, #6F767E);
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.24px;
+}
+
+.technician {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.technician-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.technician-name {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    width: 100%;
+}
+
+.technician-name h3 {
+    color: var(--neutral-07, #1A1D1F);
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.14px;
+}
+
+.technician-name h4 {
+    color: var(--neutral-04, #6F767E);
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 138%;
+    letter-spacing: -0.24px;
+}
+
+.technician-call {
+    display: flex;
+    width: 81px;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px;
+    background: var(--primary, #181F29);
+}
+
+.technician-call button{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: transparent;
+}
+
+.technician.history .technician-name h4{
+    order: 0;
+}
+
+.technician.history .technician-name h3{
+    order: 1;
+}
+
+.technician.history .technician-name{
+    justify-content: space-between;
+    flex-direction: unset;
+}
+
+.schedule.history .time{
+    justify-content: space-between;
+    flex-direction: unset;
+}
+
+.schedule.history .time h5{
+    order: 0;
+}
+
+.schedule.history .time h4{
+    order: 1;
+}

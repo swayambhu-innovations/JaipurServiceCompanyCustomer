@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { BookingComponent } from './booking/booking.component';
+import { BookingModule } from './booking/booking.module';
 
 const routes: Routes = [
   {
@@ -10,6 +12,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'booking',
+    component: BookingComponent,
+    loadChildren: () => import('./booking/booking.module').then( m => m.BookingModule)
   },
 ];
 

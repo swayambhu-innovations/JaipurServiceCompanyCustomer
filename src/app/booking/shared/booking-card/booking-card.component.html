@@ -1,0 +1,44 @@
+<div class="booking">
+  <div class="booking-creds">
+      <div class="service">
+          <div class="service-icon">
+              <img src="../../assets/icons/48 place holder.svg" alt="" srcset="">
+          </div>
+          <div>
+              <h3>{{booking.service}}</h3>
+              <small>Booking Id: #{{booking.id}}</small>
+          </div>
+      </div>  
+      <div class="service-price"><h5>₹{{booking.price}}</h5></div>
+  </div>
+  <div class="booking-details">
+      <div class="booking-status">
+          <h4>Status</h4>
+          <h5 [class]="booking.status">{{booking.status}}</h5>
+      </div>
+      <div class="schedule" [ngClass]="{'history': booking.status === 'cancelled' || booking.status === 'completed' }">
+          <div *ngIf="booking.status === 'confirmed' || booking.status === 'pending'" class="icon"><img src="../../assets/icons/Icon-schedulesvg.svg" alt="" srcset=""></div>
+          <div class="time">
+              <h4>{{booking.schedule |  date:'short'}}</h4>
+              <h5>Schedule</h5>
+          </div>
+      </div>
+      <div class="technician" [ngClass]="{'history': booking.status === 'cancelled' || booking.status === 'completed' }" *ngIf="booking.status !== 'pending'">
+          <div class="technician-details">
+              <img *ngIf="booking.status === 'confirmed'" src="../../assets/icons/person.png" alt="">
+              <div class="technician-name">
+                  <h3>{{booking.technician}}</h3>
+                  <h4>Technician</h4>
+              </div>
+          </div>
+          <div class="technician-call" *ngIf="booking.status === 'confirmed'">
+              <button>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.8246 6.99841L7.31697 4.94255C7.21445 4.80274 7.0207 4.76711 6.87514 4.86129C4.90272 6.13757 4.36053 8.08717 5.15185 9.52437C6.01728 11.0961 7.35204 13.0237 9.3994 15.0711C11.4468 17.1185 13.3744 18.4532 14.9461 19.3187C16.3833 20.11 18.3329 19.5678 19.6092 17.5954C19.7034 17.4498 19.6678 17.2561 19.528 17.1535L17.4721 15.6459C17.1698 15.4242 16.7688 15.3902 16.4335 15.5579L15.6141 15.9676C14.9171 16.3161 13.9617 16.4385 13.0572 15.9732C12.4526 15.6622 11.5206 15.071 10.4601 14.0104C9.39951 12.9499 8.80835 12.0179 8.49727 11.4133C8.03198 10.5089 8.15441 9.55342 8.5029 8.85644L8.91263 8.03699C9.08029 7.70167 9.04631 7.30073 8.8246 6.99841ZM5.78864 3.18215C3.24813 4.82602 1.94037 7.83829 3.39987 10.489C4.3524 12.219 5.79923 14.2994 7.98519 16.4853C10.1712 18.6713 12.2515 20.1181 13.9815 21.0706C16.6322 22.5301 19.6445 21.2224 21.2884 18.6819C21.9579 17.647 21.7046 16.2696 20.7107 15.5407L18.6548 14.0331C17.7479 13.368 16.5451 13.266 15.5391 13.769L14.7196 14.1788C14.4824 14.2974 14.208 14.3161 13.9722 14.1948C13.5425 13.9737 12.7811 13.503 11.8743 12.5962C10.9675 11.6894 10.4968 10.928 10.2757 10.4983C10.1544 10.2625 10.1731 9.98809 10.2918 9.75087L10.7015 8.93142C11.2045 7.92545 11.1025 6.72265 10.4374 5.81569L8.92978 3.75982C8.20089 2.76588 6.82346 2.51256 5.78864 3.18215Z" fill="white"/>
+                    </svg>
+                    <span>Call</span>
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
