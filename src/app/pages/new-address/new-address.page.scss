@@ -1,12 +1,19 @@
 .input-address{
     // height: 30%;
     padding: 16px;  
-    .address-text{
+    .address-box{
+        // background-color: white;
         border: 2px solid #D7D7D7;
+        // border: 2px solid red;
         border-radius: 8px;
         margin: 12px 0px;
         // line-height: 10px;
         max-height: 40px;
+        .address-text{
+            background-color: transparent;
+            border: none;
+        }
+
         .address-text::placeholder{
             color: #666666;
             // margin-left: 10px;
@@ -15,9 +22,7 @@
         }
     }
 }
-.address-box{
-    // height: 40px;
-}
+
 
 .map-img{
     // margin: 20px 0px;
@@ -26,7 +31,7 @@
 
 .save-address-button {
     width: 90%;
-    margin: 0 5%;
+    margin: 5% 5%;
     background-color: #1A1D1F;
     color: #FFFFFF;
     border: none;
