@@ -9,33 +9,56 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: 'search',
-    loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
+    loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
   },
   {
     path: 'select-slot',
-    loadChildren: () => import('./select-slot/select-slot.module').then( m => m.SelectSlotPageModule)
+    loadChildren: () => import('./select-slot/select-slot.module').then(m => m.SelectSlotPageModule)
   },
   {
     path: 'select-payment-method',
-    loadChildren: () => import('./select-payment-method/select-payment-method.module').then( m => m.SelectPaymentMethodPageModule)
+    loadChildren: () => import('./select-payment-method/select-payment-method.module').then(m => m.SelectPaymentMethodPageModule)
   },
   {
     path: 'confirm-booking',
-    loadChildren: () => import('./confirm-booking/confirm-booking.module').then( m => m.ConfirmBookingPageModule)
+    loadChildren: () => import('./confirm-booking/confirm-booking.module').then(m => m.ConfirmBookingPageModule)
   },
   {
     path: 'order-placed',
-    loadChildren: () => import('./order-placed/order-placed.module').then( m => m.OrderPlacedPageModule)
+    loadChildren: () => import('./order-placed/order-placed.module').then(m => m.OrderPlacedPageModule)
   },
   {
     path: 'rating',
-    loadChildren: () => import('./rating/rating.module').then( m => m.RatingPageModule)
+    loadChildren: () => import('./rating/rating.module').then(m => m.RatingPageModule)
   },
-
+  {
+    path: 'cart',
+    loadChildren: () => import('./cart/cart.module').then(m => m.CartPageModule)
+  },
+  {
+    path: 'select-address',
+    loadChildren: () => import('./select-address/select-address.module').then(m => m.SelectAddressPageModule)
+  },
+  {
+    path: 'offers',
+    loadChildren: () => import('./offers/offers.module').then(m => m.OffersPageModule)
+  },
+  {
+    path: 'offers',
+    loadChildren: () => import('./offers/offers.module').then(m => m.OffersPageModule)
+  },
+  {
+    path: 'empty-cart',
+    loadChildren: () => import('./empty-cart/empty-cart.module').then(m => m.EmptyCartPageModule)
+  },
+  {
+    path: 'new-address',
+    loadChildren: () => import('./new-address/new-address.module').then(m => m.NewAddressPageModule)
+  },
 ];
 
 @NgModule({

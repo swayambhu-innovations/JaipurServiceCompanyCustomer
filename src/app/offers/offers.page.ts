@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedArrayService } from '../../shared-array.service';
+import { SharedArrayService } from '../shared-array.service';
 import { Router } from '@angular/router';
 
 
