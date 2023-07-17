@@ -5,6 +5,8 @@
   left: 0;
   right: 0;
   top: 50%;
+  margin-left: 0%;
+  margin-right: 0%;
   transform: translateY(-50%);
 }
 
@@ -24,4 +26,24 @@
 
 #container a {
   text-decoration: none;
+}
+
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+.margin{
+  margin-top: 5%;
+ 
+}
+ion-thumbnail {
+  --size: 140px;
+  --border-radius: 14px;
+}
+@media only screen and (max-width: 600px) {
+  .margin{
+    margin-top: 15%;
+  }
 }
