@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { AcRepairComponent } from './ac-repair.component';
+import { SelectAddressComponent } from './select-address.component';
 
-describe('AcRepairComponent', () => {
-  let component: AcRepairComponent;
-  let fixture: ComponentFixture<AcRepairComponent>;
+describe('SelectAddressComponent', () => {
+  let component: SelectAddressComponent;
+  let fixture: ComponentFixture<SelectAddressComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AcRepairComponent ],
+      declarations: [ SelectAddressComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AcRepairComponent);
+    fixture = TestBed.createComponent(SelectAddressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

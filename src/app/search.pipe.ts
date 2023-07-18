@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'search',
-  pure: true,
+  name: 'search'
 })
 export class SearchPipe implements PipeTransform {
   static forRoot(): any[] | import("@angular/core").Type<any> {
@@ -19,4 +18,5 @@ export class SearchPipe implements PipeTransform {
       x => x.toLowerCase().includes(searchInput)
     )
   }
+
 }

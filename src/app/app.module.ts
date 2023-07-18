@@ -6,14 +6,19 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomePageModule } from './home/home.module';
+
 import { AllCategoriesComponent } from './all-categories/all-categories.component';
-import { AcRepairComponent } from './ac-repair/ac-repair.component';
+
 import { NotificationComponent } from './Notification/notification/notification.component';
 import { NoNotificationComponent } from './Notification/no-notification/no-notification.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SearchPipe } from './home/search.pipe';
+
 import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
+import { SearchPipe } from './search.pipe';
+import { ReferAFriendComponent } from './refer-afriend/refer-afriend.component';
+import { NewAddressComponent } from './new-address/new-address.component';
+import { SelectAddressComponent } from './select-address/select-address.component';
 
 
 
@@ -22,12 +27,14 @@ import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
+    NewAddressComponent,
+    SelectAddressComponent,
     AllCategoriesComponent,
-    AcRepairComponent,
+    ReferAFriendComponent,
     NotificationComponent,
     NoNotificationComponent,
-    SearchPipe,
-
+    HomeComponent,
+    SearchPipe
   ],
   imports:
     [
@@ -36,11 +43,11 @@ import { CommonModule } from '@angular/common';
       AppRoutingModule,
       FormsModule,
       ReactiveFormsModule,
-      CommonModule 
+      CommonModule
 
     ],
-     exports: 
-     [
+  exports:
+    [
       SearchPipe
     ],
   providers:
