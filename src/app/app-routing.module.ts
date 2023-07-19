@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ReferAFriendComponent } from './refer-afriend/refer-afriend.component';
 import { NewAddressComponent } from './new-address/new-address.component';
 import { SelectAddressComponent } from './select-address/select-address.component';
+import { BookingComponent } from './booking/booking.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,9 @@ const routes: Routes = [
   },
   {
     path: 'Select-Address', component: SelectAddressComponent
+  },
+  {
+    path: 'Booking', component: BookingComponent
   },
 ];
 

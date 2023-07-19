@@ -19,6 +19,7 @@ import { SearchPipe } from './search.pipe';
 import { ReferAFriendComponent } from './refer-afriend/refer-afriend.component';
 import { NewAddressComponent } from './new-address/new-address.component';
 import { SelectAddressComponent } from './select-address/select-address.component';
+import { BookingComponent } from './booking/booking.component';
 
 
 
@@ -28,6 +29,7 @@ import { SelectAddressComponent } from './select-address/select-address.componen
   declarations: [
     AppComponent,
     NewAddressComponent,
+    BookingComponent,
     SelectAddressComponent,
     AllCategoriesComponent,
     ReferAFriendComponent,
