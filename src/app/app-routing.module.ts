@@ -10,7 +10,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'booking',
+    loadChildren: () => import('./booking/booking.module').then( m => m.BookingPageModule)
   },
+
 ];
 
 @NgModule({
