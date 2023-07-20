@@ -20,7 +20,7 @@ import { SwiperModule } from 'swiper/angular';
     IonicModule,
     HomePageRoutingModule,
     WidgetsModule,
-    SwiperModule
+    SwiperModule,
     HomePageRoutingModule
   ],
   declarations: [HomePage]
