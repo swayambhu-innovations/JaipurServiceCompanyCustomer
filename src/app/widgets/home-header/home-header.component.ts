@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-header',
@@ -16,8 +17,11 @@ export class HomeHeaderComponent  implements OnInit {
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
-  constructor() {
+  constructor( private router:Router) {
   }
+   notification(){
+    this.router.navigate(['notification'])
+   }
 
   ngOnInit() {
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3

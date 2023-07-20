@@ -43,21 +43,21 @@
       <div class="row ">
 
         <div class="col text-center">
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear" color="dark" (click)="home()">
             <ion-icon name="home-outline" size="large"></ion-icon>
           </ion-button> <ion-label>Home</ion-label>
         </div>
         <div class="col text-center">
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear"  (click)="booking()">
             <ion-icon name="calendar-outline" size="large"></ion-icon>
           </ion-button> <ion-label>Bookings</ion-label>
         </div>
-        <div class="col text-center"> <ion-button fill="clear" color="dark">
+        <div class="col text-center"> <ion-button fill="clear"  (click)="cart()">
             <ion-icon name="cart-outline" size="large"></ion-icon>
           </ion-button> <ion-label>Cart</ion-label> </div>
         <div class="col text-center ">
           <ion-button fill="clear">
-            <ion-icon name="person-outline" color="dark" size="large"></ion-icon>
+            <ion-icon name="person-outline"  size="large"></ion-icon>
           </ion-button> <ion-label>Profile</ion-label>
         </div>
       </div>

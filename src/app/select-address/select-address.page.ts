@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-select-address',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectAddressPage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
+  newAddress(){
+    this.router.navigate(['new-address'])
+  }
 
   ngOnInit() {
   }

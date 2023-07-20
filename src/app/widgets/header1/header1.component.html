@@ -6,8 +6,8 @@
       </ion-button>
     </ion-buttons>
     <ion-title>{{name}}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/notification">
+    <ion-buttons slot="end" (click)="notification()">
+      <ion-button routerLink="/notification" >
         <img src="assets/icon/header/notification.svg" alt="">
       </ion-button>
     </ion-buttons>

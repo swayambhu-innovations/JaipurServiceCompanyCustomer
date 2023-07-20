@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header1',
@@ -9,8 +10,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class Header1Component  implements OnInit {
   @Input() name!:string;
   constructor(
-    public location:Location
+    public location:Location,private router: Router,
   ) { }
+
+  notification(){
+    this.router.navigate(['notification'])
+  }
 
   ngOnInit() {}
 

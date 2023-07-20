@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import SwiperCore, {
   Autoplay,
   EffectFade,
@@ -53,13 +54,25 @@ export class HomePage implements OnInit {
     spaceBetween: 30,
   }
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
+  cart(){
+    this.router.navigate(['cart'])
+  }
 
-
+  booking(){
+    this.router.navigate(['booking'])
+  }
+   
+  home(){
+    this.router.navigate(['home'])
+  }
+  notification(){
+    this.router.navigate(['notification'])
+  }
 
 // dealSlide1.svg
 

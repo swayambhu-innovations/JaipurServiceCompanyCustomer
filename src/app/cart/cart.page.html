@@ -1,11 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" (click)="back()">
       <img src="../../../assets/images/back-button.png" alt="">
     </ion-buttons>
     <ion-title>Cart</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button routerLink="/notification">
         <img src="../../../assets/images/bell.svg" alt="" />
       </ion-button>
     </ion-buttons>
@@ -157,7 +157,7 @@
   </div>
 
   <!-- <span  style="height: 32px; color: aqua;" ></span> -->
-  <button class="select-address-button">Select Address</button>
+  <button class="select-address-button" routerLink="/select-address">Select Address</button>
 
 
 </ion-content>

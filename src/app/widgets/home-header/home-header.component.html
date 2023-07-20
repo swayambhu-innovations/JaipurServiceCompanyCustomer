@@ -20,7 +20,7 @@
       <p *ngIf="addressLineTwoVisible && insertAddressAccordionButton">{{addressLineTwo}}</p>
     </ion-text>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button (click)="notification()">
         <img src="assets/ui_icons/notification.svg" alt="">
       </ion-button>
     </ion-buttons>

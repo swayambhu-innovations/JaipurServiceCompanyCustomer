@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-categories',
@@ -6,45 +7,52 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
+  constructor(private router: Router) {}
 
-  constructor() { }
-
-  ngOnInit() {
+  home() {
+    this.router.navigate(['home']);
   }
+  cart(){
+    this.router.navigate(['cart'])
+  }
+
+  booking(){
+    this.router.navigate(['booking'])
+  }
+  ngOnInit() {}
   AllCategories = [
     {
-      label: "Appliance Repair",
-      img: "/assets/Ellipse 208.png"
+      label: 'Appliance Repair',
+      img: '/assets/Ellipse 208.png',
     },
     {
-      label: "Bathroom Cleaning",
-      img: "/assets/Group 34260.png",
-    
+      label: 'Bathroom Cleaning',
+      img: '/assets/Group 34260.png',
     },
     {
-      label: "Kitchen Cleaning",
-      img: "/assets/Group 34261.png"
+      label: 'Kitchen Cleaning',
+      img: '/assets/Group 34261.png',
     },
     {
-      label: "Full Home Cleaning",
-      img: "/assets/Group 34260 (1).png"
+      label: 'Full Home Cleaning',
+      img: '/assets/Group 34260 (1).png',
     },
     {
-      label: "Sofa carpet Cleaning",
-      img: "/assets/Group 34260 (2).png"
+      label: 'Sofa carpet Cleaning',
+      img: '/assets/Group 34260 (2).png',
     },
     {
-      label: "Women Spa & Salon",
-      img: "/assets/Group 34260 (3).png"
+      label: 'Women Spa & Salon',
+      img: '/assets/Group 34260 (3).png',
     },
     {
-      label: "Car Cleaning",
-      img: "/assets/Group 34260 (4).png"
+      label: 'Car Cleaning',
+      img: '/assets/Group 34260 (4).png',
     },
 
     {
-      label: "Water Tank Cleaning",
-      img: "/assets/Group 34260 (5).png"
-    }
-  ]
+      label: 'Water Tank Cleaning',
+      img: '/assets/Group 34260 (5).png',
+    },
+  ];
 }

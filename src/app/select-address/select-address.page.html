@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <ion-toolbar>
-      <ion-buttons slot="start">
+      <ion-buttons slot="start" routerLink="/cart">
         <ion-back-button default-href="#"></ion-back-button>
       </ion-buttons>
       <ion-buttons slot="secondary">
@@ -14,7 +14,7 @@
   <div class="row">
     <ion-toolbar>
       <h2 slot="start">Select Address</h2>
-      <ion-buttons slot="secondary">
+      <ion-buttons slot="secondary" routerLink="/new-address">
         <ion-button shape="round">Add New <ion-icon name="add-circle-outline"></ion-icon> </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -32,9 +32,9 @@
         </ion-buttons>
       </ion-toolbar>
       <ion-toolbar>
-        <h2 slot="start">Select Address</h2>
-        <ion-buttons slot="secondary">
-          <ion-button shape="round">Add New <ion-icon name="add-circle-outline"></ion-icon> </ion-button>
+        <h2 slot="start" >Select Address</h2>
+        <ion-buttons slot="secondary"  >
+          <ion-button shape="round"  >Add New <ion-icon name="add-circle-outline"></ion-icon> </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -72,7 +72,7 @@
 
   </div>
 
-  <div class="row mt-4 text-center">
-    <div class="col mt-4"><ion-button class="button1" shape="round" color="dark">Select Slot</ion-button></div>
+  <div class="row mt-4 text-center" routerLink="/select-slot">
+    <div class="col mt-4"><ion-button class="button1" shape="round" color="dark" >Select Slot</ion-button></div>
   </div>
 </ion-content>
