@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BookingRoutingModule } from './booking-routing.module';
+import { NoNotificationPageRoutingModule } from './no-notification-routing.module';
 
-import { BookingPage } from './booking.page';
+import { NoNotificationPage } from './no-notification.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BookingRoutingModule
+    NoNotificationPageRoutingModule
   ],
-  declarations: [BookingPage]
+  declarations: [NoNotificationPage]
 })
-export class BookingPageModule {}
+export class NoNotificationPageModule {}

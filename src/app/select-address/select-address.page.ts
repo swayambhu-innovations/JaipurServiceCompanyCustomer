@@ -7,21 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelectAddressPage implements OnInit {
 
-isModalOpen = false;
-
-setOpen(isOpen: boolean) {
-  this.isModalOpen = isOpen;
-}
-
-  radioState: string;
-  radioOnImage: string = 'assets/images/Icon Radio On.png';
-  radioOffImage: string = 'src/assets/images/Icon Radio Off.png';
-
-  constructor() {
-    this.radioState = 'on';
-   }
+  constructor() { }
 
   ngOnInit() {
   }
 
+  Address = [
+    {
+      profile: "Arpita",
+      number: "9125332151",
+      Addres: "4517 Washington Ave. Manchester, Kentucky 39495"
+    },
+    {
+      profile: "Arpita",
+      number: "9125332151",
+      Addres: "4517 Washington Ave. Manchester, Kentucky 39495"
+    },
+  ]
 }

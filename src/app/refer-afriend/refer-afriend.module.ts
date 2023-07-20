@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BookingRoutingModule } from './booking-routing.module';
+import { ReferAfriendPageRoutingModule } from './refer-afriend-routing.module';
 
-import { BookingPage } from './booking.page';
+import { ReferAfriendPage } from './refer-afriend.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BookingRoutingModule
+    ReferAfriendPageRoutingModule
   ],
-  declarations: [BookingPage]
+  declarations: [ReferAfriendPage]
 })
-export class BookingPageModule {}
+export class ReferAfriendPageModule {}

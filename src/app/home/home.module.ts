@@ -21,6 +21,7 @@ import { SwiperModule } from 'swiper/angular';
     HomePageRoutingModule,
     WidgetsModule,
     SwiperModule
+    HomePageRoutingModule
   ],
   declarations: [HomePage]
 })
