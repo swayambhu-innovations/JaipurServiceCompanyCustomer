@@ -1,31 +1,49 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AllCategoriesComponent } from './all-categories/all-categories.component';
 
-import { NoNotificationComponent } from './Notification/no-notification/no-notification.component';
-import { NotificationComponent } from './Notification/notification/notification.component';
-import { HomeComponent } from './home/home.component';
-import { ReferAFriendComponent } from './refer-afriend/refer-afriend.component';
-import { NewAddressComponent } from './new-address/new-address.component';
-import { SelectAddressComponent } from './select-address/select-address.component';
-import { BookingComponent } from './booking/booking.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: '', redirectTo: '', pathMatch: 'full' },
-  { path: 'All-Categories', component: AllCategoriesComponent },
-  { path: 'No-Notification', component: NoNotificationComponent },
-  { path: 'Notification', component: NotificationComponent },
-  { path: 'Refer-A-Friend', component: ReferAFriendComponent },
+
   {
-    path: 'Add-Address', component: NewAddressComponent
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
   },
   {
-    path: 'Select-Address', component: SelectAddressComponent
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
-    path: 'Booking', component: BookingComponent
+    path: 'select-address',
+    loadChildren: () => import('./select-address/select-address.module').then(m => m.SelectAddressPageModule)
   },
+  {
+    path: 'refer-afriend',
+    loadChildren: () => import('./refer-afriend/refer-afriend.module').then( m => m.ReferAfriendPageModule)
+  },
+  {
+    path: 'no-notification',
+    loadChildren: () => import('./Notification/no-notification/no-notification.module').then( m => m.NoNotificationPageModule)
+  },
+  {
+    path: 'notification',
+    loadChildren: () => import('./Notification/notification/notification.module').then( m => m.NotificationPageModule)
+  },
+  {
+    path: 'new-address',
+    loadChildren: () => import('./new-address/new-address.module').then( m => m.NewAddressPageModule)
+  },
+  {
+    path: 'booking',
+    loadChildren: () => import('./booking/booking.module').then( m => m.BookingPageModule)
+  },
+  {
+    path: 'all-categories',
+    loadChildren: () => import('./all-categories/all-categories.module').then( m => m.AllCategoriesPageModule)
+  },
+  
+ 
+
 ];
 
 @NgModule({
