@@ -1,0 +1,40 @@
+p {
+    margin: 0px;
+}
+
+ion-content {
+    --background: #f7f7f7;
+    font-family: Lato;
+
+    .container {
+        background-color: #fff;
+        padding: 15px 16px 0px 16px;
+        margin-top: 4px;
+        border: 1px solid var(--line, #E9E9E9);
+
+        p {
+            color: var(--primary, #181F29);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 9px;
+        }
+
+        .row {
+            padding-top: 9px;
+            padding-bottom: 9px;
+            display: flex;
+            justify-content: space-between;
+
+            .left {
+                .name {
+                    margin-left: 8px;
+                    color: var(--primary, #181F29);
+                    font-size: 14px;
+                    font-weight: 400;
+                    float: right;
+                }
+            }
+        }
+    }
+
+}

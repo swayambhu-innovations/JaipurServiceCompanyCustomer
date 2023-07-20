@@ -1,0 +1,40 @@
+<app-header title="Search"></app-header>
+<ion-content class="ion-padding" [fullscreen]="true">
+  <button id="search" routerLink="../search">
+    <!-- <p>Search what you need</p> -->
+    <input type="search" #searchInput (input)="searchInputSubject.next(searchInput.value)"
+      placeholder="Search what you need" name="" id="">
+    <span>
+      <!-- <ion-icon name="search-outline"></ion-icon> -->
+      <img src="assets/ui_icons/search.svg" alt="">
+    </span>
+  </button>
+  <div id="previousSearches">
+    <div class="header">
+      <p>
+        Recent searches
+      </p>
+      <p><strong>Clear All</strong></p>
+    </div>
+    <hr>
+    <div class="items" [ngClass]="{overflow:resultsFetched}">
+      <div class="item" (click)="searchInputSubject.next(searchTerm);searchInput.value = searchTerm" *ngFor="let searchTerm of historyTerms;let i = index">
+        <p>{{searchTerm}}</p>
+        <ion-icon (click)="removeItemFromHistory(i)" name="close-circle-outline"></ion-icon>
+      </div>
+    </div>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let result of results">
+      <ion-label>{{result.name}}</ion-label>
+      <ion-chip color="primary" mode="ios" outline="true">
+        <ion-label>{{result.price}}</ion-label>
+      </ion-chip>
+    </ion-item>
+    <div class="notFound" *ngIf="results.length == 0 && resultsFetched">
+      <img src="assets/images/notFound.svg" alt="">
+      <h3>Not Found</h3>
+      <p>Sorry, the keyword you entered cannot be found, please check again or search with another keyword.</p>
+    </div>
+  </ion-list>
+</ion-content>

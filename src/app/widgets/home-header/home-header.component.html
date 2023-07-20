@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button>
+        <img src="assets/ui_icons/mapmarker.svg" alt="">
+      </ion-button>
+    </ion-buttons>
+    <ion-text>
+      <h4>{{cityName}}</h4>
+      <p>
+        {{addressLineOne}}
+        <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
+          ...
+        </ng-container>
+        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=true"
+          name="caret-down-outline"></ion-icon>
+        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=false"
+          name="caret-up-outline"></ion-icon>
+      </p>
+      <p *ngIf="addressLineTwoVisible && insertAddressAccordionButton">{{addressLineTwo}}</p>
+    </ion-text>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="assets/ui_icons/notification.svg" alt="">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

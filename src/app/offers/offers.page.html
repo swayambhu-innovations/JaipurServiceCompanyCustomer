@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <img src="../../../assets/images/back-button.png" alt="">
+    </ion-buttons>
+    <ion-title>Discount</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../../assets/images/bell.svg" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="input-bar">
+  <ion-item lines="none" class="coupon-input">
+    <ion-input type="text" placeholder="Enter Coupon Code" class="coupon-text"></ion-input>
+    <ion-text slot="end" class="coupon-button">Apply</ion-text>
+  </ion-item>
+</div>  
+<ng-container *ngFor="let looper of coupons">
+<div class="coupon-card">
+  <div class="coupon-content">
+  <div class="coupon-img">
+      <img src="../../../assets/images/discount-shape.png" alt="">
+  </div>
+  <div class="coupon-text">
+    <ion-text class="card-name-text">{{looper.percentageOff}}% off on {{looper.cardName}}</ion-text>
+    <ion-text class="min-order-text">Min. Order: ₹{{looper.minOrderValue}}</ion-text>
+    <ion-text class="discount-text">SAVE ₹{{looper.discountOnPrice}} ON THIS ORDER</ion-text>
+  </div>
+</div>
+    <p (click)="onApplyClick(looper)" class="apply-button" >Apply</p>
+</div>
+</ng-container>
+</ion-content>

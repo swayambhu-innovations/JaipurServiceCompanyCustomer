@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button default-href="#"></ion-back-button>
+      </ion-buttons>
+      <ion-buttons slot="secondary">
+        <ion-button> <ion-icon name="notifications-outline"></ion-icon> </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <ion-toolbar>
+      <h2 slot="start">Select Address</h2>
+      <ion-buttons slot="secondary">
+        <ion-button shape="round">Add New <ion-icon name="add-circle-outline"></ion-icon> </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+</div>
+<ion-content [fullscreen]="true">
+  <div class="container" id="container">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="#"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="secondary">
+          <ion-button> <ion-icon name="notifications-outline"></ion-icon> </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-toolbar>
+        <h2 slot="start">Select Address</h2>
+        <ion-buttons slot="secondary">
+          <ion-button shape="round">Add New <ion-icon name="add-circle-outline"></ion-icon> </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <div class="row" *ngFor="let Addres of Address">
+      <div class="col">
+        <div class="card mt-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-7">
+                <ion-radio-group [allowEmptySelection]="true" value="end">
+                  <ion-radio value="end" labelPlacement="end" color="medium">
+                    <h5 class="card-title"><b>{{Addres.profile}}</b></h5>
+                    <p class="card-text">{{Addres.number}}</p>
+                    <p class="card-text">{{Addres.Addres}}</p>
+                  </ion-radio>
+                </ion-radio-group>
+       
+              </div>
+
+              <div class="col-5">
+                  <ion-button fill="clear">
+                    <ion-icon color="medium" name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear">
+                    <ion-icon color="medium" name="trash-outline"></ion-icon>
+                  </ion-button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-4 text-center">
+    <div class="col mt-4"><ion-button class="button1" shape="round" color="dark">Select Slot</ion-button></div>
+  </div>
+</ion-content>

@@ -9,12 +9,7 @@ import { BookingPageRoutingModule } from './booking-routing.module';
 import { BookingPage } from './booking.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    BookingPageRoutingModule
-  ],
-  declarations: [BookingPage]
+  imports: [CommonModule, FormsModule, IonicModule, BookingPageRoutingModule],
+  declarations: [BookingPage],
 })
 export class BookingPageModule {}

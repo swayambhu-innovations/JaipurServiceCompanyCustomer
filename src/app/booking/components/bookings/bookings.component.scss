@@ -1,0 +1,94 @@
+a {
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0;
+}
+
+section {
+    background-color: #fff;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 0 2rem 0;
+}
+
+.bookings-container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.booking-options {
+    display: flex;
+    gap: 1rem;
+}
+
+.booking-options button {
+    color: black;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 104px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.booking-options button a {
+    text-transform: capitalize;
+    color: #535763;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.15px;
+}
+
+.booking-options button.active {
+    background: rgba(24, 31, 41, 0.10);
+}
+
+.booking-options button.active a {
+    color: #181F29;
+}
+
+.bookings {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+    color: black;
+}
+
+.empty-bookings {
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+}
+
+.empty-bookings h4 {
+    color: #1A1D1F;
+    text-align: center;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.empty-bookings p {
+    color: var(--color-typography-content-icons-black-02, #535763);
+    text-align: center;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22.4px;
+    letter-spacing: -0.14px;
+}

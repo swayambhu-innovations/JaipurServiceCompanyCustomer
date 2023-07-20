@@ -1,0 +1,21 @@
+<!-- <section class="stars">
+  <img src="assets/icon/rating/star.svg" alt="" *ngFor="let n of [1,2,3,4,5]">
+</section> -->
+
+<ng-container *ngIf="!isSelected">
+  <ul class="list-inline rating-list" *ngFor="let star of stars; let i= index">
+    <li (click)="countStar(star)"
+     [ngClass]="{'selected': (star <= selectedValue)}" 
+     (mouseover)="addClass(star)"
+     (mouseout)="removeClass()">
+      <span class="material-icons"> <ion-icon name="star-outline"></ion-icon> </span>
+      <!-- <img src="assets/icon/rating/star.svg" alt="" *ngFor="let n of [1,2,3,4,5]"> -->
+    </li>
+  </ul>
+</ng-container>
+
+<ng-container *ngIf="isSelected">
+  <h1>Thankyou for giving</h1>
+  <h1>{{selectedValue}} stars</h1>
+</ng-container>
+

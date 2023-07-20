@@ -1,0 +1,26 @@
+<section>
+  <div class="bookings-container">
+    <div class="booking-options">
+      <button (click)="getStateData('upcoming')" class="upcoming" [ngClass]="{'active': state === 'upcoming'}"><a>Upcoming</a></button>
+      <button (click)="getStateData('history')" class="history" [ngClass]="{'active': state === 'history'}"><a>History</a></button>
+    </div>    
+      <div class="bookings">
+          <ng-container *ngFor="let data of stateData">
+              <app-booking-card [booking]="data"></app-booking-card>
+          </ng-container>
+          <ng-container *ngIf="!stateData.length">
+            <div class="empty-bookings">
+              <img src="../../../../assets/icons/pana.svg" alt="" srcset="">
+              <div>
+                <h4>
+                  No Upcoming Order
+                </h4>
+                <p>
+                  Currently you don’t have any upcoming order. Place and track your orders from here.
+                </p>
+              </div>
+            </div>
+          </ng-container>
+      </div>
+  </div>
+</section>

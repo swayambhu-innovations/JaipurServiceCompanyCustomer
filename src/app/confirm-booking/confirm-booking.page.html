@@ -1,0 +1,18 @@
+<app-header1 [name]="name"></app-header1>
+
+<ion-content>
+    <div class="container">
+        <div class="head">
+            <h2>1820</h2><img src="assets/icon/confirmation/Frame.svg" alt="">
+        </div>
+        <ion-input type="number" placeholder="Enter the characters" #captcha="ngModel" ngModel required></ion-input>
+        <!-- <ion-alert *ngIf=" captcha.invalid">
+            Field required
+        </ion-alert> -->
+        <ion-button (click)="checking(captcha)" expand="block" color="dark">
+            Confirm Booking
+        </ion-button>
+
+        <a routerLink="/select-payment-method">Return to payment options</a>
+    </div>
+</ion-content>

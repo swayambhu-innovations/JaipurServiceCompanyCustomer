@@ -1,0 +1,38 @@
+
+.d{
+   
+    border-radius: 15px;
+    width: 325px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+.circle-container {
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: thin;
+    border-color: #bfbfbf;
+
+  }
+
+
+.icon{
+    height: 40px; width: 40px;
+
+    border-radius: 100px;
+    display: flex; justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+.icon, .content{
+    margin: 0 10px 0 10px;
+}
+.content{
+    padding: 0;
+    margin: 0;
+    line-height: 8px;
+}
