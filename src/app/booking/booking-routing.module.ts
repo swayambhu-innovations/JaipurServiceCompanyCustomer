@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: BookingPage
+  },
+  {
+    path: 'upcoming-history',
+    loadChildren: () => import('./upcoming-history/upcoming-history.module').then( m => m.UpcomingHistoryPageModule)
   }
+
 ];
 
 @NgModule({
