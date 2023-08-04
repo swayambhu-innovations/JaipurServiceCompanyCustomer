@@ -86,7 +86,11 @@ const routes: Routes = [
   {
     path: 'all-categories',
     loadChildren: () => import('./all-categories/all-categories.module').then( m => m.AllCategoriesPageModule)
+  },  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+
   
  
 

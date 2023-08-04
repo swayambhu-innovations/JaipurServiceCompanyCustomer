@@ -139,17 +139,17 @@
       <div class="col-9">
         <h2>Cleaning</h2>
       </div>
-      <div class="col-3 mt-4">
+      <!-- <div class="col-3 mt-4">
         <ion-buttons
           >See All<ion-icon name="chevron-forward"></ion-icon
         ></ion-buttons>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container mt-2">
     <div class="row">
       <div class="col text-center" *ngFor="let Clean of Cleaning">
-        <ion-thumbnail>
+        <ion-thumbnail routerLink="/booking">
           <img alt="Silhouette of mountains" src="{{Clean.img}}" />
           <ion-label class="mt-4">{{Clean.label}}</ion-label>
         </ion-thumbnail>
@@ -226,17 +226,17 @@
       <div class="col-9">
         <h2>AC Repair</h2>
       </div>
-      <div class="col-3 mt-4">
+      <!-- <div class="col-3 mt-4">
         <ion-buttons
           >See All<ion-icon name="chevron-forward"></ion-icon
         ></ion-buttons>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container mt-2">
     <div class="row">
       <div class="col text-center" *ngFor="let Clean of ACRepair">
-        <ion-thumbnail>
+        <ion-thumbnail routerLink="/booking">
           <img alt="Silhouette of mountains" src="{{Clean.img}}" />
           <ion-label class="mt-4">{{Clean.label}}</ion-label>
         </ion-thumbnail>
@@ -248,17 +248,17 @@
       <div class="col-9">
         <h2>Bathroom Cleanings</h2>
       </div>
-      <div class="col-3 mt-4">
+      <!-- <div class="col-3 mt-4">
         <ion-buttons
           >See All<ion-icon name="chevron-forward"></ion-icon
         ></ion-buttons>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="container mt-2">
     <div class="row">
       <div class="col text-center" *ngFor="let Clean of BathroomCleanings">
-        <ion-thumbnail>
+        <ion-thumbnail routerLink="/booking">
           <img alt="Silhouette of mountains" src="{{Clean.img}}" />
           <ion-label class="mt-4">{{Clean.label}}</ion-label>
         </ion-thumbnail>
@@ -289,7 +289,7 @@
           <ion-label>Cart</ion-label>
         </div>
         <div class="col text-center">
-          <ion-button fill="clear">
+          <ion-button fill="clear" routerLink='/profile'>
             <ion-icon
               name="person-outline"
               color="dark"

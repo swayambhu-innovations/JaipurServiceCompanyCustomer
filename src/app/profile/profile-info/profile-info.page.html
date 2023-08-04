@@ -1,0 +1,61 @@
+<!-- Header -->
+<app-header1 [name]="name"></app-header1>
+
+<div class="main">
+  <div class="container">
+    <!-- Profile picture with camera button -->
+    <div class="profile-pic">
+      <img src="../../../assets/profile-3.svg" alt="" class="img" />
+      <img src="../../../assets/Ellipse 152.svg" alt="" class="circle" />
+      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" />
+    </div>
+    <div class="title">
+      <h6>{{name2}}</h6>
+    </div>
+    <!-- Input boxes -->
+    <div class="input">
+      <ion-input
+        class="inputs"
+        label="Full Name"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Sudipta Mehta"
+      ></ion-input>
+      <ion-input
+        class="inputs"
+        label="Birthdate"
+        label-placement="floating"
+        fill="outline"
+        placeholder="18/02/1923"
+      ></ion-input>
+      <ion-input
+        class="inputs"
+        label="Mobile Number"
+        label-placement="floating"
+        fill="outline"
+        placeholder="+91-9865321456"
+        type="tel"
+        style="margin-bottom: 10px"
+        ><p>{{updateText}}</p></ion-input
+      >
+
+      <ion-item lines="outline" fill="outline" class="gender-input">
+        <ion-label position="floating">Gender</ion-label>
+        <ion-input type="text" readonly [value]="selectedGender" placeholder="Female"></ion-input>
+        <ion-icon
+          name="chevron-down-outline"
+          slot="end"
+          (click)="openGenderPicker()"
+        ></ion-icon>
+      </ion-item>
+    </div>
+
+    <!-- Cancel and Save buttons -->
+    <div class="buttons">
+      <button class="cancel">Cancel</button>
+      <button class="save">Save</button>
+    </div>
+    
+  </div>
+  <!-- main div -->
+</div>

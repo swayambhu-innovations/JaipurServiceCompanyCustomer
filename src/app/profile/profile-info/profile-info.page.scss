@@ -1,0 +1,126 @@
+.container {
+  position: fixed;
+  top: 100px;
+
+  .profile-pic {
+    .img {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      border: 3px solid #f9f9f9;
+      border-radius: 40px;
+      box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+    .circle {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: -35px;
+      padding-left: 57px;
+      cursor: pointer;
+    }
+    .camera-icon {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 57px;
+      margin-top: -25px;
+      cursor: pointer;
+    }
+  }
+  .title {
+    h6 {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+  }
+}
+
+.inputs {
+  --border-color: #b3b3b3;
+  --highlight-color-focused: #b3b3b3;
+  color: #4f4f4f;
+  --border-width: 0.5px;
+  margin-bottom: 10px;
+  --placeholder-color: #4f4f4f;
+  width: 100%;
+  p {
+    position: absolute;
+    float: right;
+    right: 15px;
+    bottom: 0px;
+    color: var(--primary, #181f29);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+.buttons {
+  display: flex;
+  margin-top: 120px;
+  justify-content: center;
+  gap: 20px;
+  .cancel {
+    display: flex;
+    border-radius: 12px;
+    border: 1px solid var(--primary, #181f29);
+    background: var(--secondary, #fff);
+    display: flex;
+    width: 158px;
+    padding: 12px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0px 2px 6px 1px rgba(22, 22, 22, 0.1);
+    color: #181f29;
+    text-align: center;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.18px;
+  }
+  .save {
+    display: flex;
+    width: 158px;
+    padding: 12px 49px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 12px;
+    background: var(--primary, #181f29);
+    box-shadow: 0px 2px 6px 1px rgba(22, 22, 22, 0.1);
+    color: var(--neutral-01, #fcfcfc);
+    text-align: center;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.18px;
+  }
+}
+
+// Ion-item class
+.gender-input {
+  height: 20px;
+  
+  
+  width: 100%;
+  --border-color: #b3b3b3;
+  --highlight-color-focused: #b3b3b3;
+  --placeholder-color: #4f4f4f;
+}
+// Label
+.gender-input ion-label {
+  font-size: 16px;
+  margin-top: -5px;
+  color: #4f4f4f;
+}
+
+// Down arrow icon
+.gender-input ion-icon {
+  font-size: 20px;
+}
