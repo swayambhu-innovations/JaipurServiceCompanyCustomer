@@ -1,0 +1,158 @@
+* {
+  font-family: "Lato";
+}
+ion-content {
+  --ion-background-color: #fff;
+}
+ion-card {
+  background-color: #181f29;
+  padding-top: 50px;
+  overflow-y: scroll;
+  box-shadow: none;
+  padding-bottom: 10px;
+  border-end-end-radius: 20px;
+  border-end-start-radius: 20px;
+  margin: 0 !important;
+  padding: 5px !important;
+}
+
+#open-modal {
+  width: 150px;
+  height: 40px;
+  border-radius: 30px;
+  padding-bottom: 2px;
+  line-height: normal;
+  text-transform: none;
+  position: absolute;
+  top: 5px;
+  left: 2px;
+  margin-top: 10px;
+  margin-left: -15px;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.signout-icon {
+  color: #fff;
+  margin-right: 10px;
+  transform: rotate(180deg);
+  height: 20px;
+}
+.close-btn {
+  position: absolute;
+  top: 11px;
+  right: 0px;
+  color: #fff;
+  font-size: medium;
+}
+.signout-btn {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: normal;
+  text-transform: none;
+  position: absolute;
+  top: 5px;
+  left: 2px;
+  height: 20%;
+}
+.profile-pic {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+.block {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav {
+  display: list-item;
+  float: left;
+  width: 100%;
+    margin-top: 30px;
+  .side-buttons {
+    height: 50px;
+  }
+  .icons {
+    display: flex;
+    margin-right: auto;
+    float: left;
+  }
+  p {
+    display: flex;
+    margin-right: auto;
+    text-align: left;
+    margin-left: -45%;
+    margin-top: 15px;
+    color: var(--primary, #181f29);
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 114.286% */
+    text-transform: none;
+  }
+}
+
+ion-modal {
+  --height: auto;
+  --border-radius: 20px 20px 20px 20px;
+  .logout-title {
+    font-size: 30px;
+    color: #f75555;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .subtitle {
+    text-align: center;
+    margin-top: 10px;
+    color: #181f29;
+    font-weight: 600;
+    font-size: 16px;
+    font-style: normal;
+    margin-bottom: 20px;
+  }
+  .cancel-btn {
+    border: 1px solid var(--primary, #181f29);
+
+    color: #181f29;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 5px;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 30px;
+    height: 45px;
+    width: 135px;
+    text-transform: none;
+    display: inline-block;
+  }
+  .logout-btn {
+    border: 1px solid var(--primary, #181f29);
+    font-style: normal;
+    background: #181f29;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 5px;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 30px;
+    height: 45px;
+    width: 135px;
+    text-transform: none;
+    display: inline-block;
+  }
+}

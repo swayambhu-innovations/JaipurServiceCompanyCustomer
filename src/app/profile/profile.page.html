@@ -1,13 +1,121 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ion-card>
+    <!-- Signout button -->
+    <ion-button fill="clear" id="open-modal" expand="block"
+      ><span
+        ><img
+          src="../../assets/Icons.svg"
+          alt=""
+          style="margin-top: 5px; margin-right: 7px"
+      /></span>
+      Sign out</ion-button
+    >
+    <!-- Signout modal -->
+    <ion-modal
+      trigger="open-modal"
+      [initialBreakpoint]="1"
+      [breakpoints]="[0, 1]"
+    >
+      <ng-template>
+        <ion-card-title class="logout-title">Logout</ion-card-title>
+        <ion-item-divider></ion-item-divider>
+        <ion-card-subtitle class="subtitle"
+          >Are you sure want to Logout ?</ion-card-subtitle
+        >
+        <div style="padding: 20px">
+          <ion-button class="cancel-btn" fill="clear" (click)="closeModal()"
+            >Cancel</ion-button
+          >
+          <ion-button class="logout-btn" (click)="logout()" fill="clear"
+            >Yes , Logout
+          </ion-button>
+        </div>
+      </ng-template>
+    </ion-modal>
+
+    <!-- Close Icon -->
+    <ion-button fill="clear" class="close-btn" (click)="close()">
+      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+    </ion-button>
+    <!-- Profile -->
+    <img src="../../assets/profile-pic.svg" class="profile-pic" />
+    <h4 style="text-align: center; color: #fff">Himanshu Rathore</h4>
+  </ion-card>
+
+  <div class="nav">
+    <!-- Navigating buttons -->
+    <ion-button
+      expand="block"
+      fill="clear"
+      type="outline"
+      class="side-buttons"
+      routerLink="/profile/profile-info"
+      ><img class="icons" src="../../assets/User_2.svg" alt="" />
+      <p style="
+      margin-left: -55%;">Edit Profile</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="/booking/upcoming-history"
+      ><img class="icons" src="../../assets/Door to Door Delivery.svg" alt="" />
+      <p style="margin-left: -53%">My Bookings</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="/select-address"
+      ><img class="icons" src="../../assets/location.svg" alt="" />
+      <p style="margin-left: -50%">Address Book</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="no-notification"
+      ><img class="icons" src="../../assets/Group 1000002396.svg" alt="" />
+      <p style="margin-left: -50%">Notifications</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons"
+      ><img class="icons" src="../../assets/info-circle.svg" alt="" />
+      <p style="margin-left: -19%">About Jaipur Service Company</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons"
+      ><img class="icons" src="../../assets/profile-2user.svg" alt="" />
+      <p style="margin-left: -50%">Invite Friend</p></ion-button
+    >
+    <ion-button expand="block" fill="clear" class="side-buttons"
+      ><img class="icons" src="../../assets/Call(1).svg" alt="" />
+      <p style="margin-left: -54%">Contact Us</p></ion-button
+    >
+  </div>
+
+  <!-- <ion-header> </ion-header> --></ion-content
+>
+<!-- Footer menu -->
+<ion-footer class="margin" [translucent]="true">
+  <ion-toolbar>
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <ion-button fill="clear" color="dark" routerLink="/home">
+            <ion-icon name="home-outline" size="large"></ion-icon>
+          </ion-button>
+          <ion-label>Home</ion-label>
+        </div>
+        <div class="col text-center" routerLink="/booking/upcoming-history">
+          <ion-button fill="clear" color="dark">
+            <ion-icon name="calendar-outline" size="large"></ion-icon>
+          </ion-button>
+          <ion-label>Bookings</ion-label>
+        </div>
+        <div class="col text-center">
+          <ion-button fill="clear" color="dark" routerLink="/cart">
+            <ion-icon name="cart-outline" size="large"></ion-icon>
+          </ion-button>
+          <ion-label>Cart</ion-label>
+        </div>
+        <div class="col text-center">
+          <ion-button fill="clear">
+            <ion-icon
+              name="person-outline"
+              color="dark"
+              size="large"
+            ></ion-icon>
+          </ion-button>
+          <ion-label>Profile</ion-label>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
