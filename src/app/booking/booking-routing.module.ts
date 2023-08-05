@@ -11,7 +11,11 @@ const routes: Routes = [
   {
     path: 'upcoming-history',
     loadChildren: () => import('./upcoming-history/upcoming-history.module').then( m => m.UpcomingHistoryPageModule)
+  },  {
+    path: 'booking-details',
+    loadChildren: () => import('./booking-details/booking-details.module').then( m => m.BookingDetailsPageModule)
   }
+
 
 ];
 
