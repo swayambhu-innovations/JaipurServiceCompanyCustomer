@@ -1,5 +1,13 @@
 <!-- Header -->
-<app-header1 [name]="name2"></app-header1>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-icon name="arrow-back-outline" class="back-icon" routerLink="/home"></ion-icon><span
+      class="booking-title">Booking
+      Details</span>
+    <img class="notification" src="../../../assets/fi-rr-bell.svg" alt="" />
+    <img class="notification" src="../../assets/Ellipse 1.svg" alt="" />
+  </ion-toolbar>
+</ion-header>
 
 <!-- Buttons -->
 <div class="main">
@@ -23,7 +31,7 @@
   <div *ngIf="showUpcomingSection" style="margin-top: 15px">
     <div class="details-1" *ngFor="let details of data">
       <div class="head">
-        <img [src]="details.img" alt="" />
+        <img style="padding-right: 5px;" [src]="details.img" alt="" />
         <h6>{{details.title}}</h6>
         <p>{{details.amount}}</p>
       </div>
@@ -46,9 +54,9 @@
           <p>{{details.schedule}}</p>
         </div>
         <div class="row-3">
-          <img src="{{details.profile}}" alt="" />
+          <img style="padding-right:5 px;" src="{{details.profile}}" alt="" />
           <h6>{{details.name}}</h6>
-          <h5 class="call-button" *ngIf="details.call">
+          <h5 class="call-button" *ngIf="details.call" routerLink="/booking/booking-details">
             <img [src]="details.call" alt="" class="call-icon" />Call
           </h5>
         </div>
@@ -63,7 +71,7 @@
   <div *ngIf="showHistorySection" style="margin-top: 15px; cursor: pointer">
     <div class="details-1" *ngFor="let history of historyData">
       <div class="head">
-        <img [src]="history.img" alt="" />
+        <img style="padding-right: 5px;" [src]="history.img" alt="" />
         <h6>{{history.title}}</h6>
         <p>{{history.amount}}</p>
       </div>

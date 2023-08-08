@@ -1,7 +1,9 @@
+  
+
 .container {
   position: fixed;
   top: 100px;
-
+  overflow: scroll;
   .profile-pic {
     .img {
       margin-left: auto;

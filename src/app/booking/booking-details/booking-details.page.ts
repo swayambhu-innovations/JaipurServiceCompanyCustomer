@@ -52,7 +52,7 @@ export class BookingDetailsPage implements OnInit {
   ];
   rating = [
     {
-      img: 'assets/deep.svg',
+      img: 'assets/deep1.svg',
 
       head1: 'Deep House Cleaning',
 
@@ -66,7 +66,7 @@ export class BookingDetailsPage implements OnInit {
       rate: 'You Rated',
     },
     {
-      img: 'assets/ac-clr.svg',
+      img: 'assets/blueac.svg',
 
       head2: 'AC Installation',
 
@@ -83,7 +83,7 @@ export class BookingDetailsPage implements OnInit {
 
   dateNtime = [
     {
-      img: 'assets/Calender 2.svg',
+      img: 'assets/calendar.svg',
 
       head: 'Date',
       body: 'November 7,2023',

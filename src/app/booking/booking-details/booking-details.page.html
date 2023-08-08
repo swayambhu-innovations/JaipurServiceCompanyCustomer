@@ -1,23 +1,11 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>booking-details</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">booking-details</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
 <div class="main">
   <!-- Toolbar -->
   <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-icon name="arrow-back-outline" class="back-icon"></ion-icon
-      ><span class="booking-title">Booking Details</span>
-      <img class="notification" src="../../assets/fi-rr-bell.svg" alt="" />
+      <ion-icon name="arrow-back-outline" class="back-icon" routerLink="/booking/upcoming-history"></ion-icon><span
+        class="booking-title">Booking
+        Details</span>
+      <img class="notification" src="../../../assets/fi-rr-bell.svg" alt="" />
       <img class="notification" src="../../assets/Ellipse 1.svg" alt="" />
     </ion-toolbar>
   </ion-header>
@@ -25,12 +13,17 @@
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
-      <h6>Order ID</h6>
-      <span><h6>Order Date</h6></span>
-    </div>
-    <div class="row-1">
-      <h6>{{orderId}}</h6>
-      <span><h6>{{orderDate}}</h6></span>
+      <div class="order">
+        <img src="../../../assets/Calender 2.svg" alt="">
+        <h6>Order ID</h6>
+        <h5 style="margin-left: 50%;">{{orderId}}</h5>
+      </div>
+
+      <div class="order">
+        <img src="../../../assets/Calender 2.svg" alt="">
+        <h6>Order Date</h6>
+        <h5>{{orderDate}}</h5>
+      </div>
     </div>
   </div>
 
@@ -38,24 +31,24 @@
   <div class="Profile">
     <div class="icon-text">
       <!-- Profile icon image -->
-      <img class="profile-icon" src="../../assets/profile.svg" alt="" />
-      <p>Professional Assigned</p>
+      <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
+      <p style="margin-top: 10px;">Professional Assigned</p>
     </div>
 
     <!-- Profile image & Name -->
     <div class="image">
       <div class="row-2">
-        <img class="profile-pic" src="../../assets/mukesh.svg" alt="" />
+        <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
         <p>{{name}}</p>
         <!-- Call button -->
         <button>
-          <img class="call" src="../../assets/Icon- Outline.svg" alt="" />
+          <img class="call" src="../../../assets/Call.svg" alt="" />
         </button>
       </div>
       <!-- Rating -->
       <div class="row-3">
-        <img class="star" src="../../assets/star.svg" alt="" />
-        <span style="margin-left: 3px">4.5 (87)</span>
+        <img class="star" src="/assets/star.svg" alt="" />
+        <span style="margin-left: 3px;">4.5 (87)</span>
       </div>
 
       <!-- OTP -->
@@ -70,8 +63,10 @@
   </div>
   <!-- Offer water -->
   <div class="water">
-    <img class="glass-image" src="../../assets/glass 1.svg" alt="" />
-    <span><p>Offer drinking water to the professional</p></span>
+    <img class="glass-image" src="../../../assets/glass1.svg" alt="" />
+    <span>
+      <p>Offer drinking water to the professional</p>
+    </span>
   </div>
 
   <!-- Service Section -->
@@ -99,11 +94,15 @@
     <div class="total">
       <div class="row-9">
         <h6>Total</h6>
-        <span><h5>{{price}}</h5></span>
+        <span>
+          <h5>{{price}}</h5>
+        </span>
       </div>
       <div class="row-10">
         <h6>Delivery Mode</h6>
-        <span><h5>COD</h5></span>
+        <span>
+          <h5>COD</h5>
+        </span>
       </div>
     </div>
   </div>
@@ -147,24 +146,42 @@
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title">Payment Details</div>
-        <span> <div class="head">Total Duration</div></span>
-        <span><div class="body">{{duration}}</div></span>
-        <span> <div class="head">Total (MRP)</div></span>
-        <span><div class="body">{{mrp}}</div></span>
-        <span> <div class="head">Discount</div></span>
-        <span
-          ><div class="body" style="color: #579540">{{discount}}</div>
+        <span>
+          <div class="head">Total Duration</div>
         </span>
-        <span><div class="head">Discounted Price</div> </span>
-        <span><div class="body">{{discountedPrice}}</div> </span>
+        <span>
+          <div class="body">{{duration}}</div>
+        </span>
+        <span>
+          <div class="head">Total (MRP)</div>
+        </span>
+        <span>
+          <div class="body">{{mrp}}</div>
+        </span>
+        <span>
+          <div class="head">Discount</div>
+        </span>
+        <span>
+          <div class="body" style="color: #579540">{{discount}}</div>
+        </span>
+        <span>
+          <div class="head">Discounted Price</div>
+        </span>
+        <span>
+          <div class="body">{{discountedPrice}}</div>
+        </span>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
-          <span><div class="total-price">Total</div> </span>
-          <span><div class="amount">{{discountedPrice}}</div> </span>
+          <span>
+            <div class="total-price">Total</div>
+          </span>
+          <span>
+            <div class="amount">{{discountedPrice}}</div>
+          </span>
         </div>
         <!-- Banner -->
         <div class="offer-bar">
-          <img class="tag-image" src="../../assets/tag.svg" alt="" />
+          <img class="tag-image" src="../../../assets/tag.svg" alt="" />
           <p class="tag-text">Yay! You have saved ₹550 on final bill</p>
         </div>
       </ion-card-header>
@@ -195,40 +212,40 @@
       <!-- Rating by people -->
       <div class="rating">
         <p style="margin-right: 10px; ">{{ratings.rate}}</p>
-        <span><img src="../../assets/star-filled.svg" alt=""></span>
-        <span><img src="../../assets/star-filled.svg" alt=""></span>
-        <span><img src="../../assets/star-filled.svg" alt=""></span>
-        <span><img src="../../assets/star-outlined.svg" alt=""></span>
-        <span><img src="../../assets/star-outlined.svg" alt=""></span>
+        <span><img src="../../../assets/carbon_star-filled.svg" alt=""></span>
+        <span><img src="../../../assets/carbon_star-filled.svg" alt=""></span>
+        <span><img src="../../../assets/carbon_star-filled.svg" alt=""></span>
+        <span><img src="../../../assets/star-outlined.svg" alt=""></span>
+        <span><img src="../../../assets/star-outlined.svg" alt=""></span>
       </div>
-      
+
     </div>
 
     <!-- Footer -->
     <ion-footer>
-    <ion-toolbar>
-      <ion-title>
-        <div class="footer">
-          <div >
-            <img src="../../assets/home.svg" alt="">
-            <p>Home</p>
+      <ion-toolbar>
+        <ion-title>
+          <div class="footer">
+            <div>
+              <img src="../../../assets/home.svg" alt="">
+              <p>Home</p>
+            </div>
+            <div>
+              <img src="../../../assets/calendar-filled.svg" alt="">
+              <p>Bookings</p>
+            </div>
+            <div>
+              <img src="../../assets/shopping-cart.svg" alt="">
+              <p>Cart</p>
+            </div>
+            <div>
+              <img src="../../../assets/profile-sign.svg" alt="">
+              <p>Profile</p>
+            </div>
           </div>
-          <div >
-            <img src="../../assets/calendarF.svg" alt="">
-            <p>Bookings</p>
-          </div>
-          <div >
-            <img src="../../assets/shopping-cart.svg" alt="">
-            <p>Cart</p>
-          </div>
-          <div >
-            <img  src="../../assets/profile.svg" alt="" style="margin-top: 4px;">
-            <p>Profile</p>
-          </div>
-        </div>
-      </ion-title>
-    </ion-toolbar>
-  </ion-footer>
+        </ion-title>
+      </ion-toolbar>
+    </ion-footer>
     <!-- Main div -->
   </div>
 </div>

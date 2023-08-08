@@ -21,7 +21,7 @@ export class UpcomingHistoryPage implements OnInit {
   // Upcoming data
   data = [
     {
-      img: 'assets/48 place holder.svg',
+      img: 'assets/ac.svg',
       title: 'AC Installation',
       amount: '₹1502',
       id: 'Booking ID: #D-571224',
@@ -33,7 +33,7 @@ export class UpcomingHistoryPage implements OnInit {
       role: 'Technician',
       call: 'assets/Call.svg',
       scheduleicon: 'assets/Icon- Outline.svg',
-      profile: 'assets/profile.svg',
+      profile: 'assets/Vijay1.svg',
     },
     {
       img: 'assets/deep.svg',
@@ -51,7 +51,7 @@ export class UpcomingHistoryPage implements OnInit {
   // History data
   historyData = [
     {
-      img: 'assets/48 place holder.svg',
+      img: 'assets/ac.svg',
       title: 'AC Installation',
       amount: '₹1502',
       id: 'Booking ID: #D-571224',
