@@ -1,0 +1,49 @@
+<app-header1 [name]="name"></app-header1>
+
+<ion-content>
+  
+    <!-- <div class="row-1">
+      <div class="left">
+        <h2>Arpita</h2>
+        <p>9125332151</p>
+        <p>4517 Washington Ave. Manchester, Kentucky 39495</p>
+      </div>
+      <div class="right">
+        <img src="assets/icon/select-slot/right-arrow.svg" alt="">
+      </div>
+    </div> -->
+
+
+    <div class="row-2">
+      <div class="top">
+        <h2>When should the professional arrive?</h2>
+        <p>Your service will take approx. 2hr and 20 mins</p>
+        <div class="first-btns">
+          <button *ngFor="let btn of firstBtns">
+            {{btn.date}}<br>{{btn.day}}
+          </button>
+        </div>
+        <div class="box">
+          <img src="assets/icon/select-slot/card.svg" alt="">
+          <p>Free cancellation till 3 hrs before the booked slot, post that ₹100 chargeable</p>
+        </div>
+        <h2 style="margin-top: 20px;">Select start time of service</h2>
+        <div class="second-btns">
+          <button *ngFor="let btn of secondBtns">
+            {{btn.time}} <br> {{btn.meridian}}
+          </button>
+        </div>
+      </div>
+      <div class="bottom" routerLink="/">
+        <ion-button expand="block" routerLink="/">
+          Update
+        </ion-button>
+      </div>
+    </div>
+    
+
+
+
+
+
+</ion-content>
