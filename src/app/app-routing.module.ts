@@ -99,7 +99,11 @@ const routes: Routes = [
   {
     path: 'booking-details',
     loadChildren: () => import('./booking/booking-details/booking-details.module').then( m => m.BookingDetailsPageModule)
+  },  {
+    path: 'booking-empty',
+    loadChildren: () => import('./booking-empty/booking-empty.module').then( m => m.BookingEmptyPageModule)
   }
+
   
  
 
