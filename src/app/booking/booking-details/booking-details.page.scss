@@ -650,3 +650,17 @@
   }
 
 }
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+ion-card {
+  --background: #F2EBF5;
+  --color: #5E0080;
+}
+
+input {
+  margin: 0.4rem;
+}
