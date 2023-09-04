@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "jaipurservicecompany": {
+      "hosting": {
+        "app": [
+          "jaipurservicecompany"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "jaipurservicecompany"
+  }
+}

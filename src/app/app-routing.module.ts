@@ -86,10 +86,32 @@ const routes: Routes = [
   {
     path: 'all-categories',
     loadChildren: () => import('./all-categories/all-categories.module').then( m => m.AllCategoriesPageModule)
-  },  {
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'reschedule',
+    loadChildren: () => import('./reschedule/reschedule.module').then( m => m.ReschedulePageModule)
+  },
+ 
+  {
+    path: 'booking-details',
+    loadChildren: () => import('./booking/booking-details/booking-details.module').then( m => m.BookingDetailsPageModule)
+  },
+  {
+    path: 'booking-empty',
+    loadChildren: () => import('./booking-empty/booking-empty.module').then( m => m.BookingEmptyPageModule)
+  },
+  {
+    path: 'services/:mainCategoryId/:subCategoryId',
+    loadChildren: () => import('./services/services.module').then( m => m.ServicesPageModule)
+  },
+  {
+    path: 'service-detail/:mainCategoryId/:subCategoryId/:serviceId',
+    loadChildren: () => import('./service-detail/service-detail.module').then( m => m.ServiceDetailPageModule)
+  }
 
   
  

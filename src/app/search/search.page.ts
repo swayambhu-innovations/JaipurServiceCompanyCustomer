@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, debounceTime } from 'rxjs';
 import Fuse from 'fuse.js'
+import { DataProviderService } from '../data-provider.service';
+import { Service } from '../home/home.service';
 
 @Component({
   selector: 'app-search',
@@ -57,7 +59,7 @@ export class SearchPage implements OnInit {
   results:service[] = [];
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
-  constructor() {
+  constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
       this.results = this.fuseSearchInstance.search(term).map((result)=>{
         return result.item
@@ -74,6 +76,14 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.historyTerms = this.getFromHistory();
+    let services:Service[] = []
+    this.dataProvider.mainCategories.subscribe((mainCategory)=>{
+      mainCategory.forEach((mainCategory)=>{
+        mainCategory.subCategories.forEach((subCategory)=>{
+          services.concat(subCategory.services)
+        })
+      })
+    });
   }
 
   saveToHistory(term:string){

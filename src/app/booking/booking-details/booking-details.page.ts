@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.page.html',
@@ -16,6 +16,8 @@ export class BookingDetailsPage implements OnInit {
   discountedPrice: string;
   rate: string;
 
+
+  CancelForm!: FormGroup;
   constructor() {
     this.orderId = '#44269776';
     this.orderDate = 'April 21, 2023';
@@ -28,7 +30,28 @@ export class BookingDetailsPage implements OnInit {
     this.rate = 'Rate This Services';
     this.rate = 'You Rated';
   }
+  ngOnInit(): void {
+    
+    // Setting default selection in FormControl
+    let getCheckedRadio = null
+    this.RADIO_LIST.forEach(o => {
+      if (o.checked)
+        getCheckedRadio = o.value;
+    })
 
+    this.CancelForm = new FormGroup({
+      'CancelOptions': new FormControl(getCheckedRadio, [Validators.required])
+    })
+
+  }
+
+  RADIO_LIST = [
+    { name: 'Hired someone else outside Jaip...', value: '100CP', checked: false },
+    { name: 'Service no longer required', value: '101TR', checked: false },
+    { name: 'Professional not assigned', value: '102MO', checked: false },
+    { name: 'Booking address is incorrect', value: '103BE', checked: false },
+   
+  ];
   services = [
     {
       img: 'assets/ac.svg',
@@ -97,5 +120,5 @@ export class BookingDetailsPage implements OnInit {
     },
   ];
 
-  ngOnInit() {}
+
 }
