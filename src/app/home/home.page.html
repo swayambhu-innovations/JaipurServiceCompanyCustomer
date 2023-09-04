@@ -4,17 +4,9 @@
   <button id="search" routerLink="../search">
     <p>Search what you need</p>
     <span>
-      <!-- <ion-icon name="search-outline"></ion-icon> -->
       <img src="assets/ui_icons/search.svg" alt="" />
     </span>
   </button>
-  <!-- <swiper class="swiperContainer" [config]="slideConfig" [pagination]="true" [autoplay]="autoplayOptions" [loop]="true" autoplay-interval="9000">
-        <ng-template swiperSlide *ngFor="let item of promotionalBanners">
-            <img [src]="item.image">
-        </ng-template>
-    </swiper>
-   -->
-
   <div class="container">
     <div class="row mt-4 text-center">
       <div id="carouselExampleDark" class="carousel carousel-dark slide">
@@ -92,7 +84,21 @@
       </div>
     </div>
   </div>
-  <div class="container">
+
+  <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
+    <h3>{{mainCategory.name}}</h3>
+    <img class="banner" [src]="mainCategory.image" alt="">
+    <h4>Services</h4>
+    <div class="subCategories">
+      <div class="category" *ngFor="let subCategory of mainCategory.subCategories" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
+        <img [src]="subCategory.image" alt="">
+        <p>{{subCategory.name}}</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="container">
     <div class="row mt-4">
       <h2>Our Services</h2>
       <div class="col text-center">
@@ -132,18 +138,12 @@
         </ion-avatar>
       </div>
     </div>
-  </div>
-
+  </div> -->
   <div class="container margin">
     <div class="row">
       <div class="col-9">
         <h2>Cleaning</h2>
       </div>
-      <!-- <div class="col-3 mt-4">
-        <ion-buttons
-          >See All<ion-icon name="chevron-forward"></ion-icon
-        ></ion-buttons>
-      </div> -->
     </div>
   </div>
   <div class="container mt-2">
@@ -210,14 +210,6 @@
             </div>
           </div>
         </div>
-        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button> -->
       </div>
     </div>
   </div>
@@ -226,11 +218,6 @@
       <div class="col-9">
         <h2>AC Repair</h2>
       </div>
-      <!-- <div class="col-3 mt-4">
-        <ion-buttons
-          >See All<ion-icon name="chevron-forward"></ion-icon
-        ></ion-buttons>
-      </div> -->
     </div>
   </div>
   <div class="container mt-2">
@@ -248,11 +235,6 @@
       <div class="col-9">
         <h2>Bathroom Cleanings</h2>
       </div>
-      <!-- <div class="col-3 mt-4">
-        <ion-buttons
-          >See All<ion-icon name="chevron-forward"></ion-icon
-        ></ion-buttons>
-      </div> -->
     </div>
   </div>
   <div class="container mt-2">

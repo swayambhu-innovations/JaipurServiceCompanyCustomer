@@ -7,6 +7,7 @@ import SwiperCore, {
   SwiperOptions,
 } from 'swiper';
 import { AutoplayOptions } from 'swiper/types';
+import { Category, HomeService } from './home.service';
 
 // install Swiper modules
 SwiperCore.use([EffectFade, Autoplay]);
@@ -54,9 +55,9 @@ export class HomePage implements OnInit {
     spaceBetween: 30,
   }
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,public homeService:HomeService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
   }
 
   cart(){

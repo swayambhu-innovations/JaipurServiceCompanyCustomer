@@ -103,6 +103,14 @@ const routes: Routes = [
   {
     path: 'booking-empty',
     loadChildren: () => import('./booking-empty/booking-empty.module').then( m => m.BookingEmptyPageModule)
+  },
+  {
+    path: 'services/:mainCategoryId/:subCategoryId',
+    loadChildren: () => import('./services/services.module').then( m => m.ServicesPageModule)
+  },
+  {
+    path: 'service-detail/:mainCategoryId/:subCategoryId/:serviceId',
+    loadChildren: () => import('./service-detail/service-detail.module').then( m => m.ServiceDetailPageModule)
   }
 
   
