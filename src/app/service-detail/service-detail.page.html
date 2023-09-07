@@ -5,7 +5,6 @@
         <ion-back-button default-href="#"></ion-back-button>
         <h2>Details</h2>
       </ion-buttons>
-
     </ion-toolbar>
   </div>
 </div>
@@ -18,7 +17,6 @@
           <ion-back-button default-href="#"></ion-back-button>
           <h2>Details</h2>
         </ion-buttons>
-
       </ion-toolbar>
     </ion-header>
     <div class="row">
@@ -108,16 +106,13 @@
       <h4><small>Total:</small> ₹799</h4>
       <div class="col-6"  routerLink="/cart">
         <ion-button fill="outline" color="dark" size="large">Add To Cart</ion-button>
-
       </div>
       <div class="col-6 text-end" (click)="bookNow()">
-
         <ion-button color="dark" size="large">Book Now</ion-button>
       </div>
     </div>
     <div class="row " *ngFor="let CustReview of CustomerReview">
       <div class="col mt-4" >
-
         <div class="card">
           <div class="card-body">
             <div class="row card-title clearfix">
@@ -126,21 +121,16 @@
                   <ion-avatar slot="start">
                     <img alt="Silhouette of a person's head"
                       src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-
                   </ion-avatar>
-
                   <h5>{{CustReview.Name}}<br><small>{{CustReview.date}}</small></h5>
-
                 </ion-item>
-
               </div>
               <div class="col-5  float-right mt-4 ml-4" >
-                    <p class=" float-right"><ion-icon name="star"></ion-icon>4.5</p>
-                </div>
+                <p class=" float-right"><ion-icon name="star"></ion-icon>4.5</p>
+              </div>
             </div>
             <h5 class="card-title">{{CustReview.review}}</h5>
             <p class="card-text">{{CustReview.Comment}}</p>
-           
           </div>
         </div>
       </div>
