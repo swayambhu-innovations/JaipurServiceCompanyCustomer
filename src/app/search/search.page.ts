@@ -54,7 +54,8 @@ export class SearchPage implements OnInit {
     },
   ]
   fuseSearchInstance = new Fuse(this.serviceList,{
-    keys:["name","tags","description","price"]
+    keys:["name","tags","description","price" , ],
+    includeScore: true,
   })
   results:service[] = [];
   resultsFetched:boolean = false;
@@ -71,7 +72,7 @@ export class SearchPage implements OnInit {
   }
 
   ionViewDidLoad(){
-    this.resultsFetched = false;
+    this.resultsFetched = false
   }
 
   ngOnInit() {

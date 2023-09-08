@@ -1,9 +1,11 @@
 * {
   font-family: "Lato";
 }
+
 ion-content {
   --ion-background-color: #fff;
 }
+
 ion-card {
   background-color: #181f29;
   padding-top: 50px;
@@ -32,12 +34,14 @@ ion-card {
   color: #fff;
   letter-spacing: 1px;
 }
+
 .signout-icon {
   color: #fff;
   margin-right: 10px;
   transform: rotate(180deg);
   height: 20px;
 }
+
 .close-btn {
   position: absolute;
   top: 11px;
@@ -45,6 +49,7 @@ ion-card {
   color: #fff;
   font-size: medium;
 }
+
 .signout-btn {
   color: #fff;
   font-size: 16px;
@@ -57,6 +62,7 @@ ion-card {
   left: 2px;
   height: 20%;
 }
+
 .profile-pic {
   display: block;
   margin-left: auto;
@@ -76,20 +82,22 @@ ion-card {
   display: list-item;
   float: left;
   width: 100%;
-    margin-top: 30px;
+  margin-top: 30px;
+
   .side-buttons {
     height: 50px;
   }
+
   .icons {
     display: flex;
     margin-right: auto;
     float: left;
   }
+
   p {
     display: flex;
     margin-right: auto;
-    text-align: left;
-    margin-left: -45%;
+    margin-left: -50%;
     margin-top: 15px;
     color: var(--primary, #181f29);
     font-feature-settings: "clig" off, "liga" off;
@@ -97,7 +105,8 @@ ion-card {
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 16px; /* 114.286% */
+    line-height: 16px;
+    /* 114.286% */
     text-transform: none;
   }
 }
@@ -105,6 +114,7 @@ ion-card {
 ion-modal {
   --height: auto;
   --border-radius: 20px 20px 20px 20px;
+
   .logout-title {
     font-size: 30px;
     color: #f75555;
@@ -121,6 +131,7 @@ ion-modal {
     font-style: normal;
     margin-bottom: 20px;
   }
+
   .cancel-btn {
     border: 1px solid var(--primary, #181f29);
 
@@ -131,13 +142,14 @@ ion-modal {
     line-height: 5px;
     letter-spacing: 1px;
     border-radius: 10px;
-    margin-top: 20px;
-    margin-left: 30px;
+    margin: auto;
+
     height: 45px;
     width: 135px;
     text-transform: none;
     display: inline-block;
   }
+
   .logout-btn {
     border: 1px solid var(--primary, #181f29);
     font-style: normal;
@@ -148,8 +160,8 @@ ion-modal {
     line-height: 5px;
     letter-spacing: 1px;
     border-radius: 10px;
-    margin-top: 20px;
-    margin-left: 30px;
+    margin: auto;
+    margin-left: 20px;
     height: 45px;
     width: 135px;
     text-transform: none;

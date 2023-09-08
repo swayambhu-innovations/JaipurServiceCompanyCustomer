@@ -55,7 +55,9 @@
         </div>
         <div class="row-3">
           <img style="padding-right:5 px;" src="{{details.profile}}" alt="" />
-          <h6>{{details.name}}</h6>
+          <div class="title" style="float: left;flex-grow: 1;">
+            <h6>{{details.name}}</h6>
+          </div>
           <h5 class="call-button" *ngIf="details.call" routerLink="/booking/booking-details">
             <img [src]="details.call" alt="" class="call-icon" />Call
           </h5>

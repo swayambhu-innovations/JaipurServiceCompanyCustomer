@@ -16,19 +16,21 @@
       </p>
       <p><strong>Clear All</strong></p>
     </div>
-    <hr>
+    
     <div class="items" [ngClass]="{overflow:resultsFetched}">
       <div class="item" (click)="searchInputSubject.next(searchTerm);searchInput.value = searchTerm" *ngFor="let searchTerm of historyTerms;let i = index">
+       
         <p>{{searchTerm}}</p>
         <ion-icon (click)="removeItemFromHistory(i)" name="close-circle-outline"></ion-icon>
       </div>
     </div>
   </div>
-  <ion-list>
-    <ion-item *ngFor="let result of results">
-      <ion-label>{{result.name}}</ion-label>
-      <ion-chip color="primary" mode="ios" outline="true">
-        <ion-label>{{result.price}}</ion-label>
+  <ion-list >
+    <ion-item  *ngFor="let result of results" style="margin-bottom: 5px;">
+      <img class="search-image" src="../../assets/search1.svg" alt="">
+      <ion-label class="searchresult-name">{{result.name}}</ion-label>
+      <ion-chip color="primary" mode="ios" style="margin-top: -50px !important;" >
+        <ion-label class="searchresult-price">{{result.price}}</ion-label>
       </ion-chip>
     </ion-item>
     <div class="notFound" *ngIf="results.length == 0 && resultsFetched">
