@@ -1,0 +1,72 @@
+<app-header1 [name]="name"></app-header1>
+
+<ion-content>
+  <div class="container">
+
+    <div class="first-section">
+      <section>
+        <img [src]="successLogo" alt="">
+        <h2>Your order has been Placed</h2>
+        <p>Order ID: #D-571224</p>
+      </section>
+    </div>
+
+
+    <div class="second-section">
+      <div class="row-1">
+        <p class="head">Services</p>
+      </div>
+      <div class="row-2" *ngFor="let service of services">
+        <section class="left">
+          <div>
+            <img [src]="service.img" alt="">
+          </div>
+          <div style="margin-left: 16px;margin-top: 5px;">
+            <span class="head">{{service.head}}</span><br>
+            <span class="body">{{service.body}}</span>
+          </div>
+        </section>
+        <section class="right">
+          {{service.amount}} 
+        </section>
+
+      </div>
+    </div>
+
+    <div class="third-section">
+      <div class="row-1">
+        <p class="head">Date & Time</p>
+      </div>
+      <div class="row-2" *ngFor="let date of dateNtime">
+        <section>
+          <img [src]="date.img" alt="">
+        </section>
+        <section style="margin-left: 10px;">
+          <span class="head">{{date.head}}</span><br>
+          <span class="body">{{date.body}}</span>
+        </section>
+      </div>
+    </div>
+
+    <div class="forth-section">
+      <div class="row-1">
+        <p class="head">Address</p>
+      </div>
+      <div class="row-2">
+        <section style="margin-left: 10px;">
+          <p class="head">Arpita</p>
+          <p class="body">9125332151</p>
+          <p class="body">4517 Washington Ave. Manchester, Kentucky 39495</p>
+        </section>
+      </div>
+    </div>
+
+
+    <footer>
+      <ion-button routerLink="/rating" expand="block" color="dark">
+        Back To Home
+      </ion-button>
+    </footer>
+  </div>
+</ion-content>
+

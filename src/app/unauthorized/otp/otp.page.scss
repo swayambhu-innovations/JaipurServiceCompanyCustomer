@@ -1,0 +1,80 @@
+* {
+    font-family: 'Lato';
+}
+
+ion-toolbar {
+    width: 100%;
+
+    ion-title {
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            float: inline-end;
+            cursor: pointer;
+        }
+    }
+}
+
+
+ion-content {
+    text-align: center;
+
+    h1 {
+        margin-top: 100px;
+    }
+
+    p {
+        margin: 0;
+        color: #666666;
+    }
+
+    .otp-inputs {
+        margin-top: 20px;
+
+        input[type=number] {
+            -moz-appearance: textfield;
+            //   -webkit-appearance: none;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+        }
+    }
+
+
+    .resend {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .signup {
+        margin-left: 6px;
+        width: 90%;
+        text-transform: capitalize;
+        margin-top: 50px;
+        height: 45px;
+    }
+
+    .otp-inputs {
+        display: flex;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+
+
+        input {
+            height: 45px;
+            width: 45px;
+            margin: 0 17px;
+            background: #ECECEC;
+            box-shadow: inset 0px 4px 12px rgba(21, 21, 21, 0.15);
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid grey;
+        }
+
+    }
+}

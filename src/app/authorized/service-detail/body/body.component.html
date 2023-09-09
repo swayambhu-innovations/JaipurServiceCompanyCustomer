@@ -1,0 +1,66 @@
+<main id="bodyData">
+  <ng-container *ngFor="let block of blocks">
+    <!-- create a block compile for all block type jus like this -->
+    <p *ngIf="block.type=='paragraph'">
+      {{block.data.text | removeExtraBr}}
+    </p>
+    <h1 *ngIf="block.type=='header'">
+      {{block.data.text | removeExtraBr}}
+    </h1>
+    <ul *ngIf="block.type=='list'">
+      <li *ngFor="let item of block.data.items">
+        {{item | removeExtraBr}}
+      </li>
+    </ul>
+    <blockquote *ngIf="block.type=='quote'">
+      <p>{{block.data.text | removeExtraBr}}</p>
+      <footer>{{block.data.caption | removeExtraBr}}</footer>
+    </blockquote>
+    <ul *ngIf="block.type=='checklist'">
+      <li *ngFor="let item of block.data.items">
+        <input type="checkbox" [checked]="item.checked" disabled />
+        <span>{{item.text | removeExtraBr}}</span>
+      </li>
+    </ul>
+  </ng-container>
+</main>
+<!-- <div class="actions">
+  <div class="reactionButtons">
+    <button>
+      <i class="fa fa-thumbs-up"></i>
+    </button>
+    <button>
+      <i class="fa fa-thumbs-down"></i>
+    </button>
+    <button>
+      <i class="fa fa-heart"></i>
+    </button>
+    <button>
+      <i class="fa fa-smile"></i>
+    </button>
+    <button>
+      <i class="fa fa-frown"></i>
+    </button>
+  </div>
+  <div class="commentBox">
+    <textarea placeholder="Write a comment"></textarea>
+    <button>Comment</button>
+  </div>
+  <div class="commentList">
+    <div class="comment" *ngFor="let comment of comments">
+      <div class="commentHeader">
+        <div class="commentAuthor">
+          <img [src]="comment.user.avatar" alt="author" />
+          <span>{{comment.user.name}}</span>
+        </div>
+        <div class="commentDate">
+          <span>{{comment.date.toDate() | date:'short'}}</span>
+        </div>
+      </div>
+      <div class="commentBody">
+        <p>
+          {{comment.content | removeExtraBr}}
+        </p>
+      </div>
+    </div>
+</div> -->

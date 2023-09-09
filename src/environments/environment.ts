@@ -4,20 +4,20 @@
 
 export const environment = {
   firebase: {
-    projectId: 'jaipurservicecompany',
-    appId: '1:681472195786:web:719dc69aeaeac9dca84833',
-    storageBucket: 'jaipurservicecompany.appspot.com',
-    apiKey: 'AIzaSyB8ZRsNXh-riduNzJgC7ZmxJtk7zTm3QxE',
-    authDomain: 'jaipurservicecompany.firebaseapp.com',
-    messagingSenderId: '681472195786',
-    measurementId: 'G-RCFP3GVMRL',
+    projectId: 'jaipurservicecompany-demo',
+    appId: '1:592897926378:web:745b9967d8c4c55442a393',
+    storageBucket: 'jaipurservicecompany-demo.appspot.com',
+    apiKey: 'AIzaSyC0PwTRC1PBl8Sd4jthJpO9htBnhBnZldA',
+    authDomain: 'jaipurservicecompany-demo.firebaseapp.com',
+    messagingSenderId: '592897926378',
+    measurementId: 'G-51TVQ41FLB',
   },
   cloudFunctions : {
-    createOrder: 'http://localhost:5001/jaipurservicecompany/us-central1/createOrder',
-    capturePayment: 'http://localhost:5001/jaipurservicecompany/us-central1/capturePayments',
-    createSubscription: 'http://localhost:5001/jaipurservicecompany/us-central1/createSubscription',
-    verifySubscription:'http://localhost:5001/jaipurservicecompany/us-central1/verifySubscription',
-    checkSubscriptionStatus:'http://localhost:5001/jaipurservicecompany/us-central1/checkSubscriptionStatus',
+    createOrder: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createOrder',
+    capturePayment: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/capturePayments',
+    createSubscription: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createSubscription',
+    verifySubscription:'https://us-central1-jaipurservicecompany.cloudfunctions.net/verifySubscription',
+    checkSubscriptionStatus:'https://us-central1-jaipurservicecompany.cloudfunctions.net/checkSubscriptionStatus',
   },
   RAZORPAY_KEY_ID: 'rzp_test_8cTBlk022y2EDq',
   production: false

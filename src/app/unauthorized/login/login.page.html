@@ -1,0 +1,37 @@
+<div class="main">
+  <section class="header">
+    <img src="assets/images/logo.png" alt="">
+    <p>Jaipur Service Company</p>
+  </section>
+
+  <section class="body">
+    <img src="assets/images/login.png" alt="">
+  </section>
+
+  <section class="login" *ngIf="!this.dataProvider.checkingAuth && !this.dataProvider.loggedIn">
+    <h3>Welcome Back</h3>
+    <h6>Please fill the details for further process</h6>
+    <div class="image">
+      <ion-icon name="call"></ion-icon>
+      <input type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
+    </div>
+    <div id="recaptcha-container"></div>
+    <ion-button class="signup" color="dark" (click)="login()">Login/SignUp</ion-button>
+  </section>
+
+  <section class="login" *ngIf="this.dataProvider.checkingAuth">
+    <h3>Checking Status</h3>
+    <h6>Please wait till we verify you.</h6>
+  </section>
+
+  <section class="login" *ngIf="!this.dataProvider.checkingAuth && this.dataProvider.loggedIn">
+    <h3>Already Logged In</h3>
+    <h6>Press continue to move to app.</h6>
+    <ion-button class="signup" color="dark" routerLink="../../authorized/home">Continue</ion-button>
+  </section>
+
+</div>
+<footer>
+  <img src="assets/images/footer-1.png" style="height: 100px;">
+  <img src="assets/images/footer-2.png" style="height: 80px; margin-top:auto">
+</footer>

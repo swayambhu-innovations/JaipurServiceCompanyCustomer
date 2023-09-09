@@ -1,0 +1,476 @@
+
+*{
+    box-shadow: none;
+}
+
+ion-toolbar.toolbar,ion-item{
+    --background:white;
+    --box-shadow: none;
+    border: none;
+}
+
+.page-body {
+    background-color: #666666;
+    color: #666666;
+}
+
+h2,p,h1,h3,h4,h5, h6{
+    color: black;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+ion-back-button,ion-icon,ion-title{
+    color: black;
+}
+
+ion-content{
+
+    .divider {
+        height: 2px;
+        background-color: whitesmoke;
+        width: 100vw;
+        border: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .order-card {
+        padding: 12px;
+        // background-color: gold;
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .card-right {
+        flex-grow: 1;
+        padding: 0 5px;
+        margin-left: 7px;
+        justify-content: space-around;
+        // background-color: yellowgreen;
+    }
+
+    .card-right-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .card-right-mid {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .card-subtitle {
+        color: #666666;
+        font-size: 11px;
+    }
+
+    .spacer {
+        width: 10px;
+    }
+
+    .rating {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .rating-text {
+        font-size: 12px;
+    }
+
+    .rating-user {
+        color: #6F767E;
+    }
+
+    .discounted-price {
+        color: #579540;
+        font-size: 16px;
+    }
+
+
+
+    .original-price {
+        color: #6F767E;
+        text-decoration: line-through;
+        font-size: 12px;
+    }
+
+    .stock {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-right-bottom {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        // background-color: cyan;
+    }
+
+    .item-count {
+        margin: 0px 10px;
+    }
+    .maskimage{
+        img{
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+    }
+     
+}
+.apply-coupon{
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coupon-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-details {
+    padding: 16px;
+}
+
+.payment-detials-text {
+    margin-bottom: 16px;
+}
+
+.breakup-item {
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left-title {
+    color: #7E8083;
+    font-size: 13px;
+}
+
+.right-sub {
+    font-size: 13px;
+    color: #252525;
+}
+.apply-coupon-text{
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    color: #444444;
+}
+.offer-count-text{
+    color: #5E0080;
+    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+
+}
+.discount-off {
+    color: #579540;
+}
+
+.dotted-line {
+    border: none;
+    border-top: 2px dashed #D7D7D7;
+    width: 100%;
+    margin: 16px auto;
+    border-spacing: 8px; 
+  }
+
+.total-text {
+    color: #181F29;
+    font-size: 16px;
+}
+
+.offer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background-color: #EBFFE3;
+    margin: 0 5vw;
+    margin-bottom: 78px;
+}
+
+.tag-image {
+    padding-right: 8px;
+}
+
+.tag-text {
+    font-size: 12px;
+    color: #1A5F00;
+}
+
+.btn-select-addr {
+    --background-color: #181F29;
+}
+
+.select-address-button,.got-it-button {
+    width: 90%;
+    margin: 0 5%;
+    background-color: #1A1D1F;
+    color: #FFFFFF;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 10px;
+    animation-name: slideInRight;
+    animation-duration: 300ms;
+    animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  }
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .applied-coupon{
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    margin: 14px;
+    background-color: #CDF4DF;
+    justify-content: space-between;
+
+    .line-style {
+
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .circle-top {
+            z-index: 2;
+            top: 12px;
+            position: absolute;
+            height: 20px;
+            background-color: #fff;
+            width: 20px;
+            border-radius: 50%;
+        }
+
+        .circle-bottom {
+            z-index: 2;
+            bottom: 12px;
+            position: absolute;
+            height: 20px;
+            background-color: #fff;
+            width: 20px;
+            border-radius: 50%;
+        }
+    }
+
+    .verti-line {
+        height: 100%;
+        border: none;
+        border-left: 2px dashed #579540;
+        margin: 0;
+        padding: 0;
+      }
+
+    .vertical-dotted-line {
+        border-left: 2px dashed #579540;
+        height: 49px; /* Adjust the height as needed */
+        // border-spacing: 20px;
+      }
+
+      .remove-coupon{
+        margin-top: 5px;
+        margin-right: 4px;
+      }
+      
+    .text{
+        margin: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .saved-rs{
+            color: #181F29;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Lato', sans-serif;
+            line-height: 20px;
+        }
+        .coupon-applied-successfuly{
+            color: #555555;
+            font-size: 12px;
+            font-family: 'Lato', sans-serif;
+            line-height: 20px;
+        }
+    }
+    .applied-content{
+        display: flex;
+        flex-direction: row; 
+        align-items: center;
+        justify-content: space-between;
+
+        .applied-text{
+            color: #181F29;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Lato', sans-serif;
+            line-height: 20px;
+            margin: 14px;
+            margin-left: 5px;
+        }
+    }
+}
+  ion-modal {
+    // --height: 30%;
+    --width: 100%;
+    --border-radius: 16px 16px 0 0;
+    --position: absolute;
+    --bottom: 0;
+    --left: 0;
+    --transform: translate3d(0, 100%, 0);
+    --animation-duration: 300ms;
+  }
+
+ion-content{
+        --ion-background-color: #ffffff;       
+}
+
+.action-sheet-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 16px;
+    margin-bottom: 0px;
+
+    .action-sheet-header-text{
+        margin: 12px 0px;
+        color: #181F29;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: 'Lato', sans-serif;
+    }
+    .action-sheet-header-img{
+        margin: 12px 0px;
+    }
+}
+.got-it-button{
+     margin: 30px 16px;
+}
+.modal-bottom-text{
+    color: #6F767E;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    margin-left: 16px;
+}
+
+// 
+// <div class="orderCard" *ngFor="let booking of cartService.cart">
+// <div class="detail">
+// <img [src]="booking.subCategory.image" alt="">
+// <div class="categories">
+//   <p class="main">{{booking.mainCategory.name}}</p>
+//   <p class="sub">{{booking.subCategory.name}}</p>
+// </div>
+// </div>
+// <ol class="items">
+// <li *ngFor="let item of booking.services">{{item.name}} - {{item.price | currency:'INR'}}</li>
+// </ol>
+// <ion-button color="dark" (click)="selectedBooking = booking" shape="round">Continue</ion-button>
+// </div>
+
+.header{
+    margin: 20px;
+}
+.orderCard{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-bottom: 2px solid #e6e6e6;
+    .detail{
+        display: flex;
+        justify-content: space-between;
+        img{
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+        .categories{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .main{
+                font-size: 20px;
+                font-weight: 600;
+            }
+            .sub{
+                font-size: 16px;
+                font-weight: 500;
+                color:grey;
+            }
+        }
+    }
+    .items{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        li{
+            font-size: 13px;
+            font-weight: 500;
+            color:grey;
+        }
+    }
+    ion-button{
+        margin-top: 10px;
+    }
+}
+ion-content.noItems {
+    .empty-cart-img {
+      margin: 40px;
+    }
+    .spacer {
+      height: 50px;
+      width: 100%;
+    }
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .cart-empty-text {
+        font-size: 18px;
+        font-weight: 700;
+        font-family: "Lato", sans-serif;
+        color: #1a1d1f;
+        margin: -10px;
+        // line-height: 10px;
+      }
+      .bottom-text {
+        font-size: 14px;
+        // font-weight: 700;
+        line-height: 15px;
+        font-family: "Lato", sans-serif;
+        color: #535763;
+        line-height: 20px;
+        text-align: center;
+        width: 80%;
+      }
+    }
+  }
+  

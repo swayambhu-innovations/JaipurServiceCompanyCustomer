@@ -1,0 +1,22 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>{{matchingSubCategory?.name}}</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+	<img [src]="matchingSubCategory?.image" alt="">
+	<div class="services">
+		<div class="service" *ngFor="let service of services" routerLink="../../../service-detail/{{matchingMainCategory?.id}}/{{matchingSubCategory?.id}}/{{service?.id}}">
+			<img [src]="service.image[0]" alt="">
+			<div class="content">
+				<h3>{{service.name}}</h3>
+				<div class="price">
+					<span>{{service.variants[0].price | currency:'INR'}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</ion-content>

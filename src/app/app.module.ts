@@ -17,8 +17,9 @@ import { provideMessaging,getMessaging } from '@angular/fire/messaging';
 import { providePerformance,getPerformance } from '@angular/fire/performance';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { PaymentService } from './payment.service';
-import { DataProviderService } from './data-provider.service';
+import { DataProviderService } from './core/data-provider.service';
 import { HttpClientModule } from '@angular/common/http';
+import { CartService } from './authorized/cart/cart.service';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ScreenTrackingService,UserTrackingService,PaymentService,DataProviderService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ScreenTrackingService,UserTrackingService,PaymentService,DataProviderService, CartService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

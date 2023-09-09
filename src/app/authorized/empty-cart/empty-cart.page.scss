@@ -1,0 +1,33 @@
+ion-content {
+  .empty-cart-img {
+    margin: 40px;
+  }
+  .spacer {
+    height: 50px;
+    width: 100%;
+  }
+  .text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .cart-empty-text {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: "Lato", sans-serif;
+      color: #1a1d1f;
+      margin: -10px;
+      // line-height: 10px;
+    }
+    .bottom-text {
+      font-size: 14px;
+      // font-weight: 700;
+      line-height: 15px;
+      font-family: "Lato", sans-serif;
+      color: #535763;
+      line-height: 20px;
+      text-align: center;
+      width: 80%;
+    }
+  }
+}

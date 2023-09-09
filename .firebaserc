@@ -6,9 +6,23 @@
           "jaipurservicecompany"
         ]
       }
+    },
+    "indiatoursandcabs": {
+      "hosting": {
+        "app": [
+          "indiatoursandcabs"
+        ]
+      }
+    },
+    "jaipurservicecompany-demo": {
+      "hosting": {
+        "app": [
+          "jaipurservicecompany-demo"
+        ]
+      }
     }
   },
   "projects": {
-    "default": "jaipurservicecompany"
+    "default": "jaipurservicecompany-demo"
   }
 }

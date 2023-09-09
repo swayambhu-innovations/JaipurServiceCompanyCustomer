@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row">
+    <ion-toolbar>
+      <ion-buttons slot="start" routerLink="/home">
+        <ion-back-button default-href="#"></ion-back-button>
+        <h2>Details</h2>
+      </ion-buttons>
+    </ion-toolbar>
+  </div>
+</div>
+
+<ion-content [fullscreen]="true">
+  <div class="container" id="container">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="#"></ion-back-button>
+          <h2>Details</h2>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <div class="row">
+      <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i+1" class="active"
+            aria-current="true" attr.aria-label="Slide {{i+2}}" *ngFor="let image of matchingService?.image;let i = index;"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+              <video controls [src]="this.matchingService?.video" class="d-block w-100"></video>
+          </div>
+          <div class="carousel-item" *ngFor="let image of this.matchingService?.image">
+            <img
+              [src]="image"
+              class="d-block w-100" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col ">
+        <h2>{{this.matchingService?.name}}</h2>
+        <p><ion-icon name="star"></ion-icon>4.5 (87)</p>
+      </div>
+      <div class="col text-end">
+        <h3>
+          {{this.matchingService?.variants![0]?.price | currency:'INR'}}
+          <!-- <small>-₹499</small> -->
+        </h3>
+        <ion-button color="success" size="small"><small>10% OFF</small> </ion-button>
+      </div>
+    </div>
+    <div class="row descriptionBody">
+      <h5>Product Description</h5>
+      <app-body [blocks]="this.matchingService?.description.blocks"></app-body>
+    </div>
+    <!-- <div class="row mt-4 text-left">
+      <h3>Type</h3>
+      <div class="col">
+        <ion-button color="dark" size="small"><small>Complete Kitchen</small> </ion-button>
+        <ion-button color="light" size="small"><small>Complete Kitchen With Chinmey</small> </ion-button>
+        <ion-button class="mt-3 " color="light" size="small"><small>Complete Kitchen With Appliance</small>
+        </ion-button>
+        <ion-button class="mt-3" color="light" size="small"><small>Complete Kitchen With Appliance & Chinmey</small>
+        </ion-button>
+      </div>
+    </div> -->
+    <div class="row mt-4 text-left">
+      <h3>Customer Review</h3>
+      <h4><small>Total:</small> ₹799</h4>
+      <!-- <div class="col-6"  routerLink="/cart">
+        <ion-button fill="outline" color="dark" size="large">Add To Cart</ion-button>
+      </div>
+      <div class="col-6 text-end" (click)="bookNow()">
+        <ion-button color="dark" size="large">Book Now</ion-button>
+      </div> -->
+    </div>
+    <div class="variants">
+      <div class="variant" *ngFor="let variant of matchingService?.variants;">
+        <div class="detail">
+          <p class="name">{{variant.name}}</p>
+          <p class="price">{{variant.price | currency:'INR'}}</p>
+        </div>
+        <div class="buttons">
+          <ion-button fill="outline" (click)="addToCart(variant.id)" color="dark" *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">Add To Cart</ion-button>
+          <ion-button fill="outline" routerLink="../../../../cart/{{matchingMainCategory!.id}}/{{matchingSubCategory!.id}}" color="dark" *ngIf="this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">Continue To Cart</ion-button>
+          <ion-button color="dark" (click)="bookNow(variant.id)">Book Now</ion-button>
+        </div>
+      </div>
+    </div>
+    <div class="row " *ngFor="let CustReview of CustomerReview">
+      <div class="col mt-4" >
+        <div class="card">
+          <div class="card-body">
+            <div class="row card-title clearfix">
+              <div class="col-7" slot="start">
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <img alt="Silhouette of a person's head"
+                      src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                  </ion-avatar>
+                  <h5>{{CustReview.Name}}<br><small>{{CustReview.date}}</small></h5>
+                </ion-item>
+              </div>
+              <div class="col-5  float-right mt-4 ml-4" >
+                <p class=" float-right"><ion-icon name="star"></ion-icon>4.5</p>
+              </div>
+            </div>
+            <h5 class="card-title">{{CustReview.review}}</h5>
+            <p class="card-text">{{CustReview.Comment}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

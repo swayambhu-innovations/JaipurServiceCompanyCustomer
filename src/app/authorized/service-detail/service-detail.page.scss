@@ -1,0 +1,55 @@
+.descriptionBody{
+	padding: 8px;
+	border: 2px solid #dcdcdc;
+	border-radius: 15px;
+	margin: 10px;
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+}
+.buttonRow{
+	display: flex;
+	gap:20px;
+	ion-button{
+		width: 100%;
+	}
+}
+
+// <div class="variant" *ngFor="let variant of matchingService?.variants">
+// <div class="detail">
+// <p class="name">{{variant.name}}</p>
+// <p class="price">{{variant.price}}</p>
+// </div>
+// <div class="buttons">
+// <ion-button fill="outline" color="dark" size="large">Add To Cart</ion-button>
+// <ion-button color="dark" size="large">Book Now</ion-button>
+// </div>
+// </div>
+.variants{
+	display: flex;
+	flex-direction: column;
+	gap:10px;
+	.variant{
+		display: flex;
+		flex-direction: column;
+		gap:10px;
+		.detail{
+			display: flex;
+			justify-content: space-between;
+			.name{
+				font-size: 1.2rem;
+				font-weight: 600;
+			}
+			.price{
+				font-size: 1.2rem;
+				font-weight: 600;
+				color: green;
+			}
+		}
+		.buttons{
+			display: flex;
+			gap:10px;
+			ion-button{
+				width: 100%;
+			}
+		}
+	}
+}
