@@ -2,7 +2,7 @@
   <!-- Toolbar -->
   <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-icon name="arrow-back-outline" class="back-icon" routerLink="/booking/upcoming-history"></ion-icon><span
+      <ion-icon name="arrow-back-outline" class="back-icon" routerLink="../booking/upcoming-history"></ion-icon><span
         class="booking-title">Booking
         Details</span>
       <img class="notification" src="../../../assets/fi-rr-bell.svg" alt="" />
@@ -14,15 +14,13 @@
   <div class="container">
     <div class="row">
       <div class="order">
-        <img src="../../../assets/Calender 2.svg" alt="">
-        <h6>Order ID</h6>
-        <h5 style="margin-left: 50%;">{{orderId}}</h5>
+        <h6><img src="../../../assets/Calender 2.svg" alt="">Order ID</h6>
+        <h5>{{currentBooking?.id}}</h5>
       </div>
 
       <div class="order">
-        <img src="../../../assets/Calender 2.svg" alt="">
-        <h6>Order Date</h6>
-        <h5>{{orderDate}}</h5>
+        <h6><img src="../../../assets/Calender 2.svg" alt="">Order Date</h6>
+        <h5>{{currentBooking?.createdAt?.toDate() | date:'short'}}</h5>
       </div>
     </div>
   </div>
@@ -79,15 +77,15 @@
       </div>
     </div>
     <!-- Price and Subject -->
-    <div class="row-7" *ngFor="let service of services">
+    <div class="row-7" *ngFor="let service of currentBooking?.services">
       <div class="left">
-        <img class="image" [src]="service.img" alt="" />
-        <span class="head">{{service.head}}</span><br />
-        <span class="body">{{service.body}}</span>
-        <span class="body1">{{service.body1}}</span>
+        <img class="image" [src]="service.image" alt="" />
+        <span class="head">{{service.name}}</span><br />
+        <span class="body">{{service.jobDuration}}</span>
+        <span class="body1">{{service.jobAcceptanceCharge | currency:'INR'}}</span>
       </div>
       <div class="row-8">
-        <section class="right">{{service.amount}}</section>
+        <section class="right">{{service.billing.totalPrice | currency:'INR'}}</section>
       </div>
     </div>
     <!-- Total price and pay format  -->
@@ -95,7 +93,7 @@
       <div class="row-9">
         <h6>Total</h6>
         <span>
-          <h5>{{price}}</h5>
+          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR'}}</h5>
         </span>
       </div>
       <div class="row-10">
@@ -134,9 +132,10 @@
 
     <div class="row-2">
       <section style="margin-left: 10px">
-        <p class="head">Arpita</p>
-        <p class="body">9125332151</p>
-        <p class="body">4517 Washington Ave. Manchester, Kentucky 39495</p>
+        <p class="head">{{currentBooking?.address?.name}}</p>
+        <p class="body">{{currentBooking?.address?.addressLine1}}</p>
+        <p class="body">{{currentBooking?.address?.addressLine2}}</p>
+        <p class="body">{{currentBooking?.address?.pinCode}}</p>
       </section>
     </div>
   </div>
@@ -150,25 +149,25 @@
           <div class="head">Total Duration</div>
         </span>
         <span>
-          <div class="body">{{duration}}</div>
+          <div class="body">84 mins</div>
         </span>
         <span>
           <div class="head">Total (MRP)</div>
         </span>
         <span>
-          <div class="body">{{mrp}}</div>
+          <div class="body">{{currentBooking?.billing?.subTotal | currency:'INR'}}</div>
         </span>
         <span>
           <div class="head">Discount</div>
         </span>
         <span>
-          <div class="body" style="color: #579540">{{discount}}</div>
+          <div class="body" style="color: #579540">{{currentBooking?.billing?.discount | currency:'INR'}}</div>
         </span>
         <span>
           <div class="head">Discounted Price</div>
         </span>
         <span>
-          <div class="body">{{discountedPrice}}</div>
+          <div class="body">{{(currentBooking?.billing?.subTotal || 0) - (currentBooking?.billing?.discount || 0) | currency:'INR'}}</div>
         </span>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
@@ -176,14 +175,15 @@
             <div class="total-price">Total</div>
           </span>
           <span>
-            <div class="amount">{{discountedPrice}}</div>
+            <div class="amount">{{currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
           </span>
         </div>
         <!-- Banner -->
-        <div class="offer-bar">
+        <!-- TODO -->
+        <!-- <div class="offer-bar"> 
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
           <p class="tag-text">Yay! You have saved ₹550 on final bill</p>
-        </div>
+        </div> -->
       </ion-card-header>
     </ion-card>
   </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AddressService } from './address.service';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-select-address',
@@ -8,12 +10,17 @@ import { Router } from '@angular/router';
 })
 export class SelectAddressPage implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, public addressService:AddressService, public dataProvider:DataProviderService) { }
   newAddress(){
     this.router.navigate(['new-address'])
   }
 
   ngOnInit() {
+  }
+
+  setValue(event:any){
+    console.log(" set address Event",event);
+    this.dataProvider.currentBooking!.address = event.detail.value;
   }
 
   Address = [

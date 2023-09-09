@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BookingService } from '../booking.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Booking } from '../booking.structure';
+import { LoadingController } from '@ionic/angular';
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.page.html',
@@ -16,9 +20,22 @@ export class BookingDetailsPage implements OnInit {
   discountedPrice: string;
   rate: string;
 
-
+  currentBooking:Booking|undefined;
   CancelForm!: FormGroup;
-  constructor() {
+  constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, private loadingController: LoadingController) {
+    this.activatedRoute.params.subscribe(async params=>{
+      if (params['bookingId']){
+        let loader = await this.loadingController.create({message:'Please wait...'});
+        loader.present();
+        this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
+          this.currentBooking = booking;
+          loader.dismiss();
+        })
+      } else {
+        alert('No booking id found')
+        this.router.navigate(['/authorized/booking/upcoming-history'])
+      }
+    })
     this.orderId = '#44269776';
     this.orderDate = 'April 21, 2023';
     this.name = 'Mukesh Deshpande';

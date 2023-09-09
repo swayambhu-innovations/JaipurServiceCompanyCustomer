@@ -7,7 +7,7 @@
       <section>
         <img [src]="successLogo" alt="">
         <h2>Your order has been Placed</h2>
-        <p>Order ID: #D-571224</p>
+        <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
       </section>
     </div>
 
@@ -16,18 +16,18 @@
       <div class="row-1">
         <p class="head">Services</p>
       </div>
-      <div class="row-2" *ngFor="let service of services">
+      <div class="row-2" *ngFor="let service of this.dataProvider.currentBooking?.services">
         <section class="left">
           <div>
-            <img [src]="service.img" alt="">
+            <img [src]="service.image" alt="">
           </div>
           <div style="margin-left: 16px;margin-top: 5px;">
-            <span class="head">{{service.head}}</span><br>
-            <span class="body">{{service.body}}</span>
+            <span class="head">{{service.name}}</span><br>
+            <span class="body">{{this.dataProvider.currentBooking?.subCategory?.name}}</span>
           </div>
         </section>
         <section class="right">
-          {{service.amount}} 
+          {{service.billing.totalPrice | currency:'INR'}} 
         </section>
 
       </div>
@@ -37,13 +37,20 @@
       <div class="row-1">
         <p class="head">Date & Time</p>
       </div>
-      <div class="row-2" *ngFor="let date of dateNtime">
+      <div class="row-2">
         <section>
-          <img [src]="date.img" alt="">
+          <img src="assets/icon/order-placed/calendar.svg" alt="">
         </section>
         <section style="margin-left: 10px;">
-          <span class="head">{{date.head}}</span><br>
-          <span class="body">{{date.body}}</span>
+          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() | date:'shortDate'}}</span><br>
+        </section>
+      </div>
+      <div class="row-2">
+        <section>
+          <img src="assets/icon/order-placed/clock.svg" alt="">
+        </section>
+        <section style="margin-left: 10px;">
+          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.time?.toDate() | date:'shortTime'}}</span><br>
         </section>
       </div>
     </div>
@@ -54,16 +61,15 @@
       </div>
       <div class="row-2">
         <section style="margin-left: 10px;">
-          <p class="head">Arpita</p>
-          <p class="body">9125332151</p>
-          <p class="body">4517 Washington Ave. Manchester, Kentucky 39495</p>
+          <p class="head">{{this.dataProvider.currentBooking?.address?.name}}</p>
+          <p class="body">{{this.dataProvider.currentBooking?.address?.addressLine1}}</p>
+          <p class="body">{{this.dataProvider.currentBooking?.address?.addressLine2}}</p>
+          <p class="body">{{this.dataProvider.currentBooking?.address?.pinCode}}</p>
         </section>
       </div>
     </div>
-
-
     <footer>
-      <ion-button routerLink="/rating" expand="block" color="dark">
+      <ion-button routerLink="../rating" expand="block" color="dark">
         Back To Home
       </ion-button>
     </footer>

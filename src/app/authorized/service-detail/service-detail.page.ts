@@ -74,6 +74,7 @@ export class ServiceDetailPage implements OnInit {
   }
 
   addToCart(variantId:string){
+    console.log("variantId",variantId);
     this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variantId,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
   }
 

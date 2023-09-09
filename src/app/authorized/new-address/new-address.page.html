@@ -1,64 +1,65 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content> -->
-
-
 <div class="container">
   <div class="row">
-
     <ion-toolbar>
       <ion-buttons slot="start" routerLink="/select-address">
         <ion-back-button default-href="#"></ion-back-button>
       </ion-buttons>
-      <ion-title>
-        Add New Address
-      </ion-title>
+      <ion-title> Add New Address </ion-title>
       <ion-buttons slot="secondary">
-        <ion-button> <ion-icon name="notifications-outline"></ion-icon> </ion-button>
+        <ion-button>
+          <ion-icon name="notifications-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </div>
 </div>
 
 <ion-content [fullscreen]="true">
-  <div class="container ">
+  <div class="container">
     <div class="row">
-      <form class="col" action="" method="get">
-        <input class="form-control mt-4" type="text"  placeholder="House/Flat/Block/Building"
-          aria-label="default input example">
-        <input class="form-control mt-4" type="text" placeholder="Street, Society or Landmark"
-          aria-label="default input example">
-        <input class="form-control mt-4" type="text" placeholder="Pincode" aria-label="default input example">
-      
+      <form class="col" [formGroup]="addressForm">
+        <input
+          class="form-control mt-4"
+          type="text"
+          formControlName="name"
+          placeholder="Title"
+          aria-label="default input example"
+        />
+        <input
+          class="form-control mt-4"
+          type="text"
+          formControlName="addressLine1"
+          placeholder="House/Flat/Block/Building"
+          aria-label="default input example"
+        />
+        <input
+          class="form-control mt-4"
+          type="text"
+          formControlName="addressLine2"
+          placeholder="Street, Society or Landmark"
+          aria-label="default input example"
+        />
+        <input
+          class="form-control mt-4"
+          type="text"
+          formControlName="pinCode"
+          placeholder="Pincode"
+          aria-label="default input example"
+        />
       </form>
-
-    </div>
-
-
-    <div class="row mt-4">
-      <div class="col">
-      <img class="img mt-4"   src="assets/Group1000003125.png" alt="Add New Address"></div>
     </div>
     <div class="row mt-4 text-center">
-      <div class="col mt-4" routerLink="/select-address">
-        <ion-button   color="dark" shape="round">Save Address</ion-button>
+      <div class="col mt-4">
+        <ion-button color="dark" (click)="submit()" shape="round">Save Address</ion-button>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col">
+        <img
+          class="img mt-4"
+          src="assets/Group1000003125.png"
+          alt="Add New Address"
+        />
       </div>
     </div>
   </div>

@@ -51,6 +51,7 @@ export class CartService {
           }else{
             data.services[index].quantity++;
           }
+          console.log(data);
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
           return;
         }
@@ -280,6 +281,10 @@ export class CartService {
       }
     }
     return false;
+  }
+
+  deleteBooking(userId:string,bookingId:string){
+    return deleteDoc(doc(this.firestore,'users',userId,'cart',bookingId));
   }
 
 }

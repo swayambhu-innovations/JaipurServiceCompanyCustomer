@@ -80,6 +80,11 @@ ion-content {
 
                 .left {
                     display: flex;
+                    img{
+                        width: 60px;
+                        height: 60px;
+                        object-fit: cover;
+                    }
                 }
 
                 .right {

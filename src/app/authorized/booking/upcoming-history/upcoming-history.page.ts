@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-upcoming-history',
@@ -74,7 +75,8 @@ export class UpcomingHistoryPage implements OnInit {
 
   constructor(
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    public bookingService:BookingService
   ) {}
 
   

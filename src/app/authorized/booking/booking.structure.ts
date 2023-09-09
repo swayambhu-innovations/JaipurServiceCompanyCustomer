@@ -2,6 +2,7 @@ import { Timestamp } from "@angular/fire/firestore";
 import { Service } from "../../core/types/category.structure";
 import { Coupon } from "../../coupons.structure";
 import { Tax } from "../../taxes.structure";
+import { Address } from "../select-address/address.structure";
 
 export interface Booking {
 	id?:string;
@@ -23,6 +24,14 @@ export interface Booking {
 		subTotal:number;
 	};
 	createdAt:Timestamp;
+	address?:Address;
+	timeSlot?:{
+		date:Timestamp;
+		time:Timestamp;
+	};
+	payment?:any;
+	assignedAgent?:string;
+	stage?:string;
 }
 export interface SelectedService{
 	quantity:number;
@@ -50,7 +59,7 @@ export interface SelectedService{
 		discountedPrice:number;
 		tax:number;
 		untaxedPrice:number;
-	}
+	};
 }
 
 export interface natureTax extends Tax{

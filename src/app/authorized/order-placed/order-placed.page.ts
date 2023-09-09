@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-order-placed',
@@ -34,7 +35,7 @@ export class OrderPlacedPage implements OnInit {
       head: 'Time', body: '12:00-01:00 PM'
     }
   ];
-  constructor() { }
+  constructor(public dataProvider:DataProviderService) { }
 
   ngOnInit() {
   }

@@ -203,7 +203,7 @@
   </div>
 
   <!-- <span  style="height: 32px; color: aqua;" ></span> -->
-  <button class="select-address-button" routerLink="/select-address">
+  <button class="select-address-button" (click)="this.dataProvider.currentBooking = selectedBooking" routerLink="../../../select-address">
     Select Address
   </button>
 </ion-content>

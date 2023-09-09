@@ -11,8 +11,9 @@ const routes: Routes = [
   {
     path: 'upcoming-history',
     loadChildren: () => import('./upcoming-history/upcoming-history.module').then( m => m.UpcomingHistoryPageModule)
-  },  {
-    path: 'booking-details',
+  },
+  {
+    path: 'booking-details/:bookingId',
     loadChildren: () => import('./booking-details/booking-details.module').then( m => m.BookingDetailsPageModule)
   }
 
