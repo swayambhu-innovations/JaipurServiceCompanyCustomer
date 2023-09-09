@@ -61,6 +61,10 @@ export class HomeService {
     return getDoc(doc(this.firestore,'categories',mainCategoryId,'categories',subCategoryId,'services',serviceId));
   }
 
+  getBanners(){
+    return getDocs(collection(this.firestore,'Banner'));
+  }
+
 }
 
 export interface Category{
