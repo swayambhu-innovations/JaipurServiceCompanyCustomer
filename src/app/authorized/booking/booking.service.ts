@@ -36,8 +36,9 @@ export class BookingService {
     addDoc(collection(this.firestore,'Review'),review);
   }
 
-  addBooking(booking:Booking,userId:string){
-    return setDoc(doc(this.firestore,'users',userId,'bookings',booking.id!),booking);
+  async addBooking(booking:Booking,userId:string){
+    let res = await setDoc(doc(this.firestore,'users',userId,'bookings',booking.id!),booking);
+    return res;
   }
 
   getBookings(userId:string){

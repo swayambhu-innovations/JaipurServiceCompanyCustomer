@@ -20,7 +20,7 @@ export class OtpPage implements OnInit {
   ngOnInit() {
     if(!this.dataProvider.loginConfirmationResult){
       this.alertify.presentToast("Some Error occurred. Please enter phone again.")
-      this.router.navigate(['/login']);
+      this.router.navigate(['unauthorized/login']);
     }
   }
 
@@ -31,7 +31,7 @@ export class OtpPage implements OnInit {
       this.dataProvider.loginConfirmationResult.confirm(this.otp).then((result)=>{
         console.log(result);
         this.authService.setUserData(result.user);
-        this.router.navigate(['/home']);
+        this.router.navigate(['authorized/home']);
       }).catch((error)=>{
         console.log(error);
         this.alertify.presentToast(error.message);

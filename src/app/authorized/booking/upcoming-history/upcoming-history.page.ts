@@ -13,11 +13,7 @@ export class UpcomingHistoryPage implements OnInit {
   @Input() title!: string;
   highlightedName: string = 'Pending';
 
-  isUpcomingClicked: boolean = false;
-  isHistoryClicked: boolean = false;
-
-  showUpcomingSection: boolean = true;
-  showHistorySection: boolean = false;
+  visibilityMode:'upcoming'|'history' = 'upcoming';
 
   // Upcoming data
   data = [
@@ -80,22 +76,19 @@ export class UpcomingHistoryPage implements OnInit {
   ) {}
 
   
-
-  toggleUpcoming() {
-    this.isUpcomingClicked = !this.isUpcomingClicked;
-    this.isHistoryClicked = false;
-    this.showUpcomingSection = true;
-    this.showHistorySection = false;
-  }
-
-  toggleHistory() {
-    this.isHistoryClicked = !this.isHistoryClicked;
-    this.isUpcomingClicked = false;
-    this.showUpcomingSection = false;
-    this.showHistorySection = true;
-  }
-
- 
-
   ngOnInit() {}
+
+  isFutureDate(date: Date|undefined) {
+    if (!date) return false;
+    // return true if date is of tomorrow or later
+    let maxTimeToday = new Date();
+    maxTimeToday.setHours(23, 59, 59, 999);
+    return date > maxTimeToday;
+  }
+
+  isPastDate(date: Date|undefined) {
+    if (!date) return false;
+    // return true if date is of yesterday or earlier
+    return date < new Date();
+  }
 }

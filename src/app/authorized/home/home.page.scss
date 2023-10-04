@@ -94,6 +94,7 @@ ion-thumbnail {
     object-fit: cover;
     box-shadow: 0px 2px 15px rgba(22, 22, 22, 0.1);
     border-radius: 20px;
+    margin-top: 20px;
   }
   .subCategories{
     display: flex;
@@ -112,4 +113,11 @@ ion-thumbnail {
       }
     }
   }
+}
+.serviceRowOverflow{
+  display: flex;
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+  gap: 20px;
+  height: 180px;
 }

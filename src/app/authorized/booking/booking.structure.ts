@@ -22,6 +22,8 @@ export interface Booking {
 		tax:number;
 		discount:number;
 		subTotal:number;
+		totalJobTime:number;
+		totalJobAcceptanceCharge:number;
 	};
 	createdAt:Timestamp;
 	address?:Address;
@@ -29,6 +31,11 @@ export interface Booking {
 		date:Timestamp;
 		time:Timestamp;
 	};
+	currentUser:{
+		userId:string;
+		name:string;
+		phoneNumber:string;	
+	}
 	payment?:any;
 	assignedAgent?:string;
 	stage?:string;

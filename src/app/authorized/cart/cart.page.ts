@@ -48,14 +48,19 @@ export class CartPage implements OnInit {
     public cartService:CartService,
     public dataProvider:DataProviderService
   ) {
+    this.cartService.cartSubject.subscribe((bookings)=>{
+      console.log("Updated bookings",bookings);
+      if (this.selectedBooking?.id){
+        this.selectedBooking.id = bookings.find((booking)=>booking.id===this.selectedBooking!.id)?.id;
+        this.cartService.calculateBilling(this.selectedBooking);
+        console.log("Updated selected booking",this.selectedBooking);
+      }
+    })
     this.activatedRoute.params.subscribe(params => {
       console.log(params);
     })
   }
 
-    back(){
-      this.router.navigate(['home'])
-    }
 
   onOffersClick() {
     this.router.navigate(['/offers']);

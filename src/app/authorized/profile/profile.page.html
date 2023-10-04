@@ -38,8 +38,8 @@
       <ion-icon slot="icon-only" name="close-outline"></ion-icon>
     </ion-button>
     <!-- Profile -->
-    <img src="../../assets/profile-pic.svg" class="profile-pic" />
-    <h4 style="text-align: center; color: #fff">Himanshu Rathore</h4>
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed={{this.dataProvider.currentUser?.user?.phoneNumber}}" class="profile-pic" />
+    <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.user?.phoneNumber}}</h4>
   </ion-card>
 
   <div class="nav">
@@ -49,19 +49,19 @@
       fill="clear"
       type="outline"
       class="side-buttons"
-      routerLink="/profile/profile-info"
+      routerLink="profile-info"
       ><img style="padding: auto;" class="icons" src="../../assets/User_2.svg" alt="" />
       <p >Edit Profile</p></ion-button
     >
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="/booking/upcoming-history"
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../booking/upcoming-history"
       ><img style="padding: auto;" class="icons" src="../../assets/Door to Door Delivery.svg" alt="" />
       <p >My Bookings</p></ion-button
     >
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="/select-address"
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../select-address"
       ><img style="padding: auto;" class="icons" src="../../assets/location.svg" alt="" />
       <p >Address Book</p></ion-button
     >
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="no-notification"
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../no-notification"
       ><img style="padding: auto;" class="icons" src="../../assets/Group 1000002396.svg" alt="" />
       <p >Notifications</p></ion-button
     >

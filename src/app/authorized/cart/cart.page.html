@@ -1,8 +1,5 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
-    <ion-buttons slot="start" (click)="back()">
-      <img src="../../../assets/images/back-button.png" alt="" />
-    </ion-buttons>
     <ion-title>Cart</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/notification">
@@ -12,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!selectedBooking">
+<ion-content *ngIf="!selectedBooking && cartService.cart.length > 0">
   <h3 class="header">You have {{cartService.cart.length}} bookings.</h3>
   <div class="orderCard" *ngFor="let booking of cartService.cart">
     <div class="detail">
@@ -83,11 +80,11 @@
               </span>
             </p>
             <div class="stock">
-              <ion-button fill="clear" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service.serviceId,service.variantId,selectedBooking.id!)">
+              <ion-button fill="clear" [disabled]="service.quantity <=1" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service,service.variantId,selectedBooking.id!); service.quantity = service.quantity - 1">
                 <ion-icon slot="icon-only" name="remove"></ion-icon>
               </ion-button>
               <p class="item-count">{{service.quantity}}</p>
-              <ion-button fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service.serviceId,service.variantId,selectedBooking.id!)">
+              <ion-button fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service,service.variantId,selectedBooking.id!); service.quantity = service.quantity + 1">
                 <ion-icon slot="icon-only" color="light" name="add"></ion-icon>
               </ion-button>
             </div>
@@ -208,7 +205,6 @@
   </button>
 </ion-content>
 <ion-content class="noItems" *ngIf="!selectedBooking && cartService.cart.length == 0">
-  <div class="spacer"></div>
   <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
   <span class="text-content">
     <p class="cart-empty-text">Your cart is empty</p>

@@ -3,16 +3,19 @@ import { Category, Service, SubCategory } from '../../core/types/category.struct
 import { Firestore, Timestamp, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, increment, setDoc } from '@angular/fire/firestore';
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   cart:Booking[] = [];
+  cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
     collectionData(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'cart'),{idField:'id'}).subscribe((cart)=>{
       this.cart = cart as Booking[];
       this.cart.forEach(this.calculateBilling);
+      this.cartSubject.next(this.cart);
     });
   }
 
@@ -94,11 +97,19 @@ export class CartService {
             }
           }
         ],
+        currentUser:{
+          name:this.dataProvider.currentUser!.user.displayName!,
+          phoneNumber:this.dataProvider.currentUser!.user.phoneNumber!,
+          userId:this.dataProvider.currentUser!.user.uid
+        },
+        stage:'unassigned',
         billing:{
           grandTotal:0,
           tax:0,
           discount:0,
-          subTotal:0
+          subTotal:0,
+          totalJobTime:0,
+          totalJobAcceptanceCharge:0
         },
         createdAt:Timestamp.fromDate(new Date())
       };
@@ -120,29 +131,33 @@ export class CartService {
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
-  async incrementQuantity(userId:string,serviceId:string,variantId:string,bookingId:string){
+  async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    let index = data.services.findIndex(s=>s.serviceId == serviceId && s.variantId == variantId);
+    let index = data.services.findIndex(s=>s.serviceId == service.serviceId && s.variantId == variantId);
     if (index != -1){
+      // service.quantity++;
       data.services[index] = {
         ...data.services[index],
         quantity:data.services[index].quantity + 1
       } as any;
     }
+    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
-  async decrementQuantity(userId:string,serviceId:string,variantId:string,bookingId:string){
+  async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    let index = data.services.findIndex(s=>s.serviceId == serviceId && s.variantId == variantId);
+    let index = data.services.findIndex(s=>s.serviceId == service.serviceId && s.variantId == variantId);
     if (index != -1){
+      // service.quantity--;
       data.services[index] = {
         ...data.services[index],
         quantity:data.services[index].quantity - 1
       } as any;
     }
+    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
@@ -221,6 +236,8 @@ export class CartService {
     // this is the structure of a booking
     // we have to calculate the billing for each service and then add them up to get the billing for the booking
     // first we will calculate the billing for each service
+    let totalJobAcceptanceCharge = 0;
+    let totalJobTime = 0;
     for (const service of booking.services) {
       // we will first calculate the original price
       service.billing.originalPrice = service.quantity * service.price;
@@ -248,6 +265,10 @@ export class CartService {
       service.billing.discountedPrice = service.billing.originalPrice - service.billing.discount;
       // we will now calculate the untaxed price
       service.billing.untaxedPrice = service.billing.originalPrice - service.billing.tax;
+      // we will now calculate the total job acceptance charge
+      totalJobAcceptanceCharge += service.jobAcceptanceCharge;
+      // we will now calculate the total job time
+      totalJobTime += service.jobDuration;
     }
     // we will now calculate the billing for the booking
     // we will first calculate the sub total
@@ -268,6 +289,8 @@ export class CartService {
     }
     // we will now calculate the grand total
     booking.billing.grandTotal = booking.billing.subTotal + booking.billing.tax - booking.billing.discount
+    booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
+    booking.billing.totalJobTime = totalJobTime;
     return booking;
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +12,8 @@ export class ProfilePage implements OnInit {
   constructor(
     private router: Router,
     private modalCtrl: ModalController,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public dataProvider:DataProviderService
   ) {}
 
   ngOnInit() {}

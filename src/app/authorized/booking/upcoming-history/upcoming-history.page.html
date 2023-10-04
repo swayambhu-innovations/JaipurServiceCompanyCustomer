@@ -1,11 +1,7 @@
 <!-- Header -->
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-icon name="arrow-back-outline" class="back-icon" routerLink="../home"></ion-icon><span
-      class="booking-title">Booking
-      Details</span>
-    <img class="notification" src="../../../assets/fi-rr-bell.svg" alt="" />
-    <img class="notification" src="../../assets/Ellipse 1.svg" alt="" />
+    <ion-title>Bookings</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,44 +9,46 @@
 <div class="main">
   <div class="container">
     <button
-      [ngClass]="{'btn': true, 'clicked': isUpcomingClicked}"
-      (click)="toggleUpcoming()"
+      [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}"
+      (click)="visibilityMode = 'upcoming'"
     >
       Upcoming
     </button>
     <button
-      [ngClass]="{'btn': true, 'clicked': isHistoryClicked}"
-      (click)="toggleHistory()"
+      [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}"
+      (click)="visibilityMode = 'history'"
     >
       History
     </button>
   </div>
 
   <div class="bookings">
-    <div class="details-1" *ngFor="let details of bookingService.bookingsSubject | async" routerLink="../booking-details/{{details.id}}">
-      <div class="head">
-        <img style="padding-right: 5px;" [src]="details.services[0].image" alt="" />
-        <h6>{{details.services[0].name}}</h6>
-        <p>{{details.billing.grandTotal | currency:'INR'}}</p>
-      </div>
-      <div class="row">
-        <p>{{details.id}}</p>
-      </div>
-      <div class="body">
-        <div class="row-1">
-          <h6>{{details.stage}}</h6>
-          <h4 *ngIf="details.stage=='pending'">Pending</h4>
-          <h5 *ngIf="details.stage =='confirmed'">Confirm</h5>
+    <ng-container  *ngFor="let details of bookingService.bookingsSubject | async">
+      <div class="details-1" routerLink="../booking-details/{{details.id}}" *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate()) : isPastDate(details.timeSlot?.date?.toDate())">
+        <div class="head">
+          <img style="padding-right: 5px;" [src]="details.services[0].image" alt="" />
+          <h6>{{details.services[0].name}}</h6>
+          <p>{{details.billing.grandTotal | currency:'INR'}}</p>
         </div>
-        <div class="row-2">
-          <img class="schedule-icon" src="assets/Icon- Outline.svg" />
-          <h6>{{details.timeSlot?.date?.toDate() | date:'shortDate'}}</h6>
+        <div class="row">
+          <p>{{details.id}}</p>
         </div>
-        <div class="schedule">
-          <p>{{details.timeSlot?.time?.toDate() | date:'shortTime'}}</p>
+        <div class="body">
+          <div class="row-1">
+            <h6>{{details.stage}}</h6>
+            <h4 *ngIf="details.stage=='pending'">Pending</h4>
+            <h5 *ngIf="details.stage =='confirmed'">Confirm</h5>
+          </div>
+          <div class="row-2">
+            <img class="schedule-icon" src="assets/Icon- Outline.svg" />
+            <h6>{{details.timeSlot?.date?.toDate() | date:'shortDate'}}</h6>
+          </div>
+          <div class="schedule">
+            <p>{{details.timeSlot?.time?.toDate() | date:'shortTime'}}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 
   <!-- Details of Upcoming booking -->

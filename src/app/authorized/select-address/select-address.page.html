@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <ion-toolbar>
-      <ion-buttons slot="start" routerLink="/cart">
-        <ion-back-button default-href="#"></ion-back-button>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="authorized/cart"></ion-back-button>
       </ion-buttons>
       <ion-buttons slot="secondary">
         <ion-button>
@@ -46,35 +46,34 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-
-    <div class="row" *ngFor="let address of addressService.addresses">
-      <div class="col">
-        <div class="card mt-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-7">
-                <ion-radio-group (ionChange)="setValue($event)" [allowEmptySelection]="false">
-                  <ion-radio [value]="address" labelPlacement="end" color="medium">
-                    <h5 class="card-title"><b>{{address.name}}</b></h5>
-                    <p class="card-text">{{address.addressLine1}}</p>
-                    <p class="card-text">{{address.addressLine2}}</p>
-                    <p class="card-text">{{address.pinCode}}</p>
-                  </ion-radio>
-                </ion-radio-group>
-              </div>
-              <div class="col-5">
-                <ion-button fill="clear">
-                  <ion-icon color="medium" name="create-outline"></ion-icon>
-                </ion-button>
-                <ion-button fill="clear">
-                  <ion-icon color="medium" name="trash-outline"></ion-icon>
-                </ion-button>
+    <ion-radio-group (ionChange)="setValue($event)">
+      <div class="row" *ngFor="let address of addressService.addresses">
+        <div class="col">
+          <div class="card mt-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-7">
+                    <ion-radio [value]="address" labelPlacement="end" color="medium">
+                      <h5 class="card-title"><b>{{address.name}}</b></h5>
+                      <p class="card-text">{{address.addressLine1}}</p>
+                      <p class="card-text">{{address.addressLine2}}</p>
+                      <p class="card-text">{{address.pinCode}}</p>
+                    </ion-radio>
+                </div>
+                <div class="col-5">
+                  <ion-button fill="clear">
+                    <ion-icon color="medium" name="create-outline"></ion-icon>
+                  </ion-button>
+                  <ion-button fill="clear">
+                    <ion-icon color="medium" name="trash-outline"></ion-icon>
+                  </ion-button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ion-radio-group>
   </div>
 
   <div class="row mt-4 text-center" routerLink="../select-slot">

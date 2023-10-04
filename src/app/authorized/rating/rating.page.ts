@@ -23,12 +23,10 @@ export class RatingPage implements OnInit {
 
   }
 
-  selected(){
-    this.isSelected = true;
-    setTimeout(()=>{
-      this.router.navigate(['/'])
-    },3000);
-  }
+  // selected(){
+  //   this.isSelected = true;
+    // this.router.navigate(['/authorized/home'])
+  // }
   
 
 }

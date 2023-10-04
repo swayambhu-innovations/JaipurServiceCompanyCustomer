@@ -10,7 +10,7 @@
   <div class="container">
     <div class="row mt-4 text-center">
       <div id="carouselExampleDark" class="carousel carousel-dark slide">
-        <div class="carousel-indicators">
+        <!-- <div class="carousel-indicators">
           <button
             *ngFor="let banner of banners;let i = index;"
             type="button"
@@ -20,7 +20,7 @@
             aria-current="true"
             attr.aria-label="Slide {{i}}"
           ></button>
-        </div>
+        </div> -->
         <div class="carousel-inner" >
             <div class="carousel-item active" data-bs-interval="2000" *ngFor="let banner of banners">
               <img
@@ -36,19 +36,11 @@
               </div>
             </div>
           </div>
-        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button> -->
       </div>
     </div>
   </div>
 
-  <div class="mainCategory margin" *ngFor="let mainCategory of homeService.mainCategories | async">
+  <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
     <h3>{{mainCategory.name}}</h3>
     <img class="banner" [src]="mainCategory.image" alt="">
     <div class="container">
@@ -59,10 +51,10 @@
       </div>
     </div>
     <div class="container mt-2">
-      <div class="row">
+      <div class="row serviceRowOverflow">
         <div class="col text-center" *ngFor="let subCategory of mainCategory.subCategories">
           <ion-thumbnail routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
-            <img alt="Silhouette of mountains" src="{{subCategory.image}}" />
+            <img alt="" src="{{subCategory.image}}" />
             <ion-label class="mt-4">{{subCategory.name}}</ion-label>
           </ion-thumbnail>
         </div>
