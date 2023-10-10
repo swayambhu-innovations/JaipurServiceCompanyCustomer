@@ -20,7 +20,12 @@
       </div>
     </div>
     <ol class="items">
-      <li *ngFor="let item of booking.services">{{item.name}} - {{item.price | currency:'INR'}}</li>
+      <li *ngFor="let item of booking.services">
+        {{item.name}}
+        <ol>
+          <li *ngFor="let variant of item.variants">{{variant.name}} - {{variant.price | currency:'INR'}}</li>
+        </ol>
+      </li>
     </ol>
     <ion-button color="dark" (click)="selectedBooking = booking" shape="round">Continue</ion-button>
   </div>
@@ -31,7 +36,8 @@
     <!-- <div *ngFor="let num of numbersArray"> -->
     <ng-container *ngFor="let service of selectedBooking.services;let i = index;">
       <hr class="divider" />
-      <div class="order-card">
+      <p class="serviceTitle">{{service.name}}</p>
+      <div class="order-card" *ngFor="let variant of service.variants">
         <!-- <div class="content"> -->
         <div class="maskimage">
           <img src="{{service.image[0]}}" alt="" />
@@ -51,7 +57,7 @@
           </div>
           <div class="card-right-mid">
             <p class="card-subtitle">
-              • {{service.jobDuration}} Min
+              • {{variant.jobDuration}} Min
             </p>
             <span class="spacer"></span>
             <div class="rating">
@@ -71,20 +77,20 @@
           <div class="card-right-bottom">
             <p class="price">
               <span class="discounted-price">
-                {{service.billing.discountedPrice | currency:'INR'}}
+                {{variant.billing.discountedPrice | currency:'INR'}}
               </span>
               <span class="original-price">
                 <s>
-                  {{(service.billing.totalPrice) | currency:'INR'}}
+                  {{(variant.billing.totalPrice) | currency:'INR'}}
                 </s>
               </span>
             </p>
             <div class="stock">
-              <ion-button fill="clear" [disabled]="service.quantity <=1" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service,service.variantId,selectedBooking.id!); service.quantity = service.quantity - 1">
+              <ion-button fill="clear" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
                 <ion-icon slot="icon-only" name="remove"></ion-icon>
               </ion-button>
-              <p class="item-count">{{service.quantity}}</p>
-              <ion-button fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service,service.variantId,selectedBooking.id!); service.quantity = service.quantity + 1">
+              <p class="item-count">{{variant.quantity}}</p>
+              <ion-button fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
                 <ion-icon slot="icon-only" color="light" name="add"></ion-icon>
               </ion-button>
             </div>

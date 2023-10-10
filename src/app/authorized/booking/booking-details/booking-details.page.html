@@ -77,17 +77,25 @@
       </div>
     </div>
     <!-- Price and Subject -->
-    <div class="row-7" *ngFor="let service of currentBooking?.services">
-      <div class="left">
-        <img class="image" [src]="service.image" alt="" />
-        <span class="head">{{service.name}}</span><br />
-        <span class="body">{{service.jobDuration}}</span>
-        <span class="body1">{{service.jobAcceptanceCharge | currency:'INR'}}</span>
+    <ng-container *ngFor="let service of currentBooking?.services">
+      <div class="row-7">
+        <div class="left">
+          <img class="image" [src]="service.image" alt="" />
+          <span class="head">{{service.name}}</span><br />
+        </div>
       </div>
-      <div class="row-8">
-        <section class="right">{{service.billing.totalPrice | currency:'INR'}}</section>
+      <div class="row-7" *ngFor="let variant of service.variants">
+        <div class="left">
+          <span class="head">{{variant.name}}</span><br />
+          <span class="body">{{variant.jobDuration}}</span>
+          <span class="body1">{{variant.jobAcceptanceCharge | currency:'INR'}}</span>
+        </div>
+        <div class="row-8">
+          <section class="right">{{variant.billing.totalPrice | currency:'INR'}}</section>
+        </div>
       </div>
-    </div>
+      <hr>
+    </ng-container>
     <!-- Total price and pay format  -->
     <div class="total">
       <div class="row-9">
