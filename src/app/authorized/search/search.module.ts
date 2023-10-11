@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+
 import { IonicModule } from '@ionic/angular';
 
 import { SearchPageRoutingModule } from './search-routing.module';
@@ -15,7 +16,9 @@ import { WidgetsModule } from '../../widgets/widgets.module';
     FormsModule,
     IonicModule,
     SearchPageRoutingModule,
-    WidgetsModule
+    WidgetsModule,
+
+  
   ],
   declarations: [SearchPage]
 })

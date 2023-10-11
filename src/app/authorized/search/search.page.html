@@ -14,7 +14,7 @@
       <p>
         Recent searches
       </p>
-      <p><strong>Clear All</strong></p>
+      <button class="clear"  (click)="clearHistory()" >Clear all</button>
     </div>
     
     <div class="items" [ngClass]="{overflow:resultsFetched}">
@@ -23,17 +23,82 @@
         <p>{{searchTerm}}</p>
         <ion-icon (click)="removeItemFromHistory(i)" name="close-circle-outline"></ion-icon>
       </div>
+      </div>
     </div>
-  </div>
   <ion-list >
     <ion-item  *ngFor="let result of results" style="margin-bottom: 5px;">
-      <img class="search-image" src="../../assets/search1.svg" alt="">
-      <ion-label class="searchresult-name">{{result.name}}</ion-label>
-      <ion-chip color="primary" mode="ios" style="margin-top: -50px !important;" >
-        <ion-label class="searchresult-price">{{result.price}}</ion-label>
-      </ion-chip>
+      <ion-thumbnail slot="start">
+        <img src="../assets/search1.svg">
+      </ion-thumbnail>
+
+      <ion-label >
+      <h2>Bathroom Hyper Cleaning 
+        <span style="float: right; color: #69a03a;">&#8377; from 399</span>
+      </h2>
+      <h3 float="right" margin-top="5px"> 4.5 (87)
+        <ion-icon name="star" color="black" style="float:left;">
+        </ion-icon></h3>
+      <div>
+        <ul>
+          <li>Installation of both indoor & outdoor
+            unit wirh free gas checking
+          </li>
+          <li>Covid precaution taken upto stand..</li>
+        </ul>
+      </div>
+      
+    </ion-label>
     </ion-item>
-    <div class="notFound" *ngIf="results.length == 0 && resultsFetched">
+    <ion-item  *ngFor="let result of results" style="margin-bottom: 5px;">
+      <ion-thumbnail slot="start">
+        <img src="../assets/search1.svg">
+      </ion-thumbnail>
+
+      <ion-label >
+      <h2>Bathroom Standard Clean
+        <span style="float: right; color: #69a03a;"> &#8377; from 120</span>
+      </h2>
+      <h3 float="right" margin-top="5px"> 4.5 (87)
+        <ion-icon name="star" color="black" style="float:left;"></ion-icon>
+      </h3>
+      <div>
+        <ul>
+          <li>Get 2X deeper dust removal with
+             foamjet technology
+          </li>
+          <li>Covid precaution taken upto stand..</li>
+        </ul>
+      </div>
+      
+    </ion-label>
+    </ion-item>
+    
+    <ion-item  *ngFor="let result of results" style="margin-bottom: 5px;">
+      <ion-thumbnail slot="start">
+        <img src="../assets/search1.svg">
+      </ion-thumbnail>
+
+      <ion-label >
+      <h2>Bathroom Hyper Clean
+        <span style="float: right; color: #69a03a;"> &#8377; from 399</span>
+      </h2>
+      <h3 float="right" margin-top="5px"> 4.5 (87)
+        <ion-icon name="star" color="black" style="float:left;">
+        
+      </ion-icon>
+    </h3>
+      <div>
+        <ul>
+          <li>Installation of both indoor & outdoor
+            unit wirh free gas checking
+          </li>
+          <li>Covid precaution taken upto stand..</li>
+        </ul>
+      </div>
+      
+    </ion-label>
+    </ion-item>
+    <div class="notFound" *ngIf="results.length ===0 && resultsFetched">
       <img src="assets/images/notFound.svg" alt="">
       <h3>Not Found</h3>
       <p>Sorry, the keyword you entered cannot be found, please check again or search with another keyword.</p>

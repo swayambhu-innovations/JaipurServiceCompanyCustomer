@@ -1,6 +1,8 @@
+
 ion-content {
     $secondaryTextColor: #9B9E9F;
     $primaryBackgroundColor: black;
+    font-family: 'Lato', sans-serif;;
 
     #search {
         display: inline-flex;
@@ -46,7 +48,9 @@ ion-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+        
         }
+    
 
         hr {
             height: 0px;
@@ -99,11 +103,38 @@ ion-content {
     letter-spacing: -0.28px;
 }
 .searchresult-price{
-    color: #579540;
+color: #579540;
 font-family: Lato;
 font-size: 14px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
 
+}
+ion-thumbnail{
+    width: 100px !important;
+    height: 100px !important;
+    img{
+        border-radius: 10px;
+    }
+}
+ion-label{
+    li{
+        text-wrap: balance;
+        font-size: 12px;
+    }
+    ion-icon{
+        margin-right: 10px;
+        color: #181F29;
+    }
+}
+.clear{
+    font-size: large;
+    border-style: hidden;
+    background-color: #FFF;
+    margin-top: -10px;
+
+}
+.clear:hover{
+    color: #9B9E9F;
 }

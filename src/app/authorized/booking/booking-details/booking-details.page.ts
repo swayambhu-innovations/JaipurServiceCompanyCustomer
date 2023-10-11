@@ -50,7 +50,7 @@ export class BookingDetailsPage implements OnInit {
   ngOnInit(): void {
     
     // Setting default selection in FormControl
-    let getCheckedRadio = null
+    let getCheckedRadio: string | null = null;
     this.RADIO_LIST.forEach(o => {
       if (o.checked)
         getCheckedRadio = o.value;
