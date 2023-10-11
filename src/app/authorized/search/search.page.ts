@@ -11,60 +11,23 @@ import { Service, SubCategory } from '../../core/types/category.structure';
 })
 export class SearchPage implements OnInit {
   searchInputSubject:Subject<string> = new Subject<string>()
-  serviceList:service[] = [
-    {
-      name:"Room cleaning service",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["room, cleaning, service"],
-      description:"Service cleaning room for you and your family.",
-      price:2300
-    },
-    {
-      name:"Room cleaning service",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["room, cleaning, service"],
-      description:"Service cleaning room for you and your family.",
-      price:2300
-    },
-    {
-      name:"Room cleaning service 1",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["room, cleaning, service"],
-      description:"Service cleaning room for you and your family.",
-      price:2300
-    },
-    {
-      name:"Terrace cleaning service 2",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["Terrace, cleaning, service"],
-      description:"Service cleaning Terrace for you and your family.",
-      price:3432,
-    },
-    {
-      name:"Kitchen cleaning service 3",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["Kitchen, cleaning, service"],
-      description:"Service cleaning Kitchen for you and your family.",
-      price:5000,
-    },
-  ]
+  serviceList:Service[] = []
   fuseSearchInstance = new Fuse(this.serviceList,{
-    keys:["name","tags","description","price" , ],
+    keys:["name","variants.name" , ],
     includeScore: true,
   })
-  results:service[] = [];
+  results:searchResult[] = [];
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
   constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
       this.results = this.fuseSearchInstance.search(term).map((result)=>{
-        return result.item
+        return {
+          ...result.item,
+          price:result.item.variants.sort((a,b)=>a.price-b.price)[0].price
+        }
       })
+      console.log("searching for ",term,this.fuseSearchInstance, this.results);
       this.saveToHistory(term);
       this.historyTerms = this.getFromHistory();
       this.resultsFetched = true;
@@ -77,18 +40,24 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.historyTerms = this.getFromHistory();
-    let services:Service[] = []
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
+      let services:Service[] = []
       mainCategory.forEach((mainCategory)=>{
         mainCategory.subCategories.forEach((subCategory:SubCategory)=>{
-          services.concat(subCategory.services)
+          subCategory.services.forEach((service:Service)=>{
+            services.push({...service})
+          })
         })
-      })
+      });
+      this.fuseSearchInstance.setCollection(services)
+      console.log("fuse search instance",this.fuseSearchInstance);
+      this.serviceList = services;
     });
   }
 
   saveToHistory(term:string){
     if (term.length <= 0) return
+    if (this.historyTerms.includes(term)) return
     // get searched terms history array from local storage
     // add new term to array
     // save array to local storage
@@ -103,7 +72,7 @@ export class SearchPage implements OnInit {
 
   getFromHistory():string[]{
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
-    return data.terms
+    return data.terms.reverse();
   }
 
   removeItemFromHistory(index:number){
@@ -113,13 +82,13 @@ export class SearchPage implements OnInit {
     this.historyTerms = this.getFromHistory();
   }
 
+  clearHistory(){
+    localStorage.setItem('searchedTerms',JSON.stringify({terms:[]}))
+    this.historyTerms = this.getFromHistory();
+  }
+
 }
 
-interface service {
-  name:string;
-  image:string;
-  id:string;
-  tags:string[];
-  description:string;
-  price:number;
+interface searchResult extends Service {
+  price:number
 }

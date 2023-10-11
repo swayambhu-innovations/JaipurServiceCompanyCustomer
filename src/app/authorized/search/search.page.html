@@ -14,25 +14,39 @@
       <p>
         Recent searches
       </p>
-      <p><strong>Clear All</strong></p>
+      <p (click)="clearHistory()"><strong>Clear All</strong></p>
     </div>
     
     <div class="items" [ngClass]="{overflow:resultsFetched}">
       <div class="item" (click)="searchInputSubject.next(searchTerm);searchInput.value = searchTerm" *ngFor="let searchTerm of historyTerms;let i = index">
-       
         <p>{{searchTerm}}</p>
         <ion-icon (click)="removeItemFromHistory(i)" name="close-circle-outline"></ion-icon>
       </div>
     </div>
   </div>
-  <ion-list >
-    <ion-item  *ngFor="let result of results" style="margin-bottom: 5px;">
-      <img class="search-image" src="../../assets/search1.svg" alt="">
+  <ion-list>
+    <ion-item *ngFor="let result of results" style="margin-bottom: 5px;">
+      <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="">
       <ion-label class="searchresult-name">{{result.name}}</ion-label>
       <ion-chip color="primary" mode="ios" style="margin-top: -50px !important;" >
         <ion-label class="searchresult-price">{{result.price}}</ion-label>
       </ion-chip>
     </ion-item>
+    <!-- <div class="result" *ngFor="let result of results">
+      <img src="" alt="">
+      <div class="priceName">
+        <span>{{result.name}}</span>
+        <strong class="price">{{result.price}}</strong>
+      </div>
+      <div class="ratingVariants">
+        <span><ion-icon name="star"></ion-icon>4.8 (12)</span>
+        <span>{{result.variants.length}} Variants</span>
+      </div>
+      <div class="ratingVariants">
+        <span><ion-icon name="star"></ion-icon>4.8 (12)</span>
+        <span>{{result.description}}</span>
+      </div>
+    </div> -->
     <div class="notFound" *ngIf="results.length == 0 && resultsFetched">
       <img src="assets/images/notFound.svg" alt="">
       <h3>Not Found</h3>

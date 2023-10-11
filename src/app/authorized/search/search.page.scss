@@ -79,7 +79,11 @@ ion-content {
         }
     }
 }
-
+.search-image{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+}
 .searchresult-name {
     margin-top: -50px;
     margin-left: 10px;

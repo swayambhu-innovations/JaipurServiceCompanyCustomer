@@ -151,6 +151,7 @@ export class CartService {
           totalJobTime:0,
           totalJobAcceptanceCharge:0
         },
+        id:this.generateJobId(),
         createdAt:Timestamp.fromDate(new Date())
       };
       console.log(data);
@@ -227,6 +228,16 @@ export class CartService {
     let code = '';
     for(let i=0;i<6;i++){
       code += Math.floor(Math.random()*10);
+    }
+    return code;
+  }
+
+  generateJobId(){
+    // 16 chars alpha num
+    let code = '';
+    let chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    for(let i=0;i<16;i++){
+      code += chars[Math.floor(Math.random()*chars.length)];
     }
     return code;
   }

@@ -5,7 +5,7 @@ import { Tax } from "../../taxes.structure";
 import { Address } from "../select-address/address.structure";
 
 export interface Booking {
-	id?:string;
+	id:string;
 	subCategory: {
 		id: string;
 		name: string;
