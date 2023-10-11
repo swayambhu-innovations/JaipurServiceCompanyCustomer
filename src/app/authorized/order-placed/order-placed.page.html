@@ -16,21 +16,30 @@
       <div class="row-1">
         <p class="head">Services</p>
       </div>
-      <div class="row-2" *ngFor="let service of this.dataProvider.currentBooking?.services">
-        <section class="left">
-          <div>
-            <img [src]="service.image" alt="">
-          </div>
-          <div style="margin-left: 16px;margin-top: 5px;">
-            <span class="head">{{service.name}}</span><br>
-            <span class="body">{{this.dataProvider.currentBooking?.subCategory?.name}}</span>
-          </div>
-        </section>
-        <section class="right">
-          {{service.billing.totalPrice | currency:'INR'}} 
-        </section>
-
-      </div>
+      <ng-container *ngFor="let service of this.dataProvider.currentBooking?.services">
+        <div class="row-2">
+          <section class="left">
+            <div>
+              <img [src]="service.image" alt="">
+            </div>
+            <div style="margin-left: 16px;margin-top: 5px;">
+              <span class="head">{{service.name}}</span><br>
+              <span class="body">{{this.dataProvider.currentBooking?.subCategory?.name}}</span>
+            </div>
+          </section>
+        </div>
+        <div class="row-2" *ngFor="let variant of service.variants">
+          <section class="left">
+            <div style="margin-left: 16px;margin-top: 5px;">
+              <span class="head">{{variant.name}}</span><br>
+              <span class="body">Duration: {{variant.jobDuration}}</span>
+            </div>
+          </section>
+          <section class="right">
+            {{variant.billing.totalPrice | currency:'INR'}} 
+          </section>
+        </div>
+      </ng-container>
     </div>
 
     <div class="third-section">

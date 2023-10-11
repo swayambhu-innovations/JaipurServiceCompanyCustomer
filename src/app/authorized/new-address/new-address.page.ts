@@ -23,11 +23,18 @@ export class NewAddressPage implements OnInit {
   }
   async submit(){
     let loader = await this.loadingController.create({message:'Adding address...'})
-    loader.present()
-    this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, this.addressForm.value).then(()=>{
-      this.addressForm.reset()
-      this.router.navigate(['/authorized/select-address'])
-    }).catch(err=>{
-    }).finally(()=>loader.dismiss())
+    await loader.present()
+    console.log("this.addressForm.valid",this.addressForm.valid);
+    if(this.addressForm.valid){
+      this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, this.addressForm.value).then(()=>{
+        this.addressForm.reset()
+        this.router.navigate(['/authorized/select-address'])
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>loader.dismiss())
+    } else{
+      await loader.dismiss()
+      console.log("Dismissed");
+    }
   }
 }

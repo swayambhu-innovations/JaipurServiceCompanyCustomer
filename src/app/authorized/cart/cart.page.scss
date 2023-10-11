@@ -42,6 +42,16 @@ ion-content{
         width: 100vw;
         display: flex;
         flex-direction: row;
+        border-bottom: 3px solid #E6E6E6;
+    }
+    .serviceTitle{
+        font-size: 16px;
+        font-weight: 600;
+        font-family: 'Lato', sans-serif;
+        color: #181F29;
+        margin: 0px;
+        padding: 10px 30px;
+        background: #F5F5F5;
     }
 
     .card-right {

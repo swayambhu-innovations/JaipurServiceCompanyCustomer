@@ -15,6 +15,7 @@ import { Service, SubCategory } from '../../core/types/category.structure';
 export class SearchPage implements OnInit {
   private storage = 'Storage';
   searchInputSubject:Subject<string> = new Subject<string>()
+<<<<<<< HEAD
   serviceList:service[] = [
     
     {
@@ -34,20 +35,31 @@ export class SearchPage implements OnInit {
    
     
   ]
+=======
+  serviceList:Service[] = []
+>>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
   fuseSearchInstance = new Fuse(this.serviceList,{
-    keys:["name","tags","description","price" , ],
+    keys:["name","variants.name" , ],
     includeScore: true,
   })
+<<<<<<< HEAD
   results:service[] = [];
   remove:string[] =[];
+=======
+  results:searchResult[] = [];
+>>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
  
   constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
       this.results = this.fuseSearchInstance.search(term).map((result)=>{
-        return result.item
+        return {
+          ...result.item,
+          price:result.item.variants.sort((a,b)=>a.price-b.price)[0].price
+        }
       })
+      console.log("searching for ",term,this.fuseSearchInstance, this.results);
       this.saveToHistory(term);
       this.historyTerms = this.getFromHistory();
       this.resultsFetched = true;
@@ -60,18 +72,24 @@ export class SearchPage implements OnInit {
 
   ngOnInit() {
     this.historyTerms = this.getFromHistory();
-    let services:Service[] = []
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
+      let services:Service[] = []
       mainCategory.forEach((mainCategory)=>{
         mainCategory.subCategories.forEach((subCategory:SubCategory)=>{
-          services.concat(subCategory.services)
+          subCategory.services.forEach((service:Service)=>{
+            services.push({...service})
+          })
         })
-      })
+      });
+      this.fuseSearchInstance.setCollection(services)
+      console.log("fuse search instance",this.fuseSearchInstance);
+      this.serviceList = services;
     });
   }
 
   saveToHistory(term:string){
     if (term.length <= 0) return
+    if (this.historyTerms.includes(term)) return
     // get searched terms history array from local storage
     // add new term to array
     // save array to local storage
@@ -86,7 +104,7 @@ export class SearchPage implements OnInit {
 
   getFromHistory():string[]{
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
-    return data.terms
+    return data.terms.reverse();
   }
   removeItemFromHistory(index:number){
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
@@ -100,18 +118,17 @@ export class SearchPage implements OnInit {
     this.historyTerms = this.getFromHistory();
   }
 
+<<<<<<< HEAD
  
 
     
   }
 
 
+=======
+}
+>>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
 
-interface service {
-  name:string;
-  image:string;
-  id:string;
-  tags:string[];
-  description:string;
-  price:number;
+interface searchResult extends Service {
+  price:number
 }

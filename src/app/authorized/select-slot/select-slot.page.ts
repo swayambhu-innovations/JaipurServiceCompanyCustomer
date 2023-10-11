@@ -51,22 +51,28 @@ export class SelectSlotPage implements OnInit {
   async createBooking(){
     let loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
-    this.paymentService.handlePayment({
-      grandTotal: this.dataProvider.currentBooking!.billing.grandTotal,
-      user:{
-        phone: this.dataProvider.currentUser?.user.phoneNumber || '',
-      }
-    }).subscribe((paymentResponse)=>{
-      if(JSON.parse(paymentResponse['body']).status == 'captured'){
-        this.dataProvider.currentBooking!.payment = JSON.parse(paymentResponse['body']);
-        this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
-          await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
-          this.router.navigate(['/authorized/order-placed']);
-        }).finally(()=>{
-          loader.dismiss();
-        })
-      }
+    this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
+      await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
+      this.router.navigate(['/authorized/order-placed']);
+    }).finally(()=>{
+      loader.dismiss();
     })
+    // this.paymentService.handlePayment({
+    //   grandTotal: this.dataProvider.currentBooking!.billing.grandTotal,
+    //   user:{
+    //     phone: this.dataProvider.currentUser?.user.phoneNumber || '',
+    //   }
+    // }).subscribe((paymentResponse)=>{
+    //   if(JSON.parse(paymentResponse['body']).status == 'captured'){
+    //     this.dataProvider.currentBooking!.payment = JSON.parse(paymentResponse['body']);
+    //     this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
+    //       await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
+    //       this.router.navigate(['/authorized/order-placed']);
+    //     }).finally(()=>{
+    //       loader.dismiss();
+    //     })
+    //   }
+    // })
   }
 
 }

@@ -5,7 +5,7 @@ import { Tax } from "../../taxes.structure";
 import { Address } from "../select-address/address.structure";
 
 export interface Booking {
-	id?:string;
+	id:string;
 	subCategory: {
 		id: string;
 		name: string;
@@ -26,6 +26,7 @@ export interface Booking {
 		totalJobAcceptanceCharge:number;
 	};
 	createdAt:Timestamp;
+	jobOtp:string;
 	address?:Address;
 	timeSlot?:{
 		date:Timestamp;
@@ -40,7 +41,20 @@ export interface Booking {
 	assignedAgent?:string;
 	stage?:string;
 }
+
 export interface SelectedService{
+	name:string;
+	serviceId:string;
+	description:string;
+	image:string;
+	video:string;
+	allowReviews:boolean;
+	taxes:natureTax[];
+	discounts:Coupon[];
+	variants:SelectedVariant[];
+}
+
+export interface SelectedVariant{
 	quantity:number;
 	// variant variables
 	price:number;
@@ -48,12 +62,6 @@ export interface SelectedService{
 	description:string;
 	jobAcceptanceCharge:number;
 	name:string;
-	// service variables
-	image:string;
-	video:string;
-	allowReviews:boolean;
-	taxes:natureTax[];
-	discounts:Coupon[];
 	// identifiers
 	variantId:string;
 	serviceId:string;

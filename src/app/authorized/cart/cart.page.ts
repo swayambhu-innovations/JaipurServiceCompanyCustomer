@@ -5,6 +5,8 @@ import { SharedArrayService } from '../../shared-array.service';
 import { Booking } from '../booking/booking.structure';
 import { CartService } from './cart.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { ModalController } from '@ionic/angular';
+import { OffersComponent } from './offers/offers.component';
 // import { ActionSheetController } from '@ionic/angular';
 
 interface Service {
@@ -46,14 +48,18 @@ export class CartPage implements OnInit {
     private sharedArrayService: SharedArrayService,
     private activatedRoute:ActivatedRoute,
     public cartService:CartService,
-    public dataProvider:DataProviderService
+    public dataProvider:DataProviderService,
+    private modalController:ModalController
   ) {
     this.cartService.cartSubject.subscribe((bookings)=>{
       console.log("Updated bookings",bookings);
       if (this.selectedBooking?.id){
-        this.selectedBooking.id = bookings.find((booking)=>booking.id===this.selectedBooking!.id)?.id;
-        this.cartService.calculateBilling(this.selectedBooking);
-        console.log("Updated selected booking",this.selectedBooking);
+        let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id)?.id;
+        if (foundBooking){
+          this.selectedBooking.id = foundBooking;
+          this.cartService.calculateBilling(this.selectedBooking);
+          console.log("Updated selected booking",this.selectedBooking);
+        }
       }
     })
     this.activatedRoute.params.subscribe(params => {
@@ -62,32 +68,17 @@ export class CartPage implements OnInit {
   }
 
 
-  onOffersClick() {
-    this.router.navigate(['/offers']);
+  async onOffersClick() {
+    let modal = await this.modalController.create({
+      component:OffersComponent,
+      componentProps:{
+        booking:this.selectedBooking
+      }
+    });
+    modal.present();
   }
 
-  services: Service[] = [
-    {
-      serviceName: 'AC Uninstallation',
-      serviceTime: { hours: 1, minutes: 0 },
-      serviceRating: 4.5,
-      serviceTotalRatingCount: 85,
-      serviceOriginalPrice: 999,
-      serviceDiscountedPrice: 799,
-      serviceThumbnailPath: '../../../assets/images/Mask Group.png',
-      serviceOrderCount: 1,
-    },
-    {
-      serviceName: 'AC Installation',
-      serviceTime: { hours: 1, minutes: 30 },
-      serviceRating: 4.0,
-      serviceTotalRatingCount: 105,
-      serviceOriginalPrice: 999,
-      serviceDiscountedPrice: 699,
-      serviceThumbnailPath: '../../../assets/images/Mask Group.png',
-      serviceOrderCount: 1,
-    },
-  ];
+  services: Service[] = [];
 
   addTime(time1: {minutes:number}, time2: {minutes:number}): {minutes:number} {
     const result: {minutes:number} = {

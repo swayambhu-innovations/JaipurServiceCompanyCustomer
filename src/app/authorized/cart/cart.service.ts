@@ -24,35 +24,67 @@ export class CartService {
     if (variant){
       for (const data of this.cart) {
         if (data.mainCategory.id == mainCategory.id && data.subCategory.id == subCategory.id){
-          let index = data.services.findIndex(s=>s.serviceId == service.id && s.variantId == variantId);
-          if (index == -1){
+          let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
+          if (serviceIndex!=-1){
+            let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+            if (data.services[serviceIndex].variants[variantIndex]){
+              data.services[serviceIndex].variants[variantIndex].quantity++;
+            } else {
+              // add variant to the service
+              data.services[serviceIndex].variants.push({
+                billing:{
+                  discountedPrice:0,
+                  originalPrice:0,
+                  discount:0,
+                  tax:0,
+                  totalPrice:0,
+                  untaxedPrice:0
+                },
+                quantity:1,
+                description:variant.description,
+                jobAcceptanceCharge:variant.jobAcceptanceCharge,
+                jobDuration:variant.jobDuration,
+                mainCategoryId:mainCategory.id,
+                name:variant.name,
+                price:variant.price,
+                serviceId:service.id,
+                subCategoryId:subCategory.id,
+                variantId:variant.id,
+              })
+            }
+          } else {
             data.services.push({
-              quantity:1,
-              price:variant.price,
-              jobDuration:variant.jobDuration,
-              description:variant.description,
-              jobAcceptanceCharge:variant.jobAcceptanceCharge,
-              name:variant.name,
+              name:service.name,
               allowReviews:service.allowReviews,
-              taxes:service.taxes,
+              description:service.description,
               discounts:service.discounts,
-              variantId:variant.id,
-              serviceId:service.id,
-              mainCategoryId:mainCategory.id,
-              subCategoryId:subCategory.id,
               image:service.image,
-              video:service.video,
-              billing:{
-                discountedPrice:0,
-                originalPrice:0,
-                discount:0,
-                tax:0,
-                totalPrice:0,
-                untaxedPrice:0
-              }
+              serviceId:service.id,
+              taxes:service.taxes,
+              variants:[
+                {
+                  billing:{
+                    discountedPrice:0,
+                    originalPrice:0,
+                    discount:0,
+                    tax:0,
+                    totalPrice:0,
+                    untaxedPrice:0
+                  },
+                  quantity:1,
+                  description:variant.description,
+                  jobAcceptanceCharge:variant.jobAcceptanceCharge,
+                  jobDuration:variant.jobDuration,
+                  mainCategoryId:mainCategory.id,
+                  name:variant.name,
+                  price:variant.price,
+                  serviceId:service.id,
+                  subCategoryId:subCategory.id,
+                  variantId:variant.id,
+                }
+              ],
+              video:service.video
             });
-          }else{
-            data.services[index].quantity++;
           }
           console.log(data);
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
@@ -72,29 +104,36 @@ export class CartService {
         },
         services:[
           {
-            quantity:1,
-            price:variant.price,
-            jobDuration:variant.jobDuration,
-            description:variant.description,
-            jobAcceptanceCharge:variant.jobAcceptanceCharge,
-            name:variant.name,
+            name:service.name,
             allowReviews:service.allowReviews,
-            taxes:service.taxes,
+            description:service.description,
             discounts:service.discounts,
-            variantId:variant.id,
-            serviceId:service.id,
-            mainCategoryId:mainCategory.id,
-            subCategoryId:subCategory.id,
             image:service.image,
-            video:service.video,
-            billing:{
-              discountedPrice:0,
-              originalPrice:0,
-              discount:0,
-              tax:0,
-              totalPrice:0,
-              untaxedPrice:0
-            }
+            serviceId:service.id,
+            taxes:service.taxes,
+            variants:[
+              {
+                billing:{
+                  discountedPrice:0,
+                  originalPrice:0,
+                  discount:0,
+                  tax:0,
+                  totalPrice:0,
+                  untaxedPrice:0
+                },
+                quantity:1,
+                description:variant.description,
+                jobAcceptanceCharge:variant.jobAcceptanceCharge,
+                jobDuration:variant.jobDuration,
+                mainCategoryId:mainCategory.id,
+                name:variant.name,
+                price:variant.price,
+                serviceId:service.id,
+                subCategoryId:subCategory.id,
+                variantId:variant.id,
+              }
+            ],
+            video:service.video
           }
         ],
         currentUser:{
@@ -103,6 +142,7 @@ export class CartService {
           userId:this.dataProvider.currentUser!.user.uid
         },
         stage:'unassigned',
+        jobOtp:this.generateOtpCode(),
         billing:{
           grandTotal:0,
           tax:0,
@@ -111,6 +151,7 @@ export class CartService {
           totalJobTime:0,
           totalJobAcceptanceCharge:0
         },
+        id:this.generateJobId(),
         createdAt:Timestamp.fromDate(new Date())
       };
       console.log(data);
@@ -121,11 +162,11 @@ export class CartService {
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    let index = data.services.findIndex(s=>s.serviceId == serviceId && s.variantId == variantId);
-    if (index != -1){
-      data.services[index].quantity--;
-      if (data.services[index].quantity == 0){
-        data.services.splice(index,1);
+    let serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
+    if (serviceIndex != -1){
+      let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+      if (variantIndex != -1){
+        data.services[serviceIndex].variants.splice(variantIndex,1);
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
@@ -134,13 +175,15 @@ export class CartService {
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    let index = data.services.findIndex(s=>s.serviceId == service.serviceId && s.variantId == variantId);
-    if (index != -1){
-      // service.quantity++;
-      data.services[index] = {
-        ...data.services[index],
-        quantity:data.services[index].quantity + 1
-      } as any;
+    let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
+    if (serviceIndex != -1){
+      let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+      if (variantIndex){
+        data.services[serviceIndex].variants[variantIndex] = {
+          ...data.services[serviceIndex].variants[variantIndex],
+          quantity:data.services[serviceIndex].variants[variantIndex].quantity + 1
+        } as any;
+      }
     }
     this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
@@ -149,13 +192,15 @@ export class CartService {
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    let index = data.services.findIndex(s=>s.serviceId == service.serviceId && s.variantId == variantId);
-    if (index != -1){
-      // service.quantity--;
-      data.services[index] = {
-        ...data.services[index],
-        quantity:data.services[index].quantity - 1
-      } as any;
+    let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
+    if (serviceIndex != -1){
+      let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+      if (variantIndex){
+        data.services[serviceIndex].variants[variantIndex] = {
+          ...data.services[serviceIndex].variants[variantIndex],
+          quantity:data.services[serviceIndex].variants[variantIndex].quantity - 1
+        } as any;
+      }
     }
     this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
@@ -178,114 +223,84 @@ export class CartService {
     }
   }
 
+  generateOtpCode(){
+    // 6 digit number
+    let code = '';
+    for(let i=0;i<6;i++){
+      code += Math.floor(Math.random()*10);
+    }
+    return code;
+  }
+
+  generateJobId(){
+    // 16 chars alpha num
+    let code = '';
+    let chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    for(let i=0;i<16;i++){
+      code += chars[Math.floor(Math.random()*chars.length)];
+    }
+    return code;
+  }
+
   calculateBilling(booking:Booking){
-    // export interface Booking {
-    // 	id?:string;
-    // 	subCategory: {
-    // 		id: string;
-    // 		name: string;
-    // 		image: string;
-    // 	};
-    // 	mainCategory: {
-    // 		id: string;
-    // 		name: string;
-    // 		image: string;
-    // 	};
-    // 	services: SelectedService[];
-    // 	billing:{
-    // 		grandTotal:number;
-    // 		tax:number;
-    // 		discount:number;
-    // 		subTotal:number;
-    // 	};
-    // 	createdAt:Timestamp;
-    // }
-    // export interface SelectedService{
-    // 	quantity:number;
-    // 	// variant variables
-    // 	price:number;
-    // 	jobDuration:number;
-    // 	description:string;
-    // 	jobAcceptanceCharge:number;
-    // 	name:string;
-    // 	// service variables
-    // 	image:string;
-    // 	video:string;
-    // 	allowReviews:boolean;
-    // 	taxes:natureTax[];
-    // 	discounts:Coupon[];
-    // 	// identifiers
-    // 	variantId:string;
-    // 	serviceId:string;
-    // 	mainCategoryId:string;
-    // 	subCategoryId:string;
-    // 	billing:{
-    // 		originalPrice:number;
-    // 		totalPrice:number;
-    // 		discountedPrice:number;
-    // 		tax:number;
-    // 		untaxedPrice:number;
-    // 	}
-    // }
-
-    // export interface natureTax extends Tax{
-    // 	nature:'inclusive'|'exclusive';
-    // 	totalAppliedAmount?:number;
-    // }
-
-    // this is the structure of a booking
-    // we have to calculate the billing for each service and then add them up to get the billing for the booking
-    // first we will calculate the billing for each service
     let totalJobAcceptanceCharge = 0;
     let totalJobTime = 0;
     for (const service of booking.services) {
       // we will first calculate the original price
-      service.billing.originalPrice = service.quantity * service.price;
-      // we will now calculate the total tax
-      service.billing.tax = 0;
-      for (const tax of service.taxes) {
-        if (tax.nature == 'exclusive'){
-          service.billing.tax += (service.billing.originalPrice * tax.rate) / 100;
-        } else {
-          service.billing.tax += (service.billing.originalPrice * tax.rate) / (100 + tax.rate);
+      service.variants.forEach((variant)=>{
+        variant.billing.originalPrice = variant.quantity * variant.price;
+        // we will now calculate the total tax
+        variant.billing.tax = 0;
+        for (const tax of service.taxes) {
+          if (tax.nature == 'exclusive'){
+            variant.billing.tax += (variant.billing.originalPrice * tax.rate) / 100;
+          } else {
+            variant.billing.tax += (variant.billing.originalPrice * tax.rate) / (100 + tax.rate);
+          }
         }
-      }
-      // we will now calculate the total discount
-      service.billing.discount = 0;
-      for (const discount of service.discounts) {
-        if (discount.type == 'percentage'){
-          service.billing.discount += (service.billing.originalPrice * discount.amount) / 100;
-        } else {
-          service.billing.discount += discount.amount;
+        // we will now calculate the total discount
+        variant.billing.discount = 0;
+        for (const discount of service.discounts) {
+          if (discount.type == 'percentage'){
+            variant.billing.discount += (variant.billing.originalPrice * discount.amount) / 100;
+          } else {
+            variant.billing.discount += discount.amount;
+          }
         }
-      }
-      // we will now calculate the total price
-      service.billing.totalPrice = service.billing.originalPrice + service.billing.tax - service.billing.discount;
-      // we will now calculate the discounted price
-      service.billing.discountedPrice = service.billing.originalPrice - service.billing.discount;
-      // we will now calculate the untaxed price
-      service.billing.untaxedPrice = service.billing.originalPrice - service.billing.tax;
-      // we will now calculate the total job acceptance charge
-      totalJobAcceptanceCharge += service.jobAcceptanceCharge;
-      // we will now calculate the total job time
-      totalJobTime += service.jobDuration;
+        // we will now calculate the total price
+        variant.billing.totalPrice = variant.billing.originalPrice + variant.billing.tax - variant.billing.discount;
+        // we will now calculate the discounted price
+        variant.billing.discountedPrice = variant.billing.originalPrice - variant.billing.discount;
+        // we will now calculate the untaxed price
+        variant.billing.untaxedPrice = variant.billing.originalPrice - variant.billing.tax;
+        // we will now calculate the total job acceptance charge
+        totalJobAcceptanceCharge += variant.jobAcceptanceCharge;
+        // we will now calculate the total job time
+        totalJobTime += variant.jobDuration;
+      })
     }
     // we will now calculate the billing for the booking
     // we will first calculate the sub total
     booking.billing.subTotal = 0;
     for (const service of booking.services) {
-      booking.billing.subTotal += service.billing.originalPrice;
+      for (const variant of service.variants) {
+        booking.billing.subTotal += variant.billing.originalPrice;
+      }
     }
     booking.billing.subTotal 
     // we will now calculate the total tax
     booking.billing.tax = 0;
     for (const service of booking.services) {
-      booking.billing.tax += service.billing.tax;
+      for (const variant of service.variants) {
+        booking.billing.tax += variant.billing.tax;
+      }
     }
     // we will now calculate the total discount
     booking.billing.discount = 0;
     for (const service of booking.services) {
-      booking.billing.discount += service.billing.discount;
+      for (const variant of service.variants) {
+        booking.billing.discount += variant.billing.discount;
+      }
     }
     // we will now calculate the grand total
     booking.billing.grandTotal = booking.billing.subTotal + booking.billing.tax - booking.billing.discount
@@ -297,9 +312,12 @@ export class CartService {
   isInCart(service:Service,variantId:string,mainCategoryId:string,subCategoryId:string){
     for (const booking of this.cart) {
       if (booking.mainCategory.id == mainCategoryId && booking.subCategory.id == subCategoryId){
-        let index = booking.services.findIndex(s=>s.serviceId == service.id && s.variantId == variantId);
-        if (index != -1){
-          return true;
+        let serviceIndex = booking.services.findIndex(s=>s.serviceId == service.id);
+        if (serviceIndex != -1){
+          let index = booking.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+          if (index != -1){
+            return true;
+          }
         }
       }
     }

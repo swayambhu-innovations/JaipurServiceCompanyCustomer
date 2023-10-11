@@ -1,0 +1,105 @@
+*{
+    box-shadow: none;
+}
+ion-toolbar.toolbar,ion-item,ion-content{
+    --background:white;
+    --box-shadow: none;
+    border: none;
+}
+
+.page-body {
+    background-color: #666666;
+    color: #666666;
+}
+
+h2,p,h1,h3,h4,h5, h6{
+    color: black;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+ion-back-button,ion-icon,ion-title{
+    color: black;
+}
+
+.coupon-input{
+    border: 1px solid #D7D7D7;
+    border-radius: 8px;
+    margin: 16px;
+    margin-right: 16px;
+    .coupon-text::placeholder{
+        color: #666666;
+        font-family: 'Lato', sans-serif;
+        font-size: 14px;
+    }
+
+}
+.coupon-button{
+    flex: end;
+    color: #666666;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;    
+    margin-right: 10px 12px;
+}
+
+.coupon-card{
+    border: 1px solid #D7D7D7;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    margin: 16px;
+    .coupon-content{
+        display: flex;
+        
+        .coupon-img{
+            width: 48px;
+            height: 48px;
+            display: flex;
+            flex: start;
+            align-items: center;
+            justify-content: space-between; 
+            justify-content: center;
+            align-items: center;
+            background-color: #F5F5F5;
+            border-radius: 50%;
+            margin-right: 12px;
+    }
+    .coupon-text{
+        display: flex;
+        flex-direction: column;
+        line-height: 20px;
+        // margin: 12px;
+        .card-name-text{
+            font-size: 13px;
+            font-weight: 600;
+            color: #181F29;
+            font-family: 'Lato', sans-serif;
+        }
+        .min-order-text{
+            font-size: 12px;
+            font-weight: 500;
+            color: #666666;
+            font-family: 'Lato', sans-serif;
+        }
+        .discount-text{
+            font-size: 10px;
+            font-weight: 500;
+            color: #579540;
+            font-family: 'Lato', sans-serif;
+            // line-height: 10px;
+        }
+    }
+    .apply-button{
+        font-size: 12px;
+        font-weight: 700;
+        color: #1A1D1F;
+        font-family: 'Lato', sans-serif;
+        width: 100%;
+        flex: end;
+        // margin-right: 16px;
+        flex: end;
+    }
+    }
+}
