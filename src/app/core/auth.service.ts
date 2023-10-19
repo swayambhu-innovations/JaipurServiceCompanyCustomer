@@ -61,6 +61,7 @@ export class AuthService {
       phoneNumber:user.phoneNumber || '',
       photoURL:user.photoURL || '',
       uid:user.uid || '',
+      type:'customer'
     };
     await setDoc(doc(this.firestore,'users',user.uid),newUserData);
     this.dataProvider.currentUser = {

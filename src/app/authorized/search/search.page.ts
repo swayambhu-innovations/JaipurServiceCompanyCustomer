@@ -15,8 +15,7 @@ import { Service, SubCategory } from '../../core/types/category.structure';
 export class SearchPage implements OnInit {
   private storage = 'Storage';
   searchInputSubject:Subject<string> = new Subject<string>()
-<<<<<<< HEAD
-  serviceList:service[] = [
+  serviceList:Service[] = [
     
     {
       name:"Bathroom Hyper Clean",
@@ -35,19 +34,12 @@ export class SearchPage implements OnInit {
    
     
   ]
-=======
-  serviceList:Service[] = []
->>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
   fuseSearchInstance = new Fuse(this.serviceList,{
     keys:["name","variants.name" , ],
     includeScore: true,
   })
-<<<<<<< HEAD
-  results:service[] = [];
+  results:Service[] = [];
   remove:string[] =[];
-=======
-  results:searchResult[] = [];
->>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
  
@@ -118,16 +110,12 @@ export class SearchPage implements OnInit {
     this.historyTerms = this.getFromHistory();
   }
 
-<<<<<<< HEAD
  
 
     
   }
 
 
-=======
-}
->>>>>>> 4f8bb390166d39e7bfe166067c4ef475f9f706cc
 
 interface searchResult extends Service {
   price:number
