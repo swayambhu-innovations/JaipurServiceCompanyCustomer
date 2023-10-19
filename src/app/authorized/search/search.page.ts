@@ -15,31 +15,14 @@ import { Service, SubCategory } from '../../core/types/category.structure';
 export class SearchPage implements OnInit {
   private storage = 'Storage';
   searchInputSubject:Subject<string> = new Subject<string>()
-  serviceList:Service[] = [
-    
-    {
-      name:"Bathroom Hyper Clean",
-      image:"https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=900&q=60",
-      id:"1",
-      tags:["bathroom, cleaning, "],
-      description:"Installation of Both indoor &outdoor unit with  free gas checking.",
-       
-        
-      price:399
-    },
-    
-   
-   
-   
-   
-    
-  ]
+
+  serviceList:Service[] = []
   fuseSearchInstance = new Fuse(this.serviceList,{
     keys:["name","variants.name" , ],
     includeScore: true,
   })
-  results:Service[] = [];
-  remove:string[] =[];
+
+  results:searchResult[] = [];
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
  
@@ -114,7 +97,6 @@ export class SearchPage implements OnInit {
 
     
   }
-
 
 
 interface searchResult extends Service {
