@@ -21,7 +21,7 @@ export class HomeHeaderComponent  implements OnInit {
   constructor( private router:Router, public addressService:AddressService) {
   }
    notification(){
-    this.router.navigate(['notification']);
+    this.router.navigate(['authorized/notification']);
    }
 
   ngOnInit() {

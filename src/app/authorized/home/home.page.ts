@@ -64,11 +64,9 @@ export class HomePage implements OnInit {
   }
 
   fetchBanners() {
-    this.banners = [];
     this.homeService.getBanners().then((images) => {
-      images.docs.map((doc) => {
-        this.banners.push(doc.data());
-        console.log(this.banners);
+      this.banners = images.docs.map((doc) => {
+        return doc.data()
       });
     });
   }
