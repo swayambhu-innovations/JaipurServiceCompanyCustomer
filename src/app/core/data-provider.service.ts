@@ -17,7 +17,9 @@ export class DataProviderService {
     user:User,
     userData:any;
   }|undefined;
-  constructor() { }
+  constructor() {
+    console.log("data provider works");
+   }
 
 
 }

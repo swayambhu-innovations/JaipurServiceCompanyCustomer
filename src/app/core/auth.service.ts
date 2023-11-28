@@ -5,13 +5,14 @@ import { addDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { DataProviderService } from './data-provider.service';
 import { AlertsAndNotificationsService } from '../alerts-and-notifications.service';
 import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public auth:Auth,private firestore:Firestore,private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private loadingController: LoadingController) {
+  constructor(private router:Router,public auth:Auth,private firestore:Firestore,private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private loadingController: LoadingController) {
     this.dataProvider.checkingAuth = true;
     this.auth.onAuthStateChanged((user)=>{
       if(user){
@@ -22,6 +23,7 @@ export class AuthService {
             userData:userData
           }
           this.dataProvider.checkingAuth = false;
+          this.router.navigate(['../../authorized/home'])
         });
       } else {
         this.dataProvider.loggedIn = false;
