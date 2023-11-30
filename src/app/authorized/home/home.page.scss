@@ -96,6 +96,33 @@ ion-thumbnail {
     border-radius: 20px;
     margin-top: 20px;
   }
+
+  .heading{
+    display: flex;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+
+    .col-9{
+      width: 80%;
+    }
+
+    .see-all-button{
+      width: 17%;
+      display: flex;
+      justify-content: space-evenly;
+      margin-top: 8px;
+      cursor: pointer;
+      color: var(--tertiary, #5E0080);
+      font-family: Lato;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      letter-spacing: -0.36px;
+    }
+  }
+
   .subCategories{
     display: flex;
     justify-content: flex-start;

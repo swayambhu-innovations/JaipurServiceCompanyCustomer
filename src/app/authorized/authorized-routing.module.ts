@@ -126,6 +126,11 @@ const routes: Routes = [
         canActivate:[AuthGuard]
       },
       {
+        path: 'sub-Categories/:mainCategoryId',
+        loadChildren: () => import('./sub-categories/sub-categories.module').then(m => m.SubCategoryPageModule),
+        // canActivate:[AuthGuard]
+      },
+      {
         path: 'services/:mainCategoryId/:subCategoryId',
         loadChildren: () => import('./services/services.module').then( m => m.ServicesPageModule),
         canActivate:[AuthGuard]

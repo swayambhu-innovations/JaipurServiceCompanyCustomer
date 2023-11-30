@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" routerLink = '../../home'>
+                <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="">
+        </ion-buttons> 
+        <ion-title >{{matchingMainCategory?.name}} Sub Categories</ion-title>  
+    </ion-toolbar> 
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="subcategory-container">
+        <div class="subcategory" *ngFor = "let items of subCategory">
+            <img src="{{items.image}}" alt="">
+            <h4>{{items.name}}</h4>
+        </div>
+    </div>
+</ion-content>
