@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import SwiperCore, {
-  Autoplay,
-  EffectFade,
-  Swiper,
-  SwiperOptions,
-} from 'swiper';
-import { AutoplayOptions } from 'swiper/types';
 import { HomeService } from './home.service';
 
-// install Swiper modules
-SwiperCore.use([EffectFade, Autoplay]);
 
 interface bannerConfig {
   image: string;
@@ -23,9 +14,6 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  autoplayOptions: AutoplayOptions = {
-    delay: 5000,
-  };
 
   promotionalBanners: bannerConfig[] = [
     {
@@ -49,12 +37,12 @@ export class HomePage implements OnInit {
       url: 'https://www.google.com',
     },
   ];
+  
 
-  slideConfig: SwiperOptions = {
-    spaceBetween: 30,
-  };
+  
 
   banners: any[] = [];
+  
 
   constructor(private router: Router, public homeService: HomeService) {
   }
@@ -68,6 +56,7 @@ export class HomePage implements OnInit {
       this.banners = images.docs.map((doc) => {
         return doc.data()
       });
+      console.log(this.banners);
     });
   }
   cart() {
@@ -170,6 +159,9 @@ export class HomePage implements OnInit {
       this.searchInput = null;
     }
   }
+
+  
+  
 }
 
 export interface Banner {

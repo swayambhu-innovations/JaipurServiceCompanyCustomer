@@ -36,7 +36,7 @@
     "ng-otp-input": "^1.9.3",
     "rxjs": "~7.8.0",
     "storage-module": "^1.0.2",
-    "swiper": "^8.4.7",
+    "swiper": "^11.0.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
