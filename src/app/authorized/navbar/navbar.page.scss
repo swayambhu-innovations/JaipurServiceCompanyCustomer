@@ -1,0 +1,9 @@
+.footer{
+    display: flex;
+    justify-content: space-between;
+
+    .footer-ion-tab-button{
+        max-width: 90px !important;
+        padding: 6px 0px;
+    }
+}

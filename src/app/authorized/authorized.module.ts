@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AuthorizedPageRoutingModule } from './authorized-routing.module';
 
 import { AuthorizedPage } from './authorized.page';
+import { NavbarPage } from './navbar/navbar.page';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { AuthorizedPage } from './authorized.page';
     IonicModule,
     AuthorizedPageRoutingModule
   ],
-  declarations: [AuthorizedPage]
+  declarations: [
+    AuthorizedPage,
+    NavbarPage,
+  ]
 })
 export class AuthorizedPageModule {}
