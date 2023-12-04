@@ -10,6 +10,7 @@ import { Booking } from '../authorized/booking/booking.structure';
 export class DataProviderService {
   mainCategories:ReplaySubject<Category[]>=new ReplaySubject<Category[]>(1);
   loggedIn:boolean=false;
+  userMobile:string= '';
   checkingAuth:boolean=true;
   loginConfirmationResult:ConfirmationResult|undefined;
   currentBooking:Booking|undefined;

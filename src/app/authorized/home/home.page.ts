@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
-
+import { FileService } from '../db_services/file.service';
+import { async } from 'rxjs';
+import { Filesystem, Directory  } from '@capacitor/filesystem';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { log } from 'console';
+const CASHE_FOLDER = "CASHED_IMG";
 
 interface bannerConfig {
   image: string;
@@ -44,7 +49,7 @@ export class HomePage implements OnInit {
   banners: any[] = [];
   
 
-  constructor(private router: Router, public homeService: HomeService) {
+  constructor(private router: Router, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
   }
 
   ngOnInit() {
@@ -56,7 +61,7 @@ export class HomePage implements OnInit {
       this.banners = images.docs.map((doc) => {
         return doc.data()
       });
-      console.log(this.banners);
+      this.getImage(this.banners[0].img);
     });
   }
   cart() {
@@ -73,8 +78,6 @@ export class HomePage implements OnInit {
   notification() {
     this.router.navigate(['notification']);
   }
-
-  // dealSlide1.svg
 
   condition: boolean = true;
   prevText: string = '';
@@ -160,8 +163,99 @@ export class HomePage implements OnInit {
     }
   }
 
-  
-  
+   getImage(url:string){
+    let imageName = url.split('/').pop();
+    if(imageName?.includes('?')){
+      imageName = imageName.split("?")[0];
+      imageName = imageName.replaceAll("%2","");
+    }
+    let fileType = url.split('.').pop();
+    if(fileType?.includes('?')){
+      fileType = fileType.split("?")[0];
+    }
+    //debugger
+    Filesystem.readFile({
+      directory:Directory.Cache,
+      path:`${CASHE_FOLDER}/${imageName}`
+    }).then(async readFile=>{
+      //console.log("Local File",imageName, readFile);
+      if(readFile.data ===""){
+        let file = await this.saveImage(url, imageName);
+       // console.log("server file")
+        return `data:image/${fileType};base64,${file}`;
+      }else
+      return `data:image/${fileType};base64,${readFile.data}`;
+    }).catch(async e =>{
+      // wirte a file
+      //console.log("e........: ", e)
+        let file = await this.saveImage(url, imageName);
+       Filesystem.readFile({
+        directory:Directory.Cache,
+        path:`${CASHE_FOLDER}/${imageName}`
+      }).then(readFile=>{
+        return `data:image/${fileType};base64,${readFile.data}`;
+      })
+    }).finally(()=>{
+     // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
+    });
+  }
+
+ async saveImage(url:string, path){
+  //debugger
+  // this.http.get(url).subscribe({
+  //   next:(rspose)=>{
+  //     console.log("response: ",response)
+  //   },
+  //   error:(error)=>{
+  //     console.log("eer.........:",error)
+  //   }
+    
+  // })
+  // let xhr = new XMLHttpRequest();
+  // xhr.responseType = 'blob';
+  // xhr.onload = (event) => {
+  //   console.log("xhr.response: ",xhr.response)
+  //   const blob = xhr.response;
+  //   console.log("blob...........: ",blob)
+  // };
+  // xhr.open('GET', url,true);
+  // xhr.setRequestHeader("Origin",location.origin);
+  // xhr.setRequestHeader("mode",'no-cors');
+  // xhr.send();
+
+    const response:any = await fetch(url,{
+      headers: new Headers({
+        'Origin': location.origin
+      }),
+      mode: 'no-cors'
+    }).then(response=>{
+     // console.log("response....... ",response.body)
+    }).catch(error=>{
+      console.log("errror.....",error);
+    });
+  // convert to a Blob
+ // debugger
+  let blob = await response.body?.blob();
+    const convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+      const reader = new FileReader;
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      //console.log("blob...........: ",blob)
+    reader.readAsDataURL(blob);
+  });
+// convert to base64 data, which the Filesystem plugin requires
+  const base64Data = await convertBlobToBase64(blob) as string;
+      // console.log("Saving.................");
+       
+  const savedFile = await Filesystem.writeFile({
+      path:`${CASHE_FOLDER}/${path}`,
+      data: base64Data,
+      directory: Directory.Cache
+    });
+    return savedFile;
+  }
 }
 
 export interface Banner {

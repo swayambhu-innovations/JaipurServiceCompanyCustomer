@@ -28,16 +28,26 @@ export class SearchPage implements OnInit {
  
   constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      this.results = this.fuseSearchInstance.search(term).map((result)=>{
-        return {
-          ...result.item,
-          price:result.item.variants.sort((a,b)=>a.price-b.price)[0].price
+      //console.log("term: ",term)
+      if(term.length > 2){
+        this.results = this.fuseSearchInstance.search(term).map((result)=>{
+        
+          return {
+            ...result.item,
+            price:result.item.variants.sort((a,b)=>a.price-b.price)[0]?.price
+          }
+        })
+       // console.log("searching for ",term,this.fuseSearchInstance, this.results);
+       
+        if(this.results.length === 0 ){
+          this.historyTerms = [];
+        }else{
+          this.saveToHistory(term);
+          this.historyTerms = this.getFromHistory();
         }
-      })
-      console.log("searching for ",term,this.fuseSearchInstance, this.results);
-      this.saveToHistory(term);
-      this.historyTerms = this.getFromHistory();
-      this.resultsFetched = true;
+        this.resultsFetched = true;
+      }
+      
     })
   }
 
@@ -50,6 +60,7 @@ export class SearchPage implements OnInit {
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
       let services:Service[] = []
       mainCategory.forEach((mainCategory)=>{
+        console.log("mainCategory: ",mainCategory)
         mainCategory.subCategories.forEach((subCategory:SubCategory)=>{
           subCategory.services.forEach((service:Service)=>{
             services.push({...service})
@@ -82,8 +93,11 @@ export class SearchPage implements OnInit {
     return data.terms.reverse();
   }
   removeItemFromHistory(index:number){
+    
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
+    console.log("index: ",index,data.terms)
     data.terms.splice(index,1)
+    console.log("after index: ",index,data.terms)
     localStorage.setItem('searchedTerms',JSON.stringify(data))
     this.historyTerms = this.getFromHistory();
   }

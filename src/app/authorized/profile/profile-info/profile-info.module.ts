@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -15,9 +15,10 @@ import { WidgetsModule } from 'src/app/widgets/widgets.module';
     FormsModule,
     IonicModule,
     ProfileInfoPageRoutingModule,
-    WidgetsModule
-    
+    WidgetsModule,
+    ReactiveFormsModule,
   ],
-  declarations: [ProfileInfoPage]
+  declarations: [ProfileInfoPage],
+  providers:[{provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: {dateFormat: 'DD/MM/yyyy'}}]
 })
 export class ProfileInfoPageModule {}
