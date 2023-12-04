@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
-// <<<<<<< HEAD
 import { register } from 'swiper/element/bundle';
 register();
-
-
-// =======
 import { Filesystem, Directory, Encoding, FilesystemPlugin } from '@capacitor/filesystem';
-// >>>>>>> 80877a7fbb7b19efe466efe57c919f3651ba0e75
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
