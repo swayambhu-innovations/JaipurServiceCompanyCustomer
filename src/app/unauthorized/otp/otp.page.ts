@@ -16,12 +16,14 @@ export class OtpPage implements OnInit {
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
 
   constructor(private router: Router,private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private authService:AuthService, private loadingController: LoadingController) { }
-
+  userMobile:string = '0000000000' 
   ngOnInit() {
+    
     if(!this.dataProvider.loginConfirmationResult){
       this.alertify.presentToast("Some Error occurred. Please enter phone again.")
       this.router.navigate(['unauthorized/login']);
     }
+    this.userMobile = this.dataProvider.userMobile;
   }
 
   async login(){
@@ -29,9 +31,9 @@ export class OtpPage implements OnInit {
       let loader = await this.loadingController.create({message:'Logging in...'});
       loader.present();
       this.dataProvider.loginConfirmationResult.confirm(this.otp).then((result)=>{
-        console.log(result);
+        //console.log(result);
         this.authService.setUserData(result.user);
-        this.router.navigate(['authorized/home']);
+        this.router.navigate(['authorized/profile/profile-info']);
       }).catch((error)=>{
         console.log(error);
         this.alertify.presentToast(error.message);

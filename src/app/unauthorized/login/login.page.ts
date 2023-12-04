@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
     if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container',{'size':'invisible'},this.authService.auth);
     this.authService.loginWithPhoneNumber(this.phoneNumber,this.verifier).then((login)=>{
       this.dataProvider.loginConfirmationResult=login;
+      this.dataProvider.userMobile = this.phoneNumber;
       this.router.navigate(['unauthorized/otp'])
     }).catch((error)=>{
       console.log(error);

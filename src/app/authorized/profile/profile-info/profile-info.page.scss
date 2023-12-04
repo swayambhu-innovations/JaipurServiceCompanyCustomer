@@ -87,7 +87,7 @@
   }
   .save {
     display: flex;
-    width: 158px;
+    width: 328px;
     padding: 12px 49px;
     justify-content: center;
     align-items: center;
@@ -107,18 +107,24 @@
 }
 
 // Ion-item class
+:host(.gender-input) .item-native{
+  margin: -5px !important;
+}
 .gender-input {
-  height: 20px;
-  
-  
   width: 100%;
+  max-height: 41px;
+  display: block;
   --border-color: #b3b3b3;
   --highlight-color-focused: #b3b3b3;
   --placeholder-color: #4f4f4f;
 }
+.gender-input-box{
+  --padding-top: 1px !important;
+ --padding-bottom: 5px !important;
+}
 // Label
 .gender-input ion-label {
-  font-size: 16px;
+  font-size: 14px;
   margin-top: -5px;
   color: #4f4f4f;
 }
@@ -126,4 +132,14 @@
 // Down arrow icon
 .gender-input ion-icon {
   font-size: 20px;
+}
+.main .container h3 {
+  font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+.main .container p{
+  font-size: 14px;
+    font-weight: 500;
+    text-align: center;
 }

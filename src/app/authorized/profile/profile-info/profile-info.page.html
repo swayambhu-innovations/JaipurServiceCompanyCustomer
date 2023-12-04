@@ -1,59 +1,54 @@
-<!-- Header -->
-<app-header1 [name]="name"></app-header1>
-
 <div class="main">
   <div class="container">
     <!-- Profile picture with camera button -->
+    <h3>Welcome, New User</h3>
+    <p>Let’s know you better !</p>
     <div class="profile-pic">
       <img src="../../../assets/profile-3.svg" alt="" class="img" />
       <img src="../../../assets/Ellipse 152.svg" alt="" class="circle" />
-      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" />
+      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" [routerLink]="['/upload-images']"/>
     </div>
     <div class="title">
       <h6>{{name2}}</h6>
     </div>
     <!-- Input boxes -->
-    <div class="input">
-      <ion-input
-        class="inputs"
-        label="Full Name"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Sudipta Mehta"
-      ></ion-input>
-      <ion-input
-        class="inputs"
-        label="Birthdate"
-        label-placement="floating"
-        fill="outline"
-        placeholder="18/02/1923"
-      ></ion-input>
-      <ion-input
-        class="inputs"
-        label="Mobile Number"
-        label-placement="floating"
-        fill="outline"
-        placeholder="+91-9865321456"
-        type="tel"
-        style="margin-bottom: 10px"
-        ><p>{{updateText}}</p></ion-input
-      >
-
-      <ion-item lines="outline" fill="outline" class="gender-input">
-        <ion-label position="floating">Gender</ion-label>
-        <ion-input type="text" readonly [value]="selectedGender" placeholder="Female"></ion-input>
-        <ion-icon
-          name="chevron-down-outline"
-          slot="end"
-          (click)="openGenderPicker()"
-        ></ion-icon>
-      </ion-item>
-    </div>
-
+    <form class="col" [formGroup]="agentForm">
+      <div class="input">
+        <ion-input class="inputs" formControlName="name"  label="Full Name"  label-placement="floating"  fill="outline"  placeholder="Sudipta Mehta" required></ion-input>
+        <div *ngIf="(this.agentForm.get('name')?.touched && this.agentForm.get('name')?.invalid) || isSubmitForm">
+          <div class="" *ngIf="this.agentForm.get('name')?.errors?.required" >
+            <ion-text color="danger">Name is required.</ion-text>
+          </div>
+          <div class="" color="danger" *ngIf="this.agentForm.get('name')?.errors?.minlength" >
+            <ion-text color="danger">Name should be min 3 chars long.</ion-text>
+          </div>
+        </div>
+        <ion-input type="date" class="inputs" formControlName="dob" 
+               label="Birthdate" label-placement="floating"fill="outline" placeholder="18/02/1923" style="margin-top: 18px;" required></ion-input>
+        <div *ngIf="(this.agentForm.get('dob')?.touched && this.agentForm.get('dob')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
+          <div class="" *ngIf="this.agentForm.get('dob')?.errors?.required" >
+            <ion-text color="danger">DBO is required.</ion-text>
+          </div>
+        </div>
+        <ion-item lines="outline"  fill="outline" class="gender-input">
+          <ion-label position="floating">Gender</ion-label>
+          <ion-input type="text" readonly [value]="selectedGender" class="gender-input-box" placeholder="Gender" required></ion-input>
+          <ion-icon
+            name="chevron-down-outline"
+            slot="end"
+            (click)="openGenderPicker()"
+          ></ion-icon>
+        </ion-item>
+        <div *ngIf="!isGenderSelected && isSubmitForm" style="padding: 8px 0px;">
+          <div class=""  >
+            <ion-text color="danger">Gender is required.</ion-text>
+          </div>
+        </div>
+      </div>
+  </form>
     <!-- Cancel and Save buttons -->
     <div class="buttons">
-      <button class="cancel" routerLink="/profile">Cancel</button>
-      <button class="save" routerLink="/profile">Save</button>
+      <button class="save"  (click)="nextFunction()">Next</button>
     </div>
     
   </div>

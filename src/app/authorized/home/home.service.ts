@@ -42,6 +42,7 @@ export class HomeService {
           id: mainCategory.id,
           name: mainCategory.data()['name'],
           image: mainCategory.data()['image'],
+          description:mainCategory.data()['description'],
           subCategories: await this.getSubCategories(mainCategory.id),
         };
       })
@@ -113,4 +114,6 @@ export class HomeService {
       )
     );
   } 
+
+  
 }

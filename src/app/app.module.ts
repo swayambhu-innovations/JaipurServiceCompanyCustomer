@@ -18,8 +18,9 @@ import { providePerformance,getPerformance } from '@angular/fire/performance';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { PaymentService } from './payment.service';
 import { DataProviderService } from './core/data-provider.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CartService } from './authorized/cart/cart.service';
+import { FileInterceptorInterceptor } from './authorized/interceptors/file-interceptor.interceptor';
 
 
 @NgModule({
@@ -34,7 +35,11 @@ import { CartService } from './authorized/cart/cart.service';
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ScreenTrackingService,UserTrackingService,PaymentService,DataProviderService, CartService],
+  providers: [{ 
+    provide: HTTP_INTERCEPTORS, useClass: FileInterceptorInterceptor, multi:true
+  },{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+     ScreenTrackingService,UserTrackingService,PaymentService,DataProviderService, CartService
+    ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
