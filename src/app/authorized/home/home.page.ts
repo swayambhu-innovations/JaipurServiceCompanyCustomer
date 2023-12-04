@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import SwiperCore, {
-  Autoplay,
-  EffectFade,
-  Swiper,
-  SwiperOptions,
-} from 'swiper';
-import { AutoplayOptions } from 'swiper/types';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
 import { async } from 'rxjs';
@@ -14,8 +7,6 @@ import { Filesystem, Directory  } from '@capacitor/filesystem';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { log } from 'console';
 const CASHE_FOLDER = "CASHED_IMG";
-// install Swiper modules
-SwiperCore.use([EffectFade, Autoplay]);
 
 interface bannerConfig {
   image: string;
@@ -28,9 +19,6 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  autoplayOptions: AutoplayOptions = {
-    delay: 5000,
-  };
 
   promotionalBanners: bannerConfig[] = [
     {
@@ -54,12 +42,12 @@ export class HomePage implements OnInit {
       url: 'https://www.google.com',
     },
   ];
+  
 
-  slideConfig: SwiperOptions = {
-    spaceBetween: 30,
-  };
+  
 
   banners: any[] = [];
+  
 
   constructor(private router: Router, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
   }
@@ -90,8 +78,6 @@ export class HomePage implements OnInit {
   notification() {
     this.router.navigate(['notification']);
   }
-
-  // dealSlide1.svg
 
   condition: boolean = true;
   prevText: string = '';
@@ -176,6 +162,7 @@ export class HomePage implements OnInit {
       this.searchInput = null;
     }
   }
+
    getImage(url:string){
     let imageName = url.split('/').pop();
     if(imageName?.includes('?')){
@@ -269,7 +256,6 @@ export class HomePage implements OnInit {
     });
     return savedFile;
   }
-
 }
 
 export interface Banner {

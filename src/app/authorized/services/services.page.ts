@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DataProviderService } from '../../core/data-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { Service, SubCategory, Category } from '../../core/types/category.structure';
+import {
+  Service,
+  SubCategory,
+  Category,
+} from '../../core/types/category.structure';
 
 @Component({
   selector: 'app-services',
@@ -10,27 +14,38 @@ import { Service, SubCategory, Category } from '../../core/types/category.struct
   styleUrls: ['./services.page.scss'],
 })
 export class ServicesPage implements OnInit {
-  services:Service[]=[];
-  matchingSubCategory:SubCategory|undefined;
-  matchingMainCategory:Category|undefined;
-  constructor(private dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router) {
-    this.activatedRoute.params.subscribe(async (params)=>{
-      let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
-      this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
-      if(!this.matchingMainCategory){
+  services: Service[] = [];
+  matchingSubCategory: SubCategory | undefined;
+  matchingMainCategory: Category | undefined;
+  constructor(
+    private dataProvider: DataProviderService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    this.activatedRoute.params.subscribe(async (params) => {
+      let mainCategories = await firstValueFrom(
+        this.dataProvider.mainCategories
+      );
+
+      this.matchingMainCategory = mainCategories.find(
+        (mainCategory) => mainCategory.id == params['mainCategoryId']
+      );
+      if (!this.matchingMainCategory) {
+        console.log(this.matchingMainCategory + "maincategory");
         this.router.navigate(['/home']);
         return;
       }
-      this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory)=>subCategory.id==params['subCategoryId'])
-      if(!this.matchingSubCategory){
+      this.matchingSubCategory = this.matchingMainCategory.subCategories.find(
+        (subCategory) => subCategory.id == params['subCategoryId']
+      );
+      if (!this.matchingSubCategory) {
+        console.log(this.matchingMainCategory + "subcategory");
         this.router.navigate(['/home']);
         return;
       }
       this.services = this.matchingSubCategory.services;
-    })
+    });
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

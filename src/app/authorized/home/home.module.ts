@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,7 +11,6 @@ import { WidgetsModule } from '../../widgets/widgets.module';
 
 
 // swiper
-import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   imports: [
@@ -20,9 +19,9 @@ import { SwiperModule } from 'swiper/angular';
     IonicModule,
     HomePageRoutingModule,
     WidgetsModule,
-    SwiperModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePageModule {}

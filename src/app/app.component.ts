@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { register } from 'swiper/element/bundle';
+register();
 import { Filesystem, Directory, Encoding, FilesystemPlugin } from '@capacitor/filesystem';
 @Component({
   selector: 'app-root',
