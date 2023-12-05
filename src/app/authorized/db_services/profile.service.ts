@@ -8,38 +8,42 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-  addresses:Profile[] = [];
-  fetchedAddresses:Subject<Profile[]> = new Subject<Profile[]>();
+  profileDetailses:Profile[] = [];
+  fetchedprofileDetailses:Subject<Profile[]> = new Subject<Profile[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
     if(this.dataProvider.currentUser !== undefined)
-    collectionData(collection(this.firestore, 'costomer-profiles', this.dataProvider.currentUser!.user.uid, 'costomerLoginUID')).subscribe((addresses:any)=>{
-      this.addresses = addresses;
-      this.fetchedAddresses.next(this.addresses);
+    collectionData(collection(this.firestore, 'customer-profiles', this.dataProvider.currentUser!.user.uid, 'profileId')).subscribe((profileDetailses:any)=>{
+      this.profileDetailses = profileDetailses;
+      this.fetchedprofileDetailses.next(this.profileDetailses);
     })
   }
  async getCostomer(){
-  
     return await Promise.all(
       (
         await getDocs(
-          collection(this.firestore , 'costomer-profiles', this.dataProvider.currentUser!.user.uid, 'costomerLoginUID')
+          collection(this.firestore , 'customer-profiles', this.dataProvider.currentUser!.user.uid, 'profileId')
         )
       ).docs.map(async (user) => {
-        return user.data();
+        //console.log("user data from server........:",user.id  )
+        return {
+            name : user.data().name,
+            dob: user.data().dob,
+            gender: user.data().gender,
+            profileId:user.id
+        }
       })
     );
   }
 
-  addCostomer(userId:string, address:any){
-
-    return addDoc(collection(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID'), address);
+  addCostomer(userId:string, profileDetails:any){
+    return addDoc(collection(this.firestore, 'customer-profiles', userId, 'profileId'), profileDetails);
   }
 
-  deleteCostomer(userId:string, addressId:string){
-    return deleteDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId));
+  deleteCostomer(userId:string, profileId:string){
+    return deleteDoc(doc(this.firestore, 'customer-profiles', userId, 'profileId', profileId));
   }
 
-  editCostomer(userId:string, addressId:string, address:any){
-    return updateDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId), address);
+  editCostomer(userId:string, profileId:string, profileDetails:any){
+    return updateDoc(doc(this.firestore, 'customer-profiles', userId, 'profileId', profileId), profileDetails);
   }
 }

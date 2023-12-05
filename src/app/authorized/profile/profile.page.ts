@@ -14,7 +14,9 @@ export class ProfilePage implements OnInit {
     private modalCtrl: ModalController,
     public navCtrl: NavController,
     public dataProvider:DataProviderService
-  ) {}
+  ) {
+   // this.router.navigate(['authorized/profile/profile-info']);
+  }
 
   ngOnInit() {}
   
