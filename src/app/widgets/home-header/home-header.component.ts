@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AddressService } from 'src/app/authorized/select-address/address.service';
+import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
 
 @Component({

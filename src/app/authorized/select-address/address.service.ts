@@ -11,7 +11,9 @@ export class AddressService {
   addresses:Address[] = [];
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
-    if(this.dataProvider.currentUser !== undefined)
+    console.log("this.dataProvider.currentUser: ",this.dataProvider.currentUser)
+    debugger
+    if(this.dataProvider.currentUser !== undefined && this.dataProvider!.currentUser!.userData?.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider!.currentUser!.userData.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
       this.fetchedAddresses.next(this.addresses);

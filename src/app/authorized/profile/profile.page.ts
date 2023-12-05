@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {}
   
   close() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/authorized/home']);
   }
   job() {
     this.router.navigate(['job-history']);

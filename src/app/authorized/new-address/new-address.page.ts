@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AddressService } from '../select-address/address.service';
+import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Router, RouterLink } from '@angular/router';
 import { LoadingController } from '@ionic/angular';

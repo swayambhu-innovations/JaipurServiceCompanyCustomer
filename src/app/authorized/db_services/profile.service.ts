@@ -17,19 +17,29 @@ export class ProfileService {
       this.fetchedAddresses.next(this.addresses);
     })
   }
-  getCostomer(userId:string){
-    return getDocs(collection(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID'))
+ async getCostomer(){
+  
+    return await Promise.all(
+      (
+        await getDocs(
+          collection(this.firestore , 'costomer-profiles', this.dataProvider.currentUser!.user.uid, 'costomerLoginUID')
+        )
+      ).docs.map(async (user) => {
+        return user.data();
+      })
+    );
   }
 
   addCostomer(userId:string, address:any){
-    return addDoc(collection(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID'), address)
+
+    return addDoc(collection(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID'), address);
   }
 
   deleteCostomer(userId:string, addressId:string){
-    return deleteDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId))
+    return deleteDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId));
   }
 
   editCostomer(userId:string, addressId:string, address:any){
-    return updateDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId), address)
+    return updateDoc(doc(this.firestore, 'costomer-profiles', userId, 'costomerLoginUID', addressId), address);
   }
 }

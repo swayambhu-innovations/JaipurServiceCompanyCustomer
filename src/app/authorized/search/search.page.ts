@@ -28,7 +28,7 @@ export class SearchPage implements OnInit {
  
   constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      //console.log("term: ",term)
+      //`console.log("term: ",term)
       if(term.length > 2){
         this.results = this.fuseSearchInstance.search(term).map((result)=>{
         

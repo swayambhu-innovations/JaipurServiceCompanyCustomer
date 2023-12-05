@@ -6,6 +6,7 @@ import { async } from 'rxjs';
 import { Filesystem, Directory  } from '@capacitor/filesystem';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { log } from 'console';
+import { ProfileService } from '../db_services/profile.service';
 const CASHE_FOLDER = "CASHED_IMG";
 
 interface bannerConfig {
@@ -49,11 +50,17 @@ export class HomePage implements OnInit {
   banners: any[] = [];
   
 
-  constructor(private router: Router, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
+  constructor(private router: Router,private profileService:ProfileService, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
+    this.profileService.getCostomer().then(async (userDetails) => {
+      if(userDetails.length ===0){
+        this.router.navigate(['/authorized/profile/profile-info'])
+      }
+     });
   }
 
   ngOnInit() {
     this.fetchBanners();
+    
   }
 
   fetchBanners() {
