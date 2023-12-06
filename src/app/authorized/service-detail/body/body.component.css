@@ -14,6 +14,13 @@
   --preformatted: #444;
   --marked: #ffdd33;
   --disabled: #efefef;
+  .para{
+    font-size: 12px;
+    line-height: 1.5px;
+    font-weight: 400;
+    margin-left: 10px;
+  }
+
 }
 @media (prefers-color-scheme: dark) {
   ::backdrop,
@@ -78,7 +85,7 @@ body > header p {
   margin: 1rem auto;
 }
 main {
-  padding-top: 1.5rem;
+  /* padding-top: 1.5rem; */
 }
 body > footer {
   margin-top: 4rem;

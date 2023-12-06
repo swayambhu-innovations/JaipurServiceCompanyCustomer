@@ -49,21 +49,21 @@
         </button>
       </div>
     </div>
-    <div class="row ">
+    <div class="row service-details">
       <div class="col ">
-        <h2>{{this.matchingService?.name}}</h2>
-        <p><ion-icon name="star"></ion-icon>4.5 (87)</p>
+        <h2 class="service-title">{{this.matchingService?.name}}</h2>
+        <p><ion-icon name="star" class="rate" ></ion-icon>4.5 (87)</p>
       </div>
       <div class="col text-end">
         <h3>
           {{this.matchingService?.variants![0]?.price | currency:'INR'}}
           <!-- <small>-₹499</small> -->
         </h3>
-        <ion-button color="success" size="small"><small>10% OFF</small> </ion-button>
+        <ion-button color="success" class="discount" size="small"><small>10% OFF</small> </ion-button>
       </div>
     </div>
     <div class="row descriptionBody">
-      <h5>Product Description</h5>
+      <h5 class="descrption-title">Product Description</h5>
       <app-body [blocks]="this.matchingService?.description.blocks"></app-body>
     </div>
     <!-- <div class="row mt-4 text-left">
