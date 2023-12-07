@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
+import { getAuth, deleteUser, Auth } from '@angular/fire/auth';
+import { error } from 'console';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -13,7 +16,8 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public dataProvider:DataProviderService
+    public dataProvider:DataProviderService,
+    private auth: Auth
   ) {}
 
   ngOnInit() {}
@@ -35,8 +39,10 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/signout']);
   }
   logout() {
-    this.router.navigate(['/profile']);
-    this.modalCtrl.dismiss();
+    this.auth.signOut()
+    .then(() => this.closeModal())
+    .catch((error) => console.log(error))
+    
   }
 
   closeModal() {

@@ -15,7 +15,9 @@
       [pagination] = "{clickable: true}"
     >
       <swiper-slide *ngFor = "let items of promotionalBanners">
-        <img src="{{items.image}}" alt="">
+        <a href="{{items.url}}">
+          <img src="{{items.image}}" alt="">
+        </a>
       </swiper-slide>
     </swiper-container>
   </div>
