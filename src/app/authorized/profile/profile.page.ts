@@ -12,13 +12,15 @@ import { error } from 'console';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  [x: string]: any;
   constructor(
     private router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public dataProvider:DataProviderService,
-    private auth: Auth
-  ) {}
+    public dataProvider:DataProviderService
+  ) {
+   // this.router.navigate(['authorized/profile/profile-info']);
+  }
 
   ngOnInit() {}
   

@@ -54,11 +54,7 @@ export class HomePage implements OnInit {
   
 
   constructor(private router: Router,private profileService:ProfileService, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
-    this.profileService.getCostomer().then(async (userDetails) => {
-      if(userDetails.length ===0){
-        this.router.navigate(['/authorized/profile/profile-info'])
-      }
-     });
+   
   }
 
   ngOnInit() {

@@ -1,4 +1,5 @@
 <div class="main">
+  <app-header title="User Profile"></app-header>
   <div class="container">
     <!-- Profile picture with camera button -->
     <h3>Welcome, New User</h3>
@@ -12,21 +13,21 @@
       <h6>{{name2}}</h6>
     </div>
     <!-- Input boxes -->
-    <form class="col" [formGroup]="agentForm">
+    <form class="col" [formGroup]="userProfileForm">
       <div class="input">
         <ion-input class="inputs" formControlName="name"  label="Full Name"  label-placement="floating"  fill="outline"  placeholder="Sudipta Mehta" required></ion-input>
-        <div *ngIf="(this.agentForm.get('name')?.touched && this.agentForm.get('name')?.invalid) || isSubmitForm">
-          <div class="" *ngIf="this.agentForm.get('name')?.errors?.required" >
+        <div *ngIf="(this.userProfileForm.get('name')?.touched && this.userProfileForm.get('name')?.invalid) || isSubmitForm">
+          <div class="" *ngIf="this.userProfileForm.get('name')?.errors?.required" >
             <ion-text color="danger">Name is required.</ion-text>
           </div>
-          <div class="" color="danger" *ngIf="this.agentForm.get('name')?.errors?.minlength" >
+          <div class="" color="danger" *ngIf="this.userProfileForm.get('name')?.errors?.minlength" >
             <ion-text color="danger">Name should be min 3 chars long.</ion-text>
           </div>
         </div>
-        <ion-input type="date" class="inputs" formControlName="dob" 
-               label="Birthdate" label-placement="floating"fill="outline" placeholder="18/02/1923" style="margin-top: 18px;" required></ion-input>
-        <div *ngIf="(this.agentForm.get('dob')?.touched && this.agentForm.get('dob')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.agentForm.get('dob')?.errors?.required" >
+        <ion-input  class="inputs" formControlName="dob"  
+               label="Birthdate (dd/mm/yyyy)" label-placement="floating"fill="outline" placeholder="18/02/1923" style="margin-top: 18px;" required></ion-input>
+        <div *ngIf="(this.userProfileForm.get('dob')?.touched && this.userProfileForm.get('dob')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
+          <div class="" *ngIf="this.userProfileForm.get('dob')?.errors?.required" >
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>

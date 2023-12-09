@@ -12,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
 export class SubCategoryPage implements OnInit {
   matchingMainCategory: Category | undefined;
   subCategory: SubCategory[] = [];
+  mainCategoryId = "";
   constructor(
     private dataProvider: DataProviderService,
     private activatedRoute: ActivatedRoute,
@@ -21,7 +22,7 @@ export class SubCategoryPage implements OnInit {
       let mainCategories = await firstValueFrom(
         this.dataProvider.mainCategories
       );
-      
+      this.mainCategoryId = params['mainCategoryId'];
       this.matchingMainCategory = mainCategories.find(
         (mainCategory) => mainCategory.id == params['mainCategoryId']
       );
@@ -30,6 +31,7 @@ export class SubCategoryPage implements OnInit {
         return;
       }
       this.subCategory = this.matchingMainCategory.subCategories;
+      console.log("this.subCategory: ",this.subCategory)
     });
   }
   

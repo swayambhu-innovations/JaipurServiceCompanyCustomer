@@ -1,7 +1,7 @@
 <main id="bodyData">
   <ng-container *ngFor="let block of blocks">
     <!-- create a block compile for all block type jus like this -->
-    <p *ngIf="block.type=='paragraph'">
+    <p *ngIf="block.type=='paragraph'" class="para">
       {{block.data.text | removeExtraBr}}
     </p>
     <h1 *ngIf="block.type=='header'">

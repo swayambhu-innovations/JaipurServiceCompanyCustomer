@@ -1,9 +1,14 @@
 .descriptionBody{
 	padding: 8px;
+	background: #E8E9EA;
 	border: 2px solid #dcdcdc;
-	border-radius: 15px;
-	margin: 10px;
+	border-radius: 12px;
+	margin: 1px;
 	box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+	.descrption-title{
+		font-size: 14px;
+		font-weight: 500;
+	}
 }
 .buttonRow{
 	display: flex;
@@ -53,3 +58,23 @@
 		}
 	}
 }
+.service-details{
+	.service-title{
+		font-weight: 700;
+		margin-top: 18px;
+		font-size: 14px;
+	}
+	.text-end h3{
+		font-size: 14px;
+     font-weight: 700;
+	}
+	.rate{
+		font-size: 12px;
+		font-weight: 600;
+	}
+	.discount{
+		height: 16px;
+		margin-top: 0px;
+		margin-bottom: 1rem;
+		}
+	}

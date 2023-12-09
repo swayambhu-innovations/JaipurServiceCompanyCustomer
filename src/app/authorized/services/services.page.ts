@@ -15,6 +15,8 @@ import {
 })
 export class ServicesPage implements OnInit {
   services: Service[] = [];
+  mainCatId = "";
+  subCatId = "";
   matchingSubCategory: SubCategory | undefined;
   matchingMainCategory: Category | undefined;
   constructor(
@@ -26,21 +28,26 @@ export class ServicesPage implements OnInit {
       let mainCategories = await firstValueFrom(
         this.dataProvider.mainCategories
       );
-
+      this.mainCatId = params['mainCategoryId'];
+      //  console.log(params['mainCategoryId'],mainCategories)
       this.matchingMainCategory = mainCategories.find(
-        (mainCategory) => mainCategory.id == params['mainCategoryId']
+        (mainCategory) => mainCategory.id == this.mainCatId
       );
+     // console.log(params['subCategoryId'],this.matchingMainCategory)
       if (!this.matchingMainCategory) {
-        console.log(this.matchingMainCategory + "maincategory");
-        this.router.navigate(['/home']);
+        this.router.navigate(['/authorized/home']);
         return;
       }
+      this.subCatId = params['subCategoryId'].trim()
       this.matchingSubCategory = this.matchingMainCategory.subCategories.find(
-        (subCategory) => subCategory.id == params['subCategoryId']
+        (subCategory) => {
+          return subCategory.id == this.subCatId;
+        }
       );
+      console.log("this.matchingSubCategory.......:",this.matchingSubCategory)
       if (!this.matchingSubCategory) {
         console.log(this.matchingMainCategory + "subcategory");
-        this.router.navigate(['/home']);
+       // this.router.navigate(['/authorized/home']);
         return;
       }
       this.services = this.matchingSubCategory.services;
