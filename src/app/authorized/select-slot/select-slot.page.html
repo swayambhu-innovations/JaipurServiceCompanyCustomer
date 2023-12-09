@@ -1,47 +1,67 @@
 <app-header1 [name]="name"></app-header1>
 
 <ion-content>
-  
-    <div class="row-1">
-      <div class="left">
-        <h2>{{dataProvider.currentBooking?.address?.name}}</h2>
-        <p>{{dataProvider.currentBooking?.address?.addressLine1}}</p>
-        <p>{{dataProvider.currentBooking?.address?.addressLine2}}</p>
-        <p>{{dataProvider.currentBooking?.address?.pinCode}}</p>
-      </div>
-      <div class="right">
-        <img src="assets/icon/select-slot/right-arrow.svg" alt="">
-      </div>
+
+  <div class="row-1">
+    <div class="left">
+
+      <h2>{{dataProvider.currentBooking?.address?.name}}</h2>
+      <p>{{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
+      <p>{{dataProvider.currentBooking?.address?.addressLine1 + " " + dataProvider.currentBooking?.address?.addressLine2
+        + " " + dataProvider.currentBooking?.address?.pinCode}}</p>
+      <!-- <p>{{dataProvider.currentBooking?.address?.addressLine2}}</p> -->
+      <!-- <p>{{dataProvider.currentBooking?.address?.pinCode}}</p> -->
+
     </div>
+    <div class="right" routerLink="../select-address">
+      Change Address
+      <img src="assets/icon/select-slot/right-arrow.svg" alt="">
+    </div>
+  </div>
 
 
-    <div class="row-2">
-      <div class="top">
-        <h2>When should the professional arrive?</h2>
-        <p>Your service will take approx. 2hr and 20 mins</p>
-        <div class="first-btns">
-          <button *ngFor="let btn of dates" (click)="selectedDate = btn; setSlot()" [ngClass]="{active:selectedDate==btn}">
-            {{btn | date:'dd'}}<br>{{btn | date:'E'}}
-          </button>
-        </div>
-        <div class="box">
-          <img src="assets/icon/select-slot/card.svg" alt="">
-          <p>Free cancellation till 3 hrs before the booked slot, post that ₹100 chargeable</p>
-        </div>
-        <h2 style="margin-top: 20px;">Select start time of service</h2>
-        <div class="second-btns">
-          <button *ngFor="let btn of times" (click)="selectedTime = btn; setSlot()" [ngClass]="{active:selectedTime==btn}">
-            {{btn | date:'hh'}} <br> {{btn | date:'aaa'}}
-          </button>
-        </div>
+  <div class="row-2">
+    <div class="top">
+      <h2>When should the professional arrive?</h2>
+      <p>Your service will take approx. 2hr and 20 mins</p>
+      <div class="first-btns">
+        <button *ngFor="let btn of dates" (click)="selectedDate = btn; setSlot()"
+          [ngClass]="{active:selectedDate==btn}">
+          {{btn | date:'dd'}}<br>{{btn | date:'E'}}
+        </button>
       </div>
-      <div class="bottom" (click)="createBooking()">
-        <ion-button [disabled]="!(selectedDate && selectedTime)" expand="block">
-          Proceed to checkout
-        </ion-button>
+      <h2>Select Job Starting Slot</h2>
+      <div class="second-btns">
+        <!-- <button *ngFor="let btn of times" (click)="selectedTime = btn; setSlot()" [ngClass]="{active:selectedTime==btn}">
+            {{btn | date:'hh:mm'}} <br> {{btn | date:'aaa'}}
+          </button> -->
+        <button *ngFor="let items of jobStartingSlot">
+          <img src="{{items.img}}" alt="">
+          <div class="slot-det">
+            <p>{{items.slot}}</p>
+            <p>{{items.time}}</p>
+          </div>
+        </button>
+      </div>
+      <h2 style="margin-top: 20px;">Select Preferred Agent Arrival Time</h2>
+      <div class="third-btns">
+        <button *ngFor="let btn of times" (click)="selectedTime = btn; setSlot()"
+          [ngClass]="{active:selectedTime==btn}">
+          {{btn | date:'hh:mm'}} <br> {{btn | date:'aaa'}}
+        </button>
+      </div>
+      <div class="box">
+        <img src="assets/icon/select-slot/card.svg" alt="">
+        <p>Free cancellation till 3 hrs before the booked slot, post that ₹100 chargeable</p>
       </div>
     </div>
-    
+    <div class="bottom" (click)="createBooking()">
+      <ion-button [disabled]="!(selectedDate && selectedTime)" expand="block">
+        Book
+      </ion-button>
+    </div>
+  </div>
+
 
 
 

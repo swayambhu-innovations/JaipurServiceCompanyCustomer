@@ -22,6 +22,42 @@
     </swiper-container>
   </div>
 
+  <div class="recent-container">
+    <ion-label class="label">Recent Activity</ion-label>
+
+    <div class="recent-container-details" *ngFor = "let data of recentActivityData">
+        <ion-grid width = "100" *ngIf = "data.stage == 'completed'">
+          <ion-row class="row-1">
+            <ion-col >
+              <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
+              <p>{{data.billing.grandTotal}}</p>
+            </ion-col >
+            <ion-col class = "row-1-col-2">
+              <div class="status-box">
+                {{data.stage}}
+              </div>
+              
+            </ion-col>
+          </ion-row>
+          <ion-row class="row-2">
+            <ion-col class="row-2-col-1">
+              <span>Serviced By</span>
+              <h3>Vijay Solanki</h3>
+            </ion-col>
+            <ion-col class="row-2-col-1">
+              <span>Time</span>
+              <h3>{{data.createdAt.toDate() | date:'hh:mm a'}}</h3>
+            </ion-col>
+            <ion-col >
+              <span>{{data.createdAt.toDate() | date: 'shortDate'}}</span>
+              <h3>{{data.createdAt.toDate() | date: 'EEEE'}}</h3>
+            </ion-col>
+          </ion-row>
+  
+        </ion-grid>
+    </div>
+  </div>
+
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
     <h3>{{mainCategory.name}}</h3>
     <img class="banner" [src]="mainCategory.image" alt="">

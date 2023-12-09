@@ -5,7 +5,9 @@ import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CartService } from '../cart/cart.service';
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp, collection } from 'firebase/firestore';
+import { Firestore, getDocs } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-select-slot',
@@ -13,39 +15,93 @@ import { Timestamp } from 'firebase/firestore';
   styleUrls: ['./select-slot.page.scss'],
 })
 export class SelectSlotPage implements OnInit {
-  name = 'Select Slot';
+  name = 'Address & Time Slot';
   selectedDate:Date|undefined;
   selectedTime:Date|undefined;
   dates:Date[] = [];
+  times:Date[] = [];
+  slots: any[] = [];
 
-  times:Date[] = []
 
-  constructor(public dataProvider:DataProviderService, private paymentService:PaymentService, private bookingService:BookingService,  private loadingController: LoadingController, private router:Router, private cartService:CartService) { }
+  jobStartingSlot = [
+    {
+      img : "../../../assets/icon/slots/morning.svg",
+      slot : "Morning",
+      time : "7 AM - 9 AM"
+    },
+    {
+      img : "../../../assets/icon/slots/lateMorning.svg",
+      slot : "Late Morning",
+      time : "9 AM - 11 AM"
+    },
+    {
+      img : "../../../assets/icon/slots/afternoon.svg",
+      slot : "Afternoon",
+      time : "11 AM - 1 PM"
+    },
+    {
+      img : "../../../assets/icon/slots/lateAfternoon.svg",
+      slot : "Late Afternoon",
+      time : "1 PM - 3 PM"
+    },
+    {
+      img : "../../../assets/icon/slots/evening.svg",
+      slot : "Evening",
+      time : "3 PM - 5 PM"
+    },
+    {
+      img : "../../../assets/icon/slots/lateEvening.svg",
+      slot : "Late Evening",
+      time : "5 PM - 7 PM"
+    },
+    {
+      img : "../../../assets/icon/slots/night.svg",
+      slot : "Night",
+      time : "7 PM - 9 PM"
+    }
+  ]
+
+
+  constructor(private firestore:Firestore,public dataProvider:DataProviderService, private paymentService:PaymentService, private bookingService:BookingService,  private loadingController: LoadingController, private router:Router, private cartService:CartService) { }
 
   ngOnInit() {
     // regenrate the slots
     this.generateSlots();
+    this.totalSlots();
   }
 
+  
+  
   generateSlots(){
     // fill dates with next 7 days starting from today
     let today = new Date();
-    for(let i=0;i<7;i++){
+    for(let i=0;i<5;i++){
       let date = new Date(today.getFullYear(), today.getMonth(), today.getDate()+i);
       this.dates.push(date);
     }
+    
     // fill times with 8am to 8pm
-    for(let i=8;i<=20;i++){
+    for(let i=9;i<=11;i++){
       let date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), i);
       this.times.push(date);
     }
   }
 
+  totalSlots(){
+    getDocs(collection(this.firestore, 'slots')).then((data) => {
+      this.slots = data.docs.map((doc) => {
+        return doc.data();
+      })
+    })
+  }
+
   setSlot(){
+    // console.log(this.selectedDate?.getTime());
     this.dataProvider.currentBooking!.timeSlot = {
       date: Timestamp.fromDate(this.selectedDate!),
       time: Timestamp.fromDate(this.selectedTime!)
     }
+    // console.log(this.dataProvider.currentBooking!.timeSlot);
   }
 
   async createBooking(){

@@ -34,6 +34,7 @@ export class NewAddressPage implements OnInit {
     } else{
       await loader.dismiss()
       console.log("Dismissed");
+      
     }
   }
 }

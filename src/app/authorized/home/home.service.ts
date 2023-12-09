@@ -115,5 +115,9 @@ export class HomeService {
     );
   } 
 
+  getRecentBookings(){
+    return getDocs(collection(doc(this.firestore, "users", "KcOrjTZSkPYefIC5Z1pkLmssPpc2"), 'bookings'));
+  }
+
   
 }
