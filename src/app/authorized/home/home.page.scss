@@ -39,28 +39,28 @@ ion-content {
   margin-top: 20px;
   padding-top: 7px;
 
-  swiper-container{
+  swiper-container {
     width: 100%;
   }
 
-  
-
-  swiper-slide{
+  swiper-slide {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 32px;
 
-    img{
-      width: 100%;;
+    a {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
       // box-shadow: -1px 11px 13px -6px red;
       border-radius: 17px;
     }
   }
-
 }
-
 
 .example-spacer {
   flex: 1 1 auto;
@@ -204,6 +204,88 @@ ion-thumbnail {
       display: block;
       width: 100%;
       margin-bottom: 7px;
+    }
+  }
+}
+
+//recent activity
+
+.recent-container {
+  .label {
+    color: var(--primary, #181f29);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 150%; /* 27px */
+  }
+
+  .recent-container-details {
+    margin: 12px auto;
+    border-radius: 8px;
+    background: var(--Light-Pink, #fae8ff);
+    
+
+    .row-1 {
+      border-bottom: 1px solid #ddcde1;
+
+      .row-1labe {
+        color: #51295c;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: normal;
+      }
+
+      .row-1-col-2 {
+        display: flex;
+        justify-content: end;
+
+        .status-box {
+          display: inline-flex;
+          padding: 4px 8px;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          border-radius: 4px;
+          background: #34c091;
+          color: var(--SECONDARY, #fff);
+          font-size: 12px;
+          height: 30px;
+        }
+      }
+
+      p {
+        color: #579540;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
+    .row-2 {
+      padding: 9px 0px;
+
+      .row-2-col-1 {
+        border-right: 1px solid #ddcde1;
+      }
+      span {
+        color: #7c6782;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: normal;
+        display: flex;
+        justify-content: center;
+      }
+      h3 {
+        color: #51295c;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: normal;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    p {
+      margin: 0;
     }
   }
 }

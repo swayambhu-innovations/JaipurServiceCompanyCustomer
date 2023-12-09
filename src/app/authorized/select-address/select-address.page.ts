@@ -10,6 +10,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 })
 export class SelectAddressPage implements OnInit {
 
+  temp:any = {};
   constructor(private router:Router, public addressService:AddressService, public dataProvider:DataProviderService) { }
   newAddress(){
     this.router.navigate(['new-address'])
@@ -19,8 +20,9 @@ export class SelectAddressPage implements OnInit {
   }
 
   setValue(event:any){
-    console.log(" set address Event",event);
-    this.dataProvider.currentBooking!.address = event.detail.value;
+    console.log(event.detail.value);
+    this.dataProvider.currentBooking!.address = event.detail.value; 
+    console.log(this.dataProvider.currentBooking!.address);
   }
 
   Address = [

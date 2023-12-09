@@ -21,6 +21,8 @@ interface bannerConfig {
 })
 export class HomePage implements OnInit {
 
+  todayDate : number = Date.now();
+
   promotionalBanners: bannerConfig[] = [
     {
       image: 'assets/banners/dealSlide1.svg',
@@ -48,6 +50,7 @@ export class HomePage implements OnInit {
   
 
   banners: any[] = [];
+  recentActivityData: any[] = [];
   
 
   constructor(private router: Router,private profileService:ProfileService, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
@@ -56,6 +59,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.fetchBanners();
+    this.recentActivity();
     
   }
 
@@ -80,6 +84,14 @@ export class HomePage implements OnInit {
   }
   notification() {
     this.router.navigate(['notification']);
+  }
+
+  recentActivity(){
+    this.homeService.getRecentBookings().then((activity) => {
+      this.recentActivityData = activity.docs.map((doc) => {
+        return doc.data();
+      })
+    })
   }
 
   condition: boolean = true;

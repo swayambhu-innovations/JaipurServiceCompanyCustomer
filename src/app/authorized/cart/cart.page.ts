@@ -67,6 +67,10 @@ export class CartPage implements OnInit {
     })
   }
 
+  notification(){
+    this.router.navigate(["authorized/notification"]);
+  }
+
 
   async onOffersClick() {
     let modal = await this.modalController.create({

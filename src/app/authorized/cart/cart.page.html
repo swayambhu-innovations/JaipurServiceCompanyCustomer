@@ -1,8 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-button routerLink = "../../../home">
+        <img  src="assets/icon/leftArrow/leftArrow.svg" alt="">
+      </ion-button>
+    </ion-buttons>
     <ion-title>Cart</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/notification">
+      <ion-button (click) = "notification()">
         <img src="../../../assets/images/bell.svg" alt="" />
       </ion-button>
     </ion-buttons>
@@ -36,7 +41,7 @@
     <!-- <div *ngFor="let num of numbersArray"> -->
     <ng-container *ngFor="let service of selectedBooking.services;let i = index;">
       <hr class="divider" />
-      <p class="serviceTitle">{{service.name}}</p>
+      <!-- <p class="serviceTitle">{{service.name}}</p> -->
       <div class="order-card" *ngFor="let variant of service.variants">
         <!-- <div class="content"> -->
         <div class="maskimage">
@@ -86,13 +91,13 @@
               </span>
             </p>
             <div class="stock">
-              <ion-button fill="clear" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
-                <ion-icon slot="icon-only" name="remove"></ion-icon>
-              </ion-button>
+              <button fill="clear" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
+                <img src="../../../assets/remove.svg" alt="">
+              </button>
               <p class="item-count">{{variant.quantity}}</p>
-              <ion-button fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
-                <ion-icon slot="icon-only" color="light" name="add"></ion-icon>
-              </ion-button>
+              <button class="add-btn" fill="solid" (click)="this.cartService.incrementQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
+                <img src="../../../assets/add.svg" alt="">
+              </button>
             </div>
           </div>
         </div>
@@ -172,14 +177,20 @@
 
   <!-- payment detail section -->
   <div class="payment-details">
+    <div class="breakup-item">
+      <p class="left-title">Total Duration</p>
+      <p class="right-sub">
+        {{totalTimeNeeded.minutes}} Mins
+      </p>
+    </div>
     <h6 class="payment-detials-text">Payment Details</h6>
     <div class="breakup">
-      <div class="breakup-item">
+      <!-- <div class="breakup-item">
         <p class="left-title">Total Duration</p>
         <p class="right-sub">
           {{totalTimeNeeded.minutes}} Mins
         </p>
-      </div>
+      </div> -->
       <div class="breakup-item">
         <p class="left-title">Total (MRP)</p>
         <p class="right-sub">{{selectedBooking.billing.subTotal | currency:'INR'}}</p>
@@ -198,6 +209,10 @@
       <p class="total-text">Total</p>
       <p class="total-text">{{selectedBooking.billing.grandTotal | currency:'INR'}}</p>
     </div>
+    <div class="coupon-box">
+      <img src="../../../assets/couponTag.svg" alt="">
+      <p>Apply Coupons to save upto 70%!</p>
+    </div>
   </div>
 
   <div class="offer-bar" *ngIf="selectedBooking.billing.discount">
@@ -205,9 +220,15 @@
     <p class="tag-text">Yay! You have saved {{selectedBooking.billing.discount}} on final bill</p>
   </div>
 
+  <div class="recommended-container">
+    <h6 class="recommended-text">Recommended Add Ons</h6>
+    <div class="recommended-items-box">
+      <img src="../../../assets/images/kitchenImg.png" alt="">
+    </div>
+  </div>
   <!-- <span  style="height: 32px; color: aqua;" ></span> -->
   <button class="select-address-button" (click)="this.dataProvider.currentBooking = selectedBooking" routerLink="../../../select-address">
-    Select Address
+    Next
   </button>
 </ion-content>
 <ion-content class="noItems" *ngIf="!selectedBooking && cartService.cart.length == 0">

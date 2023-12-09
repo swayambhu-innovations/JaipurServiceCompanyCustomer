@@ -14,7 +14,7 @@ export class Header1Component  implements OnInit {
   ) { }
 
   notification(){
-    this.router.navigate(['notification'])
+    this.router.navigate(['authorized/notification'])
   }
 
   ngOnInit() {}
