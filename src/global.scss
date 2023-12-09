@@ -35,3 +35,9 @@ ion-toolbar{
 *{
     font-family: Lato !important;
 }
+.modal-wrapper, .modal-shadow{
+	border-radius: 20px !important;
+}
+:host(.modal-sheet) .modal-wrapper, :host(.modal-sheet) .modal-shadow{
+    border-radius: 20px !important;
+}

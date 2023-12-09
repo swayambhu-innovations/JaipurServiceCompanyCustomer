@@ -87,7 +87,7 @@
         <ion-button color="dark" size="large">Book Now</ion-button>
       </div> -->
     </div>
-    <div class="variants">
+    <!-- <div class="variants">
       <div class="variant" *ngFor="let variant of matchingService?.variants;">
         <div class="detail">
           <p class="name">{{variant.name}}</p>
@@ -99,13 +99,13 @@
           <ion-button color="dark" (click)="bookNow(variant.id)">Book Now</ion-button>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="row " *ngFor="let CustReview of CustomerReview">
       <div class="col mt-4" >
         <div class="card">
           <div class="card-body">
             <div class="row card-title clearfix">
-              <div class="col-7" slot="start">
+              <div class="col-9" slot="start">
                 <ion-item>
                   <ion-avatar slot="start">
                     <img alt="Silhouette of a person's head"
@@ -114,7 +114,7 @@
                   <h5>{{CustReview.Name}}<br><small>{{CustReview.date}}</small></h5>
                 </ion-item>
               </div>
-              <div class="col-5  float-right mt-4 ml-4" >
+              <div class="col-3  float-right mt-4 ml-4" >
                 <p class=" float-right"><ion-icon name="star"></ion-icon>4.5</p>
               </div>
             </div>
@@ -124,5 +124,56 @@
         </div>
       </div>
     </div>
+    <ion-modal
+    #modal
+    id="modal"
+    trigger="open-modal"
+    [isOpen]="true"
+    [initialBreakpoint]="0.12"
+    [breakpoints]="[0.5, 0.5, 0.75]"
+    [backdropDismiss]="false"
+    [backdropBreakpoint]="0.5">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="row variants_modal"  *ngIf="showVariant">
+          <div class="col-6" *ngIf="!isAddToCart">
+            <h3>{{matchingService?.variants?.length}} Variants Available</h3>
+            <p>Starting from {{startPrice | currency:'INR'}}</p>
+          </div>
+          <div class="col-6 cart-details" *ngIf="isAddToCart">
+            <h3 class="">{{totalPrice | currency:'INR'}}  <p>{{ selectedItems }} items</p></h3>
+          </div>
+          <div class="col-6">
+            <p><ion-button color="dark" *ngIf="!isAddToCart" (click)="showAllVariants(modal)" >See All Variants</ion-button></p>
+            <p><ion-button color="dark" *ngIf="isAddToCart" (click)="ViewCart()" >View Cart</ion-button></p>
+          </div>
+        </div>
+        <ion-list class="variants">
+          <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">
+              <div class="" style="    width: -webkit-fill-available;">
+                <div class="row detail">
+                  <p class="col-8 name">{{variant.name}}</p>
+                  <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
+                </div>
+                <div class="cart-button">
+                  <ion-item no-lines id="{{variant.id}}" style="display: none;">
+                    <ion-button fill="outline" class="remove" (click)="removeItem(variant)" color="dark" disabled="true" >-</ion-button>
+                    <ion-input type="number" id="input{{variant.id}}" text-center value="1" min="1" max="5"></ion-input>                   
+                    <ion-button fill="outline" class="add" color="dark"  (click)="addItem(variant)" >+</ion-button>
+                    <ion-button  fill="outline" class="remove-item" (click)="removeAll(variant)"  color="danger">Remove item</ion-button>
+                 </ion-item>
+                 <ion-item no-lines class="{{variant.id}}">
+                    <ion-button fill="outline" (click)="addToCart(variant)" color="dark">Add To Cart</ion-button>
+                    <ion-button fill="outline" routerLink="../../../../cart/{{matchingMainCategory!.id}}/{{matchingSubCategory!.id}}" color="dark" *ngIf="this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">Continue To Cart</ion-button>
+                    <ion-button color="dark" (click)="bookNow(variant.id)">Book Now</ion-button>
+                    <!-- *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)" -->
+                  </ion-item>
+                </div>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
   </div>
 </ion-content>

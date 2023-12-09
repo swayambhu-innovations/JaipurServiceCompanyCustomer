@@ -87,7 +87,7 @@ export class CartService {
             });
           }
           console.log(data);
-          await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
+          await setDoc(doc(this.firestore,'customer-profiles',userId,'cart',data.id!),data);
           return;
         }
       }

@@ -31,22 +31,25 @@
 .variants{
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 5px;
 	gap:10px;
 	.variant{
 		display: flex;
 		flex-direction: column;
+		--min-height: 120px;
+		max-height: 120px;
 		gap:10px;
 		.detail{
-			display: flex;
-			justify-content: space-between;
 			.name{
-				font-size: 1.2rem;
-				font-weight: 600;
+				font-size: 18px;
+				font-weight: 700;
+				margin: auto;
 			}
 			.price{
-				font-size: 1.2rem;
-				font-weight: 600;
+				font-size: 18px;
+				font-weight: 700;
 				color: green;
+				text-align: end;
 			}
 		}
 		.buttons{
@@ -70,7 +73,7 @@
 	}
 	.rate{
 		font-size: 12px;
-		font-weight: 600;
+		font-weight: 700;
 	}
 	.discount{
 		height: 16px;
@@ -78,3 +81,74 @@
 		margin-bottom: 1rem;
 		}
 	}
+.variants_modal{
+	padding: 18px 15px;
+	h3{
+		font-size: 18px;
+		font-weight: 600;
+		margin: auto;
+	}
+	p{
+		margin: 0px;
+		font-size: 12px;
+		font-weight: 400;
+		color: #2B780E;
+	}
+}
+.ion-padding{
+	--padding-start: var(--ion-padding, 0px);
+    --padding-end: var(--ion-padding, 0px);
+}
+
+.detail{
+	.name{
+		font-size: 18px;
+		font-weight: 700;
+		margin: auto;
+	}
+	.price{
+		margin: 0px;
+		font-size: 18px;
+		font-weight: 700;
+		color: #2B780E;
+	}
+}
+ion-button{
+	height: 48px;
+    font-size: 16px;
+	.button-native{
+		border-radius: 12px;
+	}
+}
+
+#modal .modal-wrapper{
+	border-radius: 12xp;
+}
+.cart-details{
+	h3{
+		display: flex;
+		justify-content: space-around;
+		align-items: flex-end;
+		p{
+			margin: 0px;
+			font-size: 14px;
+			font-weight: 400;
+			color: #999999;
+		}
+	}
+	
+}
+.cart-button{
+	height: 48px;
+	.remove, .add{
+		font-size: 25px;
+	}
+	
+	.remove-item{
+
+	}
+	ion-input{
+		text-align: center;
+	}
+	
+}
