@@ -24,10 +24,10 @@
             <ion-text color="danger">Name should be min 3 chars long.</ion-text>
           </div>
         </div>
-        <ion-input  class="inputs" formControlName="dob"  
-               label="Birthdate (dd/mm/yyyy)" label-placement="floating"fill="outline" placeholder="18/02/1923" style="margin-top: 18px;" required></ion-input>
-        <div *ngIf="(this.userProfileForm.get('dob')?.touched && this.userProfileForm.get('dob')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.userProfileForm.get('dob')?.errors?.required" >
+        <ion-input  class="inputs" formControlName="dateofbirth"  
+               label="Birthdate (dd/mm/yyyy)" label-placement="floating"fill="outline" placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
+        <div *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.errors?.required" >
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>

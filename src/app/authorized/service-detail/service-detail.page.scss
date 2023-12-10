@@ -82,7 +82,7 @@
 		}
 	}
 .variants_modal{
-	padding: 18px 15px;
+	padding: 0px 15px;
 	h3{
 		font-size: 18px;
 		font-weight: 600;
@@ -115,7 +115,7 @@
 }
 ion-button{
 	height: 48px;
-    font-size: 16px;
+    font-size: 14px;
 	.button-native{
 		border-radius: 12px;
 	}
@@ -151,4 +151,32 @@ ion-button{
 		text-align: center;
 	}
 	
+}
+
+
+.service-box{
+	display: flex;
+    flex-wrap: wrap;
+	.server-type{
+		background: #E8E9EA;
+		width: fit-content;
+		padding: 6px;
+		gap: 9px;
+		border-radius: 9px;
+		margin: 10px;
+	}
+	.server-type-active{
+		background: #000000;
+		width: fit-content;
+		padding: 6px;
+		gap: 9px;
+		border-radius: 9px;
+		margin: 10px;
+		color: white;
+	}
+}
+.remove-pading{
+	display: block;
+    --padding-start: 0px;
+    --inner-padding-end: 0px;
 }

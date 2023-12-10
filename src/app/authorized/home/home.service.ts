@@ -30,31 +30,37 @@ export class HomeService {
   }
 
   async fetchData() {
-    this.mainCategories.next(await this.getMainCategories());
+      let serverCatDb=doc(this.firestore, 'service-catalogue',"1OtfZ7RzJOyRWSGpTR3t");
+      
+      const docSnap = await getDoc(serverCatDb);
+        if (docSnap.exists()) {
+          this.mainCategories.next(await this.getMainCategories( "1OtfZ7RzJOyRWSGpTR3t"));
+        }
   }
-
-  async getMainCategories() {
+  async getMainCategories(serviceCatalogueId:string) {
     return await Promise.all(
       (
-        await getDocs(collection(this.firestore, 'categories'))
+        await getDocs(collection(this.firestore, 'service-catalogue', serviceCatalogueId, 'categories'))
       ).docs.map(async (mainCategory) => {
         return {
           id: mainCategory.id,
           name: mainCategory.data()['name'],
           image: mainCategory.data()['image'],
           description:mainCategory.data()['description'],
-          subCategories: await this.getSubCategories(mainCategory.id),
+          subCategories: await this.getSubCategories(serviceCatalogueId,mainCategory.id),
         };
       })
     );
   }
 
-  async getServices(mainCategoryId: string, subCategoryId: string) {
+  async getServices(serviceCatalogueId:string,mainCategoryId: string, subCategoryId: string) {
     return await Promise.all(
       (
         await getDocs(
           collection(
             this.firestore,
+            'service-catalogue',
+            serviceCatalogueId,
             'categories',
             mainCategoryId,
             'categories',
@@ -79,11 +85,11 @@ export class HomeService {
     );
   }
 
-  async getSubCategories(mainCategoryId: string) {
+  async getSubCategories(serviceCatalogueId:string,mainCategoryId: string) {
     return await Promise.all(
       (
         await getDocs(
-          collection(this.firestore, 'categories', mainCategoryId, 'categories')
+          collection(this.firestore,'service-catalogue',serviceCatalogueId, 'categories', mainCategoryId, 'categories')
         )
       ).docs.map(async (subCategory) => {
         return {
@@ -91,7 +97,7 @@ export class HomeService {
           name: subCategory.data()['name'],
           image: subCategory.data()['image'],
           description: subCategory.data()['description'],
-          services: await this.getServices(mainCategoryId, subCategory.id),
+          services: await this.getServices(serviceCatalogueId,mainCategoryId, subCategory.id),
         };
       })
     );
@@ -105,6 +111,8 @@ export class HomeService {
     return getDoc(
       doc(
         this.firestore,
+        'service-catalogue',
+
         'categories',
         mainCategoryId,
         'categories',

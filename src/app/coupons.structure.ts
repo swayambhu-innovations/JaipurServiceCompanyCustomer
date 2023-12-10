@@ -5,7 +5,7 @@ export interface Coupon{
 	name:string;
 	code:string;
 	description:string;
-	type:'fixed'|'percentage';
+	type:'fixed'|'percentage'|'flat';
 	amount:number;
 	minimumRequiredAmount?:number;
 	maximumDiscountAmount?:number;
@@ -15,4 +15,5 @@ export interface Coupon{
 	visibilitySettings:any;
 	createdOn:Timestamp;
 	lastUpdated:Timestamp;
+	value:number;
 }

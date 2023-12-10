@@ -30,7 +30,7 @@ export class ProfileInfoPage implements OnInit {
   }
   userProfileForm:FormGroup = this.formBuilder.group({
     name: ['',[ Validators.required,Validators.minLength(3)]],
-    dob:  ['',[ Validators.required]]
+    dateofbirth:  ['',[ Validators.required]]
     // agentGender: new FormControl('', Validators.required)
   })
   onUpdateText() {
@@ -106,11 +106,10 @@ export class ProfileInfoPage implements OnInit {
     if(this.selectedGender !== ''){
       this.userProfileForm.addControl("gender", new FormControl(this.selectedGender));
     }
-   
      let loader = await this.loadingController.create({message:'Adding Coustomer Details.........'})
       await loader.present()
-      if(!this.isFromProfile){
-        this.profileService.addCostomer(this.dataProvider.currentUser!.user.uid, this.userProfileForm.value).then(()=>{
+      if(this.dataProvider?.currentUser?.user.uid === undefined){
+        this.profileService.addUsers(this.dataProvider.currentUser!.user.uid, this.userProfileForm.value).then(()=>{
           this.route.navigateByUrl('/authorized/home');
          // this.userProfileForm.reset()
            loader.dismiss()
@@ -121,7 +120,7 @@ export class ProfileInfoPage implements OnInit {
         );
       }else{
           console.log("this.userProfileForm.value. ..: ",this.userProfileForm.value)
-          this.profileService.editCostomer(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentUser?.userData.profileId ,this.userProfileForm.value).then(()=>{
+          this.profileService.editUsers(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentUser?.userData.uid ,this.userProfileForm.value).then(()=>{
             this.auth.updateUserDate();
             this.route.navigateByUrl('/authorized/home');
            // this.userProfileForm.reset()

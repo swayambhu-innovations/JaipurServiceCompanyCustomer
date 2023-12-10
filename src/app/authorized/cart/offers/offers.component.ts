@@ -10,19 +10,19 @@ import { ModalController } from '@ionic/angular';
 export class OffersComponent  implements OnInit {
   @Input({required:true}) booking:Booking|undefined;
   coupons:any[]=[
-    {
-      percentageOff: 10,
-      cardName: '10% off',
-      minOrderValue:500,
-      discountOnPrice:200
-    }
+   
   ];
-  constructor(public modalController:ModalController) { }
+  constructor(public modalController:ModalController) {
+   }
 
   ngOnInit() {
-    // this.booking?.services.forEach((service)=>{
-    //   this.coupons.concat(service.discounts);
-    // })
+    this.booking?.services.forEach((service)=>{
+      console.log("service.discounts///////: ",service.discounts)
+      this.coupons = [...this.coupons,...service.discounts];
+    });
+    console.log("coupons......: ",this.coupons)
   }
-
+  onApplyClick(copan:any){
+    console.log("selected Copan.........: ",copan)
+  }
 }

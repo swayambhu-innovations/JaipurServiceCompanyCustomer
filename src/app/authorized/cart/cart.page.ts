@@ -29,6 +29,7 @@ export class HomePage {}
 export class CartPage implements OnInit {
   // action sheet buttons
   isModalOpen = true;
+  isCouponActive:boolean =false;
   bookings:Booking[]=[];
   selectedBooking:Booking|undefined;
   setOpen(isOpen: boolean) {
@@ -53,13 +54,16 @@ export class CartPage implements OnInit {
   ) {
     this.cartService.cartSubject.subscribe((bookings)=>{
       console.log("Updated bookings",bookings);
-      if (this.selectedBooking?.id){
-        let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id)?.id;
+      if (this.selectedBooking?.id && bookings.length > 0){
+        let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
-          this.selectedBooking.id = foundBooking;
+          this.selectedBooking   = foundBooking;
+
           this.cartService.calculateBilling(this.selectedBooking);
           console.log("Updated selected booking",this.selectedBooking);
         }
+      }else{
+        this.selectedBooking = undefined;
       }
     })
     this.activatedRoute.params.subscribe(params => {
@@ -73,6 +77,7 @@ export class CartPage implements OnInit {
 
 
   async onOffersClick() {
+    console.log("this. booling......:",this.selectedBooking)
     let modal = await this.modalController.create({
       component:OffersComponent,
       componentProps:{
@@ -95,12 +100,14 @@ export class CartPage implements OnInit {
   }
 
   get totalTimeNeeded() {
-    return this.services.reduce(
-      (totalTime: { minutes: number }, service: Service) => {
-        return this.addTime(totalTime, service.serviceTime);
-      },
-      { minutes: 0 }
-    );
+    let mins= 0;
+     this.selectedBooking?.services.forEach(service=>{
+        service.variants.forEach(variant=>{
+          mins += (variant.jobDuration * variant.quantity) ;
+        })
+     });
+     let duration =  Math.floor( mins/60 )+ " Hour "+    mins%60 + " Minutes"
+    return duration;
   }
 
 

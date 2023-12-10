@@ -2,7 +2,7 @@
   <div class="row">
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="authorized/home"></ion-back-button>
+        <ion-back-button defaultHref="authorized/home" ></ion-back-button>
       </ion-buttons>
       <ion-title>Details</ion-title>
     </ion-toolbar>
@@ -100,7 +100,24 @@
         </div>
       </div>
     </div> -->
-    <div class="row " *ngFor="let CustReview of CustomerReview">
+    <div class="row">
+      <div class="col mt-4" >
+        <h2>Type</h2>
+        <div class="service-box">
+          <p class="server-type" *ngFor="let type Of serviceType">{{type}}</p>
+        </div>     
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mt-4" >
+        <h2>Customer Review</h2>
+        <p style="margin: 0;"><ion-icon name="star"></ion-icon> <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon> <ion-icon name="star"></ion-icon>
+          <ion-icon name="star" style="color: #E8E9EA"></ion-icon> Average {{CustomerReview.average }}</p>
+          <p style="margin: 0;">Based on {{CustomerReview.userCount}} Reviews & Ratings</p>
+      </div>
+    </div>
+    <div class="row " *ngFor="let CustReview of CustomerReview.userList">
       <div class="col mt-4" >
         <div class="card">
           <div class="card-body">
@@ -130,22 +147,22 @@
     trigger="open-modal"
     [isOpen]="true"
     [initialBreakpoint]="0.12"
-    [breakpoints]="[0.5, 0.5, 0.75]"
+    [breakpoints]="[0.12, 0.12, 0.75]"
     [backdropDismiss]="false"
     [backdropBreakpoint]="0.5">
     <ng-template>
       <ion-content class="ion-padding">
-        <div class="row variants_modal"  *ngIf="showVariant">
+        <div class="row variants_modal" style="align-items: center;"  *ngIf="showVariant">
           <div class="col-6" *ngIf="!isAddToCart">
             <h3>{{matchingService?.variants?.length}} Variants Available</h3>
             <p>Starting from {{startPrice | currency:'INR'}}</p>
           </div>
           <div class="col-6 cart-details" *ngIf="isAddToCart">
-            <h3 class="">{{totalPrice | currency:'INR'}}  <p>{{ selectedItems }} items</p></h3>
+            <h3 class="">{{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) | currency:'INR'}}  <p>{{ this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) }} items</p></h3>
           </div>
-          <div class="col-6">
-            <p><ion-button color="dark" *ngIf="!isAddToCart" (click)="showAllVariants(modal)" >See All Variants</ion-button></p>
-            <p><ion-button color="dark" *ngIf="isAddToCart" (click)="ViewCart()" >View Cart</ion-button></p>
+          <div class="col-6" style="    text-align: end;">
+            <p *ngIf="!isAddToCart"><ion-button color="dark"  (click)="showAllVariants(modal)" >See All Variants</ion-button></p>
+            <p *ngIf="isAddToCart"><ion-button color="dark"  (click)="ViewCart(modal)" >View Cart</ion-button></p>
           </div>
         </div>
         <ion-list class="variants">
@@ -156,17 +173,17 @@
                   <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                 </div>
                 <div class="cart-button">
-                  <ion-item no-lines id="{{variant.id}}" style="display: none;">
-                    <ion-button fill="outline" class="remove" (click)="removeItem(variant)" color="dark" disabled="true" >-</ion-button>
-                    <ion-input type="number" id="input{{variant.id}}" text-center value="1" min="1" max="5"></ion-input>                   
-                    <ion-button fill="outline" class="add" color="dark"  (click)="addItem(variant)" >+</ion-button>
-                    <ion-button  fill="outline" class="remove-item" (click)="removeAll(variant)"  color="danger">Remove item</ion-button>
+                  <ion-item class="remove-pading" no-lines id="{{variant.id}}" [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'block':'none'}">
+                    <ion-button fill="outline" class="remove"  color="dark" (click)="this.cartService.decrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)" >-</ion-button>
+                    <ion-input type="number" id="input{{variant.id}}" text-center [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)" min="1" max="5"></ion-input>                   
+                    <ion-button fill="outline" class="add" color="dark"  (click)="this.cartService.incrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)" >+</ion-button>
+                    <ion-button  fill="outline" class="remove-item" (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,matchingService!.id,variant.id,cartDetils[0].id)"  color="danger">Remove item</ion-button>
                  </ion-item>
-                 <ion-item no-lines class="{{variant.id}}">
-                    <ion-button fill="outline" (click)="addToCart(variant)" color="dark">Add To Cart</ion-button>
-                    <ion-button fill="outline" routerLink="../../../../cart/{{matchingMainCategory!.id}}/{{matchingSubCategory!.id}}" color="dark" *ngIf="this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">Continue To Cart</ion-button>
-                    <ion-button color="dark" (click)="bookNow(variant.id)">Book Now</ion-button>
-                    <!-- *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)" -->
+                 <ion-item class="remove-pading" no-lines class="{{variant.id}}" *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
+                  <div class="row" style="width: -webkit-fill-available;">
+                    <div class="col-6"><ion-button fill="outline" (click)="addToCart(variant)"  color="dark">Add To Cart</ion-button></div>
+                    <div class="col-6" style="text-align: end;"> <ion-button color="dark" (click)="bookNow(variant.id)">Book Now</ion-button></div>
+                  </div>  
                   </ion-item>
                 </div>
             </div>

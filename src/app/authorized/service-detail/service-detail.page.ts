@@ -10,7 +10,7 @@ import * as $ from 'jquery';
   styleUrls: ['./service-detail.page.scss'],
 })
 export class ServiceDetailPage implements OnInit {
-  @ViewChild('#modal') modal: ElementRef;
+   modal: any;
   matchingService:Service|undefined;
   matchingSubCategory:SubCategory|undefined;
   matchingMainCategory:Category|undefined;
@@ -21,27 +21,40 @@ export class ServiceDetailPage implements OnInit {
   showVariant:boolean = true;
   presentingElement ;
   itemList:any = [];
-  CustomerReview = [
-    {
-      Name: "Vikas Rajput",
-      review: "Excellent Service",
-      date: "12 Jan, 2023",
-      Comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Excellent service 👍"
-    },
-    {
-      Name: "Vikas Rajput",
-      review: "Excellent Service",
-      date: "12 Jan, 2023",
-      Comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Excellent service 👍"
-    },
-    {
-      Name: "Vikas Rajput",
-      review: "Excellent Service",
-      date: "12 Jan, 2023",
-      Comment: "4517 Washington Ave. Manchester, Kentucky 39495"
-    },
+  cartDetils:any;
+  serviceType:Array<string> = [
+    "Complete Kitchen",
+    "Complete Kitchen With Chimney",
+    "Complete Kitchen With Appliance",
+    "Complete Kitchen With Appliance & Chimney"
   ]
-  constructor(private dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router,private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController) {
+  CustomerReview ={
+    userCount: 80,
+    average:"4/5",
+    userList:[
+      {
+        Name: "Vikas Rajput",
+        review: "Excellent Service",
+        date: "12 Jan, 2023",
+        Comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Excellent service 👍"
+      },
+      {
+        Name: "Vikas Rajput",
+        review: "Excellent Service",
+        date: "12 Jan, 2023",
+        Comment: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Excellent service 👍"
+      },
+      {
+        Name: "Vikas Rajput",
+        review: "Excellent Service",
+        date: "12 Jan, 2023",
+        Comment: "4517 Washington Ave. Manchester, Kentucky 39495"
+      },
+    ]
+  } 
+  constructor(public dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router,
+    private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
+    , private activeRoute:ActivatedRoute) {
     this.activatedRoute.params.subscribe(async (params)=>{
       let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
       this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
@@ -54,38 +67,45 @@ export class ServiceDetailPage implements OnInit {
         this.router.navigate(['/home']);
         return;
       }
+      
       this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
       if(this.matchingService?.variants && this.matchingService?.variants.length >0){
         this.startPrice = this.matchingService?.variants[0].price;
       }
     });
+   
   }
-
-  ngOnInit() {
-    this.presentingElement = document.querySelector('.ion-page');
-    document?.querySelector('#modal')?.shadowRoot?.querySelector('.modal-wrapper')?.setAttribute('style', 'opacity:1');
+ async ngOnInit() {
+    this.cartService.cartSubject.subscribe(cartDetils=>{
+      this.cartDetils = cartDetils;
+    })
+    // if(this.dataProvider.currentUser?.user.uid){
+    //   this.cartDetils =  await this.cartService.getCart(this.dataProvider.currentUser?.user.uid)
+    //   console.log(" this.cartDetils: ", this.cartDetils)
+    // }
+    if(this.router.url.includes("service-detail")){
+      console.log("this.router.url..:",this.router.url)
+      $("#modal").show();
+    }
+    if(this.modal){
+      this.modal.expand();
+    }
   }
-
+  showMode(modal:any){
+    this.modal.expand();
+    modal.setCurrentBreakpoint(0.12);
+  }
   showAllVariants(modal:any){
     modal.setCurrentBreakpoint(0.75);
     this.isAddToCart = true;
-    // if(this.matchingService?.variants && this.matchingService?.variants.length){
-    //   console.log("this.initialBreakpoint: ",this.initialBreakpoint,  this.presentingElement)
-    //     this.presentingElement.setCurrentBreakpoint(0.7);
-    //   this.showVariant = false;
-    // }else{
-    //   this.presentingElement.setCurrentBreakpoint(0.1);
-    //   this.showVariant = true;
-    //   alert("no variant found !");
-    // }
-    
   }
-  ViewCart(){
+  ViewCart(modal:any){
+    this.modal = modal;
+    $("#modal").hide();
+    modal.setCurrentBreakpoint(0.1);
+    this.router.navigate(['/authorized/cart/all/all']);
+  }
 
-  }
-  moveTo(breakpoint: number) {
-   
-  }
   async bookNow(variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
     await loader.present();
@@ -114,51 +134,9 @@ export class ServiceDetailPage implements OnInit {
     this.totalPrice  += variant.price;
     this.selectedItems +=1;
     this.itemList.push(variant);
-
     this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variant.id,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
   }
-  addItem(variant:any){
-    this.itemList.push(variant);
-    this.totalPrice  += variant.price;
-    this.selectedItems +=1;
-    $("#input"+variant.id).val(parseInt($("#input"+variant.id).val())+1);
-    $("#"+variant.id).find(".remove").prop("disabled",false);
-  }
-  removeItem(variant:any){
-    if(this.totalPrice === 0)
-    return;
-  let this_ = this;
-    let index = this.itemList.findIndex(function(i){
-      if(i.id === variant.id){
-        this_.totalPrice  -= variant.price;
-        this_.selectedItems -=1;
-        $("#input"+variant.id).val(parseInt($("#input"+variant.id).val())-1);
-      }
-      return i.id === variant.id;
-  });
-  
-    if(index != -1){
-      this.itemList.splice(index, 1);
-    }else{
-      $("."+variant.id).show();
-      $("#"+variant.id).hide();
-    }
-    if(parseInt($("#input"+variant.id).val())=== 1){
-      $("#"+variant.id).find(".remove").prop("disabled",true);
-    }
-  }
-  removeAll(variant:any){
-    this.itemList = this.itemList.filter(item=> {
-      if(item.id === variant.id){
-        this.totalPrice  -= item.price;
-        this.selectedItems -=1;
-        $("#input"+variant.id).val(parseInt($("#input"+variant.id).val())-1);
-      }
-      return !(item.id === variant.id);
-    });
-    $("."+variant.id).show();
-    $("#"+variant.id).hide();
-  }
+ 
 }
 
 // create a filter pipe which removes extra <br> from the text
