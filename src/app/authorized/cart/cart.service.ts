@@ -344,6 +344,7 @@ export class CartService {
       booking.billing.tax = 0;
       for (const service of booking.services) {
         for (const variant of service.variants) {
+          if(variant.billing.tax)
           booking.billing.tax += variant.billing.tax;
         }
       }
@@ -355,9 +356,17 @@ export class CartService {
           booking.billing.discount += variant.billing.discount;
         }
       }
-      
+      booking.billing.grandTotal = booking.billing.subTotal + booking.billing.tax - booking.billing.discount
+      booking.billing.coupanDiscunt = 0;
+      if(booking.appliedCoupon !== undefined && booking.appliedCoupon?.type == "flat" || booking.appliedCoupon?.type == "fixed"){
+        booking.billing.coupanDiscunt = booking.appliedCoupon.value;
+        booking.billing.grandTotal = booking.billing.grandTotal -booking.billing.coupanDiscunt;
+      }else if(booking.appliedCoupon !== undefined){
+        booking.billing.coupanDiscunt =  parseFloat(((booking.appliedCoupon.value*booking.billing.grandTotal)/100).toFixed(2));
+        booking.billing.grandTotal = booking.billing.grandTotal -booking.billing.coupanDiscunt;
+      }
     // we will now calculate the grand total
-    booking.billing.grandTotal = booking.billing.subTotal + booking.billing.tax - booking.billing.discount
+   
     booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
     booking.billing.totalJobTime = totalJobTime;
     }

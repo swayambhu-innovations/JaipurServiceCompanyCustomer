@@ -17,12 +17,12 @@
 <ion-content>
   <div class="input-bar">
     <ion-item lines="none" class="coupon-input">
-      <ion-input type="text" placeholder="Enter Coupon Code" class="coupon-text"></ion-input>
-      <ion-text slot="end" class="coupon-button">Apply</ion-text>
+      <ion-input type="text" placeholder="Enter Coupon Code" class="coupon-text" [(ngModel)]="searchValue"></ion-input>
+      <ion-text slot="end" class="coupon-button" (click)="searchcoupons()">Apply</ion-text>
     </ion-item>
   </div>
   <div *ngFor="let service Of  this.booking?.services">
-    <h2>{{service.name}}</h2>
+    <h2 style="margin-left: 20px;">{{service.name}}</h2>
     <ng-container *ngFor="let discount of service.discounts">
       <div class="coupon-card">
         <div class="coupon-content">
@@ -39,7 +39,5 @@
       </div>
     </ng-container>
   </div>
-  <button class="select-address-button" routerLink="../../../select-address">
-    Next
-  </button>
+  <button class="select-address-button" (click)="modalController.dismiss(selectedCoupan)">Done</button>
 </ion-content>

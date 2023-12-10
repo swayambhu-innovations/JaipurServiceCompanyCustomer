@@ -7,6 +7,7 @@ import { CartService } from './cart.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { ModalController } from '@ionic/angular';
 import { OffersComponent } from './offers/offers.component';
+import { Coupon } from 'src/app/coupons.structure';
 // import { ActionSheetController } from '@ionic/angular';
 
 interface Service {
@@ -35,18 +36,12 @@ export class CartPage implements OnInit {
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
+  selectedCoupan:Coupon;
   // coupons array
-  coupons = this.sharedArrayService.getCoupons();
-  appliedCoupons = this.sharedArrayService.getAppliedCoupons();
-
-  emptyAppliedCouponsArray() {
-    this.sharedArrayService.setAppliedCoupons([]);
-    window.location.reload();
-  }
+  isOpenPopu:boolean = false;
 
   constructor(
     private router: Router,
-    private sharedArrayService: SharedArrayService,
     private activatedRoute:ActivatedRoute,
     public cartService:CartService,
     public dataProvider:DataProviderService,
@@ -58,9 +53,7 @@ export class CartPage implements OnInit {
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
           this.selectedBooking   = foundBooking;
-
           this.cartService.calculateBilling(this.selectedBooking);
-          console.log("Updated selected booking",this.selectedBooking);
         }
       }else{
         this.selectedBooking = undefined;
@@ -76,7 +69,8 @@ export class CartPage implements OnInit {
   }
 
 
-  async onOffersClick() {
+  async onOffersClick(modal2:any) {
+   
     console.log("this. booling......:",this.selectedBooking)
     let modal = await this.modalController.create({
       component:OffersComponent,
@@ -84,9 +78,33 @@ export class CartPage implements OnInit {
         booking:this.selectedBooking
       }
     });
-    modal.present();
+    modal.onDidDismiss()
+      .then((data) => {
+        console.log(" modal.present().....:",data)
+        const coupan = data['data']; 
+        if(coupan){
+          this.isOpenPopu = true;
+          modal2.setCurrentBreakpoint(0.3);
+          modal2.present();
+          this.selectedCoupan = coupan;
+          this.appliedCoupanDiscount();
+          console.log("coupan info.........: ", this.selectedCoupan,this.isOpenPopu)
+        }
+    });
+    modal.present()
   }
-
+  appliedCoupanDiscount(){
+    this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
+    this.cartService.calculateBilling(this.selectedBooking!);
+    console.log("this. selectedBooking.........: ", this.selectedBooking);
+  }
+  getOfferCount(){
+    let count =0;
+    this.selectedBooking?.services.forEach(services=>{
+      count += services.discounts.length;
+    })
+    return count;
+  }
   services: Service[] = [];
 
   addTime(time1: {minutes:number}, time2: {minutes:number}): {minutes:number} {

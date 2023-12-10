@@ -17,9 +17,11 @@ export interface Booking {
     image: string;
   };
   services: SelectedService[];
+  appliedCoupon?:Coupon;
   billing: {
     grandTotal: number;
     tax: number;
+    coupanDiscunt?:number,
     discount: number;
     subTotal: number;
     totalJobTime: number;
@@ -58,6 +60,7 @@ export interface SelectedService {
   discounts: Coupon[];
   variants: SelectedVariant[];
 }
+
 
 export interface SelectedVariant {
   quantity: number;

@@ -8,8 +8,9 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { DataProviderService } from '../../core/data-provider.service';
-import { ReplaySubject, Subject, debounceTime } from 'rxjs';
+import { ReplaySubject, Subject, async, debounceTime } from 'rxjs';
 import { Category } from '../../core/types/category.structure';
+import { where } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root', 
@@ -77,14 +78,38 @@ export class HomeService {
           description: service.data()['description'],
           enabled: service.data()['enabled'],
           allowReviews: service.data()['allowReviews'],
-          taxes: service.data()['taxes'],
+          taxes:service.data()['taxes'],
           discounts: service.data()['discounts'],
           variants: service.data()['variants'],
         };
       })
     );
   }
-
+  async getTaxes(taxeIds:string) {
+   
+   // let ids = JSON.parse(taxeIds);
+    let citiesRef = collection(this.firestore,"taxes");
+    const q = query(citiesRef, where('id', 'in', taxeIds));
+    if(taxeIds.length > 0){
+      console.log("taxes ids..........: ",taxeIds)
+      return await Promise.all(
+        ( await getDocs(q)).docs.map(async (taxes) => {
+          console.log("taxes details..........: ",taxes.data())
+          return {
+            id: taxes.id,
+            name: taxes.data()['name'],
+            rate: taxes.data()['rate'],
+            type:taxes.data()['type'],
+            createdOn:taxes.data()['createdOn'],
+            lastUpdated:taxes.data()['lastUpdated']
+          };
+        })
+      );
+    }else{
+     return [];
+    }
+   
+  }
   async getSubCategories(serviceCatalogueId:string,mainCategoryId: string) {
     return await Promise.all(
       (
