@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Booking } from '../../booking/booking.structure';
 import { ModalController } from '@ionic/angular';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-offers',
@@ -22,9 +23,19 @@ export class OffersComponent  implements OnInit {
       this.coupons = [...this.coupons,...service.discounts];
     });
   }
-  onApplyClick(copan:any){
-    console.log("selected Copan.........: ",copan)
-    this.selectedCoupan = copan;
+  onApplyClick(coupan:any){
+    $(".apply-button").show();
+    $(".remove-button").hide();
+    $("#"+coupan.code).hide();
+    $("#"+coupan.id).show();
+    this.selectedCoupan = coupan;
+  }
+  onRemoveClick(coupan:any){
+    $(".apply-button").show();
+    $(".remove-button").hide();
+    $("#"+coupan.code).show();
+    $("#"+coupan.id).hide();
+    this.selectedCoupan = undefined;
   }
   searchcoupons(){
     console.log("searchValue.......:",this.searchValue)

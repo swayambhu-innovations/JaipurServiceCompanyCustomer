@@ -128,7 +128,8 @@
   </ng-container>
   <!-- When coupon is applied -->
   <ng-container *ngIf="this.isOpenPopu">
-    <div class="applied-coupon">
+    <div class="applied-coupon" 
+    *ngIf="(selectedBooking.billing?.coupanDiscunt || 0) > 0">
       <div class="text">
         <p class="saved-rs">Saved ₹{{selectedBooking.billing?.coupanDiscunt||0}}</p>
         <p class="coupon-applied-successfuly">Coupon applied successfully!</p>

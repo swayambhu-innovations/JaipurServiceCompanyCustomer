@@ -14,7 +14,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content id="coupans">
   <div class="input-bar">
     <ion-item lines="none" class="coupon-input">
       <ion-input type="text" placeholder="Enter Coupon Code" class="coupon-text" [(ngModel)]="searchValue"></ion-input>
@@ -35,7 +35,8 @@
             <ion-text class="discount-text">SAVE ₹{{discount?.value}} ON THIS ORDER</ion-text>
           </div>
         </div>
-        <p (click)="onApplyClick(discount)" class="apply-button" >Apply</p>
+        <p (click)="onApplyClick(discount)" class="apply-button" id="{{discount.code}}" >Apply</p>
+        <p (click)="onRemoveClick(discount)" class="remove-button none" id="{{discount.id}}" >remove</p>
       </div>
     </ng-container>
   </div>

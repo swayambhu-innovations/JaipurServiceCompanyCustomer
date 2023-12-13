@@ -141,11 +141,11 @@
         </div>
       </div>
     </div>
-    <ion-modal
-    #modal
-    id="modal"
+    <ion-modal #modal3  id="modal3"
     trigger="open-modal"
-    [isOpen]="true"
+    [isOpen]="showModal"
+    [keyboardClose]="false"
+    [showBackdrop]="false"
     [initialBreakpoint]="0.12"
     [breakpoints]="[0.12, 0.12, 0.75]"
     [backdropDismiss]="false"
@@ -161,8 +161,8 @@
             <h3 class="">{{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) | currency:'INR'}}  <p>{{ this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) }} items</p></h3>
           </div>
           <div class="col-6" style="    text-align: end;">
-            <p *ngIf="!isAddToCart"><ion-button color="dark"  (click)="showAllVariants(modal)" >See All Variants</ion-button></p>
-            <p *ngIf="isAddToCart"><ion-button color="dark"  (click)="ViewCart(modal)" >View Cart</ion-button></p>
+            <p *ngIf="!isAddToCart"><ion-button color="dark"  (click)="showAllVariants(modal3)" >See All Variants</ion-button></p>
+            <p *ngIf="isAddToCart"><ion-button color="dark"  (click)="ViewCart(modal3)" >View Cart</ion-button></p>
           </div>
         </div>
         <ion-list class="variants">

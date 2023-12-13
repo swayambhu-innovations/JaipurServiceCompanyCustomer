@@ -20,8 +20,12 @@ export class ServiceDetailPage implements OnInit {
   totalPrice:any = 0;
   showVariant:boolean = true;
   presentingElement ;
+  showModal:boolean = true;
   itemList:any = [];
   cartDetils:any;
+  setOpen(isOpen: boolean) {
+    this.showModal = isOpen;
+  }
   serviceType:Array<string> = [
     "Complete Kitchen",
     "Complete Kitchen With Chimney",
@@ -56,6 +60,19 @@ export class ServiceDetailPage implements OnInit {
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
     this.activatedRoute.params.subscribe(async (params)=>{
+      console.log("this. modal constructor........: ",this.showModal ,this.router.url,this.modal)
+      if(this.router.url.includes("services") || this.router.url.includes("service-detail")){
+        this.setOpen (true) ;
+        $("#modal3").show();
+        if(this.modal){
+          console.log("this. modal constructor........: ",this.modal )
+          this.modal.setCurrentBreakpoint(0.3);
+        }
+        
+      }else{
+        this.setOpen (false) ;
+      }
+      
       let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
       this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
       if(!this.matchingMainCategory){
@@ -79,31 +96,23 @@ export class ServiceDetailPage implements OnInit {
     this.cartService.cartSubject.subscribe(cartDetils=>{
       this.cartDetils = cartDetils;
     })
-    // if(this.dataProvider.currentUser?.user.uid){
-    //   this.cartDetils =  await this.cartService.getCart(this.dataProvider.currentUser?.user.uid)
-    //   console.log(" this.cartDetils: ", this.cartDetils)
-    // }
-    if(this.router.url.includes("service-detail")){
-      console.log("this.router.url..:",this.router.url)
-      $("#modal").show();
-    }
-    if(this.modal){
-      this.modal.expand();
-    }
   }
-  showMode(modal:any){
-    this.modal.expand();
-    modal.setCurrentBreakpoint(0.12);
-  }
+  // showMode(modal:any){
+  //   this.modal.expand();
+  //   modal.setCurrentBreakpoint(0.12);
+  // }
   showAllVariants(modal:any){
     modal.setCurrentBreakpoint(0.75);
     this.isAddToCart = true;
+    this.modal = modal;
   }
   ViewCart(modal:any){
-    this.modal = modal;
-    $("#modal").hide();
-    modal.setCurrentBreakpoint(0.1);
+  this.showModal = false;
+  this.modal.setCurrentBreakpoint(0.3);
+  $("#modal3").hide();
+  console.log("this. modal........: ",this.showModal)
     this.router.navigate(['/authorized/cart/all/all']);
+    //modal.dismiss();
   }
 
   async bookNow(variantId:string){

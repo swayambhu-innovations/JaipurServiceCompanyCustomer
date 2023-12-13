@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ServicesPageRoutingModule } from './services-routing.module';
 
 import { ServicesPage } from './services.page';
+import { CartPopuPageModule } from '../cart-popu/cart-popu.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ServicesPageRoutingModule
+    ServicesPageRoutingModule,
+    CartPopuPageModule
   ],
   declarations: [ServicesPage]
 })

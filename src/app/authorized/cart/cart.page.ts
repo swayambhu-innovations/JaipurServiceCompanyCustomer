@@ -70,8 +70,6 @@ export class CartPage implements OnInit {
 
 
   async onOffersClick(modal2:any) {
-   
-    console.log("this. booling......:",this.selectedBooking)
     let modal = await this.modalController.create({
       component:OffersComponent,
       componentProps:{
@@ -80,7 +78,6 @@ export class CartPage implements OnInit {
     });
     modal.onDidDismiss()
       .then((data) => {
-        console.log(" modal.present().....:",data)
         const coupan = data['data']; 
         if(coupan){
           this.isOpenPopu = true;
@@ -88,7 +85,6 @@ export class CartPage implements OnInit {
           modal2.present();
           this.selectedCoupan = coupan;
           this.appliedCoupanDiscount();
-          console.log("coupan info.........: ", this.selectedCoupan,this.isOpenPopu)
         }
     });
     modal.present()
@@ -96,7 +92,6 @@ export class CartPage implements OnInit {
   appliedCoupanDiscount(){
     this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
     this.cartService.calculateBilling(this.selectedBooking!);
-    console.log("this. selectedBooking.........: ", this.selectedBooking);
   }
   getOfferCount(){
     let count =0;
@@ -147,7 +142,5 @@ export class CartPage implements OnInit {
   calculateTotal() {}
   checkout() {}
   removeFromCart(service: any) {}
-
-  offerDiscount: number = 999;
 }
   
