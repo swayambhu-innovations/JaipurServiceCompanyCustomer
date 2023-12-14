@@ -51,7 +51,8 @@
           <img src="assets/icon/order-placed/calendar.svg" alt="">
         </section>
         <section style="margin-left: 10px;">
-          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() | date:'shortDate'}}</span><br>
+          <p>Date</p>
+          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() | date:'longDate'}}</span><br>
         </section>
       </div>
       <div class="row-2">
@@ -59,7 +60,8 @@
           <img src="assets/icon/order-placed/clock.svg" alt="">
         </section>
         <section style="margin-left: 10px;">
-          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.time?.toDate() | date:'shortTime'}}</span><br>
+          <p>Time</p>
+          <span class="head">{{slotStartTime | date:'h:mm' }} - {{ slotEndTime | date:'shortTime' }}</span><br>
         </section>
       </div>
     </div>

@@ -9,6 +9,8 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 export class OrderPlacedPage implements OnInit {
   name = 'Order Placed';
   successLogo = 'assets/success.gif';
+  slotStartTime:Date|undefined;
+  slotEndTime:Date|undefined;
 
   services = [
     {
@@ -35,9 +37,13 @@ export class OrderPlacedPage implements OnInit {
       head: 'Time', body: '12:00-01:00 PM'
     }
   ];
-  constructor(public dataProvider:DataProviderService) { }
-
-  ngOnInit() {
+  constructor(public dataProvider:DataProviderService) { 
+    this.slotStartTime = dataProvider.currentBooking?.timeSlot?.time?.startTime?.toDate();
+    this.slotEndTime = dataProvider.currentBooking?.timeSlot?.time?.endTime?.toDate();
+    // console.log(this.slotTime);
   }
 
+  ngOnInit() {
+    console.log(this.dataProvider.currentBooking?.services);
+  }
 }

@@ -44,7 +44,7 @@
             <h6>{{details.timeSlot?.date?.toDate() | date:'shortDate'}}</h6>
           </div>
           <div class="schedule">
-            <p>{{details.timeSlot?.time?.toDate() | date:'shortTime'}}</p>
+            <p>{{details.timeSlot?.time?.startTime?.toDate() | date:'shortTime'}} - {{details.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</p>
           </div>
         </div>
       </div>

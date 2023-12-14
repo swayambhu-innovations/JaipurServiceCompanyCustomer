@@ -32,21 +32,18 @@
       </div>
       <h2>Select Job Starting Slot</h2>
       <div class="second-btns">
-        <!-- <button *ngFor="let btn of times" (click)="selectedTime = btn; setSlot()" [ngClass]="{active:selectedTime==btn}">
-            {{btn | date:'hh:mm'}} <br> {{btn | date:'aaa'}}
-          </button> -->
-        <button *ngFor="let items of jobStartingSlot">
-          <img src="{{items.img}}" alt="">
+        <button *ngFor="let items of slotsArray" (click) = "startTime = items.start; endTime = items.end; setSlot()" [ngClass] = "{active:startTime==items.start}">
+          <img src="{{slotsIcons[items.index-1]}}" alt="">
           <div class="slot-det">
-            <p>{{items.slot}}</p>
-            <p>{{items.time}}</p>
+            <p>{{slotsStatus[items.index-1]}}</p>
+            <p>{{items.start < 12 && items.end > 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " : (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " : items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
           </div>
         </button>
       </div>
       <h2 style="margin-top: 20px;">Select Preferred Agent Arrival Time</h2>
       <div class="third-btns">
-        <button *ngFor="let btn of times" (click)="selectedTime = btn; setSlot()"
-          [ngClass]="{active:selectedTime==btn}">
+        <button *ngFor="let btn of times" 
+          [ngClass]="{active:selectedStartTime==btn}">
           {{btn | date:'hh:mm'}} <br> {{btn | date:'aaa'}}
         </button>
       </div>
@@ -56,7 +53,7 @@
       </div>
     </div>
     <div class="bottom" (click)="createBooking()">
-      <ion-button [disabled]="!(selectedDate && selectedTime)" expand="block">
+      <ion-button [disabled]="!(selectedDate && selectedTimeState)" expand="block">
         Book
       </ion-button>
     </div>

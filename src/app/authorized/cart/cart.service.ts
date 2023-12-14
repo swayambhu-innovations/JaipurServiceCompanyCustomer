@@ -16,10 +16,14 @@ export class CartService {
       this.cart = cart as Booking[];
       this.cart.forEach(this.calculateBilling);
       this.cartSubject.next(this.cart);
+      console.log(this.cart);
     });
   }
 
   async addToCart(userId:string,variantId:string,service:Service,mainCategory:Category,subCategory:SubCategory){
+    console.log(service);
+    console.log(mainCategory);
+    console.log(subCategory);
     let variant = service.variants.find(v=>v.id == variantId);
     if (variant){
       for (const data of this.cart) {
@@ -152,9 +156,18 @@ export class CartService {
           totalJobAcceptanceCharge:0
         },
         id:this.generateJobId(),
-        createdAt:Timestamp.fromDate(new Date())
+        createdAt:Timestamp.fromDate(new Date()),
+        timeSlot: {
+          date: Timestamp.fromDate(new Date()),
+          time: {
+            // anukul changes
+            startTime : Timestamp.fromDate(new Date()),
+            endTime : Timestamp.fromDate(new Date()),
+          }
+        }
       };
       console.log(data);
+      console.log(userId);
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
     }
   }
