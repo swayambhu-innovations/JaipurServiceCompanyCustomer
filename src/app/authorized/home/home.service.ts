@@ -131,7 +131,10 @@ export class HomeService {
   getBanners(){
     return getDocs(collection(this.firestore,'Banner'));
   }
-
+  getCategory(){ // added by ronak
+    return getDocs(collection(this.firestore,'categories'));
+  }
+ // till here
   getService(mainCategoryId: string, subCategoryId: string, serviceId: string) {
     return getDoc(
       doc(

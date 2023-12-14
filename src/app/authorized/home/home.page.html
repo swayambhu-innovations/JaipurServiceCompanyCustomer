@@ -56,8 +56,38 @@
     </swiper-slide>
     </swiper-container>
   </div>
+  <div> <!--added by ronak-->
+    <hr class="horizontalRow">
+    <h4> Categories of Services</h4>
+    <ion-row>
+      <ion-col class="serviceCategoriesImages">
+        <a routerLink='../../sub-Categories'>
+          <img src="assets/images/AcRepair.jpg" alt=""></a>
+      </ion-col>
 
+      <ion-col class="serviceCategoriesImages">
+        <a href="#">
+          <img src="assets/images/HomeCleaning.jpg" alt=""></a>
+      </ion-col>
+      <ion-col class="serviceCategoriesImages">
+        <a href="#">
+          <img src="assets/images/KitchenCleaning.png" alt=""></a>
+      </ion-col>
+      <ion-col class="serviceCategoriesImages">
+        <!-- <span routerLink="../all-categories/">See All</span>-->
+        <img src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
+      </ion-col>
+    </ion-row>
+    <ion-row class="mainCategory" *ngIf="categories != undefined">
+      <ion-col class="serviceCategoriesLabels"> {{categories![0]?.name}} </ion-col>
+      <ion-col class="serviceCategoriesLabels"> {{categories![1]?.name}} </ion-col>
+      <ion-col class="serviceCategoriesLabels"> {{categories![2]?.name}} </ion-col>
+      <ion-col class="serviceCategoriesLabels"><span routerLink="../all-categories/">See All</span></ion-col>
+    </ion-row>
+    <hr class="horizontalRow">
+  </div>
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
+    <div *ngIf="mainCategory.name !== '' "></div>
     <h3>{{mainCategory.name}}</h3>
     <img class="banner" [src]="mainCategory.image" alt="">
     <div class="container">

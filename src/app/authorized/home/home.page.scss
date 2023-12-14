@@ -207,7 +207,28 @@ ion-thumbnail {
     }
   }
 }
-
+homepage.scss
+.serviceCategory{
+text-decoration: none;
+}
+.horizontalRow{
+ border: 1px solid lightsteelblue;
+}
+.serviceCategoriesImages{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ overflow: hidden;
+ width: 20%;
+ position: relative;
+}
+.serviceCategoriesLabels{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ overflow: hidden;
+ position: relative;
+}
 //recent activity
 
 .recent-container {

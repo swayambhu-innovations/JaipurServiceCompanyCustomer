@@ -51,6 +51,7 @@ export class HomePage implements OnInit {
 
   banners: any[] = [];
   recentActivityData: any[] = [];
+  categories :any[] = []; // added by ronak
   
 
   constructor(private router: Router,private profileService:ProfileService, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
@@ -60,6 +61,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.fetchBanners();
     this.recentActivity();
+    this.fetchMainCategory(); 
     
   }
 
@@ -71,6 +73,16 @@ export class HomePage implements OnInit {
       this.getImage(this.banners[0].img);
     });
   }
+   // added by ronak
+   fetchMainCategory(){
+    this.homeService.getCategory().then((name)=>{
+    this.categories = name.docs.map((doc)=>{
+      this.categories = [...this.categories];
+      return doc.data()
+    });
+    })
+  }
+// till here 
   cart() {
     this.router.navigate(['cart']);
   }
