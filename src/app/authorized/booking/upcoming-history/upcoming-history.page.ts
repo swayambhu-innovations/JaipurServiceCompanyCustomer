@@ -73,7 +73,11 @@ export class UpcomingHistoryPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     public bookingService:BookingService
-  ) {}
+  ) {
+    bookingService.bookingsSubject.subscribe(bookings=> {
+      console.log("bookings..............",bookings)
+    })
+  }
 
   
   ngOnInit() {}

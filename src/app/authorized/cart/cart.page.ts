@@ -63,7 +63,7 @@ export class CartPage implements OnInit {
       console.log(params);
     })
   }
-
+ 
   notification(){
     this.router.navigate(["authorized/notification"]);
   }
@@ -88,6 +88,11 @@ export class CartPage implements OnInit {
         }
     });
     modal.present()
+  }
+  removeCoupan(){
+    this.selectedBooking!['appliedCoupon'] = undefined;
+    console.log("this.selectedBooking: ",this.selectedBooking)
+    this.cartService.calculateBilling(this.selectedBooking!);
   }
   appliedCoupanDiscount(){
     this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
