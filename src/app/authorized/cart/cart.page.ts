@@ -47,6 +47,7 @@ export class CartPage implements OnInit {
     public dataProvider:DataProviderService,
     private modalController:ModalController
   ) {
+    
     this.cartService.cartSubject.subscribe((bookings)=>{
       console.log("Updated bookings",bookings);
       if (this.selectedBooking?.id && bookings.length > 0){
@@ -66,6 +67,10 @@ export class CartPage implements OnInit {
  
   notification(){
     this.router.navigate(["authorized/notification"]);
+  }
+
+  temp(){
+    console.log(this.dataProvider.currentBooking);
   }
 
 
@@ -142,7 +147,9 @@ export class CartPage implements OnInit {
     onService.serviceOrderCount--;
   }
   orderCount: any = 2;
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.selectedBooking);
+  }
 
   calculateTotal() {}
   checkout() {}

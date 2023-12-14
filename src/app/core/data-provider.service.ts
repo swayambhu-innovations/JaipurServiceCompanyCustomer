@@ -21,6 +21,4 @@ export class DataProviderService {
   constructor() {
     console.log("data provider works");
    }
-
-
 }

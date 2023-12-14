@@ -10,6 +10,7 @@ export class AuthorizedPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

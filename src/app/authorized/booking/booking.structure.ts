@@ -37,7 +37,11 @@ export interface Booking {
   };
   timeSlot?: {
     date: Timestamp;
-    time: Timestamp;
+    time: {
+      // anukul changes
+      startTime : Timestamp;
+      endTime : Timestamp
+    }
   };
   currentUser: {
     userId: string;

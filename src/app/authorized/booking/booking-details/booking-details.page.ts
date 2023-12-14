@@ -29,6 +29,7 @@ export class BookingDetailsPage implements OnInit {
         loader.present();
         this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
           this.currentBooking = booking;
+          console.log(this.currentBooking);
           loader.dismiss();
         })
       } else {

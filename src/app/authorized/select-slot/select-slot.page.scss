@@ -36,6 +36,8 @@ ion-content {
       display: flex;
       align-items: center;
       height: 20px;
+      color: var(--tertiary, #5E0080);
+
 
       img {
         width: 28px;
@@ -135,13 +137,20 @@ ion-content {
         border-radius: 6px;
 
         .slot-det{
+          color: white;
           padding-bottom: 4px;
         }
+
       }
 
       button.active {
         background-color: #181f29;
-        color: #fff;
+        
+        .slot-det{
+          p{
+            color: white !important;
+          }
+        }
       }
     }
   }

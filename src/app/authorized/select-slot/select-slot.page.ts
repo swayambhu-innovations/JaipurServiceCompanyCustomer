@@ -17,55 +17,38 @@ import { Firestore, getDocs } from '@angular/fire/firestore';
 export class SelectSlotPage implements OnInit {
   name = 'Address & Time Slot';
   selectedDate:Date|undefined;
-  selectedTime:Date|undefined;
+
+  selectedStartTime:Date|undefined;
+  selectedEndTime:Date|undefined;
+
   dates:Date[] = [];
   times:Date[] = [];
   slots: any[] = [];
+  slotsArray:any [] = [];
+  selectedTimeState:boolean = false;
 
+  startTime:any;
+  endTime:any;
 
-  jobStartingSlot = [
-    {
-      img : "../../../assets/icon/slots/morning.svg",
-      slot : "Morning",
-      time : "7 AM - 9 AM"
-    },
-    {
-      img : "../../../assets/icon/slots/lateMorning.svg",
-      slot : "Late Morning",
-      time : "9 AM - 11 AM"
-    },
-    {
-      img : "../../../assets/icon/slots/afternoon.svg",
-      slot : "Afternoon",
-      time : "11 AM - 1 PM"
-    },
-    {
-      img : "../../../assets/icon/slots/lateAfternoon.svg",
-      slot : "Late Afternoon",
-      time : "1 PM - 3 PM"
-    },
-    {
-      img : "../../../assets/icon/slots/evening.svg",
-      slot : "Evening",
-      time : "3 PM - 5 PM"
-    },
-    {
-      img : "../../../assets/icon/slots/lateEvening.svg",
-      slot : "Late Evening",
-      time : "5 PM - 7 PM"
-    },
-    {
-      img : "../../../assets/icon/slots/night.svg",
-      slot : "Night",
-      time : "7 PM - 9 PM"
-    }
+  slotsIcons = [
+    "../../../assets/icon/slots/morning.svg",
+    "../../../assets/icon/slots/lateMorning.svg",
+    "../../../assets/icon/slots/afternoon.svg",
+    "../../../assets/icon/slots/lateAfternoon.svg",
+    "../../../assets/icon/slots/evening.svg",
+    "../../../assets/icon/slots/lateEvening.svg",
+    "../../../assets/icon/slots/night.svg",
   ]
 
+  slotsStatus = [
+    "Morning", "lateMorning", "Afternoon", "LateAfternoon", "Evening", "LateEvening", "Night"
+  ]
 
   constructor(private firestore:Firestore,public dataProvider:DataProviderService, private paymentService:PaymentService, private bookingService:BookingService,  private loadingController: LoadingController, private router:Router, private cartService:CartService) { }
 
   ngOnInit() {
     // regenrate the slots
+    console.log()
     this.generateSlots();
     this.totalSlots();
   }
@@ -81,27 +64,47 @@ export class SelectSlotPage implements OnInit {
     }
     
     // fill times with 8am to 8pm
-    for(let i=9;i<=11;i++){
+    for(let i=9;i<=13;i++){
       let date = new Date(today.getFullYear(), today.getMonth(), today.getDate(), i);
       this.times.push(date);
     }
   }
 
-  totalSlots(){
-    getDocs(collection(this.firestore, 'slots')).then((data) => {
+  async totalSlots(){
+    await getDocs(collection(this.firestore, 'slots')).then((data) => {
       this.slots = data.docs.map((doc) => {
         return doc.data();
       })
     })
+
+    this.slotsArray = this.slots.sort((a,b) => {
+      return a.index - b.index;
+    })
   }
 
+  // setSlot(){
+  //   let today = new Date();
+  //   this.selectedTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), this.tempTime);
+  //   this.dataProvider.currentBooking!.timeSlot = {
+  //     date: Timestamp.fromDate(this.selectedDate!),
+  //     time: Timestamp.fromDate(this.selectedTime!)
+  //   }
+  // }
+
   setSlot(){
-    // console.log(this.selectedDate?.getTime());
+    let today = new Date();
+    console.log(this.dataProvider.currentBooking);
+    this.selectedStartTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), this.startTime);
+    this.selectedEndTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), this.endTime);
     this.dataProvider.currentBooking!.timeSlot = {
       date: Timestamp.fromDate(this.selectedDate!),
-      time: Timestamp.fromDate(this.selectedTime!)
+      time: {
+        startTime: Timestamp.fromDate(this.selectedStartTime!),
+        endTime: Timestamp.fromDate(this.selectedEndTime!)
+      }
     }
-    // console.log(this.dataProvider.currentBooking!.timeSlot);
+    console.log(this.dataProvider.currentBooking);
+    this.selectedTimeState = true;
   }
 
   async createBooking(){
@@ -132,3 +135,25 @@ export class SelectSlotPage implements OnInit {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

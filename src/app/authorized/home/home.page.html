@@ -8,13 +8,8 @@
     </span>
   </button>
   <div class="banner-container">
-    <swiper-container 
-      [loop] = "true"
-      [autoplay] = "{delpay : 2000}"
-      [spaceBetween] = "20"
-      [pagination] = "{clickable: true}"
-    >
-      <swiper-slide *ngFor = "let items of promotionalBanners">
+    <swiper-container [loop]="true" [autoplay]="{delpay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
+      <swiper-slide *ngFor="let items of promotionalBanners">
         <a href="{{items.url}}">
           <img src="{{items.image}}" alt="">
         </a>
@@ -25,18 +20,20 @@
   <div class="recent-container">
     <ion-label class="label">Recent Activity</ion-label>
 
-    <div class="recent-container-details" *ngFor = "let data of recentActivityData">
-        <ion-grid width = "100" *ngIf = "data.stage == 'completed'">
+    <swiper-container [loop]="true" [spaceBetween]="20">
+      <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData">
+      <!-- <div class="recent-container-details" *ngFor="let data of recentActivityData"> -->
+        <ion-grid width="100" >
           <ion-row class="row-1">
-            <ion-col >
+            <ion-col>
               <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
-              <p>{{data.billing.grandTotal}}</p>
-            </ion-col >
-            <ion-col class = "row-1-col-2">
+              <p>{{data.billing.grandTotal | currency:'INR'}}</p>
+            </ion-col>
+            <ion-col class="row-1-col-2">
               <div class="status-box">
                 {{data.stage}}
               </div>
-              
+
             </ion-col>
           </ion-row>
           <ion-row class="row-2">
@@ -48,14 +45,16 @@
               <span>Time</span>
               <h3>{{data.createdAt.toDate() | date:'hh:mm a'}}</h3>
             </ion-col>
-            <ion-col >
+            <ion-col>
               <span>{{data.createdAt.toDate() | date: 'shortDate'}}</span>
               <h3>{{data.createdAt.toDate() | date: 'EEEE'}}</h3>
             </ion-col>
           </ion-row>
-  
+
         </ion-grid>
-    </div>
+      <!-- </div> -->
+    </swiper-slide>
+    </swiper-container>
   </div>
 
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
@@ -85,13 +84,8 @@
   </div>
 
   <div class="banner-container">
-    <swiper-container 
-      [loop] = "true"
-      [autoplay] = "{delpay : 2000}"
-      [spaceBetween] = "20"
-      [pagination] = "{clickable: true}"
-    >
-      <swiper-slide *ngFor = "let items of banners">
+    <swiper-container [loop]="true" [autoplay]="{delpay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
+      <swiper-slide *ngFor="let items of banners">
         <img src="{{items.img}}" alt="">
       </swiper-slide>
     </swiper-container>
@@ -138,11 +132,11 @@
       <ion-row>
         <ion-col>
           <img src="assets/covidprotection.svg" alt="">
-          <ion-label >Covid Protection</ion-label>
+          <ion-label>Covid Protection</ion-label>
         </ion-col>
         <ion-col>
           <img src="assets/hasselfreebooking.svg" alt="">
-          <ion-label >Hassel-free Booking</ion-label>
+          <ion-label>Hassel-free Booking</ion-label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -152,15 +146,15 @@
         <ion-col>
           <div class="supportImg">
             <div class="Imgcontainer">
-              <img  src="assets/support.svg" alt="">
+              <img src="assets/support.svg" alt="">
             </div>
           </div>
-          
-          <ion-label >24x7 Support</ion-label>
+
+          <ion-label>24x7 Support</ion-label>
         </ion-col>
         <ion-col>
           <img src="assets/cancellation.svg" alt="">
-          <ion-label >Easy Cancellation</ion-label>
+          <ion-label>Easy Cancellation</ion-label>
         </ion-col>
       </ion-row>
     </ion-grid>
