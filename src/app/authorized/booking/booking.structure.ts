@@ -37,6 +37,7 @@ export interface Booking {
   };
   timeSlot?: {
     date: Timestamp;
+    agentArrivalTime: Timestamp;
     time: {
       // anukul changes
       startTime : Timestamp;

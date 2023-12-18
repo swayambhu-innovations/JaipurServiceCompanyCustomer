@@ -159,6 +159,7 @@ export class CartService {
         createdAt:Timestamp.fromDate(new Date()),
         timeSlot: {
           date: Timestamp.fromDate(new Date()),
+          agentArrivalTime: Timestamp.fromDate(new Date()),
           time: {
             // anukul changes
             startTime : Timestamp.fromDate(new Date()),

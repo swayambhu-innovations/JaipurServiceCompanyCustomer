@@ -155,9 +155,7 @@ export class HomeService {
   } 
 
   getRecentBookings(){
-   // return getDocs(collection(doc(this.firestore, "users", "KcOrjTZSkPYefIC5Z1pkLmssPpc2"), 'bookings'));
-  
-    return getDocs(collection(doc(this.firestore, "users", "2Y21biKBLdNyCpxvJXNzWJjSspu2"), 'bookings'));
+    return getDocs(collection(doc(this.firestore, "users", this.dataProvider.currentUser!.user.uid), 'bookings'));
   }
 
   

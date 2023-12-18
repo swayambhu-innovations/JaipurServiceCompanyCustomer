@@ -111,12 +111,14 @@ export class HomePage implements OnInit {
     this.router.navigate(['notification']);
   }
 
-  recentActivity() {
-    this.homeService.getRecentBookings().then((activity) => {
+
+  async recentActivity(){
+    await this.homeService.getRecentBookings().then((activity) => {
       this.recentActivityData = activity.docs.map((doc) => {
         return doc.data();
       })
     })
+    console.log(this.recentActivityData);
   }
 
   condition: boolean = true;
