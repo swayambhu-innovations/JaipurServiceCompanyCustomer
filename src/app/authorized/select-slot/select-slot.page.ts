@@ -152,10 +152,12 @@ export class SelectSlotPage implements OnInit {
   preferredAgentTime(start: any, endTime: any){
     this.agentArrivalArray = [];
     let today1 = new Date();
+    
+    // for(let i = 0; i < )
     for (let i = start; i < endTime; i++) {
-      let t1 = new Date(today1.getFullYear(),today1.getMonth(),today1.getDate(),start);
+      let t1 = new Date(today1.getFullYear(),today1.getMonth(),today1.getDate(),i);
       this.agentArrivalArray.push(t1);
-      let t2 = new Date(today1.getFullYear(),today1.getMonth(),today1.getDate(),start+1, 30);
+      let t2 = new Date(today1.getFullYear(),today1.getMonth(),today1.getDate(),i, 30);
       this.agentArrivalArray.push(t2);
     }
 
