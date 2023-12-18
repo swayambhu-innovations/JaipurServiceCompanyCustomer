@@ -1,5 +1,15 @@
+import { Injectable } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+//import { HomeService } from './home.service';
+import { FileService } from '../db_services/file.service';
+import { async } from 'rxjs';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { log } from 'console';
+import { ProfileService } from '../db_services/profile.service';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
+import { AllCategoriesService } from './all-categories.service';
 
 @Component({
   selector: 'app-all-categories',
@@ -7,7 +17,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private profileService: ProfileService, public allCategoriesService: AllCategoriesService, private imageService: FileService, private http: HttpClient) {}
+ ngOninit(){
+
+ }
+   
+  categories: any[] = []; // added by ronak
+  icon: any[] = [];
+  
+  ngOnInit() {
+    
+    this.fetchMainCategory();
+    this.fetchMainCategoryIcon();
+
+  }
 
   home() {
     this.router.navigate(['home']);
@@ -19,7 +42,8 @@ export class AllCategoriesPage implements OnInit {
   booking(){
     this.router.navigate(['booking'])
   }
-  ngOnInit() {}
+  
+
   AllCategories = [
     {
       label: 'Appliance Repair',
@@ -55,4 +79,23 @@ export class AllCategoriesPage implements OnInit {
       img: '/assets/Group 34260 (5).png',
     },
   ];
+  fetchMainCategory() {
+    this.allCategoriesService.getCategory().then((name) => {
+      this.categories = name.docs.map((doc) => {
+        this.categories = [...this.categories];
+        return doc.data()
+      });
+      console.log("this is categories list ", this.categories);
+    })
+  }
+  fetchMainCategoryIcon() {
+    this.allCategoriesService.getCategory().then((icon) => {
+      this.icon = icon.docs.map((doc) => {
+        this.icon = [...this.icon];
+        return doc.data()
+        
+      });
+      console.log("this is icon list ", this.icon);
+    })
+  }
 }

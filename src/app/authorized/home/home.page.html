@@ -60,19 +60,22 @@
     <hr class="horizontalRow">
     <h4> Categories of Services</h4>
     <ion-row>
-      <ion-col class="serviceCategoriesImages">
-        <a routerLink='../../sub-Categories'>
-          <img src="assets/images/AcRepair.jpg" alt=""></a>
+      <ion-col class="serviceCategoriesImages" *ngFor="let mainCategory of homeService.mainCategories | async">
+        <a routerLink="../sub-Categories/{{mainCategory.id}}">
+          <div *ngFor="let item of icon">
+            <img src="{{item.icon}}" alt="">
+          </div>
+        </a>
       </ion-col>
 
-      <ion-col class="serviceCategoriesImages">
+      <!-- <ion-col class="serviceCategoriesImages">
         <a href="#">
-          <img src="assets/images/HomeCleaning.jpg" alt=""></a>
+          <img src="{{icon![1]?.icon}}" alt=""></a>
       </ion-col>
       <ion-col class="serviceCategoriesImages">
         <a href="#">
-          <img src="assets/images/KitchenCleaning.png" alt=""></a>
-      </ion-col>
+          <img src="{{icon![2]?.icon}}" alt=""></a>
+      </ion-col> -->
       <ion-col class="serviceCategoriesImages">
         <!-- <span routerLink="../all-categories/">See All</span>-->
         <img src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
@@ -82,10 +85,10 @@
       <ion-col class="serviceCategoriesLabels"> {{categories![0]?.name}} </ion-col>
       <ion-col class="serviceCategoriesLabels"> {{categories![1]?.name}} </ion-col>
       <ion-col class="serviceCategoriesLabels"> {{categories![2]?.name}} </ion-col>
-      <ion-col class="serviceCategoriesLabels"><span routerLink="../all-categories/">See All</span></ion-col>
+      <ion-col class="serviceCategoriesLabels"><span routerLink="../all-categories/" (click)="fetchMainCategoryIcon()">See All</span></ion-col>
     </ion-row>
     <hr class="horizontalRow">
-  </div>
+  </div> <!--added by ronak till here-->
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
     <div *ngIf="mainCategory.name !== '' "></div>
     <h3>{{mainCategory.name}}</h3>

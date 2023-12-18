@@ -229,6 +229,14 @@ text-decoration: none;
  overflow: hidden;
  position: relative;
 }
+.serviceCategoriesLabels:nth-child(3){
+display: flex;
+justify-content: center;
+ align-items: center;
+ overflow: hidden;
+ position: relative;
+ padding: 0px;
+}
 //recent activity
 
 .recent-container {

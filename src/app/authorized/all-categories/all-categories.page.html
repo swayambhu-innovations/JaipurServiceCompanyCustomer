@@ -27,13 +27,14 @@
       </div>
     </ion-header>
   </div>
-  <div class="container-fluid mt-4">
-    <h2>All Categories</h2>
-    <div class="row text-center">
-      <div class="col-4 " *ngFor="let Categories of AllCategories">
-        <img alt="Categories" src="{{Categories.img}}" /><br>
-        <ion-label>{{Categories.label}}</ion-label>
+  <div class="container-fluid mt-4"> <!--added by ronak-->
+    <h2>All Categories</h2><br><br>
+    <div class="row text-center" *ngFor="let mainCategory of allCategoriesService.mainCategories | async">
+      <div class="col-4" *ngFor="let item of icon">
+        <img alt="Categories" routerLink="../sub-Categories/{{mainCategory.id}}" src="{{item.icon}}" /><br>
+        <ion-label>{{item.name}}</ion-label> <!--added by ronak-->
       </div>
     </div>
   </div>
 </div>
+
