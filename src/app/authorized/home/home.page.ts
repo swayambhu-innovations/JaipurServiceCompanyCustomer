@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
 import { async } from 'rxjs';
-import { Filesystem, Directory  } from '@capacitor/filesystem';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { log } from 'console';
 import { ProfileService } from '../db_services/profile.service';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
 const CASHE_FOLDER = "CASHED_IMG";
 
 interface bannerConfig {
@@ -21,7 +22,7 @@ interface bannerConfig {
 })
 export class HomePage implements OnInit {
 
-  todayDate : number = Date.now();
+  todayDate: number = Date.now();
 
   promotionalBanners: bannerConfig[] = [
     {
@@ -45,24 +46,26 @@ export class HomePage implements OnInit {
       url: 'https://www.google.com',
     },
   ];
-  
 
-  
+
+
 
   banners: any[] = [];
   recentActivityData: any[] = [];
-  categories :any[] = []; // added by ronak
-  
+  categories: any[] = []; // added by ronak
+  icon: any[] = []; // added by ronak
+ 
 
-  constructor(private router: Router,private profileService:ProfileService, public homeService: HomeService, private imageService:FileService,private http:HttpClient) {
-   
+  constructor(private router: Router, private profileService: ProfileService, public homeService: HomeService, private imageService: FileService, private http: HttpClient) {
+
   }
 
   ngOnInit() {
     this.fetchBanners();
     this.recentActivity();
-    this.fetchMainCategory(); 
-    
+    this.fetchMainCategory(); // added by ronak
+    this.fetchMainCategoryIcon(); // added by ronak
+
   }
 
   fetchBanners() {
@@ -73,16 +76,26 @@ export class HomePage implements OnInit {
       this.getImage(this.banners[0].img);
     });
   }
-   // added by ronak
-   fetchMainCategory(){
-    this.homeService.getCategory().then((name)=>{
-    this.categories = name.docs.map((doc)=>{
-      this.categories = [...this.categories];
-      return doc.data()
-    });
+  // added by ronak
+  fetchMainCategory() {
+    this.homeService.getCategory().then((name) => {
+      this.categories = name.docs.map((doc) => {
+        this.categories = [...this.categories];
+        return doc.data()
+      });
     })
   }
-// till here 
+  fetchMainCategoryIcon() {
+    this.homeService.getCategory().then((icon) => {
+      this.icon = icon.docs.map((doc) => {
+        this.icon = [...this.icon];
+        return doc.data()
+      });
+    })
+    console.log("this are main category icon so be careful with this ok ",this.icon)
+  }
+  // till here 
+
   cart() {
     this.router.navigate(['cart']);
   }
@@ -98,7 +111,7 @@ export class HomePage implements OnInit {
     this.router.navigate(['notification']);
   }
 
-  recentActivity(){
+  recentActivity() {
     this.homeService.getRecentBookings().then((activity) => {
       this.recentActivityData = activity.docs.map((doc) => {
         return doc.data();
@@ -190,79 +203,79 @@ export class HomePage implements OnInit {
     }
   }
 
-   getImage(url:string){
+  getImage(url: string) {
     let imageName = url.split('/').pop();
-    if(imageName?.includes('?')){
+    if (imageName?.includes('?')) {
       imageName = imageName.split("?")[0];
-      imageName = imageName.replaceAll("%2","");
+      imageName = imageName.replaceAll("%2", "");
     }
     let fileType = url.split('.').pop();
-    if(fileType?.includes('?')){
+    if (fileType?.includes('?')) {
       fileType = fileType.split("?")[0];
     }
     //debugger
     Filesystem.readFile({
-      directory:Directory.Cache,
-      path:`${CASHE_FOLDER}/${imageName}`
-    }).then(async readFile=>{
+      directory: Directory.Cache,
+      path: `${CASHE_FOLDER}/${imageName}`
+    }).then(async readFile => {
       //console.log("Local File",imageName, readFile);
-      if(readFile.data ===""){
+      if (readFile.data === "") {
         let file = await this.saveImage(url, imageName);
-       // console.log("server file")
+        // console.log("server file")
         return `data:image/${fileType};base64,${file}`;
-      }else
-      return `data:image/${fileType};base64,${readFile.data}`;
-    }).catch(async e =>{
+      } else
+        return `data:image/${fileType};base64,${readFile.data}`;
+    }).catch(async e => {
       // wirte a file
       //console.log("e........: ", e)
-        let file = await this.saveImage(url, imageName);
-       Filesystem.readFile({
-        directory:Directory.Cache,
-        path:`${CASHE_FOLDER}/${imageName}`
-      }).then(readFile=>{
+      let file = await this.saveImage(url, imageName);
+      Filesystem.readFile({
+        directory: Directory.Cache,
+        path: `${CASHE_FOLDER}/${imageName}`
+      }).then(readFile => {
         return `data:image/${fileType};base64,${readFile.data}`;
       })
-    }).finally(()=>{
-     // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
+    }).finally(() => {
+      // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
     });
   }
 
- async saveImage(url:string, path){
-  //debugger
-  // this.http.get(url).subscribe({
-  //   next:(rspose)=>{
-  //     console.log("response: ",response)
-  //   },
-  //   error:(error)=>{
-  //     console.log("eer.........:",error)
-  //   }
-    
-  // })
-  // let xhr = new XMLHttpRequest();
-  // xhr.responseType = 'blob';
-  // xhr.onload = (event) => {
-  //   console.log("xhr.response: ",xhr.response)
-  //   const blob = xhr.response;
-  //   console.log("blob...........: ",blob)
-  // };
-  // xhr.open('GET', url,true);
-  // xhr.setRequestHeader("Origin",location.origin);
-  // xhr.setRequestHeader("mode",'no-cors');
-  // xhr.send();
+  async saveImage(url: string, path) {
+    //debugger
+    // this.http.get(url).subscribe({
+    //   next:(rspose)=>{
+    //     console.log("response: ",response)
+    //   },
+    //   error:(error)=>{
+    //     console.log("eer.........:",error)
+    //   }
 
-    const response:any = await fetch(url,{
+    // })
+    // let xhr = new XMLHttpRequest();
+    // xhr.responseType = 'blob';
+    // xhr.onload = (event) => {
+    //   console.log("xhr.response: ",xhr.response)
+    //   const blob = xhr.response;
+    //   console.log("blob...........: ",blob)
+    // };
+    // xhr.open('GET', url,true);
+    // xhr.setRequestHeader("Origin",location.origin);
+    // xhr.setRequestHeader("mode",'no-cors');
+    // xhr.send();
+
+    const response: any = await fetch(url, {
       headers: new Headers({
         'Origin': location.origin
       }),
       mode: 'no-cors'
-    }).then(response=>{
-     // console.log("response....... ",response.body)
-    }).catch(error=>{
-      console.log("errror.....",error);
+    }).then(response => {
+      // console.log("response....... ",response.body)
+    }).catch(error => {
+      console.log("errror.....", error);
     });
-  // convert to a Blob
- // debugger
-  let blob = await response.body?.blob();
+    // convert to a Blob
+    // debugger
+    let blob = await response.body?.blob();
     const convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
       const reader = new FileReader;
       reader.onerror = reject;
@@ -270,14 +283,14 @@ export class HomePage implements OnInit {
         resolve(reader.result);
       };
       //console.log("blob...........: ",blob)
-    reader.readAsDataURL(blob);
-  });
-// convert to base64 data, which the Filesystem plugin requires
-  const base64Data = await convertBlobToBase64(blob) as string;
-      // console.log("Saving.................");
-       
-  const savedFile = await Filesystem.writeFile({
-      path:`${CASHE_FOLDER}/${path}`,
+      reader.readAsDataURL(blob);
+    });
+    // convert to base64 data, which the Filesystem plugin requires
+    const base64Data = await convertBlobToBase64(blob) as string;
+    // console.log("Saving.................");
+
+    const savedFile = await Filesystem.writeFile({
+      path: `${CASHE_FOLDER}/${path}`,
       data: base64Data,
       directory: Directory.Cache
     });
@@ -286,11 +299,11 @@ export class HomePage implements OnInit {
 }
 
 export interface Banner {
-  id?: string|null|undefined;
-  title: string|null|undefined;
-  bannerUrl: string|null|undefined;
-  start: string|null|undefined;
-  end: string|null|undefined;
+  id?: string | null | undefined;
+  title: string | null | undefined;
+  bannerUrl: string | null | undefined;
+  start: string | null | undefined;
+  end: string | null | undefined;
   img: string;
-  bannerNo?: number|null|undefined;
+  bannerNo?: number | null | undefined;
 }
