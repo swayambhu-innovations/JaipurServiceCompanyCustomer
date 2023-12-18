@@ -25,25 +25,27 @@
       <h2>When should the professional arrive?</h2>
       <p>Your service will take approx. 2hr and 20 mins</p>
       <div class="first-btns">
-        <button *ngFor="let btn of dates" (click)="selectedDate = btn; setSlot()"
-          [ngClass]="{active:selectedDate==btn}">
+        <button *ngFor="let btn of dates" (click)="selectedDate = btn; clearSlot()" [ngClass]="{active:selectedDate==btn}">
           {{btn | date:'dd'}}<br>{{btn | date:'E'}}
         </button>
       </div>
       <h2>Select Job Starting Slot</h2>
       <div class="second-btns">
-        <button *ngFor="let items of slotsArray" (click) = "startTime = items.start; endTime = items.end; setSlot()" [ngClass] = "{active:startTime==items.start}">
+        <button *ngFor="let items of slotsArray" (click)="startTime = items.start; endTime = items.end; setSlot()"
+          [ngClass]="{active:startTime==items.start}"
+          [disabled]="currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false">
           <img src="{{slotsIcons[items.index-1]}}" alt="">
           <div class="slot-det">
             <p>{{slotsStatus[items.index-1]}}</p>
-            <p>{{items.start < 12 && items.end > 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " : (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " : items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
+            <p>{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :
+                (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " :
+                items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
           </div>
         </button>
       </div>
       <h2 style="margin-top: 20px;">Select Preferred Agent Arrival Time</h2>
       <div class="third-btns">
-        <button *ngFor="let btn of times" 
-          [ngClass]="{active:selectedStartTime==btn}">
+        <button *ngFor="let btn of agentArrivalArray" (click) = "selectAgentArrivalTime = btn; setTimeSlot()" [ngClass]="{active:selectAgentArrivalTime==btn}">
           {{btn | date:'hh:mm'}} <br> {{btn | date:'aaa'}}
         </button>
       </div>
