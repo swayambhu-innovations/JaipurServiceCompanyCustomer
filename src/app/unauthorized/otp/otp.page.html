@@ -9,7 +9,7 @@
 <ion-content>
   <h1>Enter verification code</h1>
   <p>We have sent you a 6 digit verification code on</p>
-  <div>+91 {{userMobile}}</div>
+  <div>+91 {{dataProvider.userMobile}}</div>
 
   <div class="otp-inputs">
     <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
@@ -17,8 +17,9 @@
 
 
   <div class="resend">
+    <div id="recaptcha-container2"></div>
     <p>Don't receive code?</p> &nbsp;
-    <p style="color: #5E0080; cursor: pointer;">Resend OTP</p>
+    <p style="color: #5E0080; cursor: pointer;" (click)="sendOTP()" >Resend OTP</p>
   </div>
   <ion-button class="signup" color="dark" (click)="login()">Login</ion-button>
 </ion-content>

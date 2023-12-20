@@ -4,6 +4,7 @@ import { AlertsAndNotificationsService } from '../../alerts-and-notifications.se
 import { DataProviderService } from '../../core/data-provider.service';
 import { AuthService } from '../../core/auth.service';
 import { LoadingController } from '@ionic/angular';
+import { RecaptchaVerifier } from 'firebase/auth';
 
 @Component({
   selector: 'app-otp',
@@ -13,19 +14,33 @@ import { LoadingController } from '@ionic/angular';
 export class OtpPage implements OnInit {
   otp: any; 
   showOtpComponent = true;
+  verifier:RecaptchaVerifier|undefined;
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
-
-  constructor(private router: Router,private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private authService:AuthService, private loadingController: LoadingController) { }
-  userMobile:string = '0000000000' 
+  constructor(private router: Router,public dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private authService:AuthService, private loadingController: LoadingController) { 
+  }
+ 
   ngOnInit() {
-    
     if(!this.dataProvider.loginConfirmationResult){
       this.alertify.presentToast("Some Error occurred. Please enter phone again.")
       this.router.navigate(['unauthorized/login']);
     }
-    this.userMobile = this.dataProvider.userMobile;
   }
-
+  async sendOTP(){
+    if(this.dataProvider.loginConfirmationResult){
+      let loader = await this.loadingController.create({message:'Logging in...'});
+      loader.present();
+      if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container2',{'size':'invisible'},this.authService.auth);
+      this.authService.loginWithPhoneNumber(this.dataProvider.userMobile,this.verifier).then((login)=>{
+        this.alertify.presentToast("OTP send on Successfully. Please Check!");
+        console.log("dataprovider.........: ",this.dataProvider)
+      }).catch((error)=>{
+        console.log(error);
+        this.alertify.presentToast(error.message);
+      }).finally(()=>{
+        loader.dismiss();
+      });
+    }
+  }
   async login(){
     if(this.dataProvider.loginConfirmationResult){
       let loader = await this.loadingController.create({message:'Logging in...'});
