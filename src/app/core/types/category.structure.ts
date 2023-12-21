@@ -14,12 +14,17 @@ export interface SubCategory {
 export interface Service {
   id: string;
   name: string;
+  hsnCode:string;
+  reviewEditable:string;
+  
   image: string;
   video: string;
   description: any;
   enabled: boolean;
   allowReviews: boolean;
   taxes: any[];
+  tags:string[];
+  taxType:string;
   discounts: any[];
   variants: {
     id:string;

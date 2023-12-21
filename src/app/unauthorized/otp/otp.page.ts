@@ -32,7 +32,6 @@ export class OtpPage implements OnInit {
       if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container2',{'size':'invisible'},this.authService.auth);
       this.authService.loginWithPhoneNumber(this.dataProvider.userMobile,this.verifier).then((login)=>{
         this.alertify.presentToast("OTP send on Successfully. Please Check!");
-        console.log("dataprovider.........: ",this.dataProvider)
       }).catch((error)=>{
         console.log(error);
         this.alertify.presentToast(error.message);

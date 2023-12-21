@@ -26,12 +26,6 @@ export class ServiceDetailPage implements OnInit {
   setOpen(isOpen: boolean) {
     this.showModal = isOpen;
   }
-  serviceType:Array<string> = [
-    "Complete Kitchen",
-    "Complete Kitchen With Chimney",
-    "Complete Kitchen With Appliance",
-    "Complete Kitchen With Appliance & Chimney"
-  ]
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -60,12 +54,10 @@ export class ServiceDetailPage implements OnInit {
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
     this.activatedRoute.params.subscribe(async (params)=>{
-      console.log("this. modal constructor........: ",this.showModal ,this.router.url,this.modal)
       if(this.router.url.includes("services") || this.router.url.includes("service-detail")){
         this.setOpen (true) ;
         $("#modal3").show();
         if(this.modal){
-          console.log("this. modal constructor........: ",this.modal )
           this.modal.setCurrentBreakpoint(0.3);
         }
         
@@ -110,7 +102,6 @@ export class ServiceDetailPage implements OnInit {
   this.showModal = false;
   this.modal.setCurrentBreakpoint(0.3);
   $("#modal3").hide();
-  console.log("this. modal........: ",this.showModal)
     this.router.navigate(['/authorized/cart/all/all']);
     //modal.dismiss();
   }
