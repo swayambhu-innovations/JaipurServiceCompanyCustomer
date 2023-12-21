@@ -274,3 +274,279 @@
 	  letter-spacing: -0.24px;
 	}
   }
+=======
+  padding: 8px;
+  background: #e8e9ea;
+  border: 2px solid #dcdcdc;
+  border-radius: 12px;
+  margin: 1px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  .descrption-title {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+// .buttonRow{
+// 	display: flex;
+// 	gap:20px;
+// 	ion-button{
+// 		width: 100%;
+// 	}
+// }
+
+// <div class="variant" *ngFor="let variant of matchingService?.variants">
+// <div class="detail">
+// <p class="name">{{variant.name}}</p>
+// <p class="price">{{variant.price}}</p>
+// </div>
+// <div class="buttons">
+// <ion-button fill="outline" color="dark" size="large">Add To Cart</ion-button>
+// <ion-button color="dark" size="large">Book Now</ion-button>
+// </div>
+// </div>
+.variants {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+  gap: 10px;
+  .variant {
+    display: flex;
+    flex-direction: column;
+    --min-height: 120px;
+    max-height: 120px;
+    gap: 10px;
+    .detail {
+      margin-bottom: 9px;
+      .name {
+        font-size: 18px;
+        font-weight: 700;
+        margin: auto;
+      }
+      .price {
+        font-size: 18px;
+        font-weight: 700;
+        color: green;
+        text-align: end;
+      }
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+      ion-button {
+        width: 100%;
+      }
+    }
+  }
+}
+.service-details {
+  .service-title {
+    font-weight: 700;
+    margin-top: 18px;
+    font-size: 14px;
+  }
+  .text-end h3 {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .rate {
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .discount {
+    height: 16px;
+    margin-top: 0px;
+    margin-bottom: 1rem;
+  }
+}
+.variants_modal {
+  padding: 0px 15px;
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: auto;
+  }
+  p {
+    margin: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #2b780e;
+  }
+}
+.ion-padding {
+  --padding-start: var(--ion-padding, 0px);
+  --padding-end: var(--ion-padding, 0px);
+}
+
+.detail {
+  .name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: auto;
+  }
+  .price {
+    margin: 0px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b780e;
+  }
+}
+ion-button {
+  height: 48px;
+  font-size: 14px;
+}
+
+#modal .modal-wrapper {
+  border-radius: 12xp;
+}
+.cart-details {
+  h3 {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    p {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #999999;
+    }
+  }
+}
+.cart-button {
+  height: 48px;
+  .remove,
+  .add {
+    font-size: 25px;
+  }
+  ion-input {
+    text-align: center;
+  }
+}
+
+.service-box {
+  display: flex;
+  flex-wrap: wrap;
+  .server-type {
+    background: #e8e9ea;
+    width: fit-content;
+    padding: 6px;
+    gap: 9px;
+    border-radius: 9px;
+    margin: 10px;
+  }
+  .server-type-active {
+    background: #000000;
+    width: fit-content;
+    padding: 6px;
+    gap: 9px;
+    border-radius: 9px;
+    margin: 10px;
+    color: white;
+  }
+}
+.remove-pading {
+  display: block;
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+
+  .addCartdiv {
+    button {
+      width: 100%;
+      display: flex;
+      height: 48px;
+      padding: 5px 12px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+    }
+    .addCartdiv-buttons {
+      border: 1px solid var(--primary, #181f29);
+      background: #fff;
+    }
+
+    .book-buttons {
+      color: white;
+      background: var(--Primary, #1a1d1f);
+    }
+  }
+}
+
+.remove-pading1 {
+  display: flex;
+  justify-content: space-between;
+  .addremove-div {
+    width: 50%;
+    display: flex;
+    button,
+    input {
+      width: 29%;
+      height: 48px;
+      border: 2px solid;
+      border-radius: 12px;
+      font-size: 38px;
+      padding-bottom: 14px;
+      margin-right: 5px;
+      background-color: #fff;
+    }
+
+    .input-div {
+      text-align: center;
+      font-size: 20px;
+      padding-top: 11px;
+      border: 1px solid #80808052;
+      color: #4b4a4a;
+    }
+
+    .remove {
+      background: white;
+      border: 1px solid #80808052;
+      color: grey;
+    }
+
+    .add {
+      font-weight: 500;
+      color: white;
+      background: var(--Primary, #1a1d1f);
+      height: 46px;
+    }
+  }
+
+  .remove-div {
+    width: 46%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    button {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid red;
+      color: red;
+      background: white;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 15px 0px;
+    }
+  }
+}
+
+.coupon {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 14px;
+  margin-top: 11px;
+  border-top: 0.6px solid var(--light-green, #e9e9e9);
+  background: #ebfff4;
+  padding: 5px 82px;
+
+  p {
+    margin: 0;
+    color: #2b780e;
+
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 116.667% */
+    letter-spacing: -0.24px;
+  }
+}
