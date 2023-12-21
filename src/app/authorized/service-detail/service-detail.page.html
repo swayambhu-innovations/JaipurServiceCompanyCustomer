@@ -103,8 +103,8 @@
       <div class="col mt-4">
         <h2>Type</h2>
         <div class="service-box">
-          <p class="server-type" *ngFor="let type Of serviceType">{{type}}</p>
-        </div>
+          <p class="server-type" *ngFor="let type Of matchingService?.tags">{{type}}</p>
+        </div>     
       </div>
     </div>
     <div class="row">

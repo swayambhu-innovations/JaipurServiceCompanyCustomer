@@ -19,7 +19,6 @@ export class AuthService {
         if(user){
           this.dataProvider.loggedIn = true;
           this.getUserData(user.uid).subscribe((userData)=>{
-            console.log("usr deti......: ",userData)
             this.dataProvider.currentUser = {
               user:user,
               userData:userData
@@ -44,7 +43,6 @@ export class AuthService {
       if(user){
         this.dataProvider.loggedIn = true;
         this.getUserData(user.uid).subscribe((userData)=>{
-          console.log("usr deti......: ",userData)
           this.dataProvider.currentUser = {
             user:user,
             userData:userData
