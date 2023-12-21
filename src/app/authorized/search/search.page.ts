@@ -28,7 +28,7 @@ export class SearchPage implements OnInit {
  
   constructor(private dataProvider:DataProviderService) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      //`console.log("term: ",term)
+      console.log("term: ",term)
       if(term.length > 2){
         this.results = this.fuseSearchInstance.search(term).map((result)=>{
         
@@ -37,7 +37,7 @@ export class SearchPage implements OnInit {
             price:result.item.variants.sort((a,b)=>a.price-b.price)[0]?.price
           }
         })
-       // console.log("searching for ",term,this.fuseSearchInstance, this.results);
+       console.log("searching for ",term,this.fuseSearchInstance, this.results);
        
         if(this.results.length === 0 ){
           this.historyTerms = [];
@@ -89,8 +89,13 @@ export class SearchPage implements OnInit {
   }
 
   getFromHistory():string[]{
-    let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
+    let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}');
+    console.log("data.............",data)
+    if (typeof data.terms == 'object' && data.terms.length >= 0) {
     return data.terms.reverse();
+    }else{
+      return [];
+    }
   }
   removeItemFromHistory(index:number){
     
