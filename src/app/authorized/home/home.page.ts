@@ -77,13 +77,14 @@ export class HomePage implements OnInit {
     });
   }
   // added by ronak
-  fetchMainCategory() {
-    this.homeService.getCategory().then((name) => {
+  async fetchMainCategory() {
+    await this.homeService.getCategory().then((name) => {
       this.categories = name.docs.map((doc) => {
         this.categories = [...this.categories];
         return doc.data()
       });
     })
+    console.log(this.categories);
   }
   fetchMainCategoryIcon() {
     this.homeService.getCategory().then((icon) => {
@@ -92,7 +93,6 @@ export class HomePage implements OnInit {
         return doc.data()
       });
     })
-    console.log("this are main category icon so be careful with this ok ",this.icon)
   }
   // till here 
 
@@ -118,7 +118,6 @@ export class HomePage implements OnInit {
         return doc.data();
       })
     })
-    console.log(this.recentActivityData);
   }
 
   condition: boolean = true;

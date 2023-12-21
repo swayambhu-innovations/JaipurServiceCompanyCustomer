@@ -14,10 +14,11 @@ export class NewAddressPage implements OnInit {
 
   constructor(private addressService:AddressService,private dataProvider:DataProviderService, private loadingController: LoadingController, private router:Router) { }
   addressForm:FormGroup = new FormGroup({
-    name: new FormControl('', Validators.required),
-    addressLine1: new FormControl('', Validators.required),
-    addressLine2: new FormControl('', Validators.required),
-    pinCode: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{6}$')]),
+    state: new FormControl('State', Validators.required),
+    city: new FormControl('City', Validators.required),
+    pincode: new FormControl('Pin Code', Validators.required),
+    area:new FormControl('Area', Validators.required),
+    address: new FormControl('House/Flat/Block/Building', Validators.required),
   })
   ngOnInit() {
   }

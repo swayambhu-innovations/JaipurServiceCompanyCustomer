@@ -87,6 +87,7 @@ export class ProfileInfoPage implements OnInit {
     await actionSheet.present();
   }
   async nextFunction(){
+    this.route.navigate(['authorized/profile'])
     this.isSubmitForm = true;
     if(!this.userProfileForm.valid){
       if(this.selectedGender === ''){
@@ -107,10 +108,11 @@ export class ProfileInfoPage implements OnInit {
       this.userProfileForm.addControl("gender", new FormControl(this.selectedGender));
     }
      let loader = await this.loadingController.create({message:'Adding Coustomer Details.........'})
+     
       await loader.present()
       if(this.dataProvider?.currentUser?.user.uid === undefined){
         this.profileService.addUsers(this.dataProvider.currentUser!.user.uid, this.userProfileForm.value).then(()=>{
-          this.route.navigateByUrl('/authorized/home');
+          // this.route.navigateByUrl('/authorized/select-address');
          // this.userProfileForm.reset()
            loader.dismiss()
         }).catch((error:any)=>{
@@ -122,7 +124,7 @@ export class ProfileInfoPage implements OnInit {
           console.log("this.userProfileForm.value. ..: ",this.userProfileForm.value)
           this.profileService.editUsers(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentUser?.userData.uid ,this.userProfileForm.value).then(()=>{
             this.auth.updateUserDate();
-            this.route.navigateByUrl('/authorized/home');
+            // this.route.navigateByUrl('/authorized/select-address');
            // this.userProfileForm.reset()
              loader.dismiss()
           }).catch((error:any)=>{

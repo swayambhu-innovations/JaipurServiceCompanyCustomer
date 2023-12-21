@@ -16,7 +16,7 @@
       <input type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
     </div>
     <div id="recaptcha-container"></div>
-    <ion-button class="signup" color="dark" (click)="login()">Login/SignUp</ion-button>
+    <ion-button [disabled] = "phoneNumber.length < 10 ? true : false" class="signup" color="dark" (click)="login()">Login/SignUp</ion-button>
   </section>
 
   <section class="login" *ngIf="this.dataProvider.checkingAuth">
