@@ -1,3 +1,45 @@
+<!-- <div class="container-fluid">
+  <div class="row">
+    <ion-header collapse="fade" mode="ios">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-icon name="location-outline" size="large"></ion-icon>
+        </ion-buttons>
+        <ion-select label="Alert Interface" mode="md" label-placement="stacked" placeholder="Select fruit">
+          <ion-select-option value="apples">Apples</ion-select-option>
+          <ion-select-option value="oranges">Oranges</ion-select-option>
+          <ion-select-option value="bananas">Bananas</ion-select-option>
+        </ion-select>
+        <ion-buttons slot="end">
+          <ion-button routerLink="/notification"> <ion-icon name="notifications-outline" size="large"
+              color="dark"></ion-icon> </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-toolbar>
+        <ion-searchbar autocorrect="on" showCancelButton="never"> <button class="search-btn"><i
+              class="fas fa-search"></i></button></ion-searchbar>
+      </ion-toolbar>
+      <div class="input-group mb-3 mt-4">
+
+        <input type="search" class="form-control" placeholder="Search what you need..."
+          aria-label="Search what you need...">
+        <ion-button  class="input-group-text" color="dark"><ion-icon name="search-outline"></ion-icon></ion-button >
+      </div>
+    </ion-header>
+  </div>
+  <div class="container-fluid mt-4"> 
+    <h2>All Categories</h2><br><br>
+    <div class="row text-center" *ngFor="let mainCategory of allCategoriesService.mainCategories | async">
+      <div class="col-4" *ngFor="let item of icon">
+        <img alt="Categories" routerLink="../sub-Categories/{{mainCategory.id}}" src="{{item.icon}}" /><br>
+        <ion-label>{{item.name}}</ion-label> 
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+
+
 <div class="container-fluid">
   <div class="row">
     <ion-header collapse="fade" mode="ios">
@@ -21,20 +63,30 @@
       </ion-toolbar> -->
       <div class="input-group mb-3 mt-4">
 
-        <input type="search" class="form-control" placeholder="Search what you need..."
+        <button id="search" routerLink="../search">
+          <input type="search" 
+            placeholder="Search what you need" name="" id="">
+          <span>
+            <img src="../../../assets/ui_icons/search.svg" alt="">
+          </span>
+        </button>
+
+        <!-- <input type="search" class="form-control" placeholder="Search what you need..."
           aria-label="Search what you need...">
-        <ion-button  class="input-group-text" color="dark"><ion-icon name="search-outline"></ion-icon></ion-button >
+        <ion-button class="input-group-text" color="dark"><ion-icon name="search-outline"></ion-icon></ion-button> -->
       </div>
     </ion-header>
   </div>
-  <div class="container-fluid mt-4"> <!--added by ronak-->
-    <h2>All Categories</h2><br><br>
-    <div class="row text-center" *ngFor="let mainCategory of allCategoriesService.mainCategories | async">
-      <div class="col-4" *ngFor="let item of icon">
-        <img alt="Categories" routerLink="../sub-Categories/{{mainCategory.id}}" src="{{item.icon}}" /><br>
-        <ion-label>{{item.name}}</ion-label> <!--added by ronak-->
+  <h2>All Categories</h2>
+
+  <div class="allCategory-div">
+    <div class="details" *ngFor="let mainCategory of categories">
+      <div class="category-det">
+        <a routerLink="../sub-Categories/{{mainCategory.id}}">
+          <img src="{{mainCategory.icon}}" alt="">
+        </a>
+        <span>{{mainCategory.name}}</span>
       </div>
     </div>
   </div>
 </div>
-

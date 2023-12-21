@@ -1,3 +1,4 @@
+
 <app-home-header [MAX_ADDRESS_LINE_LENGTH]="30"></app-home-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
@@ -22,8 +23,8 @@
 
     <swiper-container [loop]="true" [spaceBetween]="20">
       <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData">
-      <!-- <div class="recent-container-details" *ngFor="let data of recentActivityData"> -->
-        <ion-grid width="100" >
+        <!-- <div class="recent-container-details" *ngFor="let data of recentActivityData"> -->
+        <ion-grid width="100">
           <ion-row class="row-1">
             <ion-col>
               <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
@@ -52,43 +53,35 @@
           </ion-row>
 
         </ion-grid>
-      <!-- </div> -->
-    </swiper-slide>
+        <!-- </div> -->
+      </swiper-slide>
     </swiper-container>
   </div>
-  <div> <!--added by ronak-->
+
+  <div>
     <hr class="horizontalRow">
     <h4> Categories of Services</h4>
     <ion-row>
-      <ion-col class="serviceCategoriesImages" *ngFor="let mainCategory of homeService.mainCategories | async">
-        <a routerLink="../sub-Categories/{{mainCategory.id}}">
-          <div *ngFor="let item of icon">
-            <img src="{{item.icon}}" alt="">
-          </div>
-        </a>
+      <ion-col class="serviceCategoriesImages" *ngFor="let mainCategory of categories | slice:0:3">
+        <div class="category-det">
+          <a routerLink="../sub-Categories/{{mainCategory.id}}">
+            <img src="{{mainCategory.icon}}" alt="">
+          </a>
+          <span>{{mainCategory.name}}</span>
+        </div>
       </ion-col>
-
-      <!-- <ion-col class="serviceCategoriesImages">
-        <a href="#">
-          <img src="{{icon![1]?.icon}}" alt=""></a>
+      <ion-col class="serviceCategoriesImages" *ngIf = "categories.length > 3? true: false">
+        <div class="category-det">
+          <a>
+            <img class="seeall-img" src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
+          </a>
+          <span>See All</span>
+        </div>
       </ion-col>
-      <ion-col class="serviceCategoriesImages">
-        <a href="#">
-          <img src="{{icon![2]?.icon}}" alt=""></a>
-      </ion-col> -->
-      <ion-col class="serviceCategoriesImages">
-        <!-- <span routerLink="../all-categories/">See All</span>-->
-        <img src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
-      </ion-col>
-    </ion-row>
-    <ion-row class="mainCategory" *ngIf="categories != undefined">
-      <ion-col class="serviceCategoriesLabels"> {{categories![0]?.name}} </ion-col>
-      <ion-col class="serviceCategoriesLabels"> {{categories![1]?.name}} </ion-col>
-      <ion-col class="serviceCategoriesLabels"> {{categories![2]?.name}} </ion-col>
-      <ion-col class="serviceCategoriesLabels"><span routerLink="../all-categories/" (click)="fetchMainCategoryIcon()">See All</span></ion-col>
     </ion-row>
     <hr class="horizontalRow">
-  </div> <!--added by ronak till here-->
+  </div> 
+  
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
     <div *ngIf="mainCategory.name !== '' "></div>
     <h3>{{mainCategory.name}}</h3>

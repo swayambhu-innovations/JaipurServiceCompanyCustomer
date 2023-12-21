@@ -17,7 +17,7 @@ export class NewAddressPage implements OnInit {
     state: new FormControl('State', Validators.required),
     city: new FormControl('City', Validators.required),
     pincode: new FormControl('Pin Code', Validators.required),
-    area: new FormControl('Area', Validators.required),
+    area:new FormControl('Area', Validators.required),
     address: new FormControl('House/Flat/Block/Building', Validators.required),
   })
   ngOnInit() {

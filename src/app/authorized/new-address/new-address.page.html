@@ -1,3 +1,5 @@
+
+
 <div class="container">
   <div class="row">
     <ion-toolbar>
@@ -17,8 +19,7 @@
 <ion-content [fullscreen]="true">
   <div class="container">
     <div class="row">
-      <form class="col" [formGroup]="addressForm">
-
+      <form class="col formdiv" [formGroup]="addressForm">
         <select class="address-fields"  formControlName = "state" id="">
           <option value="State">State</option>
         </select>
@@ -42,7 +43,7 @@
         <input
           class="address-fields"
           type="text"
-          formControlName="name"
+          formControlName="address"
           placeholder="House/Flat/Block/Building"
           aria-label="default input example"
         />
