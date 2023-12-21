@@ -45,6 +45,7 @@ export class CartPopuPage implements OnInit {
     })
   }
   ngOnInit(): void {
+    console.log(this.matchingService);
   }
 
   showAllVariants(modal:any){
