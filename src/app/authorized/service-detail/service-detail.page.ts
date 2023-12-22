@@ -10,7 +10,7 @@ import * as $ from 'jquery';
   styleUrls: ['./service-detail.page.scss'],
 })
 export class ServiceDetailPage implements OnInit {
-   modal: any;
+  @ViewChild('modal3') modal;
   matchingService:Service|undefined;
   matchingSubCategory:SubCategory|undefined;
   matchingMainCategory:Category|undefined;
@@ -20,12 +20,8 @@ export class ServiceDetailPage implements OnInit {
   totalPrice:any = 0;
   showVariant:boolean = true;
   presentingElement ;
-  showModal:boolean = true;
   itemList:any = [];
   cartDetils:any;
-  setOpen(isOpen: boolean) {
-    this.showModal = isOpen;
-  }
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -54,16 +50,7 @@ export class ServiceDetailPage implements OnInit {
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
     this.activatedRoute.params.subscribe(async (params)=>{
-      if(this.router.url.includes("services") || this.router.url.includes("service-detail")){
-        this.setOpen (true) ;
-        $("#modal3").show();
-        if(this.modal){
-          this.modal.setCurrentBreakpoint(0.3);
-        }
-        
-      }else{
-        this.setOpen (false) ;
-      }
+      
       
       let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
       this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
@@ -89,22 +76,26 @@ export class ServiceDetailPage implements OnInit {
       this.cartDetils = cartDetils;
     })
   }
-  // showMode(modal:any){
-  //   this.modal.expand();
-  //   modal.setCurrentBreakpoint(0.12);
-  // }
   showAllVariants(modal:any){
     modal.setCurrentBreakpoint(0.75);
     this.isAddToCart = true;
     this.modal = modal;
   }
+
   ViewCart(modal:any){
-  this.showModal = false;
-  this.modal.setCurrentBreakpoint(0.3);
-  $("#modal3").hide();
+    this.modal.setCurrentBreakpoint(0.3);
     this.router.navigate(['/authorized/cart/all/all']);
-    //modal.dismiss();
   }
+
+  ionViewWillLeave() {
+    this.modal.dismiss();
+  }
+
+  ionViewDidEnter(){
+    this.modal.present();
+  }
+
+  
 
   async bookNow(variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
