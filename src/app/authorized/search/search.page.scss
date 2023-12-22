@@ -84,7 +84,7 @@ ion-content {
     }
 }
 .item-img{
-    width: 82px;
+    width: 76px;
     height: 90px;
     margin-bottom: 5px;
     margin-right: 8px;
@@ -169,6 +169,10 @@ ion-label{
     font-size: 14px;
     font-weight: 700;
     line-height: 16.8px;
+
+    .service-price-col-1{
+        margin-bottom: 4px;
+    }
     .price{
         font-size: 14px;
         color: #579540;
@@ -194,6 +198,14 @@ ion-label{
 }
 .grird-margin-top{
     margin-top: -6px;
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+
+    .col-1{
+        padding: 0;
+    }
 }
 
 .search-box{

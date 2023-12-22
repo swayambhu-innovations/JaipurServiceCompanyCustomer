@@ -17,17 +17,17 @@
 
       <p (click)="clearHistory()"><strong>Clear All</strong></p>
     </div>
-    
+
     <div class="items" [ngClass]="{overflow:resultsFetched}">
       <div class="search-box" *ngFor="let searchTerm of historyTerms;let i = index">
-        <div class="item" (click)="searchInputSubject.next(searchTerm);searchInput.value = searchTerm" >
+        <div class="item" (click)="searchInputSubject.next(searchTerm);searchInput.value = searchTerm">
           <p>{{searchTerm}}</p>
         </div>
         <ion-icon (click)="removeItemFromHistory(i)" name="close-circle-outline"></ion-icon>
       </div>
-      
-      </div>
+
     </div>
+  </div>
 
   <ion-list>
     <!-- <ion-item *ngFor="let result of results" class="search-item" style="margin-bottom: 5px;">
@@ -68,42 +68,49 @@
     </ion-item> -->
 
 
-    <ion-item *ngFor="let result of results" class="search-item" style="margin-bottom: 5px;">
-      <div class="item-img">
-        <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="">
-      </div>
+    <div *ngFor="let result of results" class="search-item" style="margin-bottom: 5px;">
+
       <ion-grid class="grird-margin-top">
-        
-        <ion-row class="service-price">
-          <ion-col size="8"><ion-label class="" >{{result.name}}</ion-label></ion-col>
-          <ion-col size="4">
-            <ion-label class="price">From {{result.price}}</ion-label>
-        </ion-col>
+        <ion-row>
+          <ion-col class="col-1" size="3">
+            <div class="item-img">
+              <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="">
+            </div>
+          </ion-col>
+          <ion-col class="col-1" size="9">
+            <ion-row class="service-price">
+              <ion-col class="service-price-col-1" size="8"><ion-label class="">{{result.name}}</ion-label></ion-col>
+              <ion-col size="4">
+                <ion-label class="price">From {{result.price}}</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row style="margin-top: -10px;">
+              <ion-col size="4">
+                <div class="rating">
+                  <ion-icon style="color: black;" name="star"></ion-icon>
+                  <strong>4.5 (89)</strong>
+                </div>
+              </ion-col>
+              <ion-col size="8">
+                <div class="rating">
+                  <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+                  <strong>5 services</strong>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <div class="details" *ngFor="let des of result.description.blocks">
+                  <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+                  <strong>{{des.data.text}}</strong>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
         </ion-row>
-      <ion-row style="margin-top: -10px;">
-        <ion-col size="3">
-          <div class="rating">
-           <ion-icon style="color: black;" name="star" ></ion-icon>
-            <strong>4.5 (89)</strong>
-          </div>
-        </ion-col>
-        <ion-col size="9">
-          <div class="rating">
-            <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
-            <strong>5 services</strong>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <div class="details" *ngFor="let des of result.description.blocks">
-            <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
-            <strong>{{des.data.text}}</strong>
-          </div>
-        </ion-col>
-      </ion-row>
+
       </ion-grid>
-    </ion-item>
+    </div>
 
 
 
