@@ -12,7 +12,7 @@
     </div>
 
 
-    <div class="second-section">
+    <!-- <div class="second-section">
       <div class="row-1">
         <p class="head">Services</p>
       </div>
@@ -38,6 +38,28 @@
           <section class="right">
             {{variant.billing.totalPrice | currency:'INR'}} 
           </section>
+        </div>
+      </ng-container>
+    </div> -->
+
+    <div class="second-section">
+      <div class="row-1">
+        <p class="head">Services</p>
+      </div>
+      <ng-container *ngFor="let service of this.dataProvider.currentBooking?.services">
+        <div class="order-placed-div">
+          <div class="img-div">
+            <div class="img-circle-div">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div class="category-det-div">
+            <h3>AC Installation</h3>
+            <span>raghav</span>
+          </div>
+          <div class="price-div">
+            <span>1500</span>
+          </div>  
         </div>
       </ng-container>
     </div>
