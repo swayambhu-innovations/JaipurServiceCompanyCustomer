@@ -31,7 +31,7 @@
       </div>
       <h2>Select Job Starting Slot</h2>
       <div class="second-btns">
-        <button *ngFor="let items of slotsArray" (click)="startTime = items.start; endTime = items.end; setSlot()"
+        <button *ngFor="let items of slotsArray" (click)="startTime = items.start; endTime = items.end; setSlot(items)"
           [ngClass]="{active:startTime==items.start}"
           [disabled]="currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false">
           <img src="{{slotsIcons[items.index-1]}}" alt="">

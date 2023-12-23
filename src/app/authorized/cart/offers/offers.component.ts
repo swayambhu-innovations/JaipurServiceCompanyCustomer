@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Booking } from '../../booking/booking.structure';
 import { ModalController } from '@ionic/angular';
 import * as $ from 'jquery';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-offers',
@@ -9,13 +10,14 @@ import * as $ from 'jquery';
   styleUrls: ['./offers.component.scss'],
 })
 export class OffersComponent  implements OnInit {
-  @Input({required:true}) booking:Booking|undefined;
+  booking:Booking|undefined;
+  applicableDiscounts;
   searchValue:string = "";
   selectedCoupan:any;
   coupons:any[]=[
    
   ];
-  constructor(public modalController:ModalController) {
+  constructor(public modalController:ModalController,public cartService:CartService,) {
    }
 
   ngOnInit() {
@@ -23,19 +25,21 @@ export class OffersComponent  implements OnInit {
       this.coupons = [...this.coupons,...service.discounts];
     });
   }
-  onApplyClick(coupan:any){
+  onApplyClick(bookingId:any,discount:any){
     $(".apply-button").show();
     $(".remove-button").hide();
-    $("#"+coupan.code).hide();
-    $("#"+coupan.id).show();
-    this.selectedCoupan = coupan;
+    $("#"+discount.code).hide();
+    $("#"+discount.id).show();
+    this.selectedCoupan = discount;
+    this.cartService.applyCoupon(bookingId,discount);
   }
-  onRemoveClick(coupan:any){
+  onRemoveClick(bookingId:any, coupan:any){
     $(".apply-button").show();
     $(".remove-button").hide();
     $("#"+coupan.code).show();
     $("#"+coupan.id).hide();
     this.selectedCoupan = undefined;
+    this.cartService.removeCoupon(bookingId);
   }
   searchcoupons(){
     console.log("searchValue.......:",this.searchValue)

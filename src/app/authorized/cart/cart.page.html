@@ -14,9 +14,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!selectedBooking && cartService.cart.length > 0">
-  <h3 class="header">You have {{cartService.cart.length}} bookings.</h3>
-  <div class="orderCard" *ngFor="let booking of cartService.cart">
+<ion-content *ngIf="!selectedBooking && cart?.length > 0">
+  <h3 class="header">You have {{cart.length}} bookings.</h3>
+  <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
       <img [src]="booking.subCategory.image" alt="">
       <div class="categories">
@@ -230,7 +230,7 @@
     Next
   </button>
 </ion-content>
-<ion-content class="noItems" *ngIf="!selectedBooking && cartService.cart.length == 0">
+<ion-content class="noItems" *ngIf="!selectedBooking && cart?.length == 0">
   <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
   <span class="text-content">
     <p class="cart-empty-text">Your cart is empty</p>

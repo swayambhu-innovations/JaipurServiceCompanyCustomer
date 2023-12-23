@@ -39,7 +39,8 @@ export class CartPage implements OnInit {
   selectedCoupan:Coupon;
   // coupons array
   isOpenPopu:boolean = false;
-
+  discounts:any[] = [];
+  cart:any;
   constructor(
     private router: Router,
     private activatedRoute:ActivatedRoute,
@@ -48,21 +49,6 @@ export class CartPage implements OnInit {
     private modalController:ModalController
   ) {
     
-    this.cartService.cartSubject.subscribe((bookings)=>{
-      console.log("Updated bookings",bookings);
-      if (this.selectedBooking?.id && bookings.length > 0){
-        let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
-        if (foundBooking){
-          this.selectedBooking   = foundBooking;
-          this.cartService.calculateBilling(this.selectedBooking);
-        }
-      }else{
-        this.selectedBooking = undefined;
-      }
-    })
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params);
-    })
   }
  
   notification(){
@@ -78,7 +64,8 @@ export class CartPage implements OnInit {
     let modal = await this.modalController.create({
       component:OffersComponent,
       componentProps:{
-        booking:this.selectedBooking
+        booking:this.selectedBooking,
+        applicableDiscounts: this.cartService.applicableDiscounts
       }
     });
     modal.onDidDismiss()
@@ -94,13 +81,16 @@ export class CartPage implements OnInit {
     });
     modal.present()
   }
+  ionViewDidLeave(){
+    this.selectedBooking = undefined;
+  }
   removeCoupan(){
     this.selectedBooking!['appliedCoupon'] = undefined;
     console.log("this.selectedBooking: ",this.selectedBooking)
     this.cartService.calculateBilling(this.selectedBooking!);
   }
   appliedCoupanDiscount(){
-    this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
+    //this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
     this.cartService.calculateBilling(this.selectedBooking!);
   }
   getOfferCount(){
@@ -111,6 +101,8 @@ export class CartPage implements OnInit {
     return count;
   }
   services: Service[] = [];
+
+  ion
 
   addTime(time1: {minutes:number}, time2: {minutes:number}): {minutes:number} {
     const result: {minutes:number} = {
@@ -148,7 +140,23 @@ export class CartPage implements OnInit {
   }
   orderCount: any = 2;
   ngOnInit() {
-    console.log(this.selectedBooking);
+    this.cart = this.cartService.cart;
+    this.cartService.cartSubject.subscribe((bookings)=>{
+      this.cart = bookings;
+      console.log("Updated bookings",bookings);
+      if (this.selectedBooking?.id && bookings.length > 0){
+        let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
+        if (foundBooking){
+          this.selectedBooking   = foundBooking;
+          //this.cartService.calculateBilling(this.selectedBooking);
+        }
+      }else{
+        this.selectedBooking = undefined;
+      }
+    })
+    this.activatedRoute.params.subscribe(params => {
+      console.log(params);
+    })
   }
 
   calculateTotal() {}
