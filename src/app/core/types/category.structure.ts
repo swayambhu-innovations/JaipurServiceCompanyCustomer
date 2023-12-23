@@ -34,4 +34,5 @@ export interface Service {
     jobDuration: number;
     jobAcceptanceCharge: number;
   }[];
+  color: string;
 }

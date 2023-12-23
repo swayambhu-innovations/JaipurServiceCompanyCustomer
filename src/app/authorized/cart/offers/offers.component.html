@@ -35,8 +35,8 @@
             <ion-text class="discount-text">SAVE ₹{{discount?.value}} ON THIS ORDER</ion-text>
           </div>
         </div>
-        <p (click)="onApplyClick(discount)" class="apply-button" id="{{discount.code}}" >Apply</p>
-        <p (click)="onRemoveClick(discount)" class="remove-button none" id="{{discount.id}}" >remove</p>
+        <p (click)="onApplyClick(this.booking?.id,discount)" class="apply-button" id="{{discount.code}}" >Apply</p>
+        <p (click)="onRemoveClick(this.booking?.id,discount)" class="remove-button none" id="{{discount.id}}" >remove</p>
       </div>
     </ng-container>
   </div>

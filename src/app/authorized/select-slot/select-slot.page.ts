@@ -26,7 +26,7 @@ export class SelectSlotPage implements OnInit {
   slots: any[] = [];
   slotsArray: any[] = [];
   selectedTimeState: boolean = false;
-
+  selectedSlot:any;
   startTime: any;
   endTime: any;
 
@@ -120,7 +120,6 @@ export class SelectSlotPage implements OnInit {
     this.slotsArray = this.slots.sort((a, b) => {
       return a.index - b.index;
     });
-    console.log(this.slotsArray);
   }
 
   clearSlot(){
@@ -130,7 +129,7 @@ export class SelectSlotPage implements OnInit {
     this.selectedTimeState = false;
   }
 
-  setSlot() {
+  setSlot(slot) {
     let today = new Date();
     
     this.selectedStartTime = new Date(
@@ -145,6 +144,7 @@ export class SelectSlotPage implements OnInit {
       today.getDate(),
       this.endTime
     );
+    this.selectedSlot = slot;
     console.log(this.startTime + " " + this.endTime);
     this.preferredAgentTime(this.startTime, this.endTime);
   }
@@ -172,6 +172,7 @@ export class SelectSlotPage implements OnInit {
         startTime: Timestamp.fromDate(this.selectedStartTime!),
         endTime: Timestamp.fromDate(this.selectedEndTime!),
       },
+      id: this.selectedSlot.id
     };
     console.log(this.dataProvider.currentBooking!.timeSlot);
     this.selectedTimeState = true;

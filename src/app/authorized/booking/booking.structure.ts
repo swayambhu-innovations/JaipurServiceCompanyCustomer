@@ -42,7 +42,8 @@ export interface Booking {
       // anukul changes
       startTime : Timestamp;
       endTime : Timestamp
-    }
+    },
+    id: string
   };
   currentUser: {
     userId: string;
@@ -64,6 +65,8 @@ export interface SelectedService {
   taxes: natureTax[];
   discounts: Coupon[];
   variants: SelectedVariant[];
+  color: string;
+  taxType: string;
 }
 
 

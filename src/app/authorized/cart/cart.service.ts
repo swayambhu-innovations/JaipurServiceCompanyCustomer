@@ -1,29 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Category, Service, SubCategory } from '../../core/types/category.structure';
-import { Firestore, Timestamp, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, increment, setDoc } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDoc, getDocs, increment, setDoc } from '@angular/fire/firestore';
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   cart:Booking[] = [];
+  applicableDiscounts :any[] = [];
+  discounts:any[] = [];
+  taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
-    collectionData(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'cart'),{idField:'id'}).subscribe((cart)=>{
-      this.cart = cart as Booking[];
-      this.cart.forEach(this.calculateBilling);
+    forkJoin({
+      discountRequest: this.getDiscounts(),
+      cartRequest: this.getCurrentUserCart(),
+      taxRequest : this.getTaxes()
+    })
+    .subscribe(({discountRequest, cartRequest, taxRequest}) => {
+      this.cart = cartRequest.docs.map((cart:any) => {
+        return { ...cart.data(),id: cart.id };
+      });
+      this.discounts = discountRequest.docs.map((discount:any) => {
+        return { ...discount.data(),id: discount.id };
+      });
+      this.taxes = taxRequest.docs.map((tax:any) => {
+        return { ...tax.data(),id: tax.id };
+      });
+      this.cart.map((cartItem:any) => {
+        cartItem = this.calculateBilling(cartItem);
+        return cartItem;
+      });
       this.cartSubject.next(this.cart);
-      console.log(this.cart);
+      
     });
+
+    
   }
 
   async addToCart(userId:string,variantId:string,service:Service,mainCategory:Category,subCategory:SubCategory){
     console.log(service);
     console.log(mainCategory);
-    console.log(subCategory);
+    console.log(subCategory); 
     let variant = service.variants.find(v=>v.id == variantId);
     if (variant){
       for (const data of this.cart) {
@@ -87,7 +108,9 @@ export class CartService {
                   variantId:variant.id,
                 }
               ],
-              video:service.video
+              video:service.video,
+              color: service.color,
+              taxType: service.taxType,
             });
           }
           console.log(userId,data);
@@ -99,7 +122,7 @@ export class CartService {
         mainCategory:{
           id:mainCategory.id,
           name:mainCategory.name,
-          image:mainCategory.image
+          image:mainCategory.image,
         },
         subCategory:{
           id:subCategory.id,
@@ -137,7 +160,9 @@ export class CartService {
                 variantId:variant.id,
               }
             ],
-            video:service.video
+            video:service.video,
+            color: service.color,
+            taxType: service.taxType,
           }
         ],
         currentUser:{
@@ -145,7 +170,7 @@ export class CartService {
           phoneNumber:this.dataProvider.currentUser!.user.phoneNumber!,
           userId:this.dataProvider.currentUser!.user.uid
         },
-        stage:'unassigned',
+        stage:'allotmentPending',
         jobOtp:this.generateOtpCode(),
         billing:{
           grandTotal:0,
@@ -164,19 +189,20 @@ export class CartService {
             // anukul changes
             startTime : Timestamp.fromDate(new Date()),
             endTime : Timestamp.fromDate(new Date()),
-          }
+          },
+          id : ''
         }
       };
       console.log(data);
       console.log(userId);
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
     }
+    this.updateCart();
   }
 
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
-    //debugger
     let serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
     if (serviceIndex != -1 && data.services[serviceIndex].variants.length === 1){
       data.services.splice(serviceIndex,1);
@@ -195,7 +221,21 @@ export class CartService {
       console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
-   
+    this.updateCart();
+    
+  }
+
+  updateCart(){
+    this.getCurrentUserCart().then((cartRequest) => {
+      this.cart = cartRequest.docs.map((cart:any) => {
+        return { ...cart.data(),id: cart.id };
+      });
+      this.cart.map((cartItem:any) => {
+        cartItem = this.calculateBilling(cartItem);
+        return cartItem;
+      });
+      this.cartSubject.next(this.cart);
+    });
   }
 
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
@@ -212,8 +252,8 @@ export class CartService {
         } as any;
       }
     }
-    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+    this.updateCart();
   }
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
@@ -228,8 +268,8 @@ export class CartService {
         } as any;
       }
     }
-    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+    this.updateCart();
   }
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
@@ -248,8 +288,8 @@ export class CartService {
         }
       }
     }
-    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+    this.updateCart();
   }
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
@@ -268,8 +308,8 @@ export class CartService {
         }
       }
     }
-    this.calculateBilling(data);
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+    this.updateCart();
   }
   async getCart(userId:string){
     let cart = await getDocs(collection(this.firestore,'users',userId,'cart'));
@@ -310,27 +350,63 @@ export class CartService {
   calculateBilling(booking:Booking){
     let totalJobAcceptanceCharge = 0;
     let totalJobTime = 0;
+    booking.billing.coupanDiscunt = 0;
+    
+
     if(booking.services){
       for (const service of booking?.services) {
+
+        const filteredDiscounts = this.discounts.filter((s) => {
+          const discountItems = service.discounts.filter((discount:any) => {
+            return discount == s.id;
+          });
+          return discountItems.length;
+        });
+        service.discounts = [...filteredDiscounts]
+
         // we will first calculate the original price
+        const taxesList = service.taxes;
+        const filteredTaxes = this.taxes.filter((s) => {
+          const taxesItems = taxesList.filter((tax:any) => {
+            return tax == s.id;
+          });
+          return taxesItems.length;
+        });
+        service.taxes = filteredTaxes;
+
+
         service.variants.forEach((variant)=>{
           variant.billing.originalPrice = variant.quantity * variant.price;
           // we will now calculate the total tax
           variant.billing.tax = 0;
-          for (const tax of service.taxes) {
-            if (tax.nature == 'exclusive'){
-              variant.billing.tax += (variant.billing.originalPrice * tax.rate) / 100;
-            } else {
-              variant.billing.tax += (variant.billing.originalPrice * tax.rate) / (100 + tax.rate);
+          if (service.taxType.toLowerCase() === 'exclusive') {
+            for (const tax of service.taxes) {
+              if (tax.type == 'percentage'){
+                variant.billing.tax += (variant.billing.originalPrice * tax.rate) / 100;
+              } else {
+                variant.billing.tax += tax.rate;
+              }
             }
           }
           // we will now calculate the total discount
           variant.billing.discount = 0;
-          for (const discount of service.discounts) {
-            if (discount.type == 'percentage'){
-              variant.billing.discount += (variant.billing.originalPrice * discount.amount) / 100;
-            } else {
-              variant.billing.discount += discount.amount;
+          for (const discount of this.applicableDiscounts) {
+            
+            if(booking.appliedCoupon?.id == discount.id){
+              if(booking.appliedCoupon !== undefined && booking.appliedCoupon?.type == "flat" || booking.appliedCoupon?.type == "fixed"){
+                if(variant.price >= (booking.appliedCoupon?.minimumRequiredAmount ?? 0))
+                {
+                  variant.billing.discount = (+discount.value);
+                }
+              }else if(booking.appliedCoupon !== undefined){
+                if(variant.price >= (booking.appliedCoupon?.minimumRequiredAmount ?? 0))
+                {
+                  variant.billing.discount = parseFloat(((booking.appliedCoupon.value*variant.price)/100).toFixed(2));
+                }
+              }
+              if(booking.appliedCoupon?.maximumDiscountAmount && variant.billing.discount > (booking.appliedCoupon?.maximumDiscountAmount)){
+                variant.billing.discount = (+booking.appliedCoupon?.maximumDiscountAmount)
+              }
             }
           }
           // we will now calculate the total price
@@ -450,6 +526,35 @@ export class CartService {
 
   deleteBooking(userId:string,bookingId:string){
     return deleteDoc(doc(this.firestore,'users',userId,'cart',bookingId));
+  }
+
+  
+  applyCoupon(bookingId:string, selectedCoupan:any){
+    this.cart.map((bookingItem) =>{
+      if(bookingItem.id == bookingId){
+        bookingItem.appliedCoupon = selectedCoupan;
+      }
+    })
+  }
+
+  removeCoupon(bookingId:string){
+    this.cart.map((bookingItem) =>{
+      if(bookingItem.id == bookingId){
+        bookingItem.appliedCoupon = undefined;
+      }
+    })
+  }
+
+  getDiscounts(){
+    return getDocs(collectionGroup(this.firestore,'coupons'));
+  }
+
+  getCurrentUserCart(){
+    return getDocs(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'cart'));
+  }
+  
+  getTaxes(){
+    return getDocs(collectionGroup(this.firestore,'taxes'));
   }
 
 }
