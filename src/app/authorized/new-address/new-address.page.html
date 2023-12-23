@@ -16,7 +16,86 @@
   </div>
 </div>
 
-<ion-content [fullscreen]="true">
+<ion-content>
+  <form [formGroup]="addressForm">
+    <div class="input">
+      <ion-select
+        formControlName="state"
+        aria-label="state"
+        interface="action-sheet"
+        toggleIcon="chevron-down"
+        justify="space-between"
+        placeholder="State"
+        (ionChange)="fetchCities($event)"
+        #selectedState
+      >
+        <ion-select-option [value]="state" *ngFor="let state of states$ | async"
+          >{{state.state | titlecase}}</ion-select-option
+        >
+      </ion-select>
+    </div>
+    <div class="input">
+      <ion-select
+        formControlName="city"
+        aria-label="city"
+        interface="action-sheet"
+        toggleIcon="chevron-down"
+        justify="space-between"
+        placeholder="City"
+        (ionChange)="fetchAreas($event,selectedState.value.id)"
+      >
+        <ion-select-option [value]="city" *ngFor="let city of cities$ | async"
+          >{{city.name | titlecase}}</ion-select-option
+        >
+      </ion-select>
+    </div>
+    <div class="input">
+      <ion-select
+        formControlName="area"
+        aria-label="Area"
+        interface="action-sheet"
+        toggleIcon="chevron-down"
+        justify="space-between"
+        placeholder="Area"
+        (ionChange)="fetchPostalCode($event)"
+      >
+        <ion-select-option [value]="area" *ngFor="let area of areas$ | async"
+          >{{area.geoProofingLocality | titlecase}}</ion-select-option
+        >
+      </ion-select>
+    </div>
+    <div class="input">
+      <input type="text" formControlName="pincode" placeholder="Pin Code" />
+    </div>
+    <div class="input">
+      <input
+        type="text"
+        formControlName="street"
+        placeholder="House/Flat/Block/Building"
+      />
+    </div>
+    <google-map
+      height="400px"
+      width="100%"
+      [center]="center"
+      [zoom]="zoom"
+      (mapClick)="moveMap($event)"
+      (mapMousemove)="move($event)"
+    >
+      <map-marker
+        *ngIf="currentPosition"
+        [options]="markerOptions"
+        [position]="currentPosition"
+        (mapDragend)="newPosition($event)"
+      ></map-marker>
+    </google-map>
+    <ion-button expand="block" color="dark" (click)="submit()">
+      Next
+    </ion-button>
+  </form>
+</ion-content>
+
+<!-- <ion-content [fullscreen]="true">
   <div class="container">
     <div class="row">
       <form class="col formdiv" [formGroup]="addressForm">
@@ -51,17 +130,13 @@
       </form>
     </div>
     <div class="map-div">
-      <!-- <div class="col"> -->
         <img
           src="assets/Group1000003125.png"
           alt="Add New Address"
         />
-      <!-- </div> -->
     </div>
     <div class="save-button">
-      <!-- <div class="col mt-4"> -->
         <ion-button (click)="submit()">Save Address</ion-button>
-      <!-- </div> -->
     </div>
   </div>
-</ion-content>
+</ion-content> -->

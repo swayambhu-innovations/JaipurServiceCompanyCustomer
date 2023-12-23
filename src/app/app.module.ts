@@ -21,12 +21,16 @@ import { DataProviderService } from './core/data-provider.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CartService } from './authorized/cart/cart.service';
 import { FileInterceptorInterceptor } from './authorized/interceptors/file-interceptor.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule,HttpClientModule,
     FormsModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),

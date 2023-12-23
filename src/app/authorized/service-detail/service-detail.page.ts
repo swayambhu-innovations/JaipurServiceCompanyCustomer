@@ -95,8 +95,6 @@ export class ServiceDetailPage implements OnInit {
     this.modal.present();
   }
 
-  
-
   async bookNow(variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
     await loader.present();

@@ -7,7 +7,11 @@ import { IonicModule } from '@ionic/angular';
 import { NewAddressPageRoutingModule } from './new-address-routing.module';
 
 import { NewAddressPage } from './new-address.page';
-
+import { GoogleMapsModule } from '@angular/google-maps';
+import { editAddressReducer } from './reducers/edit-address.reducer';
+import { EditAddressEffects } from './effects/edit-address.effect';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +20,9 @@ import { NewAddressPage } from './new-address.page';
     NewAddressPageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    GoogleMapsModule,
+    StoreModule.forFeature('editAddress', editAddressReducer),
+    EffectsModule.forFeature([EditAddressEffects]),
   ],
   declarations: [NewAddressPage]
 })
