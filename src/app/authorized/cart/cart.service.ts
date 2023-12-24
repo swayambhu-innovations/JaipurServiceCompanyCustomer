@@ -4,6 +4,7 @@ import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGro
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, forkJoin } from 'rxjs';
+import { Address } from '../models/address.structure';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,14 @@ export class CartService {
   cart:Booking[] = [];
   applicableDiscounts :any[] = [];
   discounts:any[] = [];
+  userCurrentAddress:Address;
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
+
+      dataProvider.selectedAddress.subscribe(address=>{
+        this.userCurrentAddress = address;
+      })
     forkJoin({
       discountRequest: this.getDiscounts(),
       cartRequest: this.getCurrentUserCart(),
@@ -129,6 +135,7 @@ export class CartService {
           name:subCategory.name,
           image:subCategory.image
         },
+        address:this.userCurrentAddress,
         services:[
           {
             name:service.name,

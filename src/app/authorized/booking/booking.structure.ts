@@ -29,7 +29,7 @@ export interface  Booking {
   };
   createdAt: Timestamp;
   jobOtp: string;
-  address?: Address;
+  address: Address | undefined;
   timeSlot?: {
     date: Timestamp;
     agentArrivalTime: Timestamp;

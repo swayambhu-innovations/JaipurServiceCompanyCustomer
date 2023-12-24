@@ -180,6 +180,7 @@ export class SelectSlotPage implements OnInit {
   }
 
   async createBooking() {
+    
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
@@ -190,6 +191,7 @@ export class SelectSlotPage implements OnInit {
         this.dataProvider.currentUser!.user!.uid
       )
       .then(async () => {
+        debugger
         await this.cartService.deleteBooking(
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentBooking!.id!
