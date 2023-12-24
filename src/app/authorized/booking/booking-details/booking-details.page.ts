@@ -29,7 +29,7 @@ export class BookingDetailsPage implements OnInit {
         loader.present();
         this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
           this.currentBooking = booking;
-          console.log(this.currentBooking);
+          
           loader.dismiss();
         })
       } else {
@@ -137,6 +137,14 @@ export class BookingDetailsPage implements OnInit {
       body: '12:00-01:00 PM',
     },
   ];
+
+  images = [
+    "https://placehold.co/70x70",
+    "https://placehold.co/70x70",
+    "https://placehold.co/70x70",
+    "https://placehold.co/70x70",
+    "https://placehold.co/70x70"
+  ]
 
 
 }

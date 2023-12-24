@@ -2,13 +2,9 @@
   <!-- Toolbar -->
   <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-icon
-        name="arrow-back-outline"
-        class="back-icon"
-        routerLink="../../upcoming-history"
-      ></ion-icon
-      ><span class="booking-title">Booking Details</span>
-      <img class="notification" routerLink = "../../../notification" src="../../../assets/fi-rr-bell.svg" alt="" />
+      <ion-icon name="arrow-back-outline" class="back-icon" routerLink="../../upcoming-history"></ion-icon><span
+        class="booking-title">Booking Details</span>
+      <img class="notification" routerLink="../../../notification" src="../../../assets/fi-rr-bell.svg" alt="" />
       <img class="notification" src="../../assets/Ellipse 1.svg" alt="" />
     </ion-toolbar>
   </ion-header>
@@ -16,13 +12,19 @@
   <div class="container">
     <div class="row">
       <div class="order">
-        <h6><img src="../../../assets/Calender 2.svg" alt="" />Order ID</h6>
+        <span>
+          <img src="../../../assets/Calender 2.svg" alt="" />
+          <h3>Order ID</h3>
+        </span>
         <h5>{{currentBooking?.id}}</h5>
       </div>
 
       <div class="order">
-        <h6><img src="../../../assets/Calender 2.svg" alt="" />Order Date</h6>
-        <h5>{{currentBooking?.createdAt?.toDate() | date:'short'}}</h5>
+        <span>
+          <img src="../../../assets/Calender 2.svg" alt="" />
+          <h3>Order Date</h3>
+        </span>
+        <h5>{{currentBooking?.createdAt?.toDate() | date:'longDate'}}</h5>
       </div>
     </div>
   </div>
@@ -30,31 +32,42 @@
   <!-- Profile Section -->
   <div class="Profile">
     <div class="icon-text">
-      <!-- Profile icon image -->
       <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
-      <p style="margin-top: 10px">Professional Assigned</p>
+      <p>Professional Assigned</p>
     </div>
 
     <!-- Profile image & Name -->
-    <div class="image">
+    <div class="agent-det-div">
       <div class="row-2">
-        <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
-        <p>{{name}}</p>
-        <!-- Call button -->
-        <button>
-          <img class="call" src="../../../assets/Call.svg" alt="" />
-        </button>
+        <div class="agent-img">
+          <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
+        </div>
+        <div class="agent-name">
+          <p>{{name}}</p>
+          <div class="rating-div">
+            <img class="star" src="/assets/star.svg" alt="" />
+            <p>4.5 <span>(87)</span></p>
+          </div>
+        </div>
+        <div class="call-button">
+          <button>
+            <img class="call" src="../../../assets/Call.svg" alt="" />
+          </button>
+        </div>
       </div>
-      <!-- Rating -->
-      <div class="row-3">
-        <img class="star" src="/assets/star.svg" alt="" />
-        <span style="margin-left: 3px">4.5 (87)</span>
-      </div>
-
+      <hr>
       <!-- OTP -->
       <div class="row-4">
         <h5>OTP to start the service</h5>
-        <div style="padding:20px;width:auto;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{currentBooking?.jobOtp}}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div class="otp-div">
+          <!-- {{(currentBooking?.jobOtp)?.length}} -->
+          <div class="otp-digit">1</div>
+          <div class="otp-digit">1</div>
+          <div class="otp-digit">1</div>
+          <div class="otp-digit">1</div>
+          <div class="otp-digit">1</div>
+          <div class="otp-digit">1</div>
+        </div>
       </div>
     </div>
   </div>
@@ -71,46 +84,59 @@
     <!-- Card header -->
     <div class="row-5">
       <p class="head">Services</p>
-      <div class="row-6">
-        <p class="body">Complete</p>
-      </div>
+      <!-- <div class="row-6"> -->
+      <p class="body">Complete</p>
+      <!-- </div> -->
     </div>
     <!-- Price and Subject -->
     <ng-container *ngFor="let service of currentBooking?.services">
-      <div class="row-7">
+      <!-- <div class="row-7">
         <div class="left">
           <img class="image" [src]="service.image" alt="" />
           <span class="head">{{service.name}}</span><br />
         </div>
-      </div>
-      <div class="row-7" *ngFor="let variant of service.variants">
+      </div> -->
+      <!-- <div class="row-7" *ngFor="let variant of service.variants">
         <div class="left">
           <span class="head">{{variant.name}}</span><br />
           <span class="body">{{variant.jobDuration}}</span>
-          <span class="body1"
-            >{{variant.jobAcceptanceCharge | currency:'INR'}}</span
-          >
+          <span class="body1">{{variant.jobAcceptanceCharge | currency:'INR'}}</span>
         </div>
         <div class="row-8">
           <section class="right">
             {{variant.billing.totalPrice | currency:'INR'}}
           </section>
         </div>
+      </div> -->
+      <div class="service-det-div">
+        <div class="img-div">
+          <div class="img-circle-div">
+            <img src="" alt="">
+          </div>
+        </div>
+        <div class="category-det-div">
+          <h3>AC Installation</h3>
+          <span>raghav</span>
+        </div>
+        <div class="price-div">
+          <span>1500</span>
+        </div>
       </div>
+
       <hr />
     </ng-container>
     <!-- Total price and pay format  -->
     <div class="total">
-      <div class="row-9">
-        <h6>Total</h6>
-        <span>
-          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR'}}</h5>
-        </span>
-      </div>
       <div class="row-10">
         <h6>Delivery Mode</h6>
         <span>
           <h5>COD</h5>
+        </span>
+      </div>
+      <div class="row-9">
+        <h6>Total</h6>
+        <span>
+          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR'}}</h5>
         </span>
       </div>
     </div>
@@ -151,11 +177,36 @@
     </div>
   </div>
 
+  <!-- pictures before and after work -->
+  <div class="pictures-div">
+    <div class="pictures-before">
+      <h3>Pictures Before Work</h3>
+      <div class="img-cont" >
+        <div class="images" *ngFor = "let item of images">
+          <img src="{{item}}" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="pictures-after">
+      <h3>Pictures After Work</h3>
+      <div class="img-cont">
+        <div class="images" *ngFor = "let item of images">
+          <img src="{{item}}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Payment Details -->
   <div>
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
-        <div class="title">Payment Details</div>
+        <div class="title">
+          <span>Payment Details</span>
+          <button>
+            <img src="../../../../assets/download.svg" alt="">
+          </button>
+        </div>
         <span>
           <div class="head">Total Duration</div>
         </span>
@@ -199,11 +250,11 @@
           </span>
         </div>
         <!-- Banner -->
-        <!-- TODO -->
-        <!-- <div class="offer-bar"> 
-            <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-            <p class="tag-text">Yay! You have saved ₹550 on final bill</p>
-          </div> -->
+
+        <div class="offer-bar">
+          <img class="tag-image" src="../../../assets/tag.svg" alt="" />
+          <p class="tag-text">Yay! You have saved ₹550 on final bill</p>
+        </div>
       </ion-card-header>
     </ion-card>
   </div>
@@ -212,39 +263,42 @@
   <div class="review-section">
     <!-- Card header -->
     <div class="row-5">
-      <p class="head">Rating Of This Service</p>
+      <h3 class="head">Rating</h3>
+      <p>(Ratings can be given/changed within 2 hours after the completion of Service)</p>
     </div>
-    <!-- Price and Subject -->
-    <div class="row-7" *ngFor="let ratings of rating">
-      <div class="left">
-        <img class="image" [src]="ratings.img" alt="" />
-        <span class="head">{{ratings.head1}}</span><br />
-        <span class="head">{{ratings.head2}}</span><br />
-        <span class="body">{{ratings.body}}</span>
+    <div class="service-review-cont">
 
-        <span class="body1">{{ratings.body1}}</span>
-      </div>
+      <!-- Price and Subject -->
+      <div class="row-7" *ngFor="let ratings of rating">
+        <div class="img-div">
+          <img class="image" [src]="ratings.img" alt="" />
+        </div>
+        <div class="service-det">
+          <div class="service-head">
+            <h3 class="head">{{ratings.head1}}</h3>
+            <span class="body1">{{ratings.body1}}</span>
+          </div>
 
-      <div class="row-8">
-        <section class="right">{{ratings.amount}}</section>
-      </div>
+          <div class="rating" id="open-modal1">
+            <p style="margin-right: 10px">{{ratings.rate}}</p>
+            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+            <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+            <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+          </div>
+        </div>
 
-      <!-- Rating by people -->
-      <div class="rating" id="open-modal1">
-        <p style="margin-right: 10px">{{ratings.rate}}</p>
-        <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-        <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-        <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-        <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-        <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+        <div class="price">
+          <span class="right">{{ratings.amount}}</span>
+        </div>
+        
       </div>
     </div>
-    <div class="container mt-4">
-      <button type="button" class="btn btn-outline-dark">Reschedule</button>
 
-      <span class="example-spacer"></span>
-
-      <button type="button" class="btn btn-outline-danger" id="open-modal">
+    <div class="reschedule-container mt-4">
+      <button class = "reschedule-button" type="button" >Reschedule</button>
+      <button class = "cancel-button" type="button"  >
         Cancel Booking
       </button>
     </div>
@@ -262,13 +316,8 @@
       </ion-card>
     </div>
 
-    <ion-modal
-      mode="ios"
-      trigger="open-modal"
-      [initialBreakpoint]="0.50"
-      [breakpoints]="[0, 0.25, 0.5, 0.75]"
-      handleBehavior="cycle"
-    >
+    <ion-modal mode="ios" trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]"
+      handleBehavior="cycle">
       <ng-template>
         <ion-content class="ion-padding">
           <form [formGroup]="CancelForm">
@@ -276,12 +325,7 @@
               <h2><b> Cancellation Reason </b></h2>
 
               <div *ngFor="let item of RADIO_LIST; let i=index">
-                <input
-                  type="radio"
-                  [value]="item.value"
-                  [checked]="item.checked"
-                  formControlName="CancelOptions"
-                />
+                <input type="radio" [value]="item.value" [checked]="item.checked" formControlName="CancelOptions" />
                 <label>{{item.name}}</label>
               </div>
             </div>
@@ -294,12 +338,7 @@
               </div>
             </div>
             <div class="bottom mt-4" routerLink="/">
-              <ion-button
-                class="text-light bg-dark"
-                [disabled]="CancelForm.invalid"
-                expand="block"
-                routerLink="/"
-              >
+              <ion-button class="text-light bg-dark" [disabled]="CancelForm.invalid" expand="block" routerLink="/">
                 Cancel Booking
               </ion-button>
             </div>
@@ -308,23 +347,16 @@
       </ng-template>
     </ion-modal>
 
-    <ion-modal
-      mode="ios"
-      trigger="open-modal1"
-      [initialBreakpoint]="0.70"
-      [breakpoints]="[0, 0.25, 0.5, 0.75]"
-      handleBehavior="cycle"
-    >
+    <ion-modal mode="ios" trigger="open-modal1" [initialBreakpoint]="0.70" [breakpoints]="[0, 0.25, 0.5, 0.75]"
+      handleBehavior="cycle">
       <ng-template>
         <ion-content class="ion-padding">
           <div class="container">
             <div class="row text-center">
               <h2><b> Kitchen Cleaning </b></h2>
               <small style="color: #6f767e">Complete Kitchen Shape</small>
-              <ion-img
-                src="https://docs-demo.ionic.io/assets/madison.jpg"
-                alt="The Wisconsin State Capitol building in Madison, WI at night"
-              ></ion-img>
+              <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
+                alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
               <small style="color: #579540">Thank you for your rating!</small>
               <div class="col">
                 <i class="bi bi-star-fill"></i>
@@ -336,17 +368,9 @@
               <br />
               <form>
                 <div class="form-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Review Title"
-                  />
+                  <input type="text" class="form-control" placeholder="Review Title" />
 
-                  <textarea
-                    class="form-control"
-                    placeholder="Service Review"
-                    rows="3"
-                  ></textarea>
+                  <textarea class="form-control" placeholder="Service Review" rows="3"></textarea>
                 </div>
                 <div class="container mt-4">
                   <button type="button" class="btn btn-outline-dark">
