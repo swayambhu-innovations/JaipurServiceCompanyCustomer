@@ -4,14 +4,12 @@
 
   <div class="row-1">
     <div class="left">
-
-      <h2>{{dataProvider.currentBooking?.address?.name}}</h2>
+      <h2>{{dataProvider.currentBooking?.address?.street}}</h2>
       <p>{{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
-      <p>{{dataProvider.currentBooking?.address?.addressLine1 + " " + dataProvider.currentBooking?.address?.addressLine2
-        + " " + dataProvider.currentBooking?.address?.pinCode}}</p>
+      <p>{{dataProvider.currentBooking?.address?.area?.locality + " " + dataProvider.currentBooking?.address?.city?.name
+        + " " + dataProvider.currentBooking?.address?.pincode}}</p>
       <!-- <p>{{dataProvider.currentBooking?.address?.addressLine2}}</p> -->
       <!-- <p>{{dataProvider.currentBooking?.address?.pinCode}}</p> -->
-
     </div>
     <div class="right" routerLink="../select-address">
       Change Address

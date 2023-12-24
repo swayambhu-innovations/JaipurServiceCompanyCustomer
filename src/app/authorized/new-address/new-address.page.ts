@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, Subject, debounceTime, distinctUntilChanged, firstValueFrom, switchMap } from 'rxjs';
 import {
   Area,
   City,
@@ -26,7 +26,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-address.page.scss'],
 })
 export class NewAddressPage implements OnInit {
-
+  areaSearchList$!: Observable<any>;
+  areaOptions: any[] = [];
+  private areaSearchText$ = new Subject<string>();
   addressForm: FormGroup = new FormGroup({
     state: new FormControl(),
     city: new FormControl(),
@@ -50,19 +52,37 @@ export class NewAddressPage implements OnInit {
   cities$: Observable<City[]> | undefined;
   areas$: Observable<Area[]> | undefined;
   constructor(private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
-    private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController,private router:Router) {}
+    private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
+    ,private router:Router) {}
 
   ngOnInit(): void {
    this.store.dispatch(editAddressStateActions.LOAD());
     this.states$ = this.store.select('editAddress', 'states');
     this.cities$ = this.store.select('editAddress', 'cities');
     this.areas$ = this.store.select('editAddress', 'areas');
+    console.log("this.areas$...........: ",this.areas$)
     // get current location
+    this.areas$.subscribe(result=>{
+      console.log("result.................: ",result)
+    })
     this.getLocation();
+
+    this.areaSearchList$ = this.areaSearchText$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(areaInputValue => 
+      this.addressService.getAreaOnSearch(areaInputValue)
+    ));
+    
+    this.areaSearchList$.subscribe((response) => {
+      this.areaOptions = response.results;
+    });
   }
   getLocation() {
+    console.log("position......q......: ",this.platform.is('capacitor'))
     if(this.platform.is('capacitor')){
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
+        console.log("position............: ",position)
         this.currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -73,7 +93,12 @@ export class NewAddressPage implements OnInit {
         };
       })
     } else {
+      
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log("position............: ",position)
+        this.addressService.getAreaDetail( position.coords.latitude,position.coords.longitude).subscribe(result=>{
+          console.log("result............: ",result)
+        });
         this.currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -149,18 +174,18 @@ export class NewAddressPage implements OnInit {
             street: this.addressForm.value.street,
           }
           console.log("value.............: ",value)
-    // await loader.present()
-    // if(this.addressForm.valid){
-    //   this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, value).then(()=>{
-    //     this.addressForm.reset()
-    //     this.router.navigate(['/authorized/select-address'])
-    //   }).catch(err=>{
-    //     console.log(err)
-    //   }).finally(()=>loader.dismiss())
-    // } else{
-    //   await loader.dismiss()
-    //   console.log("Dismissed");
+    await loader.present()
+    if(this.addressForm.valid){
+      this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, value).then(()=>{
+        this.addressForm.reset()
+        this.router.navigate(['/authorized/select-address'])
+      }).catch(err=>{
+        console.log(err)
+      }).finally(()=>loader.dismiss())
+    } else{
+      await loader.dismiss()
+      console.log("Dismissed");
       
-    // }
+    }
   }
 }

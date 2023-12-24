@@ -143,10 +143,10 @@
 
     <div class="row-2">
       <section style="margin-left: 10px">
-        <p class="head">{{currentBooking?.address?.name}}</p>
-        <p class="body">{{currentBooking?.address?.addressLine1}}</p>
-        <p class="body">{{currentBooking?.address?.addressLine2}}</p>
-        <p class="body">{{currentBooking?.address?.pinCode}}</p>
+        <p class="head">{{currentBooking?.address?.street}}</p>
+        <p class="body">{{currentBooking?.address?.city?.name}}</p>
+        <p class="body">{{currentBooking?.address?.state?.state}}</p>
+        <p class="body">{{currentBooking?.address?.pincode}}</p>
       </section>
     </div>
   </div>

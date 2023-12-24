@@ -60,7 +60,7 @@
         (ionChange)="fetchPostalCode($event)"
       >
         <ion-select-option [value]="area" *ngFor="let area of areas$ | async"
-          >{{area.geoProofingLocality | titlecase}}</ion-select-option
+          >{{area.locality | titlecase}}</ion-select-option
         >
       </ion-select>
     </div>

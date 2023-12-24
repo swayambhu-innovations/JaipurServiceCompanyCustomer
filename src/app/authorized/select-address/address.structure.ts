@@ -1,6 +1,11 @@
+import { Area, City, State } from "../new-address/models/address.structure";
+
 export interface Address {
-	name:string;
-	addressLine1:string;
-	addressLine2:string;
-	pinCode:string;
+	state:State;
+	city:City;
+	area:Area;
+	pincode:string;
+	latitude:string;
+	longitude:string
+	street:string;
 }

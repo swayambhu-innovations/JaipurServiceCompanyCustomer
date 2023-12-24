@@ -73,6 +73,7 @@ export class SelectSlotPage implements OnInit {
     // this.currentTime = (new Date()).getHours();
     this.generateSlots();
     this.totalSlots();
+    console.log("sssssssssssss. ",this.dataProvider)
   }
 
   generateSlots() {

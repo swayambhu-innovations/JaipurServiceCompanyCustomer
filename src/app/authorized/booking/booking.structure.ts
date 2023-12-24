@@ -4,7 +4,7 @@ import { Coupon } from '../../coupons.structure';
 import { Tax } from '../../taxes.structure';
 import { Address } from '../select-address/address.structure';
 
-export interface Booking {
+export interface  Booking {
   id: string;
   subCategory: {
     id: string;
@@ -29,12 +29,7 @@ export interface Booking {
   };
   createdAt: Timestamp;
   jobOtp: string;
-  address?: {
-    name: string;
-    addressLine1: string;
-    addressLine2: string;
-    pinCode: string;
-  };
+  address?: Address;
   timeSlot?: {
     date: Timestamp;
     agentArrivalTime: Timestamp;

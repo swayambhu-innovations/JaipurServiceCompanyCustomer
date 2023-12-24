@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-home-header',
@@ -18,7 +19,7 @@ export class HomeHeaderComponent  implements OnInit {
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
-  constructor( private router:Router, public addressService:AddressService) {
+  constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService) {
   }
    notification(){
     this.router.navigate(['authorized/notification']);
@@ -27,7 +28,8 @@ export class HomeHeaderComponent  implements OnInit {
   ngOnInit() {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
-        this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].addressLine2 + ', ' + address[0].pinCode;
+        this.dataProvider.selectedAddress.next(address[0]);
+        this.mainAddressLine = address[0].street + ', ' + address[0].area.locality + ', ' + address[0].pincode;
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
         if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
           this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
