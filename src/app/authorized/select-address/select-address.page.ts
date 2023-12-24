@@ -20,20 +20,7 @@ export class SelectAddressPage implements OnInit {
   }
 
   setValue(event:any){
-    this.dataProvider.currentBooking!.address = event.detail.value; 
-    console.log(this.dataProvider.currentBooking!.address);
+    console.log(event,"shivam");
+    this.dataProvider.currentBooking!.address = event.detail.value;
   }
-
-  Address = [
-    {
-      profile: "Arpita",
-      number: "9125332151",
-      Addres: "4517 Washington Ave. Manchester, Kentucky 39495"
-    },
-    {
-      profile: "Arpita",
-      number: "9125332151",
-      Addres: "4517 Washington Ave. Manchester, Kentucky 39495"
-    },
-  ]
 }

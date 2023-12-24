@@ -111,15 +111,14 @@ export class SelectSlotPage implements OnInit {
 
   
 
-  async totalSlots() {
-    await getDocs(collection(this.firestore, 'slots')).then((data) => {
-      this.slots = data.docs.map((doc) => {
-        return doc.data();
+  totalSlots() {
+    getDocs(collection(this.firestore,'slots')).then((slots) => {
+      this.slots = slots.docs.map((slot) => {
+        return { id: slot.id, ...slot.data() };
       });
-    });
-
-    this.slotsArray = this.slots.sort((a, b) => {
-      return a.index - b.index;
+      this.slotsArray = this.slots.sort((a: any, b: any) =>
+        a.index > b.index ? 1 : -1
+      );
     });
   }
 
