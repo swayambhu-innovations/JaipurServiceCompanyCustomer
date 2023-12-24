@@ -25,7 +25,12 @@ export class HomeService {
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(address=>{
-       this.fetchData(address.area.serviceCatalogue);
+        if(address){
+          this.fetchData(address.area.serviceCatalogue);
+        }else{
+          this.fetchData("1OtfZ7RzJOyRWSGpTR3t");
+        }
+        
       })
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
     
@@ -35,7 +40,6 @@ export class HomeService {
 
   async fetchData(serviceCatalogueId:string) {
       let serverCatDb=doc(this.firestore, 'service-catalogue',serviceCatalogueId);
-      console.log("service-catalogue...........:",serverCatDb)
       const docSnap = await getDoc(serverCatDb);
         if (docSnap.exists()) {
           this.mainCategories.next(await this.getMainCategories(serviceCatalogueId));
@@ -46,7 +50,6 @@ export class HomeService {
       (
         await getDocs(collection(this.firestore, 'service-catalogue', serviceCatalogueId, 'categories'))
       ).docs.map(async (mainCategory) => {
-        console.log("mainCategory...........:",mainCategory)
         return {
           id: mainCategory.id,
           name: mainCategory.data()['name'],
