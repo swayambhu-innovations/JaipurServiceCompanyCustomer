@@ -84,7 +84,6 @@ export class HomePage implements OnInit {
         return doc.data()
       });
     })
-    console.log(this.categories);
   }
   fetchMainCategoryIcon() {
     this.homeService.getCategory().then((icon) => {

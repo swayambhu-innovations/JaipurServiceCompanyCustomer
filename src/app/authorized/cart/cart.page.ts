@@ -110,8 +110,6 @@ export class CartPage implements OnInit {
   }
   services: Service[] = [];
 
-  ion
-
   addTime(time1: {minutes:number}, time2: {minutes:number}): {minutes:number} {
     const result: {minutes:number} = {
       minutes: time1.minutes + time2.minutes,

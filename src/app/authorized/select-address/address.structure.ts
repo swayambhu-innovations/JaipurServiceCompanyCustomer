@@ -7,5 +7,6 @@ export interface Address {
 	pincode:string;
 	latitude:string;
 	longitude:string
-	street:string;
+	addressLine1:string;
+	locality;
 }

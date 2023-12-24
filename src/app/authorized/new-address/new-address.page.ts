@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subject, debounceTime, distinctUntilChanged, firstValueFrom, switchMap } from 'rxjs';
 import {
@@ -26,16 +26,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-address.page.scss'],
 })
 export class NewAddressPage implements OnInit {
-  areaSearchList$!: Observable<any>;
-  areaOptions: any[] = [];
+  areaOptions: any;
   private areaSearchText$ = new Subject<string>();
-  addressForm: FormGroup = new FormGroup({
-    state: new FormControl(),
-    city: new FormControl(),
-    pincode: new FormControl(),
-    area: new FormControl(),
-    street: new FormControl(),
+  addressForm = this.fb.group({
+    name: ['', Validators.required],
+    address1: ['', Validators.required],
+    area: [''],
+    city: ['', Validators.required],
+    state: ['', Validators.required],
+    pincode: ['', Validators.required]
   });
+  
+
   currentPosition: google.maps.LatLngLiteral | undefined;
   display: any;
   center: google.maps.LatLngLiteral = {
@@ -51,7 +53,9 @@ export class NewAddressPage implements OnInit {
   states$: Observable<State[]> | undefined;
   cities$: Observable<City[]> | undefined;
   areas$: Observable<Area[]> | undefined;
-  constructor(private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
+  searchedAreaDetails: any;
+  areaDetails:any;
+  constructor(private fb : FormBuilder,private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
     private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
     ,private router:Router) {}
 
@@ -60,29 +64,15 @@ export class NewAddressPage implements OnInit {
     this.states$ = this.store.select('editAddress', 'states');
     this.cities$ = this.store.select('editAddress', 'cities');
     this.areas$ = this.store.select('editAddress', 'areas');
-    console.log("this.areas$...........: ",this.areas$)
     // get current location
     this.areas$.subscribe(result=>{
-      console.log("result.................: ",result)
     })
     this.getLocation();
-
-    this.areaSearchList$ = this.areaSearchText$.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap(areaInputValue => 
-      this.addressService.getAreaOnSearch(areaInputValue)
-    ));
-    
-    this.areaSearchList$.subscribe((response) => {
-      this.areaOptions = response.results;
-    });
   }
+
   getLocation() {
-    console.log("position......q......: ",this.platform.is('capacitor'))
     if(this.platform.is('capacitor')){
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
-        console.log("position............: ",position)
         this.currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -95,10 +85,6 @@ export class NewAddressPage implements OnInit {
     } else {
       
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log("position............: ",position)
-        this.addressService.getAreaDetail( position.coords.latitude,position.coords.longitude).subscribe(result=>{
-          console.log("result............: ",result)
-        });
         this.currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -121,27 +107,24 @@ export class NewAddressPage implements OnInit {
   move(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) this.display = event.latLng.toJSON();
   }
+
   newPosition(event: any) {
-    console.log(event);
     this.currentPosition = event.latLng.toJSON();
   }
 
   fetchCities(event: any) {
-    console.log(event);
     this.store.dispatch(
       editAddressCitiesActions.LOAD({ stateId: event.detail.value.id }),
     );
   }
 
   fetchAreas(event: any, stateId: string) {
-    console.log(event);
     this.store.dispatch(
       editAddressAreasActions.LOAD({ stateId, cityId: event.detail.value.id }),
     );
   }
 
   fetchPostalCode(event: any) {
-    console.log(event);
     let area = event.detail.value as Area;
     let postalCode = area.address_components.find((component: any) =>
       component.types.includes('postal_code'),
@@ -149,34 +132,20 @@ export class NewAddressPage implements OnInit {
     this.addressForm.patchValue({ pincode: postalCode?.long_name });
   }
 
-  // submit() {
-  //   this.store.dispatch(
-  //     editAddressActions.saveAddressAction({
-  //       area: this.addressForm.value.area,
-  //       city: this.addressForm.value.city,
-  //       latitude: this.currentPosition?.lat || 0,
-  //       longitude: this.currentPosition?.lng || 0,
-  //       pincode: this.addressForm.value.pincode,
-  //       state: this.addressForm.value.state,
-  //       street: this.addressForm.value.street,
-  //     }),
-  //   );
-  // }
   async submit(){
     let loader = await this.loadingController.create({message:'Adding address...'});
-    let value = {
-            area: this.addressForm.value.area,
-            city: this.addressForm.value.city,
-            latitude: this.currentPosition?.lat || 0,
-            longitude: this.currentPosition?.lng || 0,
-            pincode: this.addressForm.value.pincode,
-            state: this.addressForm.value.state,
-            street: this.addressForm.value.street,
-          }
-          console.log("value.............: ",value)
+    const state = this.addressForm.get("state")?.getRawValue().state;
+    const city = this.addressForm.get("city")?.getRawValue().name;
+    const addressObject ={
+      ...this.addressForm.value,
+      ...this.searchedAreaDetails
+    }
+    addressObject.city = city;
+    addressObject.state = state;
+    addressObject.area = addressObject.formatted_address;
     await loader.present()
     if(this.addressForm.valid){
-      this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, value).then(()=>{
+      this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
         this.addressForm.reset()
         this.router.navigate(['/authorized/select-address'])
       }).catch(err=>{
@@ -184,8 +153,69 @@ export class NewAddressPage implements OnInit {
       }).finally(()=>loader.dismiss())
     } else{
       await loader.dismiss()
-      console.log("Dismissed");
-      
     }
+  }
+
+  createDataForAddAreas(searchedAreaDetails:any){
+    searchedAreaDetails.address_components.map((addressComponent:any)=>{
+      const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
+      if(geoProofingLocality){
+        searchedAreaDetails['geoProofingLocality'] = addressComponent.long_name;
+      }
+
+      searchedAreaDetails['latitude'] = searchedAreaDetails['geometry'].location.lat;
+      searchedAreaDetails['longitude'] = searchedAreaDetails['geometry'].location.lng;
+      const cityName = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_2") > -1);
+      if(cityName){
+        searchedAreaDetails['cityName'] = addressComponent.long_name;
+      }
+
+      const cityKey = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_2") > -1);
+      if(cityKey){
+        searchedAreaDetails['cityKey'] = addressComponent.short_name;
+      }
+
+      const stateName = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_1") > -1);
+      if(stateName){
+        searchedAreaDetails['stateName'] = addressComponent.long_name;
+      }
+
+      const stateCode = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_1") > -1);
+      if(stateCode){
+        searchedAreaDetails['stateCode'] = addressComponent.short_name;
+      }
+
+      const countryId = addressComponent.types.find((type:any) => type.indexOf("country") > -1);
+      if(countryId){
+        searchedAreaDetails['countryId'] = addressComponent.short_name;
+      }
+
+      const postalCode = addressComponent.types.find((type:any) => type.indexOf("postal_code") > -1);
+      if(postalCode){
+        searchedAreaDetails['postalCode'] = addressComponent.long_name;
+      }
+
+      const locality = addressComponent.types.find((type:any) => type.indexOf("locality") > -1);
+      if(locality){
+        searchedAreaDetails['locality'] = addressComponent.long_name;
+      }
+
+    });
+    return searchedAreaDetails;
+  }
+
+  onAreaDropdownSelect(event:any){
+    const placeId = event.place_id;
+    this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
+
+      this.areaDetails = response.result;
+      this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
+    });
+  }
+
+  getAreaOnSearch(areaSearchInput:any){
+    this.addressService.getAreaOnSearch(areaSearchInput.detail.value).subscribe((response:any) => {
+      this.areaOptions = response.results;
+    });
   }
 }
