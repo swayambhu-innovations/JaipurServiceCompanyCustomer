@@ -16,7 +16,6 @@ export class AddressService {
     if(this.dataProvider.currentUser!.user.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
-      console.log(" this.addresses...........: ", this.addresses);
       this.fetchedAddresses.next(this.addresses);
     })
   }
@@ -43,6 +42,10 @@ export class AddressService {
    }
    getAreaDetail(latitude: number, longitude : number){
     return this.http.get(`${environment.firebase.functionURL}getAreaDetail?latitude=${latitude}&longitude=${longitude}`);
+  }
+
+  getAreaDetailByPlaceId(placeId: string){
+    return this.http.get(`${environment.firebase.functionURL}getAreaDetailByPlaceId?placeId=${placeId}`);
   }
 
 }

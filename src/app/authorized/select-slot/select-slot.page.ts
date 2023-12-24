@@ -73,7 +73,6 @@ export class SelectSlotPage implements OnInit {
     // this.currentTime = (new Date()).getHours();
     this.generateSlots();
     this.totalSlots();
-    console.log("sssssssssssss. ",this.dataProvider)
   }
 
   generateSlots() {
@@ -103,7 +102,6 @@ export class SelectSlotPage implements OnInit {
       this.times.push(t2);
       
     }
-    console.log(this.times);
     this.selectedDate = this.dates[0];
     this.currentDateNTime.todaydate = (new Date().getDate());
     this.currentDateNTime.currenttime = (new Date()).getHours();
@@ -145,7 +143,6 @@ export class SelectSlotPage implements OnInit {
       this.endTime
     );
     this.selectedSlot = slot;
-    console.log(this.startTime + " " + this.endTime);
     this.preferredAgentTime(this.startTime, this.endTime);
   }
 
@@ -160,8 +157,6 @@ export class SelectSlotPage implements OnInit {
       let t2 = new Date(today1.getFullYear(),today1.getMonth(),today1.getDate(),i, 30);
       this.agentArrivalArray.push(t2);
     }
-
-    console.log(this.agentArrivalArray);
   }
 
   setTimeSlot(){
@@ -174,11 +169,11 @@ export class SelectSlotPage implements OnInit {
       },
       id: this.selectedSlot.id
     };
-    console.log(this.dataProvider.currentBooking!.timeSlot);
     this.selectedTimeState = true;
   }
 
   async createBooking() {
+    
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });

@@ -57,6 +57,14 @@ export class CartPage implements OnInit {
 
   temp(){
     console.log(this.dataProvider.currentBooking);
+    this.dataProvider.selectedAddress.subscribe(currentAddress=>{
+      if(currentAddress){
+        this.dataProvider.currentBooking!.address = currentAddress; 
+      this.router.navigate(["/authorized/select-slot"]);
+      }else{
+        this.router.navigate(["/authorized/select-address"]);
+      }
+    });
   }
 
 

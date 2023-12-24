@@ -4,9 +4,9 @@
 
   <div class="row-1">
     <div class="left">
-      <h2>{{dataProvider.currentBooking?.address?.street}}</h2>
+      <h2>{{dataProvider.currentBooking?.address?.addressLine1}}</h2>
       <p>{{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
-      <p>{{dataProvider.currentBooking?.address?.area?.locality + " " + dataProvider.currentBooking?.address?.city?.name
+      <p>{{dataProvider.currentBooking?.address?.area + " " + dataProvider.currentBooking?.address?.city
         + " " + dataProvider.currentBooking?.address?.pincode}}</p>
       <!-- <p>{{dataProvider.currentBooking?.address?.addressLine2}}</p> -->
       <!-- <p>{{dataProvider.currentBooking?.address?.pinCode}}</p> -->

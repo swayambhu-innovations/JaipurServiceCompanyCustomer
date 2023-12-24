@@ -50,27 +50,26 @@
       </ion-select>
     </div>
     <div class="input">
-      <ion-select
-        formControlName="area"
-        aria-label="Area"
-        interface="action-sheet"
-        toggleIcon="chevron-down"
-        justify="space-between"
-        placeholder="Area"
-        (ionChange)="fetchPostalCode($event)"
-      >
-        <ion-select-option [value]="area" *ngFor="let area of areas$ | async"
-          >{{area.locality | titlecase}}</ion-select-option
-        >
-      </ion-select>
+      <input type="text" formControlName="name" placeholder="Name" />
     </div>
+    <div class="">
+      <ion-toolbar>
+        <ion-searchbar formControlName="area" placeholder="Search Area" [debounce]="1000" (ionInput)="getAreaOnSearch($event)"></ion-searchbar>
+      </ion-toolbar>
+      <ion-list>
+          <ion-item class="ion-border"*ngFor="let item of areaOptions" (click)="onAreaDropdownSelect(item)" tappable>
+              <ion-label > {{ item?.formatted_address }}</ion-label>
+          </ion-item>
+      </ion-list>
+    </div>
+    
     <div class="input">
-      <input type="text" formControlName="pincode" placeholder="Pin Code" />
+      <input type="number" formControlName="pincode" placeholder="Pin Code" />
     </div>
     <div class="input">
       <input
         type="text"
-        formControlName="street"
+        formControlName="address1"
         placeholder="House/Flat/Block/Building"
       />
     </div>

@@ -20,7 +20,6 @@ export class SelectAddressPage implements OnInit {
   }
 
   setValue(event:any){
-    console.log(event,"shivam");
     this.dataProvider.currentBooking!.address = event.detail.value;
   }
 }

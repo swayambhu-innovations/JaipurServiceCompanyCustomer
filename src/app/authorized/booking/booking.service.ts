@@ -38,6 +38,7 @@ export class BookingService {
 
   async addBooking(booking:Booking,userId:string){
     console.log(booking);
+    debugger
     let res = await setDoc(doc(this.firestore,'users',userId,'bookings',booking.id!),booking);
     return res;
   }
