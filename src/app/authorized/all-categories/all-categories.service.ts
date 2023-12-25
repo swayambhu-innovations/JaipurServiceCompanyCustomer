@@ -44,6 +44,7 @@ export class AllCategoriesService {
           id: mainCategory.id,
           name: mainCategory.data()['name'],
           image: mainCategory.data()['image'],
+          icon: mainCategory.data()['icon'],
           description:mainCategory.data()['description'],
           subCategories: await this.getSubCategories(serviceCatalogueId,mainCategory.id),
         };

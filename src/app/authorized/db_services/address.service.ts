@@ -16,7 +16,7 @@ export class AddressService {
     if(this.dataProvider.currentUser!.user.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
-      console.log("addresses............:",addresses)
+      //console.log("addresses............:",addresses)
       this.fetchedAddresses.next(this.addresses);
     })
   }

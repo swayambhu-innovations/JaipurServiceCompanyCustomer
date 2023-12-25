@@ -28,7 +28,7 @@ export class HomeHeaderComponent  implements OnInit {
   ngOnInit() {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
-        console.log("ngOnInit home header....: ",address[0])
+       // console.log("ngOnInit home header....: ",address[0])
         this.dataProvider.selectedAddress.next(address[0]);
         this.mainAddressLine = address[0].address1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
