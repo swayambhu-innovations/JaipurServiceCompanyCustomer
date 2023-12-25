@@ -13,7 +13,7 @@ export class CartService {
   cart:Booking[] = [];
   applicableDiscounts :any[] = [];
   discounts:any[] = [];
-  userCurrentAddress:Address;
+  userCurrentAddress:any = {};
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
