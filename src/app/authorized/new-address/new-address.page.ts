@@ -30,7 +30,7 @@ export class NewAddressPage implements OnInit {
   private areaSearchText$ = new Subject<string>();
   addressForm = this.fb.group({
     name: ['', Validators.required],
-    address1: ['', Validators.required],
+    addressLine1: ['', Validators.required],
     area: [''],
     city: ['', Validators.required],
     state: ['', Validators.required],
