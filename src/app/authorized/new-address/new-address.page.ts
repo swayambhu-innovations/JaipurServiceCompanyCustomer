@@ -66,7 +66,7 @@ export class NewAddressPage implements OnInit {
     this.areas$ = this.store.select('editAddress', 'areas');
     // get current location
     this.areas$.subscribe(result=>{
-    })
+    });
     this.getLocation();
   }
 
@@ -136,6 +136,9 @@ export class NewAddressPage implements OnInit {
     let loader = await this.loadingController.create({message:'Adding address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
     const city = this.addressForm.get("city")?.getRawValue().name;
+    if(!this.searchedAreaDetails.selectedArea){
+      return;
+    }
     const addressObject ={
       ...this.addressForm.value,
       ...this.searchedAreaDetails
@@ -201,15 +204,26 @@ export class NewAddressPage implements OnInit {
       }
 
     });
+    this.areas$?.subscribe(areas=>{
+      console.log("areas Area.........: ",areas,searchedAreaDetails.geoProofingLocality)
+     let selectedArea =  areas.filter(area=> area.geoProofingLocality == searchedAreaDetails.geoProofingLocality);
+      if(selectedArea){
+        searchedAreaDetails['selectedArea']= selectedArea[0];
+      }
+    })
     return searchedAreaDetails;
   }
 
   onAreaDropdownSelect(event:any){
     const placeId = event.place_id;
     this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
-
       this.areaDetails = response.result;
+      console.log("Selected Area.........: ",this.areaDetails)
+     
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
+      if(!this.searchedAreaDetails.selectedArea){
+        alert("We are not proveded services in this area!")
+      }
     });
   }
 
