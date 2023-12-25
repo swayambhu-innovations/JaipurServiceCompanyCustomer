@@ -46,16 +46,13 @@ export class ProfileInfoPage implements OnInit {
   }
   ngOnInit() {
     this.activeRoute.queryParams.subscribe((param:any)=>{
-        console.log("params........: ", param)
       if(param.from === "profile"){
-        console.log("params........: ", param)
         this.userData =  this.dataProvider.currentUser?.userData;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
         let datearray = this.userData.dob.split("/");
         let newdate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
         let date = new DatePipe('en-US').transform(this.userData.dob, 'MM/dd/yyyy');
-        console.log("..............: ",this.userData,new Date(newdate))
         this.fromDate =newdate;
         this.userProfileForm.controls.dob.setValue(newdate)
         this.isFromProfile = true;
@@ -121,7 +118,6 @@ export class ProfileInfoPage implements OnInit {
         loader.dismiss()
         );
       }else{
-          console.log("this.userProfileForm.value. ..: ",this.userProfileForm.value)
           this.profileService.editUsers(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentUser?.userData.uid ,this.userProfileForm.value).then(()=>{
             this.auth.updateUserDate();
             // this.route.navigateByUrl('/authorized/select-address');
