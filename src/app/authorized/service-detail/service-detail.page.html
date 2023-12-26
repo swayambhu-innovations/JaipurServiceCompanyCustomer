@@ -1,13 +1,5 @@
-<div class="container">
-  <div class="row">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button defaultHref="authorized/home"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Details</ion-title>
-    </ion-toolbar>
-  </div>
-</div>
+
+<app-header-with-back [title]="matchingSubCategory?.name?? ''" [showNotificationIcon]="false"></app-header-with-back>
 
 <ion-content [fullscreen]="true">
   <div class="container" id="container">

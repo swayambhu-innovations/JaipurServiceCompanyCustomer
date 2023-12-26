@@ -8,13 +8,15 @@ import { ServiceDetailPageRoutingModule } from './service-detail-routing.module'
 
 import { RemoveExtraBrPipe, ServiceDetailPage } from './service-detail.page';
 import { BodyComponent } from './body/body.component';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ServiceDetailPageRoutingModule
+    ServiceDetailPageRoutingModule,
+    WidgetsModule
   ],
   declarations: [ServiceDetailPage,BodyComponent,RemoveExtraBrPipe]
 })

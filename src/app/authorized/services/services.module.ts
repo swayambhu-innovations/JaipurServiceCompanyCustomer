@@ -8,6 +8,8 @@ import { ServicesPageRoutingModule } from './services-routing.module';
 
 import { ServicesPage } from './services.page';
 import { CartPopuPageModule } from '../cart-popu/cart-popu.module';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
+
 
 @NgModule({
   imports: [
@@ -15,7 +17,8 @@ import { CartPopuPageModule } from '../cart-popu/cart-popu.module';
     FormsModule,
     IonicModule,
     ServicesPageRoutingModule,
-    CartPopuPageModule
+    CartPopuPageModule,
+    WidgetsModule
   ],
   declarations: [ServicesPage]
 })
