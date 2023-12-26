@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SelectAddressPageRoutingModule } from './select-address-routing.module';
 
 import { SelectAddressPage } from './select-address.page';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SelectAddressPageRoutingModule
+    SelectAddressPageRoutingModule,
+    WidgetsModule
   ],
   declarations: [SelectAddressPage]
 })
