@@ -4,7 +4,6 @@ import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGro
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, forkJoin } from 'rxjs';
-import { Address } from '../models/address.structure';
 
 @Injectable({
   providedIn: 'root'

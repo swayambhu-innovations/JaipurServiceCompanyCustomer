@@ -8,6 +8,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { log } from 'console';
 import { ProfileService } from '../db_services/profile.service';
 import { Icon } from 'ionicons/dist/types/components/icon/icon';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 const CASHE_FOLDER = "CASHED_IMG";
 
 interface bannerConfig {
@@ -56,7 +57,7 @@ export class HomePage implements OnInit {
   icon: any[] = []; // added by ronak
  
 
-  constructor(private router: Router, private profileService: ProfileService, public homeService: HomeService, private imageService: FileService, private http: HttpClient) {
+  constructor(private router: Router, private profileService: ProfileService,private dataProvider:DataProviderService, public homeService: HomeService, private imageService: FileService, private http: HttpClient) {
 
   }
 
@@ -65,7 +66,10 @@ export class HomePage implements OnInit {
     this.recentActivity();
     this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
-
+    this.dataProvider.mainCategories.subscribe(categories => {
+      console.log("...........:",categories)
+      this.categories = categories;
+    })
   }
 
   fetchBanners() {
@@ -78,12 +82,13 @@ export class HomePage implements OnInit {
   }
   // added by ronak
   async fetchMainCategory() {
-    await this.homeService.getCategory().then((name) => {
-      this.categories = name.docs.map((doc) => {
-        this.categories = [...this.categories];
-        return doc.data()
-      });
-    })
+
+    // await this.homeService.getCategory().then((name) => {
+    //   this.categories = name.docs.map((doc) => {
+    //     this.categories = [...this.categories];
+    //     return doc.data()
+    //   });
+    // })
   }
   fetchMainCategoryIcon() {
     this.homeService.getCategory().then((icon) => {

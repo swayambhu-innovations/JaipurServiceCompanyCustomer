@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
-import { Address } from '../models/address.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Address } from '../select-address/address.structure';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class AddressService {
     if(this.dataProvider.currentUser!.user.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
+      //console.log("addresses............:",addresses)
       this.fetchedAddresses.next(this.addresses);
     })
   }

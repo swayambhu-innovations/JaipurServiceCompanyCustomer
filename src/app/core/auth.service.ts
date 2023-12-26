@@ -51,7 +51,7 @@ export class AuthService {
           if(userData.name.length ===0){
             this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
           }else{
-            this.router.navigate(['../../authorized/home']);
+            this.router.navigate(['/authorized/select-address']);
           }
         });
       } else {
