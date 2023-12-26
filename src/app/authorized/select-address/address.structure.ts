@@ -1,6 +1,7 @@
 import { Area, City, State } from "../new-address/models/address.structure";
 
 export interface Address {
+	name: string;
 	address1:string;
 	address_components:address_components[];
 	adr_address:string;

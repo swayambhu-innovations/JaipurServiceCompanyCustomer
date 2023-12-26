@@ -81,13 +81,11 @@
           </div>
           <div class="card-right-bottom">
             <p class="price">
-              <span class="discounted-price">
+              <!-- <span class="discounted-price">
                 {{variant.billing.discountedPrice | currency:'INR'}}
-              </span>
+              </span> -->
               <span class="original-price">
-                <s>
-                  {{(variant.billing.totalPrice) | currency:'INR'}}
-                </s>
+                {{(variant.billing.totalPrice) | currency:'INR'}}
               </span>
             </p>
             <div class="stock">
