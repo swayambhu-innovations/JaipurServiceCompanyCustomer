@@ -5,12 +5,14 @@ import { IonicModule } from '@ionic/angular';
 import { RateComponent } from './rate/rate.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { HeaderComponent } from './header/header.component';
+import { HeaderWithBackComponent } from './header-with-back/header-with-back.component';
 
 const widgets = [
   Header1Component,
   RateComponent,
   HomeHeaderComponent,
-  HeaderComponent
+  HeaderComponent,
+  HeaderWithBackComponent
 ]
 
 @NgModule({
@@ -18,7 +20,8 @@ const widgets = [
     Header1Component,
     RateComponent,
     HomeHeaderComponent,
-    HeaderComponent
+    HeaderComponent,
+    HeaderWithBackComponent
   ],
   imports: [
     CommonModule,
