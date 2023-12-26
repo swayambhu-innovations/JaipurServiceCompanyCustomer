@@ -119,7 +119,7 @@ export class ServiceDetailPage implements OnInit {
     $("#input"+variant.id).val(1);
     let html =  document.getElementById(variant.id+"");
    $("."+variant.id).hide();
-    html?.style.setProperty("display","block");
+    html?.style.setProperty("display","flex");
     this.totalPrice  += variant.price;
     this.selectedItems +=1;
     this.itemList.push(variant);

@@ -4,6 +4,7 @@ import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGro
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, forkJoin } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,12 @@ export class CartService {
   userCurrentAddress:any = {};
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
-  constructor(private firestore:Firestore,private dataProvider:DataProviderService) {
+  loader:any;
+  constructor(
+    private firestore:Firestore,
+    private dataProvider:DataProviderService,
+    private loadingController: LoadingController
+  ) {
 
       dataProvider.selectedAddress.subscribe(address=>{
         this.userCurrentAddress = address;
@@ -47,6 +53,8 @@ export class CartService {
   }
 
   async addToCart(userId:string,variantId:string,service:Service,mainCategory:Category,subCategory:SubCategory){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     console.log(service);
     console.log(mainCategory);
     console.log(subCategory); 
@@ -205,10 +213,13 @@ export class CartService {
       console.log(userId);
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
     }
-    this.updateCart();
+    await this.updateCart();
+    loader.dismiss();
   }
 
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
@@ -229,11 +240,11 @@ export class CartService {
       console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
-    this.updateCart();
-    
+    await this.updateCart();
+    loader.dismiss();
   }
 
-  updateCart(){
+  async updateCart(){
     this.getCurrentUserCart().then((cartRequest) => {
       this.cart = cartRequest.docs.map((cart:any) => {
         return { ...cart.data(),id: cart.id };
@@ -243,10 +254,13 @@ export class CartService {
         return cartItem;
       });
       this.cartSubject.next(this.cart);
+      this.loader.dismiss();
     });
   }
 
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
@@ -261,9 +275,12 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    this.updateCart();
+    await this.updateCart();
+    loader.dismiss();
   }
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
@@ -277,9 +294,12 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    this.updateCart();
+    await this.updateCart();
+    loader.dismiss();
   }
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -297,9 +317,12 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    this.updateCart();
+    await this.updateCart();
+    loader.dismiss();
   }
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
@@ -317,7 +340,8 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    this.updateCart();
+    await this.updateCart();
+    loader.dismiss();
   }
   async getCart(userId:string){
     let cart = await getDocs(collection(this.firestore,'users',userId,'cart'));

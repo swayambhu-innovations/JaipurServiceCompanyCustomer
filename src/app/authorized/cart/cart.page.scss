@@ -116,8 +116,9 @@ ion-content {
   }
 
   .original-price {
-    color: #6f767e;
-    text-decoration: line-through;
+    color: #000000;
+    // text-decoration: line-through;
+    font-weight: 600;
     font-size: 12px;
   }
 

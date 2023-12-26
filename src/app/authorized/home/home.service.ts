@@ -27,7 +27,7 @@ export class HomeService {
       this.dataProvider.selectedAddress.subscribe(address=>{
         if(address){
           //address.area.serviceCatalogue
-          console.log("address.area.serviceCatalogue: ",address.selectedArea    )
+          console.log("address.area.serviceCatalogue: ",address.selectedArea)
           this.fetchData(address.selectedArea.serviceCatalogue);
         }else{
           this.fetchData("1OtfZ7RzJOyRWSGpTR3t");
