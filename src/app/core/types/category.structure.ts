@@ -10,6 +10,7 @@ export interface SubCategory {
   id: string;
   name: string;
   image: string;
+  icon:string;
   services: Service[];
 }
 export interface Service {

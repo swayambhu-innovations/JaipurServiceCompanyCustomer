@@ -139,6 +139,7 @@ export class HomeService {
           id: subCategory.id,
           name: subCategory.data()['name'],
           image: subCategory.data()['image'],
+          icon:subCategory.data()['icon'],
           description: subCategory.data()['description'],
           services: await this.getServices(serviceCatalogueId,mainCategoryId, subCategory.id),
         };

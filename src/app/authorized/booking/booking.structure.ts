@@ -10,11 +10,13 @@ export interface  Booking {
     id: string;
     name: string;
     image: string;
+    icon:string;
   };
   mainCategory: {
     id: string;
     name: string;
     image: string;
+    icon:string;
   };
   services: SelectedService[];
   appliedCoupon?:Coupon;

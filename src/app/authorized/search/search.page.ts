@@ -5,6 +5,7 @@ import { Subject, debounceTime } from 'rxjs';
 import Fuse from 'fuse.js'
 import { DataProviderService } from '../../core/data-provider.service';
 import { Service, SubCategory } from '../../core/types/category.structure';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -26,7 +27,7 @@ export class SearchPage implements OnInit {
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
  
-  constructor(private dataProvider:DataProviderService) {
+  constructor(private dataProvider:DataProviderService, private route:Router) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
       console.log("term: ",term)
       if(term.length > 2){
@@ -60,7 +61,6 @@ export class SearchPage implements OnInit {
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
       let services:Service[] = []
       mainCategory.forEach((mainCategory)=>{
-        console.log("mainCategory: ",mainCategory)
         mainCategory.subCategories.forEach((subCategory:SubCategory)=>{
           subCategory.services.forEach((service:Service)=>{
             services.push({...service})
@@ -87,10 +87,23 @@ export class SearchPage implements OnInit {
       localStorage.setItem('searchedTerms',JSON.stringify({terms:[term]}))
     }
   }
-
+  openService(service:any){
+    let mainCatId = "";
+    let subCatId = "";
+    this.dataProvider.mainCategories.subscribe((mainCategory)=>{
+        mainCategory.forEach((mainCategory)=>{
+          mainCatId = mainCategory.id;
+        let subCat = mainCategory.subCategories.filter((subCategory:SubCategory)=>{
+            let serviceFind =   subCategory.services.filter(serviced=> serviced.id === service.id);
+            return serviceFind.length > 0 ? true: false;
+          });
+          subCatId = subCat[0].id;
+        });
+      });
+      this.route.navigate(['/authorized/service-detail/'+mainCatId+'/'+subCatId+'/'+service.id]);
+  }
   getFromHistory():string[]{
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}');
-    console.log("data.............",data)
     if (typeof data.terms == 'object' && data.terms.length >= 0) {
     return data.terms.reverse();
     }else{
@@ -111,9 +124,6 @@ export class SearchPage implements OnInit {
     localStorage.setItem('searchedTerms',JSON.stringify({terms:[]}))
     this.historyTerms = this.getFromHistory();
   }
-
- 
-
     
   }
 

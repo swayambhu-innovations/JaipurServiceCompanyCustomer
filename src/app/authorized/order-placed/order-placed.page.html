@@ -47,18 +47,18 @@
         <p class="head">Services</p>
       </div>
       <ng-container *ngFor="let service of this.dataProvider.currentBooking?.services">
-        <div class="order-placed-div">
+        <div class="order-placed-div" *ngFor="let variant of service.variants">
           <div class="img-div">
             <div class="img-circle-div">
-              <img src="" alt="">
+              <img src="{{this.dataProvider.currentBooking?.mainCategory?.icon}}" alt="" style="padding-top: 12px; padding-left: 12px;">
             </div>
           </div>
           <div class="category-det-div">
-            <h3>AC Installation</h3>
-            <span>raghav</span>
+            <h3>{{service.name}}</h3>
+            <span>{{variant.name}}</span>
           </div>
           <div class="price-div">
-            <span>1500</span>
+            <span>{{variant.billing.discountedPrice | currency:'INR' }}</span>
           </div>  
         </div>
       </ng-container>

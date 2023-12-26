@@ -11,6 +11,7 @@ import { DataProviderService } from '../../core/data-provider.service';
 import { ReplaySubject, Subject, async, debounceTime } from 'rxjs';
 import { Category } from '../../core/types/category.structure';
 import { where } from 'firebase/firestore';
+import { Address } from '../select-address/address.structure';
 
 @Injectable({
   providedIn: 'root'
@@ -18,22 +19,36 @@ import { where } from 'firebase/firestore';
 export class AllCategoriesService {
   mainCategories: ReplaySubject<Category[]> = new ReplaySubject<Category[]>(1);
   refetchCategories: Subject<void> = new Subject<void>();
+  selectedAdress:Address;
   constructor(private firestore: Firestore,
     private dataProvider: DataProviderService
     ) {
       this.mainCategories = this.dataProvider.mainCategories;
+      this.dataProvider.selectedAddress.subscribe(selectedAdress=>{
+        this.selectedAdress = selectedAdress
+      });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
       this.fetchData();
     });
     this.fetchData();
      }
      async fetchData() {
-      let serverCatDb=doc(this.firestore, 'service-catalogue',"1OtfZ7RzJOyRWSGpTR3t");
+      if(this.selectedAdress){
+        let serverCatDb=doc(this.firestore, 'service-catalogue',this.selectedAdress.selectedArea.serviceCatalogue);
       
-      const docSnap = await getDoc(serverCatDb);
-        if (docSnap.exists()) {
-          this.mainCategories.next(await this.getMainCategories( "1OtfZ7RzJOyRWSGpTR3t"));
-        }
+        const docSnap = await getDoc(serverCatDb);
+          if (docSnap.exists()) {
+            this.mainCategories.next(await this.getMainCategories( this.selectedAdress.selectedArea.serviceCatalogue));
+          }
+      }else{
+        let serverCatDb=doc(this.firestore, 'service-catalogue',"1OtfZ7RzJOyRWSGpTR3t");
+      
+        const docSnap = await getDoc(serverCatDb);
+          if (docSnap.exists()) {
+            this.mainCategories.next(await this.getMainCategories( "1OtfZ7RzJOyRWSGpTR3t"));
+          }
+      }
+      
   }
   async getMainCategories(serviceCatalogueId:string) {
     return await Promise.all(
@@ -62,6 +77,7 @@ export class AllCategoriesService {
           id: subCategory.id,
           name: subCategory.data()['name'],
           image: subCategory.data()['image'],
+          icon: subCategory.data()['icon'],
           description: subCategory.data()['description'],
           services: await this.getServices(serviceCatalogueId,mainCategoryId, subCategory.id),
         };

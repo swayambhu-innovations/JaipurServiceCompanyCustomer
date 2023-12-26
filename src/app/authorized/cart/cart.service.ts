@@ -128,11 +128,13 @@ export class CartService {
           id:mainCategory.id,
           name:mainCategory.name,
           image:mainCategory.image,
+          icon:mainCategory.icon
         },
         subCategory:{
           id:subCategory.id,
           name:subCategory.name,
-          image:subCategory.image
+          image:subCategory.image,
+          icon:subCategory.icon
         },
         address:this.userCurrentAddress,
         services:[

@@ -44,6 +44,6 @@ export class OrderPlacedPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.dataProvider.currentBooking?.services);
+    console.log("currentBooking............:",this.dataProvider.currentBooking);
   }
 }
