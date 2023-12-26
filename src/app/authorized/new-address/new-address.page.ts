@@ -135,13 +135,17 @@ export class NewAddressPage implements OnInit {
   async submit(){
     let loader = await this.loadingController.create({message:'Adding address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
+    const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
+    const cityId = this.addressForm.get("city")?.getRawValue().id;
     if(!this.searchedAreaDetails.selectedArea){
       return;
     }
     const addressObject ={
+      ...this.searchedAreaDetails,
       ...this.addressForm.value,
-      ...this.searchedAreaDetails
+      cityId : cityId,
+      stateId: stateId
     }
     addressObject.city = city;
     addressObject.state = state;
@@ -222,7 +226,7 @@ export class NewAddressPage implements OnInit {
      
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
       if(!this.searchedAreaDetails.selectedArea){
-        alert("We are not proveded services in this area!")
+        alert("We do not provide services in this area!")
       }
     });
   }
