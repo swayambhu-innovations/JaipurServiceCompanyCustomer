@@ -12,6 +12,7 @@ import { editAddressReducer } from './reducers/edit-address.reducer';
 import { EditAddressEffects } from './effects/edit-address.effect';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -21,6 +22,7 @@ import { StoreModule } from '@ngrx/store';
     FormsModule,
     ReactiveFormsModule,
     GoogleMapsModule,
+    WidgetsModule,
     StoreModule.forFeature('editAddress', editAddressReducer),
     EffectsModule.forFeature([EditAddressEffects]),
   ],
