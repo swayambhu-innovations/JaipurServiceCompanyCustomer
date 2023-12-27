@@ -5,7 +5,7 @@ import { SharedArrayService } from '../../shared-array.service';
 import { Booking } from '../booking/booking.structure';
 import { CartService } from './cart.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { OffersComponent } from './offers/offers.component';
 import { Coupon } from 'src/app/coupons.structure';
 // import { ActionSheetController } from '@ionic/angular';
@@ -41,12 +41,14 @@ export class CartPage implements OnInit {
   isOpenPopu:boolean = false;
   discounts:any[] = [];
   cart:any;
+  cartLoaded:boolean = false;
   constructor(
     private router: Router,
     private activatedRoute:ActivatedRoute,
     public cartService:CartService,
     public dataProvider:DataProviderService,
-    private modalController:ModalController
+    private modalController:ModalController,
+    private loadingController: LoadingController
   ) {
     
   }
@@ -56,7 +58,6 @@ export class CartPage implements OnInit {
   }
 
   temp(){
-    console.log(this.dataProvider.currentBooking);
     this.dataProvider.selectedAddress.subscribe(currentAddress=>{
       if(currentAddress){
         this.dataProvider.currentBooking!.address = currentAddress; 
@@ -94,7 +95,6 @@ export class CartPage implements OnInit {
   }
   removeCoupan(){
     this.selectedBooking!['appliedCoupon'] = undefined;
-    console.log("this.selectedBooking: ",this.selectedBooking)
     this.cartService.calculateBilling(this.selectedBooking!);
   }
   appliedCoupanDiscount(){
@@ -145,11 +145,14 @@ export class CartPage implements OnInit {
     onService.serviceOrderCount--;
   }
   orderCount: any = 2;
-  ngOnInit() {
+  async ngOnInit() {
+    const loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     this.cart = this.cartService.cart;
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
-      console.log("Updated bookings",bookings);
+      this.cartLoaded = true;
+      loader.dismiss();
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
@@ -159,10 +162,7 @@ export class CartPage implements OnInit {
       }else{
         this.selectedBooking = undefined;
       }
-    })
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params);
-    })
+    });
   }
 
   calculateTotal() {}

@@ -1,21 +1,4 @@
-
-
-<div class="container">
-  <div class="row">
-    <ion-toolbar>
-      <ion-buttons slot="start" routerLink="../select-address">
-        <ion-back-button default-href="#"></ion-back-button>
-      </ion-buttons>
-      <ion-title> Add New Address </ion-title>
-      <ion-buttons slot="secondary">
-        <ion-button>
-          <ion-icon name="notifications-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
-</div>
-
+<app-header-with-back [title]="'Add New Address'" [showNotificationIcon]="true"></app-header-with-back>
 <ion-content>
   <form [formGroup]="addressForm">
     <div class="input">

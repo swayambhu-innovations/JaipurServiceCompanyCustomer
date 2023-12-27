@@ -214,7 +214,7 @@
     Next
   </button>
 </ion-content>
-<ion-content class="noItems" *ngIf="!selectedBooking && cart?.length == 0">
+<ion-content class="noItems" *ngIf="!selectedBooking && cart?.length == 0 && cartLoaded">
   <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
   <span class="text-content">
     <p class="cart-empty-text">Your cart is empty</p>
