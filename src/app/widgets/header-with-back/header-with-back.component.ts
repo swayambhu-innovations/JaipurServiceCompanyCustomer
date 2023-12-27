@@ -15,7 +15,9 @@ export class HeaderWithBackComponent  implements OnInit {
     private router: Router,) { }
 
   ngOnInit() {}
-  notification(){}
+  notification(){
+    this.router.navigate(['authorized/notification']);
+  }
   onBackButtonClick(){
     const previousUrlArray = this._navigationBack.getPreviourUrl();
     const previousUrl = previousUrlArray[previousUrlArray.length - 2];
