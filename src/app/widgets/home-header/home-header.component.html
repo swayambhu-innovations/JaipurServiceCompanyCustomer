@@ -12,9 +12,9 @@
         <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
           ...
         </ng-container>
-        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=true"
+        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=true; setopen(true)"
           name="caret-down-outline"></ion-icon>
-        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=false"
+        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=false; setopen(false)"
           name="caret-up-outline"></ion-icon>
       </p>
       <p *ngIf="addressLineTwoVisible && insertAddressAccordionButton">{{addressLineTwo}}</p>
@@ -26,3 +26,41 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+
+<ion-content>
+  <ion-modal trigger="open-modal" [isOpen]="showmodal" [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
+    <ng-template>
+      <div class="main-container">
+        <div class="address-head">
+          <h2>Select Address</h2>
+          <div class="new-add-button">
+            <button>
+              <span>Add New</span>
+              <img src="../../../assets/add-button.svg" alt="">
+            </button>
+          </div>
+        </div>
+
+        <div class="address-det-div">
+          <div class="address-box">
+            <div class="add-cont">
+              <div class="input-div">
+                <input type="radio">
+              </div>
+              <div class="address-details">
+                <h2>Customer Name</h2>
+                <p>Customer Number</p>
+                <p>4517 Washington Ave, Manchester, Kentucky 111111</p>
+              </div>
+              <div class="edit-delete-address">
+                <img src="../../../assets/edit-button.svg" alt="">
+                <img src="../../../assets/delete-button.svg" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -31,42 +31,52 @@
 
   <!-- Profile Section -->
   <div class="Profile">
-    <div class="icon-text">
-      <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
-      <p>Professional Assigned</p>
-    </div>
-
-    <!-- Profile image & Name -->
-    <div class="agent-det-div">
-      <div class="row-2">
-        <div class="agent-img">
-          <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
-        </div>
-        <div class="agent-name">
-          <p>{{name}}</p>
-          <div class="rating-div">
-            <img class="star" src="/assets/star.svg" alt="" />
-            <p>4.5 <span>(87)</span></p>
-          </div>
-        </div>
-        <div class="call-button">
-          <button>
-            <img class="call" src="../../../assets/Call.svg" alt="" />
-          </button>
+    <div class="agent-not-assigned">
+      <div class="details">
+        <h2>Finding A Professional</h2>
+        <p>Waiting for the professional to accept your booking</p>
+      </div>
+      <div class="icon">
+        <div class="icon-div">
+          <img class="mechanic-icon" src="../../../../assets/icon/mechanic.png" alt="">
+          <img class="search-icon" src="../../../../assets/search.svg" alt="">
         </div>
       </div>
-      <hr>
-      <!-- OTP -->
-      <div class="row-4">
-        <h5>OTP to start the service</h5>
-        <div class="otp-div">
-          <!-- {{(currentBooking?.jobOtp)?.length}} -->
-          <div class="otp-digit">1</div>
-          <div class="otp-digit">1</div>
-          <div class="otp-digit">1</div>
-          <div class="otp-digit">1</div>
-          <div class="otp-digit">1</div>
-          <div class="otp-digit">1</div>
+    </div>
+    <div class="agent-assigned">
+      <div class="icon-text">
+        <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
+        <p>Professional Assigned</p>
+      </div>
+  
+      <!-- Profile image & Name -->
+      <div class="agent-det-div">
+        <div class="row-2">
+          <div class="agent-img">
+            <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
+          </div>
+          <div class="agent-name">
+            <p>{{name}}</p>
+            <div class="rating-div">
+              <img class="star" src="/assets/star.svg" alt="" />
+              <p>4.5 <span>(87)</span></p>
+            </div>
+          </div>
+          <div class="call-button">
+            <button>
+              <img class="call" src="../../../assets/Call.svg" alt="" />
+            </button>
+          </div>
+        </div>
+        <hr>
+        <!-- OTP -->
+        <div class="row-4">
+          <h5>OTP to start the service</h5>
+          <div class="otp-div">
+            <div class="otp-digit" *ngFor = "let otp of tempOtp">
+              {{otp}}
+            </div>
+          </div>
         </div>
       </div>
     </div>

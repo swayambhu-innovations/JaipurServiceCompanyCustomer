@@ -10,6 +10,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
   styleUrls: ['./home-header.component.scss'],
 })
 export class HomeHeaderComponent  implements OnInit {
+  showmodal: boolean = false;
   @Input() MAX_ADDRESS_LINE_LENGTH!:number;
   // addressLine:string = "Nehru Rd, Vile Parle East, Mumbai"
   mainAddressLine:string = '';
@@ -47,4 +48,7 @@ export class HomeHeaderComponent  implements OnInit {
     }
   }
 
+  setopen(flag: boolean){
+    this.showmodal = flag;
+  }
 }

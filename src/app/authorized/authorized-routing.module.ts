@@ -89,11 +89,6 @@ const routes: Routes = [
         loadChildren: () => import('./Notification/notification/notification.module').then( m => m.NotificationPageModule),
         canActivate:[AuthGuard]
       },
-      // {
-      //   path: 'new-address',
-      //   loadChildren: () => import('./new-address/new-address.module').then( m => m.NewAddressPageModule),
-      //   canActivate:[AuthGuard]
-      // },
       {
         path: 'booking',
         loadChildren: () => import('./booking/booking.module').then( m => m.BookingPageModule),
@@ -107,6 +102,11 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+        canActivate:[AuthGuard]
+      },
+      {
+        path: 'contact-us',
+        loadChildren: () => import('./contact-us/contact-us.module').then( m => m.ContactUsModule),
         canActivate:[AuthGuard]
       },
       {
