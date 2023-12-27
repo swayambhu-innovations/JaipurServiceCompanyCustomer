@@ -14,24 +14,46 @@ export class BookingDetailsPage implements OnInit {
   orderDate: string;
   name: string;
   price: string;
+  assignedAgent:any;
   duration: string;
   mrp: string;
-  discount: string;
+  discount: number;
   discountedPrice: string;
   rate: string;
-
+  jobOtp:any[]=[];
   currentBooking:Booking|undefined;
   CancelForm!: FormGroup;
   constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, private loadingController: LoadingController) {
     this.activatedRoute.params.subscribe(async params=>{
+      let duration = 0;
       if (params['bookingId']){
         let loader = await this.loadingController.create({message:'Please wait...'});
         loader.present();
         this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
           this.currentBooking = booking;
-          
+          if(this.currentBooking?.billing?.coupanDiscunt)
+          this.discount = this.currentBooking?.billing?.coupanDiscunt + this.currentBooking?.billing.discount;
+          else
+          this.currentBooking?.billing.discount;
+          this.jobOtp = [...booking.jobOtp]
+          console.log("current booking ..........: ",this.jobOtp, this.currentBooking);
+        
+          this.currentBooking?.services.forEach(service=>{
+            service.variants.forEach(variant=>{
+              console.log("jobDuration",this.duration,variant.jobDuration,variant.quantity)
+              duration += variant.jobDuration * variant.quantity; 
+            });
+          });
+       
+          this.duration =  Math.floor( duration/60 )+ " Hour "+    duration%60 + " Minutes";
+          if(booking.assignedAgent){
+            this.bookingService.getAgentDetails(booking.assignedAgent).subscribe((agentDetails:any)=>{
+              console.log("agentDetails.......:",agentDetails)
+              this.assignedAgent =agentDetails;
+            });
+          }
           loader.dismiss();
-        })
+        });
       } else {
         alert('No booking id found')
         this.router.navigate(['/authorized/booking/upcoming-history'])
@@ -41,9 +63,7 @@ export class BookingDetailsPage implements OnInit {
     this.orderDate = 'April 21, 2023';
     this.name = 'Mukesh Deshpande';
     this.price = '₹4501';
-    this.duration = '2 Hour 30 Minutes';
     this.mrp = '₹3150';
-    this.discount = '-₹550';
     this.discountedPrice = '₹2600';
     this.rate = 'Rate This Services';
     this.rate = 'You Rated';
