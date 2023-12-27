@@ -3,19 +3,7 @@
 		<ion-title>{{matchingSubCategory?.name}}</ion-title>
 	</ion-toolbar>
 </ion-header> -->
-<ion-header [translucent]="true">
-	<ion-toolbar>
-		<ion-buttons slot="start">
-			<ion-back-button defaultHref="/authorized/home" routerLink="/authorized/home"></ion-back-button>
-		</ion-buttons>
-		<ion-title>{{matchingSubCategory?.name}}</ion-title>
-		<!-- <ion-buttons slot="end">
-		<ion-button>
-		  <img src="assets/ui_icons/notification.svg" alt="">
-		</ion-button>
-	  </ion-buttons> -->
-	</ion-toolbar>
-</ion-header>
+<app-header-with-back [title]="matchingSubCategory?.name?? ''" [showNotificationIcon]="false"></app-header-with-back>
 <!-- <app-header {{matchingSubCategory?.name}}></app-header> -->
 <!-- <ion-content [fullscreen]="true">
 	<img [src]="matchingSubCategory?.image" alt="">

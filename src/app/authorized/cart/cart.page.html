@@ -1,18 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
-      <ion-button routerLink = "../../../home">
-        <img  src="assets/icon/leftArrow/leftArrow.svg" alt="">
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Cart</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click) = "notification()">
-        <img src="../../../assets/images/bell.svg" alt="" />
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
 
 <ion-content *ngIf="!selectedBooking && cart?.length > 0">
   <h3 class="header">You have {{cart.length}} bookings.</h3>

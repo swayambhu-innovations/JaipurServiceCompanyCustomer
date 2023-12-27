@@ -19,22 +19,8 @@
   </div>
 </ion-content> -->
 
-
+<app-header-with-back [title]="'Refer A Friend'" [showNotificationIcon]="true"></app-header-with-back>
 <div class="container">
-  <div class="row">
-
-    <ion-toolbar>
-      <ion-buttons slot="start" size="large">
-        <ion-back-button default-href="#" routerLink = "../home" ></ion-back-button>
-      </ion-buttons>
-      <ion-title>
-       <h1>Refer A Friend</h1> 
-      </ion-title>
-      <ion-buttons slot="secondary" routerLink = "../notification">
-        <ion-button> <ion-icon name="notifications-outline" size="large"></ion-icon> </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
 </div>
 <ion-content [fullscreen]="true">
   <div class="container" id="container">

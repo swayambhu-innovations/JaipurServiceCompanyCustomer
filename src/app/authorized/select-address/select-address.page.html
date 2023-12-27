@@ -1,33 +1,23 @@
+<app-header-with-back [title]="'Select Address'" [showNotificationIcon]="true"></app-header-with-back>
 <div class="container">
   <div class="row">
     <ion-toolbar>
-      <ion-buttons slot="start" routerLink = "../home">
-        <ion-back-button defaultHref="authorized/cart"></ion-back-button>
-      </ion-buttons>
-      <ion-buttons slot="secondary">
-        <ion-button routerLink = "../notification">
-          <ion-icon name="notifications-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <ion-toolbar>
-      <h2 slot="start">Select Address</h2>
-      <ion-buttons slot="secondary" routerLink="../new-address">
-        <ion-button shape="round"
-          >Add New <ion-icon name="add-circle-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+        <ion-buttons slot="start" routerLink="../new-address">
+          <h2 >Select Address</h2>
+        </ion-buttons>
+        
+        <ion-buttons slot="end" routerLink="../new-address">
+          <ion-button shape="round"
+            ><span class="mx-1">Add New</span> <ion-icon name="add-circle-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
     </ion-toolbar>
   </div>
 </div>
 <ion-content [fullscreen]="true">
   <div class="container" id="container">
     <ion-header collapse="condense">
-      <ion-toolbar>
+      <!-- <ion-toolbar>
         <ion-buttons slot="start">
           <ion-back-button default-href="#"></ion-back-button>
         </ion-buttons>
@@ -36,15 +26,15 @@
             <ion-icon name="notifications-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-      </ion-toolbar>
-      <ion-toolbar>
+      </ion-toolbar> -->
+      <!-- <ion-toolbar>
         <h2 slot="start">Select Address</h2>
         <ion-buttons slot="secondary">
           <ion-button shape="round"
             >Add New <ion-icon name="add-circle-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-      </ion-toolbar>
+      </ion-toolbar> -->
     </ion-header>
     <ion-radio-group (ionChange)="setValue($event)">
       <div class="row" *ngFor="let address of addressService.addresses">
@@ -76,11 +66,11 @@
     </ion-radio-group>
   </div>
 
-  <div class="row mt-4 text-center" routerLink="../select-slot">
+  <!-- <div class="row mt-4 text-center" routerLink="../select-slot">
     <div class="col mt-4">
       <ion-button [disabled]="!this.dataProvider.currentBooking?.address" class="button1" shape="round" color="dark"
         >Select Slot</ion-button
       >
     </div>
-  </div>
+  </div> -->
 </ion-content>

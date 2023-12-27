@@ -8,13 +8,14 @@ import { CartPageRoutingModule } from './cart-routing.module';
 
 import { CartPage } from './cart.page';
 import { OffersComponent } from './offers/offers.component';
-
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CartPageRoutingModule
+    CartPageRoutingModule,
+    WidgetsModule
   ],
   declarations: [CartPage,OffersComponent]
 })
