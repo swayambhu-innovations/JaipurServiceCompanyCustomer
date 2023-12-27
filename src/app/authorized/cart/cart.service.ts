@@ -16,7 +16,6 @@ export class CartService {
   userCurrentAddress:any = {};
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
-  loader:any;
   constructor(
     private firestore:Firestore,
     private dataProvider:DataProviderService,
@@ -126,8 +125,8 @@ export class CartService {
               taxType: service.taxType,
             });
           }
-          console.log(userId,data);
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
+          loader.dismiss();
           return;
         }
       }
@@ -254,7 +253,6 @@ export class CartService {
         return cartItem;
       });
       this.cartSubject.next(this.cart);
-      this.loader.dismiss();
     });
   }
 
