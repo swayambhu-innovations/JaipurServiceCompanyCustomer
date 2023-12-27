@@ -15,7 +15,7 @@
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
       <div class="input">
-        <ion-input class="inputs" formControlName="name"  label="Full Name"  label-placement="floating"  fill="outline"  placeholder="Sudipta Mehta" required></ion-input>
+        <ion-input class="inputs" formControlName="name"  label="Full Name"  label-placement="floating"  fill="outline" required></ion-input>
         <div *ngIf="(this.userProfileForm.get('name')?.touched && this.userProfileForm.get('name')?.invalid) || isSubmitForm">
           <div class="" *ngIf="this.userProfileForm.get('name')?.errors?.required" >
             <ion-text color="danger">Name is required.</ion-text>
