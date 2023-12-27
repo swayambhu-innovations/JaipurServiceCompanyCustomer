@@ -20,6 +20,8 @@ export class BookingDetailsPage implements OnInit {
   discountedPrice: string;
   rate: string;
 
+  tempOtp = [1,1,1,1,1,1];
+
   currentBooking:Booking|undefined;
   CancelForm!: FormGroup;
   constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, private loadingController: LoadingController) {

@@ -1,18 +1,101 @@
-*{
-    box-shadow: none;
+* {
+  box-shadow: none;
 }
-ion-toolbar{
-    $secondaryTextColor:#6A6A6A;
-    ion-text{
-        p{
-            color:$secondaryTextColor;
-        }
+ion-toolbar {
+  $secondaryTextColor: #6a6a6a;
+  ion-text {
+    h4 {
+      color: black;
+      margin: 13px 0px 0px;
+      font-size: 14px;
+      font-weight: 600;
     }
-    ion-buttons:nth-child(1){
-        ion-button{
-            img{
-                height: 23px;
-            }
-        }
+    p {
+      color: $secondaryTextColor;
+      font-size: 12px;
+      font-weight: 400;
+      margin-top: 3px;
     }
+  }
+  ion-buttons:nth-child(1) {
+    ion-button {
+      img {
+        height: 23px;
+      }
+    }
+  }
+}
+
+.main-container {
+  padding: 14px;
+  .address-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .new-add-button {
+      button {
+        display: flex;
+        background: white;
+        color: var(--tertiary, #5e0080);
+        font-weight: 600;
+        cursor: pointer;
+
+        span {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .address-det-div {
+    margin-top: 15px;
+    .address-box {
+      border-radius: 12px;
+      border: 1px solid var(--Line, #e9e9e9);
+      background: #fff;
+      padding: 10px;
+      box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+      margin-bottom: 12px;
+
+      .add-cont {
+        display: grid;
+        grid-template-columns: 10% 70% 20%;
+
+        .input-div {
+          display: flex;
+          cursor: pointer;
+        }
+
+        .address-details {
+          h2 {
+            font-size: 14px;
+            font-weight: 700;
+            margin: 7px 0;
+          }
+
+          p {
+            font-size: 12px;
+            font-weight: 400;
+            margin: 1px 0;
+          }
+        }
+
+        .edit-delete-address {
+          padding-left: 14px;
+
+          img {
+            margin-right: 7px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }
