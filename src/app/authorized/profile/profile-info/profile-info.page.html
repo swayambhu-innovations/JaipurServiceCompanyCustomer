@@ -1,17 +1,18 @@
 <div class="main">
-  <app-header title="User Profile"></app-header>
+  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="true"></app-header-with-back>
   <div class="container">
     <!-- Profile picture with camera button -->
-    <h3>Welcome, New User</h3>
+    <h3 *ngIf="!name">Welcome, New User</h3>
+    <h3 *ngIf="name">Welcome, {{name}}</h3>
     <p>Let’s know you better !</p>
     <div class="profile-pic">
       <img src="../../../assets/profile-3.svg" alt="" class="img" />
       <img src="../../../assets/Ellipse 152.svg" alt="" class="circle" />
       <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" [routerLink]="['/upload-images']"/>
     </div>
-    <div class="title">
+    <!-- <div class="title">
       <h6>{{name2}}</h6>
-    </div>
+    </div> -->
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
       <div class="input">
@@ -24,8 +25,25 @@
             <ion-text color="danger">Name should be min 3 chars long.</ion-text>
           </div>
         </div>
-        <ion-input  class="inputs" formControlName="dateofbirth"  
-               label="Birthdate (dd/mm/yyyy)" label-placement="floating"fill="outline" placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
+        <ion-label position="floating">Date of Birth</ion-label>
+        <ion-datetime-button class="w-100 mb-3" datetime="datetime"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true" style="margin-top: 18px;">
+          <ng-template>
+            <ion-datetime 
+              presentation="date" 
+              id="datetime"
+              formControlName="dateofbirth"
+              label-placement="floating"
+              placeholder="date of birth"
+              displayFormat="yyyy-mm-dd"
+              pickerFormat="yyyy-mm-dd"
+              required
+              [showDefaultButtons]="true"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+
+        <!-- <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy"  class="inputs" formControlName="dateofbirth"  
+               label="Birthdate (dd/mm/yyyy)" label-placement="floating"fill="outline" placeholder="date of birth" style="margin-top: 18px;" required></ion-input> -->
         <div *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
           <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.errors?.required" >
             <ion-text color="danger">DBO is required.</ion-text>

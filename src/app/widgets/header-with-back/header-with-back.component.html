@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
+    <ion-buttons *ngIf="showBackButton" slot="start">
       <ion-button (click)="onBackButtonClick()">
         <img  src="assets/icon/leftArrow/leftArrow.svg" alt="">
       </ion-button>
