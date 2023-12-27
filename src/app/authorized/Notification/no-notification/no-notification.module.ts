@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { NoNotificationPageRoutingModule } from './no-notification-routing.module';
 
 import { NoNotificationPage } from './no-notification.page';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NoNotificationPageRoutingModule
+    NoNotificationPageRoutingModule,
+    WidgetsModule
   ],
   declarations: [NoNotificationPage]
 })
