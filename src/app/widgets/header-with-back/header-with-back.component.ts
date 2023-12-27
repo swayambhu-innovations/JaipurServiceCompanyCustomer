@@ -10,6 +10,7 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
 export class HeaderWithBackComponent  implements OnInit {
   @Input() title!:string;
   @Input() showNotificationIcon:boolean = false;
+  @Input() showBackButton:boolean = true;
   constructor(
     public _navigationBack : NavigationBackService,
     private router: Router,) { }
