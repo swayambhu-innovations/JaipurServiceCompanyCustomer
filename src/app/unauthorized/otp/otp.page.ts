@@ -15,6 +15,7 @@ export class OtpPage implements OnInit {
   otp: any; 
   showOtpComponent = true;
   verifier:RecaptchaVerifier|undefined;
+  resendOtpTime:number = 60;
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
   constructor(private router: Router,public dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private authService:AuthService, private loadingController: LoadingController) { 
   }
@@ -24,6 +25,9 @@ export class OtpPage implements OnInit {
       this.alertify.presentToast("Some Error occurred. Please enter phone again.")
       this.router.navigate(['unauthorized/login']);
     }
+    else{
+      this.startResendTimer();
+    }
   }
   async sendOTP(){
     if(this.dataProvider.loginConfirmationResult){
@@ -32,6 +36,8 @@ export class OtpPage implements OnInit {
       if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container2',{'size':'invisible'},this.authService.auth);
       this.authService.loginWithPhoneNumber(this.dataProvider.userMobile,this.verifier).then((login)=>{
         this.alertify.presentToast("OTP send on Successfully. Please Check!");
+        this.resendOtpTime = 60;
+        this.startResendTimer();
       }).catch((error)=>{
         console.log(error);
         this.alertify.presentToast(error.message);
@@ -90,6 +96,15 @@ export class OtpPage implements OnInit {
     setTimeout(() => {
       this.showOtpComponent = true;
     }, 0);
+  }
+
+  startResendTimer(){
+    setTimeout(() => {
+      if(this.resendOtpTime > 0){
+        this.resendOtpTime--;
+        this.startResendTimer();
+      }
+    },1000);
   }
 
 }

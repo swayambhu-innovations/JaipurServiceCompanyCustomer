@@ -11,6 +11,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class BookingDetailsPage implements OnInit {
   orderId: string;
+  isModalOpenRate = false;
   orderDate: string;
   name: string;
   price: string;
@@ -23,6 +24,7 @@ export class BookingDetailsPage implements OnInit {
   jobOtp:any[]=[];
   currentBooking:Booking|undefined;
   CancelForm!: FormGroup;
+  jobTimeBeforMins:number = 0;
   constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, private loadingController: LoadingController) {
     this.activatedRoute.params.subscribe(async params=>{
       let duration = 0;
@@ -37,7 +39,10 @@ export class BookingDetailsPage implements OnInit {
           this.currentBooking?.billing.discount;
           this.jobOtp = [...booking.jobOtp]
           console.log("current booking ..........: ",this.jobOtp, this.currentBooking);
-        
+          let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
+          let currenttimeSlotInSec =( new Date().getTime()/1000);
+           this.jobTimeBeforMins = (timeSlotInSec - currenttimeSlotInSec)/60;
+          console.log("current timeSlot ..........: ",this.jobTimeBeforMins,this.currentBooking);
           this.currentBooking?.services.forEach(service=>{
             service.variants.forEach(variant=>{
               console.log("jobDuration",this.duration,variant.jobDuration,variant.quantity)
