@@ -18,7 +18,7 @@ export class BookingDetailsPage implements OnInit {
   assignedAgent:any;
   duration: string;
   mrp: string;
-  discount: number;
+  discount: number =0;
   discountedPrice: string;
   rate: string;
   jobOtp:any[]=[];

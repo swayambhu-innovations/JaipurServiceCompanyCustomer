@@ -104,7 +104,7 @@
   background: #fff;
   margin-top: 2px;
   padding-bottom: 15px;
-
+  padding-top: 15px;
   .icon-text {
     display: flex;
     align-items: center;
@@ -965,7 +965,7 @@ ion-content {
     }
 
    
-
+     
     .third-section {
       background-color: #fff;
       padding: 12px 16px;
@@ -1046,4 +1046,12 @@ ion-content {
       --border-radius: 10px;
     }
   }
+}
+li.pargraph{
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #5E0080;
 }

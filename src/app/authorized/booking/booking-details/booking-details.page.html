@@ -31,18 +31,27 @@
 
   <!-- Profile Section -->
   <div class="Profile">
+    <div class="agent-not-assigned" *ngIf="assignedAgent === undefined">
+      <div class="details">
+        <h2>Finding A Professional</h2>
+        <p>Waiting for the professional to accept your booking</p>
+      </div>
+      <div class="icon">
+        <div class="icon-div">
+          <img class="mechanic-icon" src="../../../../assets/icon/mechanic.png" alt="">
+          <img class="search-icon" src="../../../../assets/search.svg" alt="">
+        </div>
+      </div>
+    </div>
     <div class="icon-text" *ngIf="assignedAgent !== undefined">
       <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
       <p>Professional Assigned</p>
     </div>
-    <div class="icon-text" *ngIf="assignedAgent === undefined">
-        <h3>Finding a professional</h3>
-    </div>
     <!-- Profile image & Name -->
     <div class="agent-det-div" *ngIf="assignedAgent !== undefined">
       <div class="row-2">
-        <div class="agent-img">
-          <img class="profile-pic" src="{{assignedAgent.photoUrl}}" alt="" />
+        <div class="agent-img" style="background-image: url({{assignedAgent.photoUrl}});">
+          <!-- <img class="profile-pic" src="{{assignedAgent.photoUrl}}" alt="" style="    border-radius: 50%;" /> -->
         </div>
         <div class="agent-name">
           <p>{{assignedAgent.name}}</p>
@@ -51,12 +60,12 @@
             <p>4.5 <span>(87)</span></p>
           </div>
         </div>
-        <div class="call-button" *ngIf="jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0 ">
+        <div class="call-button" *ngIf="jobTimeBeforMins < 30 ||  jobTimeBeforMins > 0 ">
           <button>
             <img class="call" src="../../../assets/Call.svg" alt="" />
           </button>
         </div>
-        <div class="call-text" *ngIf="jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0 ">
+        <div class="call-text" *ngIf="jobTimeBeforMins > 30 &&  jobTimeBeforMins < 0 ">
           <p>Phone No. will be visible 30 min prior to booking</p>
         </div>
       </div>
@@ -256,7 +265,7 @@
         </div>
         <!-- Banner -->
 
-        <div class="offer-bar" *ngIf="discount !==0">
+        <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
           <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}} on final bill</p>
         </div>
@@ -271,49 +280,51 @@
       <h3 class="head">Rating</h3>
       <p>(Ratings can be given/changed within 2 hours after the completion of Service)</p>
     </div>
-
-    <div class="service-review-cont"  *ngFor="let service of currentBooking?.services">
-      <!-- Price and Subject -->
-      <div class="row-7" *ngFor="let variant of service.variants">
-          <div class="img-div">
-            <img class="image" src="{{currentBooking?.mainCategory?.icon}}" alt="" />
-          </div>
-          <div class="service-det">
-            <div class="service-head">
-              <h3 class="head">{{service.name}}</h3>
-              <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
+    <div *ngIf="currentBooking?.stage !== 'allotmentPending' && currentBooking?.stage !== 'acceptancePending' && currentBooking?.stage !== 'inProgress'">
+      <div class="service-review-cont"  *ngFor="let service of currentBooking?.services">
+        <!-- Price and Subject -->
+        <div class="row-7" *ngFor="let variant of service.variants">
+            <div class="img-div">
+              <img class="image" src="{{currentBooking?.mainCategory?.icon}}" alt="" />
             </div>
-  
-            <div class="rating" id="open-modal-rate" expand="block" (click)="isModalOpenRate=true">
-              <p style="margin-right: 10px">You Rated</p>
-              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+            <div class="service-det">
+              <div class="service-head">
+                <h3 class="head">{{service.name}}</h3>
+                <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
+              </div>
+    
+              <div class="rating" id="open-modal-rate" expand="block" (click)="isModalOpenRate=true">
+                <p style="margin-right: 10px">You Rated</p>
+                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+              </div>
+            </div>
+            <div class="price">
+              <span class="right">{{variant.billing.discountedPrice | currency:'INR' }}</span>
             </div>
           </div>
-          <div class="price">
-            <span class="right">{{variant.billing.discountedPrice | currency:'INR' }}</span>
-          </div>
-        </div>
+      </div>
     </div>
+    
 
-    <div class="reschedule-container mt-4">
+    <div class="reschedule-container mt-4" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending'">
       <button class = "reschedule-button" type="button" >Reschedule</button>
       <button class = "cancel-button" type="button"  >
         Cancel Booking
       </button>
     </div>
-    <div class="container">
-      <ion-card>
+    <div class="container" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending' || currentBooking?.stage == 'inProgress'">
+      <ion-card style="margin: 0px;">
         <ion-card-content>
           <ul>
-            <li>
+            <li class="pargraph">
               No charge if you reschedule or cacnel until 3 hours before the
               service
             </li>
-            <li>Within 3hrs, a cancellation fee of ₹100 is applicable</li>
+            <li  class="pargraph">Within 3hrs, a cancellation fee of ₹100 is applicable</li>
           </ul>
         </ion-card-content>
       </ion-card>
