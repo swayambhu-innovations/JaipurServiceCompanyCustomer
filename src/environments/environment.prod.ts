@@ -7,6 +7,7 @@ export const environment = {
     authDomain: 'jaipurservicecompany-demo.firebaseapp.com',
     messagingSenderId: '592897926378',
     measurementId: 'G-51TVQ41FLB',
+    functionURL: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/',
   },
   cloudFunctions : {
     createOrder: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createOrder',
