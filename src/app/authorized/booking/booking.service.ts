@@ -27,7 +27,9 @@ export class BookingService {
   getBooking(bookingId:string){
     return docData(doc(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'bookings',bookingId));
   }
-
+  getAgentDetails(agentId:string){
+    return docData(doc(this.firestore,'agents',agentId));
+  }
   getAllReviews(){
     return getDocs(collection(this.firestore,'Review'));
   }

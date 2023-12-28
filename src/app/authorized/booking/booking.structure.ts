@@ -42,6 +42,8 @@ export interface  Booking {
     },
     id: string
   };
+  picsBefore:any[] | undefined;
+  picsAfter:any[] | undefined;
   currentUser: {
     userId: string;
     name: string;

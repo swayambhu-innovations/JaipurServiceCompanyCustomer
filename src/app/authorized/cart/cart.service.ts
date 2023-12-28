@@ -145,6 +145,8 @@ export class CartService {
           icon:subCategory.icon
         },
         address:this.userCurrentAddress,
+        picsAfter:undefined,
+        picsBefore:undefined,
         services:[
           {
             name:service.name,
@@ -254,7 +256,6 @@ export class CartService {
         return cartItem;
       });
       this.cartSubject.next(this.cart);
-      this.loader.dismiss();
     });
   }
 

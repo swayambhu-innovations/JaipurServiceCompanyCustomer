@@ -181,11 +181,18 @@
     padding: 0 12px;
     .row-2 {
       display: grid;
-      grid-template-columns: 18% 63% 19%;
+      grid-template-columns: 20% 40% 40%;
       margin-top: 7px;
       .agent-img {
         display: flex;
         align-items: center;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
       .agent-name {
@@ -208,9 +215,9 @@
 
       .call-button {
         display: flex;
-        justify-content: center;
+        margin-right: 5px;
         align-items: center;
-
+        flex-direction: row-reverse;
         button {
           width: 36px;
           height: 36px;
@@ -218,6 +225,16 @@
           border: 1px solid var(--primary, #181f29);
           background: #fff;
         }
+      }
+      .call-text p {
+        color: #6F767E;
+        font-family: Lato !important;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        letter-spacing: -0.02em;
+        text-align: left;
+        padding: 0px 10px;
       }
     }
   }
@@ -711,7 +728,17 @@
       display: grid;
       grid-template-columns: 19% 65% 19%;
       padding: 19px 13px 5px;
-
+      .img-div{
+        width: 50px;
+        height: 50px;
+        background: #f5f5f5;
+        border-radius: 58px;
+        border: 1px solid #c7c4c4;
+        img{
+          padding-top: 12px;
+          padding-left: 12px;
+        }
+      }
       .service-det {
         .service-head {
           h3 {
@@ -740,25 +767,26 @@
           }
         }
 
-        .rating {
-          // border-bottom: 1px solid #d7d7d7;
-          p {
-            margin-bottom: 5px;
-          }
-          img {
-            margin-top: -5px;
-          }
+        
+      }
+      .rating {
+        // border-bottom: 1px solid #d7d7d7;
+        p {
+          margin-bottom: 5px;
         }
+        img {
+          margin-top: -5px;
+        }
+      }
 
-        .price {
-          .right {
-            color: #579540;
-            font-family: Lato;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal;
-          }
+      .price {
+        .right {
+          color: #579540;
+          font-family: Lato;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
         }
       }
     }

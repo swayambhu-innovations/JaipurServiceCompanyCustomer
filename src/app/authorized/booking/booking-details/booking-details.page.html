@@ -31,7 +31,7 @@
 
   <!-- Profile Section -->
   <div class="Profile">
-    <div class="agent-not-assigned">
+    <div class="agent-not-assigned" *ngIf="assignedAgent === undefined">
       <div class="details">
         <h2>Finding A Professional</h2>
         <p>Waiting for the professional to accept your booking</p>
@@ -43,44 +43,45 @@
         </div>
       </div>
     </div>
-    <div class="agent-assigned">
-      <div class="icon-text">
-        <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
-        <p>Professional Assigned</p>
-      </div>
-  
-      <!-- Profile image & Name -->
-      <div class="agent-det-div">
-        <div class="row-2">
-          <div class="agent-img">
-            <img class="profile-pic" src="../../../assets/mukesh.svg" alt="" />
-          </div>
-          <div class="agent-name">
-            <p>{{name}}</p>
-            <div class="rating-div">
-              <img class="star" src="/assets/star.svg" alt="" />
-              <p>4.5 <span>(87)</span></p>
-            </div>
-          </div>
-          <div class="call-button">
-            <button>
-              <img class="call" src="../../../assets/Call.svg" alt="" />
-            </button>
+    <div class="icon-text" *ngIf="assignedAgent !== undefined">
+      <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
+      <p>Professional Assigned</p>
+    </div>
+    <!-- Profile image & Name -->
+    <div class="agent-det-div" *ngIf="assignedAgent !== undefined">
+      <div class="row-2">
+        <div class="agent-img" style="background-image: url({{assignedAgent.photoUrl}});">
+          <!-- <img class="profile-pic" src="{{assignedAgent.photoUrl}}" alt="" style="    border-radius: 50%;" /> -->
+        </div>
+        <div class="agent-name">
+          <p>{{assignedAgent.name}}</p>
+          <div class="rating-div">
+            <img class="star" src="/assets/star.svg" alt="" />
+            <p>4.5 <span>(87)</span></p>
           </div>
         </div>
-        <hr>
-        <!-- OTP -->
-        <div class="row-4">
-          <h5>OTP to start the service</h5>
-          <div class="otp-div">
-            <div class="otp-digit" *ngFor = "let otp of tempOtp">
+        <div class="call-button" *ngIf="jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0 ">
+          <button>
+            <img class="call" src="../../../assets/Call.svg" alt="" />
+          </button>
+        </div>
+        <div class="call-text" *ngIf="jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0 ">
+          <p>Phone No. will be visible 30 min prior to booking</p>
+        </div>
+      </div>
+      <hr>
+      <!-- OTP -->
+      <div class="row-4">
+        <h5>OTP to start the service</h5>
+        <div class="otp-div">
+          <!-- {{(currentBooking?.jobOtp)?.length}} -->
+          <div class="otp-digit" *ngFor="let otp of jobOtp">
               {{otp}}
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   <!-- Offer water -->
   <div class="water">
     <img class="glass-image" src="../../../assets/glass1.svg" alt="" />
@@ -95,7 +96,7 @@
     <div class="row-5">
       <p class="head">Services</p>
       <!-- <div class="row-6"> -->
-      <p class="body">Complete</p>
+      <p class="body">{{currentBooking?.stage}}</p>
       <!-- </div> -->
     </div>
     <!-- Price and Subject -->
@@ -118,18 +119,21 @@
           </section>
         </div>
       </div> -->
-      <div class="service-det-div">
-        <div class="img-div">
-          <div class="img-circle-div">
-            <img src="" alt="">
+      
+      <div *ngFor="let service of currentBooking?.services">
+        <div *ngFor="let variant of service.variants" class="service-det-div" >
+          <div class="img-div">
+            <div class="img-circle-div">
+              <img src="{{currentBooking?.mainCategory?.icon}}" alt="" style="padding-top: 12px; padding-left: 12px;">
+            </div>
           </div>
-        </div>
-        <div class="category-det-div">
-          <h3>AC Installation</h3>
-          <span>raghav</span>
-        </div>
-        <div class="price-div">
-          <span>1500</span>
+          <div class="category-det-div">
+            <h3>{{service.name}}</h3>
+            <span>{{variant.name }} x {{ variant.quantity}}</span>
+          </div>
+          <div class="price-div">
+            <span>{{variant.billing.discountedPrice | currency:'INR' }}</span>
+          </div>
         </div>
       </div>
 
@@ -165,7 +169,6 @@
 
       <section style="margin-left: 10px">
         <span class="head">{{date.head}}</span><br />
-
         <span class="body">{{date.body}}</span>
       </section>
     </div>
@@ -189,18 +192,18 @@
 
   <!-- pictures before and after work -->
   <div class="pictures-div">
-    <div class="pictures-before">
+    <div class="pictures-before" *ngIf="currentBooking?.picsBefore">
       <h3>Pictures Before Work</h3>
       <div class="img-cont" >
-        <div class="images" *ngFor = "let item of images">
+        <div class="images" *ngFor = "let item of currentBooking?.picsBefore">
           <img src="{{item}}" alt="">
         </div>
       </div>
     </div>
-    <div class="pictures-after">
+    <div class="pictures-after" *ngIf="currentBooking?.picsAfter">
       <h3>Pictures After Work</h3>
       <div class="img-cont">
-        <div class="images" *ngFor = "let item of images">
+        <div class="images" *ngFor = "let item of currentBooking?.picsAfter">
           <img src="{{item}}" alt="">
         </div>
       </div>
@@ -221,7 +224,7 @@
           <div class="head">Total Duration</div>
         </span>
         <span>
-          <div class="body">84 mins</div>
+          <div class="body">{{duration}}</div>
         </span>
         <span>
           <div class="head">Total (MRP)</div>
@@ -236,7 +239,7 @@
         </span>
         <span>
           <div class="body" style="color: #579540">
-            {{currentBooking?.billing?.discount | currency:'INR'}}
+            {{discount | currency:'INR'}}
           </div>
         </span>
         <span>
@@ -244,8 +247,8 @@
         </span>
         <span>
           <div class="body">
-            {{(currentBooking?.billing?.subTotal || 0) -
-            (currentBooking?.billing?.discount || 0) | currency:'INR'}}
+            {{currentBooking?.billing?.grandTotal | currency:'INR'}}
+          
           </div>
         </span>
         <!-- Total Price -->
@@ -255,15 +258,16 @@
           </span>
           <span>
             <div class="amount">
-              {{currentBooking?.billing?.grandTotal | currency:'INR'}}
+              {{(currentBooking?.billing?.subTotal || 0) -
+                (currentBooking?.billing?.discount || 0) | currency:'INR'}}
             </div>
           </span>
         </div>
         <!-- Banner -->
 
-        <div class="offer-bar">
+        <div class="offer-bar" *ngIf="discount !==0">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved ₹550 on final bill</p>
+          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}} on final bill</p>
         </div>
       </ion-card-header>
     </ion-card>
@@ -276,34 +280,32 @@
       <h3 class="head">Rating</h3>
       <p>(Ratings can be given/changed within 2 hours after the completion of Service)</p>
     </div>
-    <div class="service-review-cont">
 
+    <div class="service-review-cont"  *ngFor="let service of currentBooking?.services">
       <!-- Price and Subject -->
-      <div class="row-7" *ngFor="let ratings of rating">
-        <div class="img-div">
-          <img class="image" [src]="ratings.img" alt="" />
-        </div>
-        <div class="service-det">
-          <div class="service-head">
-            <h3 class="head">{{ratings.head1}}</h3>
-            <span class="body1">{{ratings.body1}}</span>
+      <div class="row-7" *ngFor="let variant of service.variants">
+          <div class="img-div">
+            <img class="image" src="{{currentBooking?.mainCategory?.icon}}" alt="" />
           </div>
-
-          <div class="rating" id="open-modal1">
-            <p style="margin-right: 10px">{{ratings.rate}}</p>
-            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-            <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-            <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-            <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+          <div class="service-det">
+            <div class="service-head">
+              <h3 class="head">{{service.name}}</h3>
+              <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
+            </div>
+  
+            <div class="rating" id="open-modal-rate" expand="block" (click)="isModalOpenRate=true">
+              <p style="margin-right: 10px">You Rated</p>
+              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+              <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+            </div>
+          </div>
+          <div class="price">
+            <span class="right">{{variant.billing.discountedPrice | currency:'INR' }}</span>
           </div>
         </div>
-
-        <div class="price">
-          <span class="right">{{ratings.amount}}</span>
-        </div>
-        
-      </div>
     </div>
 
     <div class="reschedule-container mt-4">
@@ -357,7 +359,7 @@
       </ng-template>
     </ion-modal>
 
-    <ion-modal mode="ios" trigger="open-modal1" [initialBreakpoint]="0.70" [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    <ion-modal mode="ios" trigger="open-modal-rate" [isOpen]="isModalOpenRate" [initialBreakpoint]="0.70" [breakpoints]="[0, 0.25, 0.5, 0.75]"
       handleBehavior="cycle">
       <ng-template>
         <ion-content class="ion-padding">
