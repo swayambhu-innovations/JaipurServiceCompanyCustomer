@@ -1,10 +1,4 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title style="display: flex;">
-      <ion-icon name="arrow-back-outline" style="margin-right: 10px; padding-top: 5px;" routerLink="/unauthorized/login"></ion-icon>
-      Login/SignUp<img src="assets/images/notification.png" alt=""></ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header-with-back [title]="'Login/SignUp'" [showNotificationIcon]="false" [showBackButton]="false"></app-header-with-back>
 
 <ion-content>
   <h1>Enter verification code</h1>
@@ -18,8 +12,9 @@
 
   <div class="resend">
     <div id="recaptcha-container2"></div>
-    <p>Don't receive code?</p> &nbsp;
-    <p style="color: #5E0080; cursor: pointer;" (click)="sendOTP()" >Resend OTP</p>
+    <p>Didn't receive code?</p> &nbsp;
+    <p *ngIf="resendOtpTime == 0" style="color: #5E0080; cursor: pointer;" (click)="sendOTP()" >Resend OTP</p>
+    <p *ngIf="resendOtpTime > 0" style="color: #5E0080; cursor: pointer;">Resend OTP in {{resendOtpTime}} sec</p>
   </div>
   <ion-button class="signup" color="dark" (click)="login()">Login</ion-button>
 </ion-content>

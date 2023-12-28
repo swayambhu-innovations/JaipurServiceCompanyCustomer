@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/core/auth.service';
   styleUrls: ['./profile-info.page.scss'],
 })
 export class ProfileInfoPage implements OnInit {
-  name = 'Profile';
+  name = '';
   name2 = '';
   userData:any;
   fromDate :any;
@@ -48,6 +48,7 @@ export class ProfileInfoPage implements OnInit {
     this.activeRoute.queryParams.subscribe((param:any)=>{
       if(param.from === "profile"){
         this.userData =  this.dataProvider.currentUser?.userData;
+        this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
         let datearray = this.userData.dob.split("/");

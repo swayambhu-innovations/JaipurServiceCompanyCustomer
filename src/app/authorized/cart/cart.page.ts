@@ -146,18 +146,14 @@ export class CartPage implements OnInit {
   }
   orderCount: any = 2;
   async ngOnInit() {
-    const loader = await this.loadingController.create({message:'Please wait...'});
-    loader.present();
     this.cart = this.cartService.cart;
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
       this.cartLoaded = true;
-      loader.dismiss();
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
-          this.selectedBooking   = foundBooking;
-          //this.cartService.calculateBilling(this.selectedBooking);
+          this.selectedBooking = foundBooking;
         }
       }else{
         this.selectedBooking = undefined;

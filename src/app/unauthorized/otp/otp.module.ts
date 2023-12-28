@@ -8,6 +8,7 @@ import { OtpPageRoutingModule } from './otp-routing.module';
 
 import { OtpPage } from './otp.page';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { NgOtpInputModule } from 'ng-otp-input';
     FormsModule,
     IonicModule,
     OtpPageRoutingModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    WidgetsModule
   ],
   declarations: [OtpPage]
 })
