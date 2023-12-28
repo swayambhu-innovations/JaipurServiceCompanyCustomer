@@ -16,6 +16,7 @@ export class BookingDetailsPage implements OnInit {
   name: string;
   price: string;
   assignedAgent:any;
+  isModalOpenCancellation:boolean = false;
   duration: string;
   mrp: string;
   discount: number =0;

@@ -312,7 +312,7 @@
 
     <div class="reschedule-container mt-4" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending'">
       <button class = "reschedule-button" type="button" >Reschedule</button>
-      <button class = "cancel-button" type="button"  >
+      <button class = "cancel-button" type="button" (click)="isModalOpenCancellation = true" >
         Cancel Booking
       </button>
     </div>
@@ -330,7 +330,7 @@
       </ion-card>
     </div>
 
-    <ion-modal mode="ios" trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    <ion-modal mode="ios" [isOpen]="isModalOpenCancellation" trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]"
       handleBehavior="cycle">
       <ng-template>
         <ion-content class="ion-padding">
