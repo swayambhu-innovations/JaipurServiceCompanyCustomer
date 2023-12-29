@@ -10,6 +10,7 @@ import { HomePage } from './home.page';
 import { WidgetsModule } from '../../widgets/widgets.module';
 
 
+
 // swiper
 
 @NgModule({
@@ -21,7 +22,8 @@ import { WidgetsModule } from '../../widgets/widgets.module';
     WidgetsModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage],
+  declarations: [HomePage, 
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePageModule {}

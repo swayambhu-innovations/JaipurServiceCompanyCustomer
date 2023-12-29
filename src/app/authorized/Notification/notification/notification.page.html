@@ -1,78 +1,167 @@
 <app-header-with-back [title]="'Notification'" [showNotificationIcon]="true"></app-header-with-back>
-<div class="container">
-  
-  <div class="row">
+<ion-content>
+
+  <div class="container">
     <h1>Today</h1>
-  </div>
-  <div class="row">
-    <div class="col ">
-      <ion-card  class="mt-2">
-        <div class="col ">
-          <div class="d2 d">
-            <div class="icon circle-container" slot="start"><ion-icon name="checkmark-circle"></ion-icon>
-            </div>
-            <div class="content">
-              <h3>Payment Request</h3>
-              <p><small>Agent sent you a payment request</small></p>
-            </div>
+    <div class="row-1">
+      <div class="not-det booking-progress">
+        <div class="col-1">
+          <img src="../../../../assets/notification-icon/timer.svg" alt="">
+        </div>
+        <div class="col-2">
+          <h1>Booking In-progress</h1>
+          <p>Agent has started working</p>
+        </div>
+      </div>
+
+      <div class="not-det new-category">
+        <div class="col-1">
+          <div class="img-div">
+            <img src="../../../../assets/notification-icon/new-booking.svg" alt="">
           </div>
         </div>
-      </ion-card>
-      <ion-card class="mt-2">
-        <div class="col ">
-          <div class="d2 d">
-            <div class="icon circle-container" slot="start"><ion-icon name="grid"></ion-icon>
-            </div>
-            <div class="content">
-              <h3>New Category Services!</h3>
-              <p><small>Now the Appliance Repairing is available </small></p>
-            </div>
-          </div>
+        <div class="col-2">
+          <h1>New Category Services!</h1>
+          <p>Now the Appliance Repairing is available</p>
         </div>
-      </ion-card>
+      </div>
     </div>
-  </div>
-  <div class="row">
+
     <h1>Yesterday</h1>
-  </div>
-  <div class="row">
-    <div class="col ">
-      <ion-card class="mt-2">
-        <div class="col ">
-          <div class="d2 d">
-            <div class="icon circle-container" slot="start"><ion-icon name="close-circle"></ion-icon>
-            </div>
-            <div class="content">
-              <h3>Account Setup Successful!</h3>
-              <p><small>Your account has been created!</small></p>
-            </div>
+    <div class="row-2">
+      <div class="not-det account-setup">
+        <div class="col-1">
+          <div class="img-div">
+            <img src="../../../../assets/notification-icon/person.svg" alt="">
           </div>
         </div>
-      </ion-card>
-      <ion-card class="mt-2">
-        <div class="col ">
-          <div class="d2 d">
-            <div class="icon circle-container" slot="start"><ion-icon name="checkmark-circle"></ion-icon>
-            </div>
-            <div class="content">
-              <h3>Payment Faild!</h3>
-              <p><small>You have made a services payment</small></p>
-            </div>
+        <div class="col-2">
+          <h1>Account Setup Successful!</h1>
+          <p>Your account has been created!</p>
+        </div>
+      </div>
+
+      <div class="not-det booking-completed">
+        <div class="col-1">
+          <div class="img-div">
+            <img src="../../../../assets/notification-icon/tick.svg" alt="">
           </div>
         </div>
-      </ion-card>
-      <ion-card class="mt-2">
-        <div class="col ">
-          <div class="d2 d">
-            <div class="icon circle-container" slot="start"><ion-icon name="wallet"></ion-icon>
-            </div>
-            <div class="content">
-              <h3>Payment Successful!</h3>
-              <p><small>You have made a services payment</small></p>
-            </div>
-          </div>
+        <div class="col-2">
+          <h1>Booking Completed</h1>
+          <p>Your booking has been Booking Completed</p>
         </div>
-      </ion-card>
+      </div>
     </div>
+
+    <div class="delete-div">
+      <span>Deleted</span>
+      <button>Undo</button>
+    </div>
+  </div>
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="row">
+  <h1>Today</h1>
+</div>
+<div class="row">
+  <div class="col ">
+    <ion-card  class="mt-2">
+      <div class="col ">
+        <div class="d2 d">
+          <div class="icon circle-container" slot="start"><ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <div class="content">
+            <h3>Payment Request</h3>
+            <p><small>Agent sent you a payment request</small></p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="mt-2">
+      <div class="col ">
+        <div class="d2 d">
+          <div class="icon circle-container" slot="start"><ion-icon name="grid"></ion-icon>
+          </div>
+          <div class="content">
+            <h3>New Category Services!</h3>
+            <p><small>Now the Appliance Repairing is available </small></p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
   </div>
 </div>
+<div class="row">
+  <h1>Yesterday</h1>
+</div>
+<div class="row">
+  <div class="col ">
+    <ion-card class="mt-2">
+      <div class="col ">
+        <div class="d2 d">
+          <div class="icon circle-container" slot="start"><ion-icon name="close-circle"></ion-icon>
+          </div>
+          <div class="content">
+            <h3>Account Setup Successful!</h3>
+            <p><small>Your account has been created!</small></p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="mt-2">
+      <div class="col ">
+        <div class="d2 d">
+          <div class="icon circle-container" slot="start"><ion-icon name="checkmark-circle"></ion-icon>
+          </div>
+          <div class="content">
+            <h3>Payment Faild!</h3>
+            <p><small>You have made a services payment</small></p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+    <ion-card class="mt-2">
+      <div class="col ">
+        <div class="d2 d">
+          <div class="icon circle-container" slot="start"><ion-icon name="wallet"></ion-icon>
+          </div>
+          <div class="content">
+            <h3>Payment Successful!</h3>
+            <p><small>You have made a services payment</small></p>
+          </div>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+</div> -->

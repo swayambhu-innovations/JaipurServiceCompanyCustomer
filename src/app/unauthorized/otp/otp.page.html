@@ -1,9 +1,9 @@
-<app-header-with-back [title]="'Login/SignUp'" [showNotificationIcon]="false" [showBackButton]="false"></app-header-with-back>
+<app-header-with-back [title]="'Login/SignUp'" [showNotificationIcon]="false" [showBackButton]="true"></app-header-with-back>
 
-<ion-content>
+<ion-content class="container">
   <h1>Enter verification code</h1>
   <p>We have sent you a 6 digit verification code on</p>
-  <div>+91 {{dataProvider.userMobile}}</div>
+  <div class="phone-no">+91 {{dataProvider.userMobile}}</div>
 
   <div class="otp-inputs">
     <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
