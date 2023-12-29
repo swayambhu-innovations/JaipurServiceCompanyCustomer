@@ -149,6 +149,7 @@ export class NewAddressPage implements OnInit {
     }
     addressObject.city = city;
     addressObject.state = state;
+    addressObject.isDefault = true;
     addressObject.area = addressObject.formatted_address;
     await loader.present()
     if(this.addressForm.valid){

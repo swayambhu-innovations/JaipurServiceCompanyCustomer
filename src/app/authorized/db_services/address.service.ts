@@ -21,7 +21,7 @@ export class AddressService {
     })
   }
 
-  getAddresses(userId:string){
+  async getAddresses(userId:string){
     return getDocs(collection(this.firestore, 'users', userId, 'addresses'));
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { ConfirmationResult, User } from '@angular/fire/auth';
 import { Category } from './types/category.structure';
 import { Booking } from '../authorized/booking/booking.structure';
@@ -9,10 +9,10 @@ import { Address } from '../authorized/select-address/address.structure';
   providedIn: 'root'
 })
 export class DataProviderService {
-  mainCategories:ReplaySubject<Category[]>=new ReplaySubject<Category[]>(1);
+  mainCategories:BehaviorSubject<Category[]>=new BehaviorSubject<Category[]>([]);
   loggedIn:boolean=false;
   userMobile:string= '';
-  selectedAddress:ReplaySubject<Address>=new ReplaySubject<Address>(1);
+  selectedAddress:BehaviorSubject<Address[]>=new BehaviorSubject<Address[]>([]);
   checkingAuth:boolean=true;
   loginConfirmationResult:ConfirmationResult|undefined;
   currentBooking:Booking|undefined;

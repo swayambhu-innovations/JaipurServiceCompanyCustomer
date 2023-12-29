@@ -42,16 +42,16 @@
           </div>
         </div>
 
-        <div class="address-det-div">
+        <div class="address-det-div" *ngFor="let address Of addressess">
           <div class="address-box">
             <div class="add-cont">
               <div class="input-div">
-                <input type="radio">
+                <input type="radio" [checked]="address.isDefault">
               </div>
               <div class="address-details">
-                <h2>Customer Name</h2>
-                <p>Customer Number</p>
-                <p>4517 Washington Ave, Manchester, Kentucky 111111</p>
+                <h2>{{address.name}}</h2>
+                <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+                <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
               </div>
               <div class="edit-delete-address">
                 <img src="../../../assets/edit-button.svg" alt="">
