@@ -115,8 +115,16 @@ export class BookingDetailsPage implements OnInit {
   }
 
   rescheduleSubmit(){
-    if(this.currentBooking)
-    this.currentBooking.isUpdateSlot = true;
+    if(this.currentBooking){
+      this.currentBooking.isUpdateSlot = true;
+      
+      if(this.currentBooking.stage =="jobAccepted"){
+        this.currentBooking.stage = 'acceptancePending';
+      }else{
+        this.currentBooking.stage = 'allotmentPending';
+      }
+    }
+    
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
   }
