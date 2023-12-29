@@ -57,7 +57,6 @@ export class CartService {
     console.log(service);
     console.log(mainCategory);
     console.log(subCategory); 
-    debugger
     let variant = service.variants.find(v=>v.id == variantId);
     if (variant){
       for (const data of this.cart) {
@@ -145,8 +144,10 @@ export class CartService {
           icon:subCategory.icon
         },
         address:this.userCurrentAddress,
+        isUpdateSlot:false,
         picsAfter:[],
         picsBefore:[],
+        cancelReason:'',
         services:[
           {
             name:service.name,

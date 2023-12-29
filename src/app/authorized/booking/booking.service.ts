@@ -44,6 +44,10 @@ export class BookingService {
     return res;
   }
 
+  async updateBookingSlot(userId: string, bookingId: string,booking:any){
+    updateDoc(doc(this.firestore, 'users', userId, 'bookings', bookingId), booking);
+  }
+
   getBookings(userId:string){
     return getDocs(collection(this.firestore,'users',userId,'bookings'));
   }

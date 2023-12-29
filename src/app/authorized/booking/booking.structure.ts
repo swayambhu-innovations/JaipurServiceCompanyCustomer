@@ -18,6 +18,7 @@ export interface  Booking {
     image: string;
     icon:string;
   };
+  cancelReason:string;
   services: SelectedService[];
   appliedCoupon?:Coupon;
   billing: {
@@ -31,6 +32,7 @@ export interface  Booking {
   };
   createdAt: Timestamp;
   jobOtp: string;
+  isUpdateSlot:boolean;
   address: Address | undefined;
   timeSlot?: {
     date: Timestamp;
@@ -42,8 +44,8 @@ export interface  Booking {
     },
     id: string
   };
-  picsBefore:any[] | undefined;
-  picsAfter:any[] | undefined;
+  picsBefore:string[] | [];
+  picsAfter:string[]  | [];
   currentUser: {
     userId: string;
     name: string;

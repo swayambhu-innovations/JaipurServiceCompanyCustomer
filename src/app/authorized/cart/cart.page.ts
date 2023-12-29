@@ -154,6 +154,8 @@ export class CartPage implements OnInit {
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
           this.selectedBooking = foundBooking;
+        }else{
+          this.selectedBooking = undefined;
         }
       }else{
         this.selectedBooking = undefined;

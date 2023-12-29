@@ -4,6 +4,10 @@ import { BookingService } from '../booking.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Booking } from '../booking.structure';
 import { LoadingController } from '@ionic/angular';
+import { UserNotificationService } from '../../common/user-notification.service';
+import Utils from '../../common/util';
+import { DataProviderService } from 'src/app/core/data-provider.service';
+
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.page.html',
@@ -11,6 +15,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class BookingDetailsPage implements OnInit {
   orderId: string;
+   utils: any;
   isModalOpenRate = false;
   orderDate: string;
   name: string;
@@ -23,10 +28,15 @@ export class BookingDetailsPage implements OnInit {
   discountedPrice: string;
   rate: string;
   jobOtp:any[]=[];
+  picAvalable:boolean = false;
   currentBooking:Booking|undefined;
   CancelForm!: FormGroup;
   jobTimeBeforMins:number = 0;
-  constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, private loadingController: LoadingController) {
+  constructor(private bookingService:BookingService, private activatedRoute:ActivatedRoute,private router:Router, 
+    private loadingController: LoadingController,private fb: FormBuilder,private userNotificationService:UserNotificationService,
+    private dataProvider:DataProviderService
+    ) {
+       this.utils = Utils.stageMaster;
     this.activatedRoute.params.subscribe(async params=>{
       let duration = 0;
       if (params['bookingId']){
@@ -38,23 +48,21 @@ export class BookingDetailsPage implements OnInit {
           this.discount = this.currentBooking?.billing?.coupanDiscunt + this.currentBooking?.billing.discount;
           else
           this.currentBooking?.billing.discount;
-          this.jobOtp = [...booking.jobOtp]
-          console.log("current booking ..........: ",this.jobOtp, this.currentBooking);
+          this.jobOtp = [...booking.jobOtp];
+          if(this.currentBooking)
+           this.picAvalable = this.currentBooking?.picsBefore.length > 0
           let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
           let currenttimeSlotInSec =( new Date().getTime()/1000);
            this.jobTimeBeforMins = (timeSlotInSec - currenttimeSlotInSec)/60;
-          console.log("current timeSlot ..........: ",this.jobTimeBeforMins,this.currentBooking);
           this.currentBooking?.services.forEach(service=>{
             service.variants.forEach(variant=>{
-              console.log("jobDuration",this.duration,variant.jobDuration,variant.quantity)
               duration += variant.jobDuration * variant.quantity; 
             });
           });
-       
+          console.log("this.currentBooking.......: ",this.currentBooking?.timeSlot?.date.toDate())
           this.duration =  Math.floor( duration/60 )+ " Hour "+    duration%60 + " Minutes";
           if(booking.assignedAgent){
             this.bookingService.getAgentDetails(booking.assignedAgent).subscribe((agentDetails:any)=>{
-              console.log("agentDetails.......:",agentDetails)
               this.assignedAgent =agentDetails;
             });
           }
@@ -83,9 +91,10 @@ export class BookingDetailsPage implements OnInit {
         getCheckedRadio = o.value;
     })
 
-    this.CancelForm = new FormGroup({
-      'CancelOptions': new FormControl(getCheckedRadio, [Validators.required])
-    })
+    this.CancelForm = this.fb.group({
+      cancelReason: ['', Validators.required],
+      cancelReasonText: ['']
+    });
 
   }
 
@@ -96,81 +105,20 @@ export class BookingDetailsPage implements OnInit {
     { name: 'Booking address is incorrect', value: '103BE', checked: false },
    
   ];
-  services = [
-    {
-      img: 'assets/ac.svg',
 
-      head: 'AC Installation',
+  cancelSubmit() {
+    if(this.currentBooking){
+      this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this.CancelForm.value);
+      this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
+    }
+    this.isModalOpenCancellation = false;
+  }
 
-      body: '1 Ton -1.5 Ton x2',
-
-      amount: '₹1502',
-    },
-
-    {
-      img: 'assets/cleaning.svg',
-
-      head: 'Deep House Cleaning',
-
-      body1: '2BHK',
-
-      amount: '₹2999',
-    },
-  ];
-  rating = [
-    {
-      img: 'assets/deep1.svg',
-
-      head1: 'Deep House Cleaning',
-
-      body1: '2BHK',
-
-      amount: '₹2999',
-
-      star: 'assets/star-filled.svg',
-      star1: 'assets/star-filled.svg',
-
-      rate: 'You Rated',
-    },
-    {
-      img: 'assets/blueac.svg',
-
-      head2: 'AC Installation',
-
-      body: '1 Ton -1.5 Ton x2',
-
-      amount: '₹1502',
-
-      star: 'assets/star-filled.svg',
-      star1: 'assets/star-filled.svg',
-
-      rate: 'Rate This Services',
-    },
-  ];
-
-  dateNtime = [
-    {
-      img: 'assets/calendar.svg',
-
-      head: 'Date',
-      body: 'November 7,2023',
-    },
-
-    {
-      img: 'assets/clock.svg',
-
-      head: 'Time',
-      body: '12:00-01:00 PM',
-    },
-  ];
-
-  images = [
-    "https://placehold.co/70x70",
-    "https://placehold.co/70x70",
-    "https://placehold.co/70x70",
-    "https://placehold.co/70x70",
-    "https://placehold.co/70x70"
-  ]
-
+  rescheduleSubmit(){
+    if(this.currentBooking)
+    this.currentBooking.isUpdateSlot = true;
+    this.dataProvider.currentBooking =this.currentBooking;
+    this.router.navigate(['/authorized/select-slot']);
+  }
 
 }

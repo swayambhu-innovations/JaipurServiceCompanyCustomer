@@ -66,6 +66,7 @@ export class SelectSlotPage implements OnInit {
     private router: Router,
     private cartService: CartService
   ) {
+  
   }
 
   ngOnInit() {
@@ -74,7 +75,14 @@ export class SelectSlotPage implements OnInit {
     this.generateSlots();
     this.totalSlots();
   }
-
+  ionViewDidEnter(){
+    let booking = this.dataProvider.currentBooking;
+    if(booking?.isUpdateSlot && booking.timeSlot){
+      this.selectedDate = booking.timeSlot.date.toDate();
+      this.selectedStartTime = booking.timeSlot.time.startTime.toDate();
+      this.selectedEndTime = booking.timeSlot.time.endTime.toDate();
+    }
+  }
   generateSlots() {
     // fill dates with next 7 days starting from today
     let today = new Date();
@@ -84,6 +92,7 @@ export class SelectSlotPage implements OnInit {
         today.getMonth(),
         today.getDate() + i
       );
+      console.log("date:",date)
       this.dates.push(date);
     }
 
@@ -178,21 +187,28 @@ export class SelectSlotPage implements OnInit {
       message: 'Please wait...',
     });
     loader.present();
-    this.bookingService
-      .addBooking(
-        this.dataProvider.currentBooking!,
-        this.dataProvider.currentUser!.user!.uid
-      )
-      .then(async () => {
-        await this.cartService.deleteBooking(
-          this.dataProvider.currentUser!.user.uid,
-          this.dataProvider.currentBooking!.id!
-        );
-        this.router.navigate(['/authorized/order-placed']);
-      })
-      .finally(() => {
-        loader.dismiss();
-      });
+    let booking = this.dataProvider.currentBooking;
+    if(!booking?.isUpdateSlot){
+        this.bookingService.addBooking(
+          this.dataProvider.currentBooking!,
+          this.dataProvider.currentUser!.user!.uid
+        )
+        .then(async () => {
+          await this.cartService.deleteBooking(
+            this.dataProvider.currentUser!.user.uid,
+            this.dataProvider.currentBooking!.id!
+          )
+          this.router.navigate(['/authorized/order-placed']);
+        })
+        .finally(() => {
+          loader.dismiss();
+        });
+      }else{
+        this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+          this.router.navigate(['/authorized/order-placed']);
+          loader.dismiss();
+        });
+      }
     // this.paymentService.handlePayment({
     //   grandTotal: this.dataProvider.currentBooking!.billing.grandTotal,
     //   user:{
