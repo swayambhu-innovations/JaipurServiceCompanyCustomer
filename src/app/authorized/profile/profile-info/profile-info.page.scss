@@ -6,6 +6,7 @@
   overflow: scroll;
   max-width: 100%;
   .profile-pic {
+    margin: 33px 0 50px;
     .img {
       margin-left: auto;
       margin-right: auto;
@@ -45,9 +46,10 @@
   --highlight-color-focused: #b3b3b3;
   color: #4f4f4f;
   --border-width: 0.5px;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   --placeholder-color: #4f4f4f;
   width: 100%;
+  margin-bottom: 18px;
   p {
     position: absolute;
     float: right;
@@ -87,7 +89,7 @@
   }
   .save {
     display: flex;
-    width: 328px;
+    width: 100%;
     padding: 12px 49px;
     justify-content: center;
     align-items: center;
@@ -103,6 +105,7 @@
     font-weight: 700;
     line-height: 24px; /* 133.333% */
     letter-spacing: -0.18px;
+
   }
 }
 

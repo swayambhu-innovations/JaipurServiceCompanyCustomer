@@ -43,7 +43,7 @@
 <div class="container-fluid">
   <div class="row">
     <ion-header collapse="fade" mode="ios">
-      <ion-toolbar>
+      <!-- <ion-toolbar>
         <ion-buttons slot="start">
           <ion-icon name="location-outline" size="large"></ion-icon>
         </ion-buttons>
@@ -56,16 +56,18 @@
           <ion-button routerLink="/notification"> <ion-icon name="notifications-outline" size="large"
               color="dark"></ion-icon> </ion-button>
         </ion-buttons>
-      </ion-toolbar>
+      </ion-toolbar> -->
       <!-- <ion-toolbar>
         <ion-searchbar autocorrect="on" showCancelButton="never"> <button class="search-btn"><i
               class="fas fa-search"></i></button></ion-searchbar>
       </ion-toolbar> -->
       <div class="input-group mb-3 mt-4">
 
-        <button id="search" routerLink="../search">
-          <input type="search" 
-            placeholder="Search what you need" name="" id="">
+        <button id="search" >
+          <span class="left-arrow" routerLink="../home">
+            <img src="../../../assets/icon/leftArrow/leftArrow.svg" alt="">
+          </span>
+          <input type="search" routerLink="../search" placeholder="Search Category" name="" id="">
           <span>
             <img src="../../../assets/ui_icons/search.svg" alt="">
           </span>
