@@ -40,7 +40,9 @@ export class ProfileInfoPage implements OnInit {
     public formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
     private auth: AuthService
-  ) {}
+  ) {
+    console.log(this.dataProvider.currentUser?.userData);
+  }
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     dateofbirth: ['', [Validators.required]],
@@ -62,20 +64,22 @@ export class ProfileInfoPage implements OnInit {
       this.urlparam = param.from;
       if (param.from === 'profile') {
         this.userData = this.dataProvider.currentUser?.userData;
+  
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        console.log(this.userData.dob);
-        let datearray = this.userData.dob.split('/');
+        if(this.userData.dateofbirth){
+          let datearray = this.userData.dateofbirth?.split("-");
+          let newdate = datearray[0] + '-' + datearray[1] + '-' + datearray[2];
+          let date = new DatePipe('en-US').transform(this.userData.dateofbirth, 'yyyy-MM-dd');
+          this.userProfileForm.controls.dateofbirth.setValue(newdate)
+        }
+        else{
+          let date = new Date().toISOString();
+          this.userProfileForm.controls.dateofbirth.setValue(date)
+        }
         
-        let newdate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
-        let date = new DatePipe('en-US').transform(
-          this.userData.dob,
-          'MM/dd/yyyy'
-        );
-        this.fromDate = newdate;
-        console.log("newdate..........: ",newdate)
-        this.userProfileForm.controls.dob.setValue(newdate);
+        
         this.isFromProfile = true;
       } else {
         this.isFromProfile = false;

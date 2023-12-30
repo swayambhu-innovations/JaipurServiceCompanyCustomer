@@ -190,7 +190,7 @@
                           To Cart</button>
                       </div>
                       <div class="col-6" style="text-align: end;">
-                        <button class="book-buttons" color="dark" (click)="bookNow(variant.id)">Book Now</button>
+                        <button class="book-buttons" color="dark" (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
                       </div>
                     </div>
                   </ion-item>
