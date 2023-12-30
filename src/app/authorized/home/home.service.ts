@@ -27,6 +27,7 @@ export class HomeService {
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(address=>{
+       
         if(address.length > 0){
           let currentAddress = address.filter(addre=> addre.isDefault);
           if(currentAddress.length > 0 ){
@@ -35,6 +36,7 @@ export class HomeService {
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
         }else{
+          console.log("address..............: ",address)
           this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
               // this.router.navigate(['authorized/new-address',{isfistTime: true}],);
             }
