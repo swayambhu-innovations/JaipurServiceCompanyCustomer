@@ -1,4 +1,4 @@
-<app-header-with-back [title]="'Select Address'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'" [showNotificationIcon]="addressService.addresses.length > 0"></app-header-with-back>
 <div class="container">
   <div class="row">
     <ion-toolbar slot="end">

@@ -42,6 +42,9 @@ export class HomeHeaderComponent  implements OnInit {
           this.insertAddressAccordionButton = true;
         }
       }
+      else{
+        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+      }
     })
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
     if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
