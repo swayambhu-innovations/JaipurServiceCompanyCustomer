@@ -219,7 +219,6 @@ export class CartService {
   }
 
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
-    debugger
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
@@ -236,13 +235,11 @@ export class CartService {
       }
     }
     if(data.services.length ===0){
-      console.log("clearCart.......: ",data);
       await this.clearCart(userId,data.id);
     }else{
       console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
-    debugger
     await this.updateCart();
     loader.dismiss();
   }
@@ -256,7 +253,6 @@ export class CartService {
         cartItem = this.calculateBilling(cartItem);
         return cartItem;
       });
-      debugger
       this.cartSubject.next(this.cart);
     });
   }
