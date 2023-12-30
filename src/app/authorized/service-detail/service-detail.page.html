@@ -168,16 +168,16 @@
 
                     <div class="addremove-div">
                       <button fill="outline" class="remove" color="dark"
-                        (click)="this.cartService.decrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)">-</button>
+                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
                       <input class="input-div" type="number" id="input{{variant.id}}" text-center
                         [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                         min="1" max="5">
                       <button fill="outline" class="add" color="dark"
-                        (click)="this.cartService.incrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)">+</button>
+                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
                     </div>
                     <div class="remove-div">
                       <button fill="outline" class="remove-item"
-                        (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,matchingService!.id,variant.id,cartDetils[0].id)"
+                        (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
                         color="danger">Remove item
                       </button>
                     </div>
