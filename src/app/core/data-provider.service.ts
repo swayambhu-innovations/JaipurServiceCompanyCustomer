@@ -9,6 +9,7 @@ import { Address } from '../authorized/select-address/address.structure';
   providedIn: 'root'
 })
 export class DataProviderService {
+  isFirstTime:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   mainCategories:BehaviorSubject<Category[]>=new BehaviorSubject<Category[]>([]);
   loggedIn:boolean=false;
   userMobile:string= '';

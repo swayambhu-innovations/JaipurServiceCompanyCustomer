@@ -27,16 +27,16 @@ export class HomeService {
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(address=>{
-        if(address){
+        if(address.length > 0){
           let currentAddress = address.filter(addre=> addre.isDefault);
           if(currentAddress.length > 0 ){
             this.fetchData(currentAddress[0].selectedArea.serviceCatalogue);
           }else{
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
-          
         }else{
-              this.router.navigate(['authorized/new-address']);
+          this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+              // this.router.navigate(['authorized/new-address',{isfistTime: true}],);
             }
       });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
