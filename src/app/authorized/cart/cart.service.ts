@@ -144,8 +144,10 @@ export class CartService {
           icon:subCategory.icon
         },
         address:this.userCurrentAddress,
+        isUpdateSlot:false,
         picsAfter:[],
         picsBefore:[],
+        cancelReason:'',
         services:[
           {
             name:service.name,

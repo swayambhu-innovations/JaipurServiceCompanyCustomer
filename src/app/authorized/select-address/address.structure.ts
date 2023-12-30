@@ -21,6 +21,7 @@ export interface Address {
 	place_id:string;
 	stateCode:string;
 	stateName:string;
+	isDefault:boolean;
 	state:string;
 	selectedArea:Area;
 	pincode:string;

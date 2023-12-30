@@ -64,9 +64,16 @@ export class CartPage implements OnInit {
   }
 
   temp(){
-    this.dataProvider.selectedAddress.subscribe(currentAddress=>{
-      if(currentAddress){
-        this.dataProvider.currentBooking!.address = currentAddress; 
+    this.dataProvider.selectedAddress.subscribe(address=>{
+      if(address.length > 0){
+        let currentAddress = address.filter(addre=> addre.isDefault);
+        if(currentAddress.length > 0 ){
+          this.dataProvider.currentBooking!.address=currentAddress[0];
+        }else{
+          this.dataProvider.currentBooking!.address=address[0];
+        }
+      }
+      if(this.dataProvider.currentBooking!.address){
       this.router.navigate(["/authorized/select-slot"]);
       }else{
         this.router.navigate(["/authorized/select-address"]);
@@ -167,6 +174,8 @@ export class CartPage implements OnInit {
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
           this.selectedBooking = foundBooking;
+        }else{
+          this.selectedBooking = undefined;
         }
       }else{
         this.selectedBooking = undefined;

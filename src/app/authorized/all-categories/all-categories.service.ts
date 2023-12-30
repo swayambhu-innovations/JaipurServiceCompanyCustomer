@@ -8,7 +8,7 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { DataProviderService } from '../../core/data-provider.service';
-import { ReplaySubject, Subject, async, debounceTime } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, async, debounceTime } from 'rxjs';
 import { Category } from '../../core/types/category.structure';
 import { where } from 'firebase/firestore';
 import { Address } from '../select-address/address.structure';
@@ -17,7 +17,7 @@ import { Address } from '../select-address/address.structure';
   providedIn: 'root'
 })
 export class AllCategoriesService {
-  mainCategories: ReplaySubject<Category[]> = new ReplaySubject<Category[]>(1);
+  mainCategories: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>([]);
   refetchCategories: Subject<void> = new Subject<void>();
   selectedAdress:Address;
   constructor(private firestore: Firestore,
@@ -25,7 +25,14 @@ export class AllCategoriesService {
     ) {
       this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(selectedAdress=>{
-        this.selectedAdress = selectedAdress
+        if(selectedAdress.length > 0){
+          let currentAddress = selectedAdress.filter(addre=> addre.isDefault);
+          if(currentAddress.length > 0 ){
+            this.selectedAdress = currentAddress[0]
+          }else{
+            this.selectedAdress = selectedAdress[0]
+          }
+        }
       });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
       this.fetchData();

@@ -80,12 +80,12 @@
       <div class="address-box" *ngFor="let address of addressService.addresses">
         <div class="add-cont" >
           <div class="input-div">
-            <input type="radio" (click)="setValue($event)">
+            <input type="radio" (click)="setValue($event)" [checked]="address.isDefault" />
           </div>
           <div class="address-details">
             <h2>{{address.name}}</h2>
-            <p>Customer Number</p>
-            <p>4517 Washington Ave, Manchester, Kentucky 111111</p>
+            <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+            <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
           </div>
           <div class="edit-delete-address">
             <img src="../../../assets/edit-button.svg" alt="">

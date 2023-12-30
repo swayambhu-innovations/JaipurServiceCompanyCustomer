@@ -7,13 +7,16 @@ import { AlertsAndNotificationsService } from '../alerts-and-notifications.servi
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../authorized/db_services/profile.service';
+import { AddressService } from '../authorized/db_services/address.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private profileService:ProfileService, private router:Router,public auth:Auth,private firestore:Firestore,private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private loadingController: LoadingController) {
+  constructor(private profileService:ProfileService, private router:Router,public auth:Auth,private firestore:Firestore,
+    private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,
+    private loadingController: LoadingController) {
     this.dataProvider.checkingAuth = true;
     this.auth.onAuthStateChanged((user)=>{
         if(user){
@@ -28,6 +31,7 @@ export class AuthService {
             }else{
               this.router.navigate(['../../authorized/home']);
             }
+           
             this.dataProvider.checkingAuth = false;
           });
         } else {
@@ -51,6 +55,7 @@ export class AuthService {
           if(userData.name.length ===0){
             this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
           }else{
+           /// debugger
             this.router.navigate(['/authorized/select-address']);
           }
         });

@@ -67,7 +67,6 @@ export class HomePage implements OnInit {
     this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
     this.dataProvider.mainCategories.subscribe(categories => {
-      console.log("...........:",categories)
       this.categories = categories;
     })
   }

@@ -8,44 +8,46 @@ import {
   query,
 } from '@angular/fire/firestore';
 import { DataProviderService } from '../../core/data-provider.service';
-import { ReplaySubject, Subject, async, debounceTime } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, async, debounceTime } from 'rxjs';
 import { Category } from '../../core/types/category.structure';
 import { where } from 'firebase/firestore';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root', 
 })
 export class HomeService {
-  mainCategories: ReplaySubject<Category[]> = new ReplaySubject<Category[]>(1);
+  mainCategories: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>([]);
   refetchCategories: Subject<void> = new Subject<void>();
 
   constructor(
     private firestore: Firestore,
-    private dataProvider: DataProviderService
+    private dataProvider: DataProviderService,
+    private router:Router
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(address=>{
         if(address){
-          //address.area.serviceCatalogue
-          console.log("address.area.serviceCatalogue: ",address.selectedArea)
-          this.fetchData(address.selectedArea.serviceCatalogue);
+          let currentAddress = address.filter(addre=> addre.isDefault);
+          if(currentAddress.length > 0 ){
+            this.fetchData(currentAddress[0].selectedArea.serviceCatalogue);
+          }else{
+            this.fetchData(address[0].selectedArea.serviceCatalogue);
+          }
+          
         }else{
-          this.fetchData("1OtfZ7RzJOyRWSGpTR3t");
-        }
-        
-      })
+              this.router.navigate(['authorized/new-address']);
+            }
+      });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
     
     });
-    
   }
 
   async fetchData(serviceCatalogueId:string) {
       let serverCatDb=doc(this.firestore, 'service-catalogue',serviceCatalogueId);
       const docSnap = await getDoc(serverCatDb);
         if (docSnap.exists()) {
-         
-          console.log("mainCategory.......: ", docSnap.data())
           this.mainCategories.next(await this.getMainCategories(serviceCatalogueId));
         }
   }
@@ -54,7 +56,6 @@ export class HomeService {
       (
         await getDocs(collection(this.firestore, 'service-catalogue', serviceCatalogueId, 'categories'))
       ).docs.map(async (mainCategory) => {
-        console.log("mainCategory.......: ",mainCategory.data())
         return {
           id: mainCategory.id,
           name: mainCategory.data()['name'],
@@ -104,15 +105,11 @@ export class HomeService {
     );
   }
   async getTaxes(taxeIds:string) {
-   
-   // let ids = JSON.parse(taxeIds);
     let citiesRef = collection(this.firestore,"taxes");
     const q = query(citiesRef, where('id', 'in', taxeIds));
     if(taxeIds.length > 0){
-      console.log("taxes ids..........: ",taxeIds)
       return await Promise.all(
         ( await getDocs(q)).docs.map(async (taxes) => {
-          console.log("taxes details..........: ",taxes.data())
           return {
             id: taxes.id,
             name: taxes.data()['name'],

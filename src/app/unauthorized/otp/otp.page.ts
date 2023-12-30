@@ -12,54 +12,79 @@ import { RecaptchaVerifier } from 'firebase/auth';
   styleUrls: ['./otp.page.scss'],
 })
 export class OtpPage implements OnInit {
-  otp: any; 
+  otp: any;
   showOtpComponent = true;
-  verifier:RecaptchaVerifier|undefined;
-  resendOtpTime:number = 60;
-  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
-  constructor(private router: Router,public dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private authService:AuthService, private loadingController: LoadingController) { 
-  }
- 
+  verifier: RecaptchaVerifier | undefined;
+  resendOtpTime: number = 60;
+  @ViewChild('ngOtpInput', { static: false }) ngOtpInput: any;
+  constructor(
+    private router: Router,
+    public dataProvider: DataProviderService,
+    private alertify: AlertsAndNotificationsService,
+    private authService: AuthService,
+    private loadingController: LoadingController
+  ) {}
+
   ngOnInit() {
-    if(!this.dataProvider.loginConfirmationResult){
-      this.alertify.presentToast("Some Error occurred. Please enter phone again.")
+    if (!this.dataProvider.loginConfirmationResult) {
+      this.alertify.presentToast(
+        'Some Error occurred. Please enter phone again.'
+      );
       this.router.navigate(['unauthorized/login']);
-    }
-    else{
+    } else {
       this.startResendTimer();
     }
   }
-  async sendOTP(){
-    if(this.dataProvider.loginConfirmationResult){
-      let loader = await this.loadingController.create({message:'Logging in...'});
-      loader.present();
-      if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container2',{'size':'invisible'},this.authService.auth);
-      this.authService.loginWithPhoneNumber(this.dataProvider.userMobile,this.verifier).then((login)=>{
-        this.alertify.presentToast("OTP send on Successfully. Please Check!");
-        this.resendOtpTime = 60;
-        this.startResendTimer();
-      }).catch((error)=>{
-        console.log(error);
-        this.alertify.presentToast(error.message);
-      }).finally(()=>{
-        loader.dismiss();
+  async sendOTP() {
+    
+    if (this.dataProvider.loginConfirmationResult) {
+      let loader = await this.loadingController.create({
+        message: 'OTP Sending...',
       });
-    }
-  }
-  async login(){
-    if(this.dataProvider.loginConfirmationResult){
-      let loader = await this.loadingController.create({message:'Logging in...'});
       loader.present();
-      this.dataProvider.loginConfirmationResult.confirm(this.otp).then((result)=>{
-        //console.log(result);
-        this.authService.setUserData(result.user);
-        this.router.navigate(['authorized/profile/profile-info']);
-      }).catch((error)=>{
-        console.log(error);
-        this.alertify.presentToast(error.message);
-      }).finally(()=>{
-        loader.dismiss();
-      })
+      if (!this.verifier)
+        this.verifier = new RecaptchaVerifier(
+          'recaptcha-container2',
+          { size: 'invisible' },
+          this.authService.auth
+        );
+      this.authService
+        .loginWithPhoneNumber(this.dataProvider.userMobile, this.verifier)
+        .then((login) => {
+          this.alertify.presentToast('OTP send on Successfully. Please Check!');
+          this.resendOtpTime = 60;
+          this.startResendTimer();
+        })
+        .catch((error) => {
+          console.log(error);
+          this.alertify.presentToast(error.message);
+        })
+        .finally(() => {
+          loader.dismiss();
+        });
+    }  
+  }
+  async login() {
+    
+    if (this.dataProvider.loginConfirmationResult) {
+      let loader = await this.loadingController.create({
+        message: 'Logging in...',
+      });
+      loader.present();
+      this.dataProvider.loginConfirmationResult
+        .confirm(this.otp)
+        .then((result) => {
+          //console.log(result);
+          this.authService.setUserData(result.user);
+          this.router.navigate(['authorized/profile/profile-info']);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.alertify.presentToast(error.message);
+        })
+        .finally(() => {
+          loader.dismiss();
+        });
     }
   }
 
@@ -70,21 +95,22 @@ export class OtpPage implements OnInit {
     disableAutoFocus: false,
     placeholder: '',
     inputStyles: {
-      'width': '50px',
-      'height': '50px'
-    }
+      width: '38px',
+      height: '38px',
+    },
   };
-  onOtpChange(otp:any) {
+  onOtpChange(otp: any) {
     this.otp = otp;
+    console.log(otp);
   }
-  setVal(val:number) {
+  setVal(val: number) {
     this.ngOtpInput.setValue(val);
   }
-  toggleDisable(){
-    if(this.ngOtpInput.otpForm){
-      if(this.ngOtpInput.otpForm.disabled){
+  toggleDisable() {
+    if (this.ngOtpInput.otpForm) {
+      if (this.ngOtpInput.otpForm.disabled) {
         this.ngOtpInput.otpForm.enable();
-      }else{
+      } else {
         this.ngOtpInput.otpForm.disable();
       }
     }
@@ -98,13 +124,12 @@ export class OtpPage implements OnInit {
     }, 0);
   }
 
-  startResendTimer(){
+  startResendTimer() {
     setTimeout(() => {
-      if(this.resendOtpTime > 0){
+      if (this.resendOtpTime > 0) {
         this.resendOtpTime--;
         this.startResendTimer();
       }
-    },1000);
+    }, 1000);
   }
-
 }

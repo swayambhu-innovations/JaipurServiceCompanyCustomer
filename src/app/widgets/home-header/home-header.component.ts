@@ -17,6 +17,7 @@ export class HomeHeaderComponent  implements OnInit {
   // main address line one is the input address line provided by the database where as the address line 1 and 2 are calculated by the client side depending upn the address character length
   addressLineOne:string = ''
   addressLineTwo:string = ''
+  addressess:Address[] = [];
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
@@ -29,8 +30,10 @@ export class HomeHeaderComponent  implements OnInit {
   ngOnInit() {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
+        this.addressess = address;
+        console.log(" this.addressess..........: ",this.dataProvider, this.addressess)
        // console.log("ngOnInit home header....: ",address[0])
-        this.dataProvider.selectedAddress.next(address[0]);
+        this.dataProvider.selectedAddress.next(address);
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
         if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){

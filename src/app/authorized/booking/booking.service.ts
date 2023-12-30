@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc,collection, getDocs, addDoc, setDoc, collectionData, docData } from '@angular/fire/firestore';
+import { Firestore, doc,collection, getDocs, addDoc, setDoc, collectionData,updateDoc, docData } from '@angular/fire/firestore';
 import { Review } from './booking.page';
 import { Booking } from './booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject } from 'rxjs';
+import Utils from '../common/util';
 
 
 @Injectable({
@@ -43,7 +44,33 @@ export class BookingService {
     return res;
   }
 
+  async updateBookingSlot(userId: string, bookingId: string,booking:any){
+    updateDoc(doc(this.firestore, 'users', userId, 'bookings', bookingId), booking);
+  }
+
   getBookings(userId:string){
     return getDocs(collection(this.firestore,'users',userId,'bookings'));
+  }
+
+  updateBooking(userId: string, bookingId: string, nextStage: string, agentId?: string, data?: any) {
+    let obj: any = {};
+    if (nextStage === Utils.stageMaster.acceptancePending.key) {
+      obj['assignedAgent'] = agentId;
+      obj['allotmentAt'] = new Date();
+    } else if (nextStage === Utils.stageMaster.jobAccepted.key) {
+      obj['acceptedAt'] = new Date();
+    } else if (nextStage === Utils.stageMaster.inProgress.key) {
+      obj['otpAt'] = new Date();
+      obj['progressAt'] = new Date();
+    } else if (nextStage === Utils.stageMaster.completed.key) {
+      obj['completedAt'] = new Date();
+    } else if (nextStage === Utils.stageMaster.discarded.key) {
+      obj['discardedAt'] = new Date();
+    }
+    obj['stage'] = nextStage;
+    if (data) {
+      obj = {...obj, ...data}
+    }
+    return updateDoc(doc(this.firestore, 'users', userId, 'bookings', bookingId), obj);
   }
 }
