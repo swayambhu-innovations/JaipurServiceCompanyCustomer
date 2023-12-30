@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { SharedArrayService } from '../../shared-array.service';
 import { Booking } from '../booking/booking.structure';
 import { CartService } from './cart.service';
@@ -42,15 +42,21 @@ export class CartPage implements OnInit {
   discounts:any[] = [];
   cart:any;
   cartLoaded:boolean = false;
+  mainCategoryId:string = '';
+  serviceId:string = '';
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private activatedRoute:ActivatedRoute,
     public cartService:CartService,
     public dataProvider:DataProviderService,
     private modalController:ModalController,
     private loadingController: LoadingController
   ) {
-    
+    this.route.paramMap.subscribe( paramMap => {
+      this.mainCategoryId = paramMap.get('mainCategoryId') ?? '';
+      this.serviceId = paramMap.get('serviceId') ?? '';
+    })
   }
  
   notification(){
@@ -150,6 +156,13 @@ export class CartPage implements OnInit {
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
       this.cartLoaded = true;
+      if(this.mainCategoryId != 'all'){
+        this.selectedBooking = this.cart.find((booking) => {
+          const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
+          return serviceFind && booking.mainCategory.id == this.mainCategoryId
+        });
+      }
+
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
@@ -158,6 +171,7 @@ export class CartPage implements OnInit {
       }else{
         this.selectedBooking = undefined;
       }
+      
     });
   }
 
