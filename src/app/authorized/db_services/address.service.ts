@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Address } from '../select-address/address.structure';
+import { promises, resolve } from 'dns';
+import { rejects } from 'assert';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +16,16 @@ export class AddressService {
   addresses:Address[] = [];
   selectedAddres:Address;
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
-  constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient) {
+  constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient,private router:Router) {
     if(this.dataProvider.currentUser!.user.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
       this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
+     // console.log("addresses collectionData....",addresses.length)
       this.fetchedAddresses.next(this.addresses);
+      // if(addresses.length == 0){
+      //   this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+      // }
     })
   }
 
@@ -26,7 +33,15 @@ export class AddressService {
 
     return (await getDocs(collection(this.firestore, 'users', userId, 'addresses'))).docs;
   }
-
+  async getArea(stateId:string,cityId:string){
+    return new Promise((resolve,rejects)=>{
+      collectionData(collection(this.firestore, 'areas', stateId, 'cities',cityId,'areas')).subscribe((areas:any)=>{
+        resolve(areas);
+      });
+    });
+   
+    //return (await getDocs(collection(this.firestore, 'areas', stateId, 'cities',cityId,'areas'))).docs;
+  }
   addAddress(userId:string, address:any){
     return addDoc(collection(this.firestore, 'users', userId, 'addresses'), address);
   }

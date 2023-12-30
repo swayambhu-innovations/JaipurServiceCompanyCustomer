@@ -17,7 +17,6 @@ export class BookingService {
     private firestore:Firestore,
     private dataProvider:DataProviderService
   ) {
-    console.log("Loading bookings");
     collectionData(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'bookings')).subscribe((bookings:any)=>{
       this.bookings = bookings;
       console.log("Bookings loaded",bookings);

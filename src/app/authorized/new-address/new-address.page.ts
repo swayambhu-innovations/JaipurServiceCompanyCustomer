@@ -124,6 +124,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   newPosition(event: any) {
+    console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
     this.currentPosition = event.latLng.toJSON();
   }
 
@@ -153,6 +154,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
+    debugger
     if(!this.searchedAreaDetails.selectedArea){
       return;
     }
@@ -166,6 +168,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     addressObject.state = state;
     addressObject.isDefault = false;
     addressObject.area = addressObject.formatted_address;
+
     await loader.present()
     if(this.addressForm.valid){
       this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
@@ -226,7 +229,6 @@ export class NewAddressPage implements OnInit, CanActivate{
 
     });
     this.areas$?.subscribe(areas=>{
-      console.log("areas Area.........: ",areas,searchedAreaDetails.geoProofingLocality)
      let selectedArea =  areas.filter(area=> area.geoProofingLocality == searchedAreaDetails.geoProofingLocality);
       if(selectedArea){
         searchedAreaDetails['selectedArea']= selectedArea[0];
@@ -239,8 +241,15 @@ export class NewAddressPage implements OnInit, CanActivate{
     const placeId = event.place_id;
     this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
       this.areaDetails = response.result;
-      console.log("Selected Area.........: ",this.areaDetails)
-     
+      //console.log("response.result.formatted_address: ",response.result,response.result.formatted_address)
+      this.addressForm.controls.area.setValue(response.result.formatted_address)
+      let codinate = {
+        lat:this.areaDetails['geometry'].location.lat,
+        lng:this.areaDetails['geometry'].location.lng
+      }
+      this.areaOptions = []
+      this.currentPosition = codinate;
+      this.center = codinate;
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
       if(!this.searchedAreaDetails.selectedArea){
         alert("We do not provide services in this area!")

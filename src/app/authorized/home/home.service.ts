@@ -12,6 +12,7 @@ import { BehaviorSubject, ReplaySubject, Subject, async, debounceTime } from 'rx
 import { Category } from '../../core/types/category.structure';
 import { where } from 'firebase/firestore';
 import { Router } from '@angular/router';
+import { AddressService } from '../db_services/address.service';
 
 @Injectable({
   providedIn: 'root', 
@@ -23,25 +24,38 @@ export class HomeService {
   constructor(
     private firestore: Firestore,
     private dataProvider: DataProviderService,
+    private addressService: AddressService,
     private router:Router
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
-      this.dataProvider.selectedAddress.subscribe(address=>{
-       
+      this.dataProvider.selectedAddress.subscribe(async address=>{
         if(address.length > 0){
+          //console.log("address...........: ",address)
           let currentAddress = address.filter(addre=> addre.isDefault);
           if(currentAddress.length > 0 ){
-            this.fetchData(currentAddress[0].selectedArea.serviceCatalogue);
+            let areas:any = await this.addressService.getArea(currentAddress[0].stateId,currentAddress[0].cityId);
+            let selectedArea = areas?.filter(area=>area.geoProofingLocality === currentAddress[0].geoProofingLocality);
+           
+            if(selectedArea.length > 0){
+              //console.log("selectedArea............: ",selectedArea[0])
+              this.fetchData(selectedArea[0].serviceCatalogue);
+            }else{
+              // code for Area Not Found
+            }
+          
           }else{
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
-        }
+        }else{
+              //this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+              // this.router.navigate(['authorized/new-address',{isfistTime: true}],);
+            }
       });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
     
     });
   }
-
+ 
   async fetchData(serviceCatalogueId:string) {
       let serverCatDb=doc(this.firestore, 'service-catalogue',serviceCatalogueId);
       const docSnap = await getDoc(serverCatDb);

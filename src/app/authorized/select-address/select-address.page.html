@@ -80,7 +80,7 @@
       <div class="address-box" *ngFor="let address of addressService.addresses">
         <div class="add-cont" >
           <div class="input-div">
-            <input type="radio" (click)="setValue($event)" [checked]="address.isDefault" />
+            <!-- <input type="radio" (click)="setValue($event)" [checked]="address.isDefault" /> -->
           </div>
           <div class="address-details">
             <h2>{{address.name}}</h2>

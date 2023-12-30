@@ -9,6 +9,8 @@ export interface Address {
 	area:string;
 	business_status:string;
 	city:string;
+	cityId:string;
+	stateId:string;
 	cityKey:string;
 	cityName:string;
 	countryId:string;
