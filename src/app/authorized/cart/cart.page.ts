@@ -160,14 +160,14 @@ export class CartPage implements OnInit {
   orderCount: any = 2;
   async ngOnInit() {
     this.cart = this.cartService.cart;
+    if(this.cart.length > 0){
+      this.setCurrentBooking();
+    }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
       this.cartLoaded = true;
       if(this.mainCategoryId != 'all'){
-        this.selectedBooking = this.cart.find((booking) => {
-          const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
-          return serviceFind && booking.mainCategory.id == this.mainCategoryId
-        });
+        this.setCurrentBooking();
       }
 
       if (this.selectedBooking?.id && bookings.length > 0){
@@ -187,5 +187,11 @@ export class CartPage implements OnInit {
   calculateTotal() {}
   checkout() {}
   removeFromCart(service: any) {}
+  setCurrentBooking(){
+    this.selectedBooking = this.cart.find((booking) => {
+      const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
+      return serviceFind && booking.mainCategory.id == this.mainCategoryId
+    });
+  }
 }
   
