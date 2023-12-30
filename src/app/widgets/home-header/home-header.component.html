@@ -6,7 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-text>
-      <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.addresses)?.[0]?.name}}</h4>
+      <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.selectedAddres)?.name}}</h4>
       <p>
         {{addressLineOne}}
         <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
@@ -46,7 +46,7 @@
           <div class="address-box">
             <div class="add-cont">
               <div class="input-div">
-                <input type="radio" [checked]="address.isDefault">
+                <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
               </div>
               <div class="address-details">
                 <h2>{{address.name}}</h2>

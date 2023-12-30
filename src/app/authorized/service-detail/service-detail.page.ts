@@ -95,24 +95,31 @@ export class ServiceDetailPage implements OnInit {
     this.modal.present();
   }
 
-  async bookNow(variantId:string){
+  async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
     await loader.present();
     let variant = this.matchingService?.variants.find(v=>v.id == variantId);
-    this.paymentService.handlePayment({
-      grandTotal: variant?.price || 0,
-      user: {
-        displayName: "Kumar Saptam",
-        email: "saptampro2003@gmail.com",
-        phone:'9026296062'
-      }
-    }).subscribe(async (paymentResponse)=>{
-      if (JSON.parse(paymentResponse['body']).status=='captured'){
-        await loader.dismiss();
-      }
-    },(error)=>{},async ()=>{
-      await loader.dismiss();
+    await this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variantId,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
+    loader.dismiss();
+    this.cartService.cartSubject.subscribe(cartDetils=>{
+      this.cartDetils = cartDetils;
     })
+    this.router.navigate([`/authorized/cart/${matchingMainCategoryId}/${matchingServiceId}`]);
+    
+      // this.paymentService.handlePayment({
+      //   grandTotal: variant?.price || 0,
+      //   user: {
+      //     displayName: "Kumar Saptam",
+      //     email: "saptampro2003@gmail.com",
+      //     phone:'9026296062'
+      //   }
+      // }).subscribe(async (paymentResponse)=>{
+      //   if (JSON.parse(paymentResponse['body']).status=='captured'){
+      //     await loader.dismiss();
+      //   }
+      // },(error)=>{},async ()=>{
+      //   await loader.dismiss();
+      // })
   }
 
   addToCart(variant:any){

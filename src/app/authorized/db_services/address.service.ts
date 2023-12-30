@@ -11,18 +11,20 @@ import { Address } from '../select-address/address.structure';
 })
 export class AddressService {
   addresses:Address[] = [];
+  selectedAddres:Address;
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient) {
     if(this.dataProvider.currentUser!.user.uid !== undefined)
     collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
       this.addresses = addresses;
-      //console.log("addresses............:",addresses)
+      this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
       this.fetchedAddresses.next(this.addresses);
     })
   }
 
   async getAddresses(userId:string){
-    return getDocs(collection(this.firestore, 'users', userId, 'addresses'));
+
+    return (await getDocs(collection(this.firestore, 'users', userId, 'addresses'))).docs;
   }
 
   addAddress(userId:string, address:any){

@@ -31,7 +31,6 @@ export class HomeHeaderComponent  implements OnInit {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
         this.addressess = address;
-        console.log(" this.addressess..........: ",this.dataProvider, this.addressess)
        // console.log("ngOnInit home header....: ",address[0])
         this.dataProvider.selectedAddress.next(address);
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
@@ -42,6 +41,9 @@ export class HomeHeaderComponent  implements OnInit {
           this.insertAddressAccordionButton = true;
         }
       }
+      else{
+        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+      }
     })
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
     if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
@@ -50,7 +52,31 @@ export class HomeHeaderComponent  implements OnInit {
       this.insertAddressAccordionButton = true;
     }
   }
+  async changeAddress(address:Address){
+    let addressId = "";
+    let userId = "";
+    if(this.dataProvider.currentUser?.user.uid){
+      userId = this.dataProvider.currentUser?.user.uid;
+      let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
+      ass.map(res=>{
+        let address_ = res.data();
+        if(address.name === address_.name){
+          addressId = res.id;
+        }
+        if(address_.isDefault){
+          address_.isDefault = false;
+          this.addressService.editAddress(userId, res.id,address_);
+        }
+        
+      })
+     
+    }
+   if(userId !== "" && addressId !== ""){
+    address.isDefault = true;
+    this.addressService.editAddress(userId, addressId,address);
+   }
 
+  }
   setopen(flag: boolean){
     this.showmodal = flag;
   }

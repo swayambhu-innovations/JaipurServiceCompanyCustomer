@@ -164,7 +164,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
     addressObject.city = city;
     addressObject.state = state;
-    addressObject.isDefault = true;
+    addressObject.isDefault = false;
     addressObject.area = addressObject.formatted_address;
     await loader.present()
     if(this.addressForm.valid){

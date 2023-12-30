@@ -35,11 +35,7 @@ export class HomeService {
           }else{
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
-        }else{
-          console.log("address..............: ",address)
-          this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
-              // this.router.navigate(['authorized/new-address',{isfistTime: true}],);
-            }
+        }
       });
     this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
     

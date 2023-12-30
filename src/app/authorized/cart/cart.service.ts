@@ -237,8 +237,7 @@ export class CartService {
       }
     }
     if(data.services.length ===0){
-      console.log("clearCart.......: ",data)
-      await this.clearCart(userId);
+      await this.clearCart(userId,data.id);
     }else{
       console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
@@ -356,10 +355,8 @@ export class CartService {
     return data;
   }
 
-  async clearCart(userId:string){
-    for (const document of this.cart) {
-      await deleteDoc(doc(this.firestore,'users',userId,'cart',document.id!));
-    }
+  async clearCart(userId:string,bookingId:string){
+    await deleteDoc(doc(this.firestore,'users',userId,'cart',bookingId!));
   }
 
   generateOtpCode(){
