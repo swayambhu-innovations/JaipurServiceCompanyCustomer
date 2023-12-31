@@ -77,7 +77,13 @@ export class HomeHeaderComponent  implements OnInit {
    }
 
   }
-  setopen(flag: boolean){
-    this.showmodal = flag;
+  setopen(){
+    this.addressLineTwoVisible = true;
+    this.showmodal = true;
+  }
+
+  onWillDismiss(event){
+    this.addressLineTwoVisible = false;
+    this.showmodal = false;
   }
 }
