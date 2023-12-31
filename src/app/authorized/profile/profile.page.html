@@ -22,13 +22,13 @@
     </ion-modal>
 
     <!-- Close Icon -->
-    <ion-button fill="clear" class="close-btn" (click)="close()">
+    <!-- <ion-button fill="clear" class="close-btn" (click)="close()">
       <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-    </ion-button>
+    </ion-button> -->
     <!-- Profile -->
-    <img src="https://api.dicebear.com/6.x/initials/svg?seed={{this.dataProvider.currentUser?.user?.phoneNumber}}"
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed"
       class="profile-pic" />
-    <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.user?.phoneNumber}}</h4>
+    <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.userData?.name}}</h4>
   </ion-card>
 
   <div class="nav">
@@ -81,6 +81,43 @@
         <p>Contact Us</p>
       </div>
     </ion-button>
+
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
+      <div class="w-100 d-flex align-items-center shreeva">
+        <img style="padding:auto;" class="icons"
+        src="../../../assets/images/shreevaIcon.png" alt="" />
+        <p>Powered By Shreeva</p>
+      </div>
+    </ion-button>
+
+    <!-- <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
+      <div class="w-100 d-flex align-items-center">
+        <img style="padding:auto;" class="icons"
+        src="../../assets/Call(1).svg" alt="" />
+        <p>Contact Us</p>
+      </div>
+    </ion-button> -->
+
+
+    <!-- <ion-button class="side-buttons"  fill="clear"  expand="block">
+      <div class="w-100 d-flex align-items-center">
+        <img src="../../assets/Icons.svg" style="padding:auto;" class="icons"/>
+        <p>Sign out</p>
+      </div>
+    </ion-button>
+
+    <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+      <ng-template>
+        <ion-card-title class="logout-title">Logout</ion-card-title>
+        <ion-item-divider></ion-item-divider>
+        <ion-card-subtitle class="subtitle">Are you sure want to Logout ?</ion-card-subtitle>
+        <div style="display: flex;margin: auto;padding: 20px;">
+          <ion-button class="cancel-btn" fill="clear" (click)="closeModal()">Cancel</ion-button>
+          <ion-button class="logout-btn" (click)="logout()" fill="clear">Yes , Logout
+          </ion-button>
+        </div>
+      </ng-template>
+    </ion-modal> -->
   </div>
 
   <!-- <ion-header> </ion-header> -->

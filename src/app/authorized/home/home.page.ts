@@ -48,6 +48,11 @@ export class HomePage implements OnInit {
     },
   ];
 
+  // stageClasses = {
+  //   pending: "red",
+  //   complete: 
+  // }
+
 
 
 

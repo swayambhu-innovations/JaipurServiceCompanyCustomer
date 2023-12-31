@@ -1,6 +1,6 @@
 <div class="main">
 
-  <ng-container *ngIf = "urlparam == 'profile'">
+  <ng-container *ngIf="urlparam == 'profile'">
     <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="true"></app-header-with-back>
   </ng-container>
 
@@ -12,7 +12,7 @@
     <div class="profile-pic">
       <img src="../../../assets/profile-3.svg" alt="" class="img" />
       <img src="../../../assets/Ellipse 152.svg" alt="" class="circle" />
-      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" [routerLink]="['/upload-images']"/>
+      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" [routerLink]="['/upload-images']" />
     </div>
     <!-- <div class="title">
       <h6>{{name2}}</h6>
@@ -20,12 +20,14 @@
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
       <div class="input">
-        <ion-input class="inputs" formControlName="name"  label="Full Name"  label-placement="floating"  fill="outline" required></ion-input>
-        <div *ngIf="(this.userProfileForm.get('name')?.touched && this.userProfileForm.get('name')?.invalid) || isSubmitForm">
-          <div class="" *ngIf="this.userProfileForm.get('name')?.errors?.required" >
+        <ion-input class="inputs" formControlName="name" label="Full Name" label-placement="floating" fill="outline"
+          required></ion-input>
+        <div
+          *ngIf="(this.userProfileForm.get('name')?.touched && this.userProfileForm.get('name')?.invalid) || isSubmitForm">
+          <div class="" *ngIf="this.userProfileForm.get('name')?.errors?.required">
             <ion-text color="danger">Name is required.</ion-text>
           </div>
-          <div class="" color="danger" *ngIf="this.userProfileForm.get('name')?.errors?.minlength" >
+          <div class="" color="danger" *ngIf="this.userProfileForm.get('name')?.errors?.minlength">
             <ion-text color="danger">Name should be min 3 chars long.</ion-text>
           </div>
         </div>
@@ -46,35 +48,35 @@
           </ng-template>
         </ion-modal> -->
 
-        <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy"  class="inputs" formControlName="dateofbirth"  
-               label="Birthdate" label-placement="floating"fill="outline" placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
+        <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy" class="inputs"
+          formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
+          placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
 
-        <div *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm" style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.errors?.required" >
+        <div
+          *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
+          style="margin-top: -8px;padding-bottom: 9px;">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.errors?.required">
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>
-        <ion-item lines="outline"  fill="outline" class="gender-input">
+        <ion-item lines="outline" fill="outline" class="gender-input">
           <ion-label position="floating">Gender</ion-label>
-          <ion-input type="text" readonly [value]="selectedGender" class="gender-input-box" placeholder="Gender" required></ion-input>
-          <ion-icon
-            name="chevron-down-outline"
-            slot="end"
-            (click)="openGenderPicker()"
-          ></ion-icon>
+          <ion-input type="text" readonly [value]="selectedGender" class="gender-input-box" placeholder="Gender"
+            required></ion-input>
+          <ion-icon name="chevron-down-outline" slot="end" (click)="openGenderPicker()"></ion-icon>
         </ion-item>
         <div *ngIf="!isGenderSelected && isSubmitForm" style="padding: 8px 0px;">
-          <div class=""  >
+          <div class="">
             <ion-text color="danger">Gender is required.</ion-text>
           </div>
         </div>
       </div>
-  </form>
+    </form>
     <!-- Cancel and Save buttons -->
     <div class="buttons">
-      <button class="save"  (click)="nextFunction()">Next</button>
+      <button class="save" (click)="nextFunction()">save</button>
     </div>
-    
+
   </div>
   <!-- main div -->
 </div>

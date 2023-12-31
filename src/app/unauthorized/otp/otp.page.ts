@@ -94,6 +94,7 @@ export class OtpPage implements OnInit {
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
+    inputmode: "tel",
     inputStyles: {
       width: '38px',
       height: '38px',

@@ -1,24 +1,31 @@
-<app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back [title]="'cart'" [showNotificationIcon]="false"></app-header-with-back>
 
 <ion-content *ngIf="!selectedBooking && cart?.length > 0">
-  <h3 class="header">You have {{cart.length}} bookings.</h3>
+  <!-- <h3 class="header">You have {{cart.length}} bookings.</h3> -->
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
       <img [src]="booking.subCategory.image" alt="">
       <div class="categories">
-        <p class="main">{{booking.mainCategory.name}}</p>
-        <p class="sub">{{booking.subCategory.name}}</p>
+        <div class="main">
+          <p>{{booking.mainCategory.name}}</p>
+        </div>
+        <div class="sub">
+          <p>{{booking.subCategory.name}}</p>
+        </div>
       </div>
     </div>
+
+    <hr class="dashed-line">
+
     <ol class="items">
       <li *ngFor="let item of booking.services">
         {{item.name}}
         <ol>
-          <li *ngFor="let variant of item.variants">{{variant.name}} - {{variant.price | currency:'INR'}}</li>
+          <li *ngFor="let variant of item.variants">{{variant.name}} - <span>{{variant.price | currency:'INR' : 'symbol' : '1.0-0'}}</span></li>
         </ol>
       </li>
     </ol>
-    <ion-button color="dark" (click)="selectedBooking = booking" shape="round">Continue</ion-button>
+    <ion-button color="dark" (click)="selectedBooking = booking">Checkout</ion-button>
   </div>
 </ion-content>
 
@@ -71,7 +78,7 @@
                 {{variant.billing.discountedPrice | currency:'INR'}}
               </span> -->
               <span class="original-price">
-                {{(variant.billing.totalPrice) | currency:'INR'}}
+                {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}
               </span>
             </p>
             <div class="stock">

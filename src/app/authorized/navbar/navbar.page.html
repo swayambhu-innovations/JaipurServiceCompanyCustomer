@@ -1,6 +1,8 @@
 <ion-tabs>
-    <ion-tab-bar slot="bottom,top" class="footer">
-        <ion-tab-button tab="home" class="footer-ion-tab-button">
+  <ion-tab-bar slot="bottom,top" class="footer" 
+  *ngIf = "(router.url == '/authorized/profile') || (router.url == '/authorized/home') ||  (router.url == '/authorized/cart/all/all') || (router.url == '/authorized/booking/upcoming-history')"
+      >
+        <ion-tab-button tab="home" class="footer-ion-tab-button" >
           <img src="assets/icon/navbar/home.svg" alt="">
           <ion-label>Home</ion-label>
         </ion-tab-button>

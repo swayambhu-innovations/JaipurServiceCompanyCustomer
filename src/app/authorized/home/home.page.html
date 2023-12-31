@@ -1,4 +1,3 @@
-
 <app-home-header [MAX_ADDRESS_LINE_LENGTH]="30"></app-home-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
@@ -18,8 +17,8 @@
     </swiper-container>
   </div>
 
-  <div class="recent-container">
-    <ion-label class="label">Recent Activity</ion-label>
+  <div class="recent-container" *ngIf="recentActivityData.length !== 0">
+    <ion-label class="label">Upcoming Bookings</ion-label>
 
     <swiper-container [loop]="true" [spaceBetween]="20">
       <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData">
@@ -31,9 +30,42 @@
               <p>{{data.billing.grandTotal | currency:'INR'}}</p>
             </ion-col>
             <ion-col class="row-1-col-2">
-              <div class="status-box">
-                {{data.stage | titlecase}}
-              </div>
+              <ng-container *ngIf="data.stage == 'allotmentPending'">
+                <div class="status-box allotmentpending">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'compelete'">
+                <div class="status compelete">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'progress'">
+                <div class="status progress">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'cancelled'">
+                <div class="status cancelled">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'expired'">
+                <div class="status expired">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'otpVerify'">
+                <div class="status otpverify">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="data.stage == 'acceptancePending'">
+                <div class="status acceptancepending">
+                  {{data.stage | titlecase}}
+                </div>
+              </ng-container>
+
 
             </ion-col>
           </ion-row>
@@ -70,7 +102,7 @@
           <span>{{mainCategory.name}}</span>
         </div>
       </ion-col>
-      <ion-col class="serviceCategoriesImages" *ngIf = "categories.length > 3? true: false">
+      <ion-col class="serviceCategoriesImages" *ngIf="categories.length > 3? true: false">
         <div class="category-det">
           <a>
             <img class="seeall-img" src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
@@ -80,13 +112,24 @@
       </ion-col>
     </ion-row>
     <hr class="horizontalRow">
-  </div> 
-  
+  </div>
+
   <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
-    <div *ngIf="mainCategory.name !== '' "></div>
-    <h3>{{mainCategory.name}}</h3>
-    <img class="banner" [src]="mainCategory.image" alt="">
+    <!-- <div *ngIf="mainCategory.name !== '' "></div> -->
     <div class="container">
+      <div class="heading">
+        <div class="col-9">
+          <h4>{{mainCategory.name}}</h4>
+        </div>
+        <div class="see-all-button">
+          <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
+          <img src="assets/icon/rightArrow/rightArrow.svg">
+        </div>
+      </div>
+    </div>
+    <!-- <h3>{{mainCategory.name}}</h3> -->
+    <img class="banner" [src]="mainCategory.image" alt="">
+    <!-- <div class="container">
       <div class="heading">
         <div class="col-9">
           <h4>Services</h4>
@@ -96,14 +139,14 @@
           <img src="assets/icon/rightArrow/rightArrow.svg">
         </div>
       </div>
-    </div>
-    <div class="container mt-2">
+    </div> -->
+    <div class="servicecontainer mt-2">
       <div class="row serviceRowOverflow">
         <div class="col text-center" *ngFor="let subCategory of mainCategory.subCategories">
-          <ion-thumbnail routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
+          <div class="service-det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
             <img alt="" src="{{subCategory.image}}" />
-            <ion-label class="mt-4">{{subCategory.name}}</ion-label>
-          </ion-thumbnail>
+            <h3>{{subCategory.name}}</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -190,5 +233,3 @@
 <!-- <ion-content>
   <app-navbar></app-navbar>
 </ion-content> -->
-
-

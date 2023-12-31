@@ -62,12 +62,14 @@ export class ProfileInfoPage implements OnInit {
       this.urlparam = param.from;
       if (param.from === 'profile') {
         this.userData = this.dataProvider.currentUser?.userData;
+        console.log(this.userData);
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        console.log(this.userData.dob);
-        let datearray = this.userData.dob.split('/');
         
+        // let datearray = this.userData.dob.split('/');
+        let datearray = this.userData.dateofbirth.split('/');
+        console.log(datearray);
         let newdate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
         let date = new DatePipe('en-US').transform(
           this.userData.dob,
@@ -104,7 +106,9 @@ export class ProfileInfoPage implements OnInit {
     await actionSheet.present();
   }
   async nextFunction() {
-    this.route.navigate(['authorized/profile']);
+    this.route.navigate(['authorized/new-address']);
+    console.log(this.userProfileForm.get('dateofbirth'));
+    console.log(this.userProfileForm);
     this.isSubmitForm = true;
     if (!this.userProfileForm.valid) {
       if (this.selectedGender === '') {

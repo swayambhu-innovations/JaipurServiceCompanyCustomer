@@ -7,17 +7,10 @@
     </ion-buttons>
     <ion-text>
       <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.addresses)?.[0]?.name}}</h4>
-      <p>
-        {{addressLineOne}}
-        <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
-          ...
-        </ng-container>
-        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=true; setopen(true)"
-          name="caret-down-outline"></ion-icon>
-        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=false; setopen(false)"
-          name="caret-up-outline"></ion-icon>
+      <p class="top-address">
+        <span>{{mainAddressLine}}</span>
+        <img src="../../../assets/dropdown.svg" alt="" id="open-modal" (click) = setopen(true)>
       </p>
-      <p *ngIf="addressLineTwoVisible && insertAddressAccordionButton">{{addressLineTwo}}</p>
     </ion-text>
     <ion-buttons slot="end">
       <ion-button (click)="notification()">
@@ -29,7 +22,7 @@
 
 
 <ion-content>
-  <ion-modal trigger="open-modal" [isOpen]="showmodal" [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
+  <ion-modal trigger="open-modal"  [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
     <ng-template>
       <div class="main-container">
         <div class="address-head">
@@ -46,7 +39,7 @@
           <div class="address-box">
             <div class="add-cont">
               <div class="input-div">
-                <input type="radio">
+                <input class="radio-input" type="radio">
               </div>
               <div class="address-details">
                 <h2>Customer Name</h2>
