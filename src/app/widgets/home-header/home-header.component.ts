@@ -78,13 +78,7 @@ export class HomeHeaderComponent  implements OnInit {
    }
 
   }
-  setopen(flag: boolean){
-    if(this.showmodal == false){
-      this.showmodal = true;
-    }
-    else{
-      this.showmodal = false
-    }
-    // this.showmodal = flag;
+  navigate(){
+    this.router.navigate(['/authorized/new-address']);
   }
 }
