@@ -281,7 +281,6 @@ export class CartService {
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
-    debugger
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);

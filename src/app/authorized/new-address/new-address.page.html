@@ -35,9 +35,9 @@
     <div class="input">
       <input type="text" formControlName="name" placeholder="Name" />
     </div>
-    <div class="">
+    <div class="area-container">
       <ion-toolbar>
-        <ion-searchbar formControlName="area" placeholder="Search Area" [debounce]="1000" (ionInput)="getAreaOnSearch($event)"></ion-searchbar>
+        <ion-searchbar formControlName="area" placeholder="Search Area" [debounce]="500" (ionInput)="getAreaOnSearch($event)"></ion-searchbar>
       </ion-toolbar>
       <ion-list>
           <ion-item class="ion-border"*ngFor="let item of areaOptions" (click)="onAreaDropdownSelect(item)" tappable>
