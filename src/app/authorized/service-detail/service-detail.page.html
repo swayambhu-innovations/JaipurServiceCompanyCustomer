@@ -171,7 +171,8 @@
                   Cart</ion-button></p>
             </div>
           </div>
-          <div class="temp-div">
+
+          <ion-content [scrollEvents]="true" style="height: 46%;">
             <ion-list class="variants">
               <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">
                 <div class="" style="    width: -webkit-fill-available;">
@@ -217,7 +218,7 @@
                 </div>
               </ion-item>
             </ion-list>
-          </div>
+          </ion-content>
 
 
 
