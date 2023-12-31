@@ -36,8 +36,7 @@ ion-content {
       display: flex;
       align-items: center;
       height: 20px;
-      color: var(--tertiary, #5E0080);
-
+      color: var(--tertiary, #5e0080);
 
       img {
         width: 28px;
@@ -83,6 +82,7 @@ ion-content {
         width: 49px;
         border-radius: 6px;
         border: 1px solid #d7d7d7;
+        background: #fff;
       }
 
       button.active {
@@ -114,6 +114,7 @@ ion-content {
         width: 49px;
         border-radius: 6px;
         border: 1px solid #d7d7d7;
+        background: #fff;
       }
 
       button.active {
@@ -135,20 +136,21 @@ ion-content {
         align-items: center;
         padding: 1px 9px 5px 13px;
         border-radius: 6px;
+        border: 1px solid #d7d7d7;
+        background: #fff;
 
-        .slot-det{
+        .slot-det {
           color: white;
           padding-bottom: 4px;
         }
-
       }
 
       button.active {
         background-color: #181f29;
         color: white;
-        
-        .slot-det{
-          p{
+
+        .slot-det {
+          p {
             color: white !important;
           }
         }
@@ -160,5 +162,15 @@ ion-content {
     --background: #1a1d1f;
     --background-activated: #8d8686;
     --border-radius: 10px;
+  }
+}
+
+.bottom {
+  ion-button {
+    margin-top: 22px;
+    --border-radius: 12px;
+    margin-bottom: 28px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
   }
 }

@@ -105,6 +105,9 @@ ion-content {
   }
 
   ion-list {
+    ion-item {
+      --inner-padding-end: 0;
+    }
     .notFound {
       display: flex;
       flex-direction: column;
@@ -115,7 +118,7 @@ ion-content {
 }
 .item-img {
   width: 82px;
-  height: 90px;
+  height: 86px;
   margin-bottom: 5px;
 }
 .search-image {
@@ -184,6 +187,7 @@ ion-label {
   ion-icon {
     color: black;
     margin-right: 5px;
+    margin-bottom: 3px;
   }
   strong {
     color: #666666;
@@ -200,27 +204,49 @@ ion-label {
   .service-name {
     margin-bottom: 4px;
   }
+
+  .col-price {
+    // padding-left: 15px;
+    span {
+      color: #999;
+      font-family: Lato;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      text-decoration-line: line-through;
+      margin-top: 4px;
+      margin-right: 25px;
+    }
+  }
   .price {
+    display: flex;
     font-size: 14px;
     color: #579540;
     font-weight: 700;
   }
 }
 .details {
+  margin-bottom: 2px;
   .description {
     font-size: 12px;
     font-weight: 400;
     line-height: 14px;
     display: flex;
-    align-items: center;
+    width: 76%;
+    // align-items: center;
 
     strong {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 14px;
       display: flex;
       align-items: center;
       margin-left: 5px;
+      color: #222;
+      font-family: Lato;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 14px; /* 116.667% */
+      letter-spacing: -0.24px;
     }
   }
 }
@@ -244,7 +270,7 @@ ion-label {
   flex-direction: column-reverse;
   align-items: flex-start;
 
-  .item-inner{
+  .item-inner {
     padding: 0;
   }
 }

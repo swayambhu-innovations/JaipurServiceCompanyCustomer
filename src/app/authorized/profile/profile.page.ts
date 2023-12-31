@@ -22,7 +22,9 @@ export class ProfilePage implements OnInit {
    // this.router.navigate(['authorized/profile/profile-info']);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.dataProvider.currentUser);
+  }
   
   close() {
     this.router.navigate(['/authorized/home']);

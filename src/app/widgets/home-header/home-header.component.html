@@ -6,6 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-text>
+
       <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.selectedAddres)?.name}}</h4>
       <p>
         {{addressLineOne}}
@@ -17,7 +18,6 @@
         <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" (click)="addressLineTwoVisible=false; setopen(false)"
           name="caret-up-outline"></ion-icon>
       </p>
-      <p *ngIf="addressLineTwoVisible && insertAddressAccordionButton">{{addressLineTwo}}</p>
     </ion-text>
     <ion-buttons slot="end">
       <ion-button (click)="notification()">
@@ -29,7 +29,7 @@
 
 
 <ion-content>
-  <ion-modal trigger="open-modal" [isOpen]="showmodal" [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
+  <ion-modal trigger="open-modal"  [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
     <ng-template>
       <div class="main-container">
         <div class="address-head">

@@ -1,4 +1,3 @@
-
 <app-header-with-back [title]="matchingSubCategory?.name?? ''" [showNotificationIcon]="false"></app-header-with-back>
 
 <ion-content [fullscreen]="true">
@@ -33,21 +32,30 @@
       </div>
     </div>
     <div class="row service-details">
-      <div class="col ">
+      <div class="col-6 col1 ">
         <h2 class="service-title">{{this.matchingService?.name}}</h2>
-        <p><ion-icon name="star" class="rate"></ion-icon>4.5 (87)</p>
+        <p>
+          <img src="../../../assets/star1.svg" alt="">
+          <span class="rating">4.5</span>
+          <span class="review">(87)</span>
+        </p>
       </div>
-      <div class="col text-end">
-        <h3>
-          {{this.matchingService?.variants![0]?.price | currency:'INR'}}
-          <!-- <small>-₹499</small> -->
-        </h3>
-        <ion-button color="success" class="discount" size="small"><small>10% OFF</small> </ion-button>
+      <div class="col-3 text-end">
+        <ion-label class="price">
+          {{this.matchingService?.variants![0]?.price | currency:'INR': 'symbol' : '1.0-0'}}
+          <span>{{this.matchingService?.variants![0]?.price | currency:'INR' : 'symbol' : '1.0-0'}}</span>
+        </ion-label>
       </div>
     </div>
     <div class="row descriptionBody">
       <h5 class="descrption-title">Product Description</h5>
-      <app-body [blocks]="this.matchingService?.description.blocks"></app-body>
+      <div class="pdt-desc">
+        <ul>
+          <li *ngFor="let items of this.matchingService?.description.blocks">
+            {{items.data.text}}
+          </li>
+        </ul>
+      </div>
     </div>
     <!-- <div class="row mt-4 text-left">
       <h3>Type</h3>
@@ -60,16 +68,16 @@
         </ion-button>
       </div>
     </div> -->
-    <div class="row mt-4 text-left">
-      <!-- <h3>Customer Review</h3> -->
-      <!-- <h4><small>Total:</small> ₹799</h4> -->
-      <!-- <div class="col-6"  routerLink="/cart">
+    <!-- <div class="row mt-4 text-left"> -->
+    <!-- <h3>Customer Review</h3> -->
+    <!-- <h4><small>Total:</small> ₹799</h4> -->
+    <!-- <div class="col-6"  routerLink="/cart">
         <ion-button fill="outline" color="dark" size="large">Add To Cart</ion-button>
       </div>
       <div class="col-6 text-end" (click)="bookNow()">
         <ion-button color="dark" size="large">Book Now</ion-button>
       </div> -->
-    </div>
+    <!-- </div> -->
     <!-- <div class="variants">
       <div class="variant" *ngFor="let variant of matchingService?.variants;">
         <div class="detail">
@@ -84,24 +92,30 @@
       </div>
     </div> -->
     <div class="row">
-      <div class="col mt-4">
+      <div class="col service-types">
         <h2>Type</h2>
         <div class="service-box">
-          <p class="server-type" *ngFor="let type Of matchingService?.tags">{{type}}</p>
-        </div>     
+          <p class="server-type" *ngFor="let type Of matchingService?.tags" (click)="tags = type"
+            [ngClass]="{active:tags==type}">{{type}}</p>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col mt-4">
+
+
+    <div class="row rating-div">
+      <div class="col">
         <h2>Customer Review</h2>
-        <p style="margin: 0;"><ion-icon name="star"></ion-icon> <ion-icon name="star"></ion-icon>
+        <div class="no-ratings">
+          <span>Currently No ratings available.....</span>
+        </div>
+        <!-- <p style="margin: 0;"><ion-icon name="star"></ion-icon> <ion-icon name="star"></ion-icon>
           <ion-icon name="star"></ion-icon> <ion-icon name="star"></ion-icon>
           <ion-icon name="star" style="color: #E8E9EA"></ion-icon> Average {{CustomerReview.average }}
         </p>
-        <p style="margin: 0;">Based on {{CustomerReview.userCount}} Reviews & Ratings</p>
+        <p style="margin: 0;">Based on {{CustomerReview.userCount}} Reviews & Ratings</p> -->
       </div>
     </div>
-    <div class="row " *ngFor="let CustReview of CustomerReview.userList">
+    <!-- <div class="row " *ngFor="let CustReview of CustomerReview.userList">
       <div class="col mt-4">
         <div class="card">
           <div class="card-body">
@@ -124,12 +138,13 @@
           </div>
         </div>
       </div>
-    </div>
-    <ion-modal #modal3 id="modal3" trigger="open-modal" [keyboardClose]="false"
-      [showBackdrop]="false" [initialBreakpoint]="0.12" [breakpoints]="[0.12, 0.12, 0.75]" [backdropDismiss]="false"
-      [backdropBreakpoint]="0.5">
+    </div> -->
 
-      
+
+    <ion-modal #modal3 id="modal3" trigger="open-modal" [keyboardClose]="false" [showBackdrop]="false"
+      [initialBreakpoint]="0.12" [breakpoints]="[0.12, 0.12, 0.6]" [backdropDismiss]="false" [backdropBreakpoint]="0.5">
+
+
       <ng-template>
         <ion-content class="ion-padding">
           <div *ngIf="isAddToCart" class="coupon">
@@ -137,7 +152,7 @@
             <p>Apply Coupons to save upto 70%!</p>
           </div>
           <div class="row variants_modal" style="align-items: center;" *ngIf="showVariant">
-            <div class="col-6" *ngIf="!isAddToCart">
+            <div class="col-6 details" *ngIf="!isAddToCart">
               <h3>{{matchingService?.variants?.length}} Variants Available</h3>
               <p>Starting from {{startPrice | currency:'INR'}}</p>
             </div>
@@ -149,10 +164,11 @@
                   }} items</p>
               </h3>
             </div>
-            <div class="col-6" style="    text-align: end;">
+            <div class="col-6 see-all-variants" style="text-align: end;">
               <p *ngIf="!isAddToCart"><ion-button color="dark" (click)="showAllVariants(modal3)">See All
                   Variants</ion-button></p>
-              <p *ngIf="isAddToCart"><ion-button color="dark" (click)="ViewCart(modal3)">View Cart</ion-button></p>
+              <p *ngIf="isAddToCart" class="view-cart"><ion-button color="dark" (click)="ViewCart(modal3)">View
+                  Cart</ion-button></p>
             </div>
           </div>
           <ion-list class="variants">
