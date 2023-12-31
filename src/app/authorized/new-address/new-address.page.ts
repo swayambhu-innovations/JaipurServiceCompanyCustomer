@@ -154,7 +154,6 @@ export class NewAddressPage implements OnInit, CanActivate{
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
-    debugger
     if(!this.searchedAreaDetails.selectedArea){
       return;
     }
@@ -238,8 +237,10 @@ export class NewAddressPage implements OnInit, CanActivate{
     return searchedAreaDetails;
   }
 
-  onAreaDropdownSelect(event:any){
+ async onAreaDropdownSelect(event:any){
     const placeId = event.place_id;
+    let loader = await this.loadingController.create({message:'Selecting Location...'});
+    loader.present();
     this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
       this.areaDetails = response.result;
       //console.log("response.result.formatted_address: ",response.result,response.result.formatted_address)
@@ -252,6 +253,7 @@ export class NewAddressPage implements OnInit, CanActivate{
       this.currentPosition = codinate;
       this.center = codinate;
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
+      loader.dismiss();
       if(!this.searchedAreaDetails.selectedArea){
         alert("We do not provide services in this area!")
       }

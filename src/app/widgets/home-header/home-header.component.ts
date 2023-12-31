@@ -79,12 +79,11 @@ export class HomeHeaderComponent  implements OnInit {
 
   }
   setopen(flag: boolean){
-    if(this.showmodal == false){
-      this.showmodal = true;
-    }
-    else{
-      this.showmodal = false
-    }
-    // this.showmodal = flag;
+    this.showmodal = flag;
+    this.addressLineTwoVisible = flag
+  }
+  onWillDismiss(event:any){
+    this.showmodal = !this.showmodal;
+    this.addressLineTwoVisible = false;
   }
 }
