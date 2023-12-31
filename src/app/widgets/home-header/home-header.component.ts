@@ -78,6 +78,16 @@ export class HomeHeaderComponent  implements OnInit {
    }
 
   }
+  setopen(){
+    this.addressLineTwoVisible = true;
+    this.showmodal = true;
+  }
+
+  onWillDismiss(event){
+    this.addressLineTwoVisible = false;
+    this.showmodal = false;
+  }
+  
   navigate(){
     this.router.navigate(['/authorized/new-address']);
   }
