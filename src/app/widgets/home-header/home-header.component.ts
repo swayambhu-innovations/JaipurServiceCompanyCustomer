@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home-header',
@@ -21,7 +22,8 @@ export class HomeHeaderComponent  implements OnInit {
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
-  constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService) {
+  constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService,
+    private loadingController:LoadingController) {
   }
    notification(){
     this.router.navigate(['authorized/notification']);
@@ -31,8 +33,12 @@ export class HomeHeaderComponent  implements OnInit {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
         this.addressess = address;
+        let currentAddress = address.filter(add=>add.isDefault);
        // console.log("ngOnInit home header....: ",address[0])
         this.dataProvider.selectedAddress.next(address);
+        if(currentAddress){
+          this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
+        }else
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
         console.log(this.mainAddressLine);
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
@@ -56,6 +62,8 @@ export class HomeHeaderComponent  implements OnInit {
   async changeAddress(address:Address){
     let addressId = "";
     let userId = "";
+    let loader = await this.loadingController.create({message:'Changing  Location...'});
+      loader.present();
     if(this.dataProvider.currentUser?.user.uid){
       userId = this.dataProvider.currentUser?.user.uid;
       let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
@@ -69,12 +77,15 @@ export class HomeHeaderComponent  implements OnInit {
           this.addressService.editAddress(userId, res.id,address_);
         }
         
-      })
+      });
      
     }
    if(userId !== "" && addressId !== ""){
     address.isDefault = true;
     this.addressService.editAddress(userId, addressId,address);
+    loader.dismiss();
+   }else{
+    loader.dismiss();
    }
 
   }
@@ -86,6 +97,7 @@ export class HomeHeaderComponent  implements OnInit {
   onWillDismiss(event){
     this.addressLineTwoVisible = false;
     this.showmodal = false;
+    this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
   
   navigate(){
