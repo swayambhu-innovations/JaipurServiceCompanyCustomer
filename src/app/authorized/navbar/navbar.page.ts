@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { DataProviderService } from "src/app/core/data-provider.service";
 
 @Component({
     selector: 'app-navbar',
@@ -9,12 +8,20 @@ import { DataProviderService } from "src/app/core/data-provider.service";
 })
 
 export class NavbarPage implements OnInit {
-
-    showHeader:boolean = true;
-    constructor(private dataProviderService:DataProviderService){}
+    
+    constructor(
+        public router : Router
+    ){}
     ngOnInit(){
-        this.dataProviderService.isFirstTime.subscribe((isFirstTime:boolean)=>{
-            this.showHeader = isFirstTime;
-        })
+        console.log(this.router.url);
     }
 }
+
+
+// showHeader:boolean = true;
+    // constructor(private dataProviderService:DataProviderService){}
+    // ngOnInit(){
+    //     this.dataProviderService.isFirstTime.subscribe((isFirstTime:boolean)=>{
+    //         this.showHeader = isFirstTime;
+    //     })
+    // }

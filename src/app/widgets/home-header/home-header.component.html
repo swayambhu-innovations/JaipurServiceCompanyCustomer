@@ -7,14 +7,10 @@
     </ion-buttons>
     <ion-text>
 
-      <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.selectedAddres)?.name}}</h4>
-      <p (click)="setopen(addressLineTwoVisible)">
-        {{addressLineOne}}
-        <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
-          ...
-        </ng-container>
-        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton" name="caret-down-outline"></ion-icon>
-        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton" name="caret-up-outline"></ion-icon>
+      <h4 *ngIf="this.addressService.selectedAddres">{{(this.addressService.selectedAddres)?.name}}</h4>
+      <p class="top-address">
+        <span>{{mainAddressLine}}</span>
+        <img src="../../../assets/dropdown.svg" alt="" id="open-modal" >
       </p>
     </ion-text>
     <ion-buttons slot="end">
@@ -27,33 +23,35 @@
 
 
 <ion-content>
-  <ion-modal trigger="open-modal" [isOpen]="showmodal"  [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]" (willDismiss)="onWillDismiss($event)">
+  <ion-modal trigger="open-modal" [isOpen]="showmodal"  [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]" >
     <ng-template>
       <div class="main-container">
         <div class="address-head">
           <h2>Select Address</h2>
           <div class="new-add-button">
-            <button>
+            <button (click) = "navigate()">
               <span>Add New</span>
               <img src="../../../assets/add-button.svg" alt="">
             </button>
           </div>
         </div>
 
-        <div class="address-det-div" *ngFor="let address Of addressess">
-          <div class="address-box">
-            <div class="add-cont">
-              <div class="input-div">
-                <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
-              </div>
-              <div class="address-details">
-                <h2>{{address.name}}</h2>
-                <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
-                <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
-              </div>
-              <div class="edit-delete-address">
-                <img src="../../../assets/edit-button.svg" alt="">
-                <img src="../../../assets/delete-button.svg" alt="">
+        <div class="temp-div">
+          <div class="address-det-div" *ngFor="let address Of addressess">
+            <div class="address-box">
+              <div class="add-cont">
+                <div class="input-div">
+                  <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
+                </div>
+                <div class="address-details">
+                  <h2>{{address.name}}</h2>
+                  <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+                  <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
+                </div>
+                <div class="edit-delete-address">
+                  <img src="../../../assets/edit-button.svg" alt="">
+                  <img src="../../../assets/delete-button.svg" alt="">
+                </div>
               </div>
             </div>
           </div>
