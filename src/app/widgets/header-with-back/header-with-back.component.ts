@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class HeaderWithBackComponent  implements OnInit {
   @Input() showBackButton:boolean = true;
   constructor(
     public _navigationBack : NavigationBackService,
-    private router: Router,) { }
+    private router: Router,
+    ) { }
 
   ngOnInit() {}
   notification(){

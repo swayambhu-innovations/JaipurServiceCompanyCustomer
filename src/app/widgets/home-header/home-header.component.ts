@@ -34,6 +34,7 @@ export class HomeHeaderComponent  implements OnInit {
        // console.log("ngOnInit home header....: ",address[0])
         this.dataProvider.selectedAddress.next(address);
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
+        console.log(this.mainAddressLine);
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
         if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
           this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
@@ -85,5 +86,9 @@ export class HomeHeaderComponent  implements OnInit {
   onWillDismiss(event){
     this.addressLineTwoVisible = false;
     this.showmodal = false;
+  }
+  
+  navigate(){
+    this.router.navigate(['/authorized/new-address']);
   }
 }

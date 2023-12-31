@@ -1,4 +1,5 @@
-<ion-tabs>
+<!-- <ion-tabs>
+
     <ion-tab-bar slot="bottom,top" class="footer">
         <ion-tab-button tab="home" class="footer-ion-tab-button" *ngIf="showHeader">
           <img src="assets/icon/navbar/home.svg" alt="">
@@ -13,6 +14,30 @@
           <ion-label>Cart</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="profile" class="footer-ion-tab-button"  *ngIf="showHeader">
+          <img src="assets/icon/navbar/profile.svg" alt="">
+          <ion-label>Profile</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs> -->
+
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom,top" class="footer" 
+  *ngIf = "(router.url == '/authorized/profile') || (router.url == '/authorized/home') ||  (router.url == '/authorized/cart/all/all') || (router.url == '/authorized/booking/upcoming-history')"
+      >
+        <ion-tab-button tab="home" class="footer-ion-tab-button" >
+          <img src="assets/icon/navbar/home.svg" alt="">
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="booking/upcoming-history" class="footer-ion-tab-button">
+          <img src="assets/icon/navbar/calendar.svg" alt="">
+          <ion-label>Bookings</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="cart/all/all" class="footer-ion-tab-button">
+          <img src="assets/icon/navbar/cart.svg" alt="">
+          <ion-label>Cart</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="profile" class="footer-ion-tab-button">
           <img src="assets/icon/navbar/profile.svg" alt="">
           <ion-label>Profile</ion-label>
         </ion-tab-button>

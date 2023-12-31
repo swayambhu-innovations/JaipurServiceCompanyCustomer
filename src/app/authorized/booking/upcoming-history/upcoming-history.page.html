@@ -4,43 +4,88 @@
 <!-- Buttons -->
 <div class="main">
   <div class="container">
-    <button
-      [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}"
-      (click)="visibilityMode = 'upcoming'"
-    >
+    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}" (click)="visibilityMode = 'upcoming'">
       Upcoming
     </button>
-    <button
-      [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}"
-      (click)="visibilityMode = 'history'"
-    >
+    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}" (click)="visibilityMode = 'history'">
       History
     </button>
   </div>
 
   <div class="bookings">
-    <ng-container  *ngFor="let details of bookingService.bookingsSubject | async">
-      <div class="details-1" routerLink="../booking-details/{{details.id}}" *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate()) : isPastDate(details.timeSlot?.date?.toDate())">
+    <ng-container *ngFor="let details of bookingService.bookingsSubject | async">
+      <div class="details-1" routerLink="../booking-details/{{details.id}}"
+        *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate()) : isPastDate(details.timeSlot?.date?.toDate())">
         <div class="head">
-          <img style="padding-right: 5px;" [src]="details.services[0].image" alt="" />
-          <h6>{{details.services[0].name}}</h6>
-          <p>{{details.billing.grandTotal | currency:'INR'}}</p>
+          <div class="col-3 img-div">
+            <div class="img-circle-div">
+              <img src="{{details.mainCategory?.icon}}" alt="">
+            </div>
+          </div>
+          <div class="col-6 booking-name">
+            <h6>{{details.services[0].name}}</h6>
+            <p>Booking ID:#{{details.id}}</p>
+          </div>
+          <div class="col-3 price">
+            <p>{{details.billing.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+          </div>
         </div>
-        <div class="row">
-          <p>{{details.id}}</p>
-        </div>
+
         <div class="body">
-          <div class="row-1">
-            <h6>{{details.stage}}</h6>
-            <h4 *ngIf="details.stage=='pending'">Pending</h4>
-            <h5 *ngIf="details.stage =='confirmed'">Confirm</h5>
+          <div class="row-1 status-div">
+            <span>Status</span>
+            <ng-container *ngIf="details.stage == 'allotmentPending'">
+              <div class="status-box allotmentpending">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'compelete'">
+              <div class="status compelete">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'progress'">
+              <div class="status progress">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'cancelled'">
+              <div class="status cancelled">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'expired'">
+              <div class="status expired">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'otpVerify'">
+              <div class="status otpverify">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="details.stage == 'acceptancePending'">
+              <div class="status acceptancepending">
+                {{details.stage | titlecase}}
+              </div>
+            </ng-container>
+            
           </div>
-          <div class="row-2">
-            <img class="schedule-icon" src="assets/Icon- Outline.svg" />
-            <h6>{{details.timeSlot?.date?.toDate() | date:'shortDate'}}</h6>
-          </div>
-          <div class="schedule">
-            <p>{{details.timeSlot?.time?.startTime?.toDate() | date:'shortTime'}} - {{details.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</p>
+
+
+
+          <div class="row-2" >
+            <div class="img-cal">
+              <img class="schedule-icon" src="assets/Icon- Outline.svg" />
+            </div>
+            <div class="slot-det">
+              <div class="det">
+                <p>{{details.timeSlot?.time?.startTime?.toDate() | date:'h:mm'}} -
+                  {{details.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}},</p>
+                  <h6>{{details.timeSlot?.date?.toDate() | date:'MMM d'}}</h6>
+              </div>
+              <span>Schedule</span>
+            </div>
           </div>
         </div>
       </div>
@@ -127,4 +172,3 @@
     </div>
   </div> -->
 </div>
-

@@ -64,6 +64,7 @@ export class ProfileInfoPage implements OnInit {
       this.urlparam = param.from;
       if (param.from === 'profile') {
         this.userData = this.dataProvider.currentUser?.userData;
+
   
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
@@ -79,7 +80,7 @@ export class ProfileInfoPage implements OnInit {
           this.userProfileForm.controls.dateofbirth.setValue(date)
         }
         
-        
+       
         this.isFromProfile = true;
       } else {
         this.isFromProfile = false;
@@ -109,6 +110,7 @@ export class ProfileInfoPage implements OnInit {
     await actionSheet.present();
   }
   async nextFunction() {
+
    let date = "";
     if( this.userProfileForm.controls.dateofbirth.value &&  this.userProfileForm.controls.dateofbirth.value !== '' ){
       date = this.userProfileForm.controls.dateofbirth.value.split('-');
@@ -119,6 +121,7 @@ export class ProfileInfoPage implements OnInit {
     if( this.userProfileForm.controls.name.value &&  this.userProfileForm.controls.name.value === ''){
       return;
     }
+
     this.isSubmitForm = true;
       if (this.selectedGender === '') {
         this.isGenderSelected = false;

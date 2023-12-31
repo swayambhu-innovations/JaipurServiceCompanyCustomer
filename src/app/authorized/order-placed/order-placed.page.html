@@ -1,4 +1,4 @@
-<app-header1 [name]="name"></app-header1>
+<!-- <app-header1 [name]="name"></app-header1> -->
 
 <ion-content>
   <div class="container">
@@ -58,7 +58,7 @@
             <span>{{variant.name}}</span>
           </div>
           <div class="price-div">
-            <span>{{variant.billing.discountedPrice | currency:'INR' }}</span>
+            <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' : '1.0-0' }}</span>
           </div>  
         </div>
       </ng-container>
@@ -101,11 +101,11 @@
         </section>
       </div>
     </div>
-    <footer>
+    <div class="footer">
       <ion-button routerLink="../rating" expand="block" color="dark">
         Back To Home
       </ion-button>
-    </footer>
+    </div>
   </div>
 </ion-content>
 

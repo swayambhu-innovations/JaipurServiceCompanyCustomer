@@ -1,5 +1,3 @@
-  
-
 .container {
   position: fixed;
   top: 100px;
@@ -8,6 +6,8 @@
   .profile-pic {
     margin: 33px 0 50px;
     .img {
+      width: 100px;
+      height: 100px;
       margin-left: auto;
       margin-right: auto;
       display: block;
@@ -50,6 +50,7 @@
   --placeholder-color: #4f4f4f;
   width: 100%;
   margin-bottom: 18px;
+  --border-radius: 12px;
   p {
     position: absolute;
     float: right;
@@ -105,12 +106,11 @@
     font-weight: 700;
     line-height: 24px; /* 133.333% */
     letter-spacing: -0.18px;
-
   }
 }
 
 // Ion-item class
-:host(.gender-input) .item-native{
+:host(.gender-input) .item-native {
   margin: -5px !important;
 }
 .gender-input {
@@ -121,9 +121,14 @@
   --highlight-color-focused: #b3b3b3;
   --placeholder-color: #4f4f4f;
 }
-.gender-input-box{
+
+ion-item::part(native) {
+  border-radius: 12px;
+}
+.gender-input-box {
   --padding-top: 1px !important;
- --padding-bottom: 5px !important;
+  --padding-bottom: 5px !important;
+  --border-radius: 12px;
 }
 // Label
 .gender-input ion-label {
@@ -138,16 +143,16 @@
 }
 .main .container h3 {
   font-size: 20px;
-    font-weight: 700;
-    text-align: center;
+  font-weight: 700;
+  text-align: center;
 }
-.main .container p{
+.main .container p {
   font-size: 14px;
-    font-weight: 500;
-    text-align: center;
+  font-weight: 500;
+  text-align: center;
 }
 
-ion-datetime-button{
+ion-datetime-button {
   justify-content: flex-start;
 }
 

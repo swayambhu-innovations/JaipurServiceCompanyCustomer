@@ -36,7 +36,7 @@ ion-content {
 //banner css
 .banner-container {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 7px;
   padding-top: 7px;
 
   swiper-container {
@@ -87,13 +87,21 @@ ion-thumbnail {
 }
 
 .mainCategory {
+  .servicecontainer {
+    padding-right: 4px;
+  }
+
+  .container {
+    padding: 0;
+  }
   .banner {
     width: 100%;
     height: 150px;
     object-fit: cover;
     box-shadow: 0px 2px 15px rgba(22, 22, 22, 0.1);
     border-radius: 20px;
-    margin-top: 20px;
+    margin-top: 14px;
+    margin-bottom: 12px;
   }
 
   .heading {
@@ -103,7 +111,18 @@ ion-thumbnail {
     align-items: center;
 
     .col-9 {
-      width: 80%;
+      width: 82%;
+
+      h4 {
+        color: #1a1d1f;
+        font-family: Lato;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -0.36px;
+        margin: 0;
+      }
     }
 
     .see-all-button {
@@ -144,8 +163,36 @@ ion-thumbnail {
   display: flex;
   overflow-x: scroll;
   flex-wrap: nowrap;
-  gap: 20px;
-  height: 180px;
+  gap: 4px;
+  height: 155px;
+  align-items: flex-start;
+  padding-left: 10px;
+
+  .text-center {
+    padding: 0;
+    display: flex;
+    align-items: flex-start;
+
+    .service-det {
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 16px;
+      }
+
+      h3 {
+        color: #0c0c0c;
+        text-align: center;
+        font-family: Lato;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.14px;
+        margin: 10px 0;
+      }
+    }
+  }
 }
 
 .client-section {
@@ -215,13 +262,14 @@ homepage.scss .serviceCategory {
 }
 .serviceCategoriesImages {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
   width: 20%;
   position: relative;
+  margin-right: 15px;
 
-  .seeall-img{
+  .seeall-img {
     display: flex;
     width: 66px;
   }
@@ -264,6 +312,12 @@ homepage.scss .serviceCategory {
 //recent activity
 
 .recent-container {
+  ion-grid {
+    border-radius: 8px;
+    border: 1px solid #e7a5ff;
+    background: #fceeff;
+    box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+  }
   .label {
     color: var(--primary, #181f29);
     font-size: 18px;
@@ -297,10 +351,40 @@ homepage.scss .serviceCategory {
           align-items: center;
           gap: 8px;
           border-radius: 4px;
-          background: #34c091;
-          color: var(--SECONDARY, #fff);
           font-size: 12px;
           height: 30px;
+        }
+
+        .allotmentpending {
+          background: rgba(6, 163, 184, 0.25);
+          color: var(--Allotment-Pending, #06a3b8);
+        }
+        .compelete {
+          background: rgba(7, 191, 114, 0.25);
+          color: var(--Completed, #07bf72);
+        }
+        .progress {
+          background: rgba(215, 194, 6, 0.25);
+          color: var(--In-progress, #d7c206);
+        }
+        .canelled {
+          background: #ffe1e3;
+          color: #d3424a;
+        }
+
+        .acceptancepending {
+          background: rgba(0, 81, 139, 0.25);
+          color: var(--Acceptance-Pending, #00518b);
+        }
+
+        .otpverify {
+          background: rgba(0, 126, 218, 0.25);
+          color: var(--OTP-Verification, #007eda);
+        }
+
+        .expired {
+          background: rgba(168, 168, 168, 0.25);
+          color: var(--Expired, #a8a8a8);
         }
       }
 

@@ -31,8 +31,31 @@
       <div class="second-btns">
         <button *ngFor="let items of slotsArray" (click)="startTime = items.start; endTime = items.end; setSlot(items)"
           [ngClass]="{active:startTime==items.start}"
+
+
           [disabled]="currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false">
-          <img src="{{slotsIcons[items.index-1]}}" alt="">
+
+          <ng-container *ngIf = "(currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false) else notdisabled">
+            <img src="{{slotsIcons[items.index-1].disabled}}" alt="">
+          </ng-container>
+
+          <ng-template #notdisabled>
+            <ng-container *ngIf = "(startTime == items.start) else notActiveIcon">
+              <img src="{{slotsIcons[items.index-1].light}}" alt="">
+            </ng-container>
+            <ng-template  #notActiveIcon>
+              <img src="{{slotsIcons[items.index-1].dark}}" alt="">
+            </ng-template>
+          </ng-template>
+
+          <!-- <img src="{{slotsIcons[items.index-1]}}" alt=""> -->
+
+
+
+
+
+
+
           <div class="slot-det">
             <p>{{slotsStatus[items.index-1]}}</p>
             <p>{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :

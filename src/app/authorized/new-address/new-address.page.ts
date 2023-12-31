@@ -174,7 +174,8 @@ export class NewAddressPage implements OnInit, CanActivate{
       this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
         this.dataProvider.isFirstTime.next(true);
         this.addressForm.reset()
-        this.router.navigate(['/authorized/select-address'])
+        // this.router.navigate(['/authorized/select-address'])
+        this.router.navigate(['/authorized/home'])
       }).catch(err=>{
         console.log(err)
       }).finally(()=>loader.dismiss())
