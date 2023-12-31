@@ -126,7 +126,10 @@ export class CartService {
             });
           }
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
-          loader.dismiss();
+          setTimeout(() => {
+            loader.dismiss();
+          }, 1000);
+          
           return;
         }
       }
@@ -217,7 +220,9 @@ export class CartService {
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
     }
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
 
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
@@ -243,7 +248,9 @@ export class CartService {
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
 
   async updateCart(){
@@ -276,7 +283,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -295,7 +304,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -318,7 +329,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -341,7 +354,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async getCart(userId:string){
     let cart = await getDocs(collection(this.firestore,'users',userId,'cart'));
