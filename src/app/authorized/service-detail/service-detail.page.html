@@ -171,49 +171,53 @@
                   Cart</ion-button></p>
             </div>
           </div>
-          <ion-list class="variants">
-            <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">
-              <div class="" style="    width: -webkit-fill-available;">
-                <div class="row detail">
-                  <p class="col-8 name">{{variant.name}}</p>
-                  <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
-                </div>
-                <div class="cart-button">
-                  <div class="remove-pading1" no-lines id="{{variant.id}}"
-                    [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
-
-                    <div class="addremove-div">
-                      <button fill="outline" class="remove" color="dark"
-                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
-                      <input class="input-div" type="number" id="input{{variant.id}}" text-center
-                        [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
-                        min="1" max="5">
-                      <button fill="outline" class="add" color="dark"
-                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
-                    </div>
-                    <div class="remove-div">
-                      <button fill="outline" class="remove-item"
-                        (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
-                        color="danger">Remove item
-                      </button>
-                    </div>
+          <div class="temp-div">
+            <ion-list class="variants">
+              <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">
+                <div class="" style="    width: -webkit-fill-available;">
+                  <div class="row detail">
+                    <p class="col-8 name">{{variant.name}}</p>
+                    <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                   </div>
-                  <ion-item class="remove-pading" no-lines class="{{variant.id}}"
-                    *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
-                    <div class="row addCartdiv" style="width: -webkit-fill-available;">
-                      <div class="col-6">
-                        <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)" color="dark">Add
-                          To Cart</button>
+                  <div class="cart-button">
+                    <div class="remove-pading1" no-lines id="{{variant.id}}"
+                      [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
+
+                      <div class="addremove-div">
+                        <button fill="outline" class="remove" color="dark"
+                          (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
+                        <input class="input-div" type="number" id="input{{variant.id}}" text-center
+                          [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
+                          min="1" max="5">
+                        <button fill="outline" class="add" color="dark"
+                          (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
                       </div>
-                      <div class="col-6" style="text-align: end;">
-                        <button class="book-buttons" color="dark" (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                      <div class="remove-div">
+                        <button fill="outline" class="remove-item"
+                          (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                          color="danger">Remove item
+                        </button>
                       </div>
                     </div>
-                  </ion-item>
+                    <ion-item class="remove-pading" no-lines class="{{variant.id}}"
+                      *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
+                      <div class="row addCartdiv" style="width: -webkit-fill-available;">
+                        <div class="col-6">
+                          <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)"
+                            color="dark">Add
+                            To Cart</button>
+                        </div>
+                        <div class="col-6" style="text-align: end;">
+                          <button class="book-buttons" color="dark"
+                            (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                        </div>
+                      </div>
+                    </ion-item>
+                  </div>
                 </div>
-              </div>
-            </ion-item>
-          </ion-list>
+              </ion-item>
+            </ion-list>
+          </div>
 
 
 
