@@ -97,6 +97,7 @@ export class HomeHeaderComponent  implements OnInit {
   onWillDismiss(event){
     this.addressLineTwoVisible = false;
     this.showmodal = false;
+    this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
   
   navigate(){
