@@ -74,6 +74,7 @@ export class ServiceDetailPage implements OnInit {
    
   }
  async ngOnInit() {
+    this.cartDetils = this.cartService.cart;
     this.cartService.cartSubject.subscribe(cartDetils=>{
       this.cartDetils = cartDetils;
     })
@@ -97,24 +98,31 @@ export class ServiceDetailPage implements OnInit {
     this.modal.present();
   }
 
-  async bookNow(variantId:string){
+  async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
     await loader.present();
     let variant = this.matchingService?.variants.find(v=>v.id == variantId);
-    this.paymentService.handlePayment({
-      grandTotal: variant?.price || 0,
-      user: {
-        displayName: "Kumar Saptam",
-        email: "saptampro2003@gmail.com",
-        phone:'9026296062'
-      }
-    }).subscribe(async (paymentResponse)=>{
-      if (JSON.parse(paymentResponse['body']).status=='captured'){
-        await loader.dismiss();
-      }
-    },(error)=>{},async ()=>{
-      await loader.dismiss();
+    await this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variantId,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
+    loader.dismiss();
+    this.cartService.cartSubject.subscribe(cartDetils=>{
+      this.cartDetils = cartDetils;
     })
+    this.router.navigate([`/authorized/cart/${matchingMainCategoryId}/${matchingServiceId}`]);
+    
+      // this.paymentService.handlePayment({
+      //   grandTotal: variant?.price || 0,
+      //   user: {
+      //     displayName: "Kumar Saptam",
+      //     email: "saptampro2003@gmail.com",
+      //     phone:'9026296062'
+      //   }
+      // }).subscribe(async (paymentResponse)=>{
+      //   if (JSON.parse(paymentResponse['body']).status=='captured'){
+      //     await loader.dismiss();
+      //   }
+      // },(error)=>{},async ()=>{
+      //   await loader.dismiss();
+      // })
   }
 
   addToCart(variant:any){
@@ -126,6 +134,36 @@ export class ServiceDetailPage implements OnInit {
     this.selectedItems +=1;
     this.itemList.push(variant);
     this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variant.id,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
+  }
+
+  decrementQuantity(matchingCategoryId,matchingSubCategoryId,matchingService, variantId){
+    const bookingId = this.getBookingId(matchingCategoryId,matchingSubCategoryId,matchingService);
+    this.cartService.decrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variantId,bookingId);
+  }
+
+  incrementQuantity(matchingCategoryId,matchingSubCategoryId, matchingService, variantId){
+    const bookingId = this.getBookingId(matchingCategoryId,matchingSubCategoryId,matchingService);
+    this.cartService.incrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variantId,bookingId);
+  }
+
+  removeFromCart(matchingCategoryId,matchingSubCategoryId, matchingService, variantId){
+    const bookingId = this.getBookingId(matchingCategoryId,matchingSubCategoryId,matchingService);
+    this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,matchingService!.id,variantId,bookingId);
+  }
+
+  getBookingId(matchingCategoryId,matchingSubCategoryId,matchingService){
+    let bookingId = '';
+    this.cartDetils.map((booking) => {
+      if (booking.mainCategory.id == matchingCategoryId && booking.subCategory.id == matchingSubCategoryId){
+        const service = booking.services.map((services) => {
+          return matchingService.id == services.serviceId
+        });
+        if(service){
+          bookingId = booking.id
+        }
+      }
+    });
+    return bookingId;
   }
  
 }

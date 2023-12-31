@@ -88,6 +88,11 @@ ion-content {
     flex-direction: column;
     gap: 10px;
     padding: 20px;
+    .area-container{
+      ion-searchbar{
+        padding: 0px !important;
+      }
+    }
     .input {
       display: flex;
       padding-inline-start: 15px;

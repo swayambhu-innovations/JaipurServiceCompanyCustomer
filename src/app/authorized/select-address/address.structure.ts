@@ -1,6 +1,7 @@
 import { Area, City, State } from "../new-address/models/address.structure";
 
 export interface Address {
+	id:string;
 	name: string;
 	address1:string;
 	address_components:address_components[];
@@ -8,6 +9,8 @@ export interface Address {
 	area:string;
 	business_status:string;
 	city:string;
+	cityId:string;
+	stateId:string;
 	cityKey:string;
 	cityName:string;
 	countryId:string;
@@ -21,6 +24,7 @@ export interface Address {
 	place_id:string;
 	stateCode:string;
 	stateName:string;
+	isDefault:boolean;
 	state:string;
 	selectedArea:Area;
 	pincode:string;

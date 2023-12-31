@@ -40,7 +40,9 @@ export class ProfileInfoPage implements OnInit {
     public formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
     private auth: AuthService
-  ) {}
+  ) {
+    console.log(this.dataProvider.currentUser?.userData);
+  }
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     dateofbirth: ['', [Validators.required]],
@@ -62,21 +64,23 @@ export class ProfileInfoPage implements OnInit {
       this.urlparam = param.from;
       if (param.from === 'profile') {
         this.userData = this.dataProvider.currentUser?.userData;
-        console.log(this.userData);
+
+  
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
+        if(this.userData.dateofbirth){
+          let datearray = this.userData.dateofbirth?.split("-");
+          let newdate = datearray[0] + '-' + datearray[1] + '-' + datearray[2];
+          let date = new DatePipe('en-US').transform(this.userData.dateofbirth, 'yyyy-MM-dd');
+          this.userProfileForm.controls.dateofbirth.setValue(newdate)
+        }
+        else{
+          let date = new Date().toISOString();
+          this.userProfileForm.controls.dateofbirth.setValue(date)
+        }
         
-        // let datearray = this.userData.dob.split('/');
-        let datearray = this.userData.dateofbirth.split('/');
-        console.log(datearray);
-        let newdate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
-        let date = new DatePipe('en-US').transform(
-          this.userData.dob,
-          'MM/dd/yyyy'
-        );
-        this.fromDate = newdate;
-        this.userProfileForm.controls.dob.setValue(newdate);
+       
         this.isFromProfile = true;
       } else {
         this.isFromProfile = false;
@@ -106,30 +110,29 @@ export class ProfileInfoPage implements OnInit {
     await actionSheet.present();
   }
   async nextFunction() {
-    this.route.navigate(['authorized/new-address']);
-    console.log(this.userProfileForm.get('dateofbirth'));
-    console.log(this.userProfileForm);
+
+   let date = "";
+    if( this.userProfileForm.controls.dateofbirth.value &&  this.userProfileForm.controls.dateofbirth.value !== '' ){
+      date = this.userProfileForm.controls.dateofbirth.value.split('-');
+      date = date[2] + '/'+date[1] + '/' + date[0];
+    }else{
+      return;
+    }
+    if( this.userProfileForm.controls.name.value &&  this.userProfileForm.controls.name.value === ''){
+      return;
+    }
+
     this.isSubmitForm = true;
-    if (!this.userProfileForm.valid) {
       if (this.selectedGender === '') {
         this.isGenderSelected = false;
         return;
       } else {
         this.isGenderSelected = true;
       }
-      return;
-    }
-    if (this.selectedGender === '') {
-      this.isGenderSelected = false;
-      return;
-    } else {
-      this.isGenderSelected = true;
-    }
-    if (this.selectedGender !== '') {
-      this.userProfileForm.addControl(
-        'gender',
-        new FormControl(this.selectedGender)
-      );
+    let finalData = {
+      gender:this.selectedGender,
+      dateofbirth:date,
+      name:this.userProfileForm.controls.name.value
     }
     let loader = await this.loadingController.create({
       message: 'Adding Coustomer Details.........',
@@ -140,10 +143,15 @@ export class ProfileInfoPage implements OnInit {
       this.profileService
         .addUsers(
           this.dataProvider.currentUser!.user.uid,
-          this.userProfileForm.value
+          finalData
         )
         .then(() => {
-          // this.route.navigateByUrl('/authorized/select-address');
+          console.log("this.urlparam .......: ",this.urlparam )
+          if(this.urlparam === 'profile'){
+            this.route.navigate(['authorized/profile']);
+          }else{
+            this.route.navigateByUrl('/authorized/new-address');
+          }
           // this.userProfileForm.reset()
           loader.dismiss();
         })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, debounceTime, distinctUntilChanged, firstValueFrom, switchMap } from 'rxjs';
+import { Observable, Subject, filter, firstValueFrom } from 'rxjs';
 import {
   Area,
   City,
@@ -18,15 +18,16 @@ import { LoadingController, Platform } from '@ionic/angular';
 import { LocationService } from './services/location.service';
 import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, NavigationStart, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 @Component({
   selector: 'app-new-address',
   templateUrl: './new-address.page.html',
   styleUrls: ['./new-address.page.scss'],
 })
-export class NewAddressPage implements OnInit {
+export class NewAddressPage implements OnInit, CanActivate{
   areaOptions: any;
+  showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
   addressForm = this.fb.group({
     name: ['', Validators.required],
@@ -57,9 +58,23 @@ export class NewAddressPage implements OnInit {
   areaDetails:any;
   constructor(private fb : FormBuilder,private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
     private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
-    ,private router:Router) {}
-
+    ,private router:Router) {
+     
+    }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    throw new Error('Method not implemented.');
+  }
+  ionViewWillEnter(){
+  }
   ngOnInit(): void {
+    const navigation = this.router.getCurrentNavigation();
+    console.log("navigation......:",navigation,navigation?.extras.state?.isfirstTime);
+     if(navigation?.extras.state?.isfirstTime){
+      this.showHeader =  false
+      this.dataProvider.isFirstTime.next(false);
+     }else{
+      this.showHeader = true;
+     }
    this.store.dispatch(editAddressStateActions.LOAD());
     this.states$ = this.store.select('editAddress', 'states');
     this.cities$ = this.store.select('editAddress', 'cities');
@@ -109,6 +124,7 @@ export class NewAddressPage implements OnInit {
   }
 
   newPosition(event: any) {
+    console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
     this.currentPosition = event.latLng.toJSON();
   }
 
@@ -138,6 +154,7 @@ export class NewAddressPage implements OnInit {
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
+    debugger
     if(!this.searchedAreaDetails.selectedArea){
       return;
     }
@@ -149,10 +166,13 @@ export class NewAddressPage implements OnInit {
     }
     addressObject.city = city;
     addressObject.state = state;
+    addressObject.isDefault = false;
     addressObject.area = addressObject.formatted_address;
+
     await loader.present()
     if(this.addressForm.valid){
       this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
+        this.dataProvider.isFirstTime.next(true);
         this.addressForm.reset()
         // this.router.navigate(['/authorized/select-address'])
         this.router.navigate(['/authorized/home'])
@@ -210,7 +230,6 @@ export class NewAddressPage implements OnInit {
 
     });
     this.areas$?.subscribe(areas=>{
-      console.log("areas Area.........: ",areas,searchedAreaDetails.geoProofingLocality)
      let selectedArea =  areas.filter(area=> area.geoProofingLocality == searchedAreaDetails.geoProofingLocality);
       if(selectedArea){
         searchedAreaDetails['selectedArea']= selectedArea[0];
@@ -223,8 +242,15 @@ export class NewAddressPage implements OnInit {
     const placeId = event.place_id;
     this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
       this.areaDetails = response.result;
-      console.log("Selected Area.........: ",this.areaDetails)
-     
+      //console.log("response.result.formatted_address: ",response.result,response.result.formatted_address)
+      this.addressForm.controls.area.setValue(response.result.formatted_address)
+      let codinate = {
+        lat:this.areaDetails['geometry'].location.lat,
+        lng:this.areaDetails['geometry'].location.lng
+      }
+      this.areaOptions = []
+      this.currentPosition = codinate;
+      this.center = codinate;
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
       if(!this.searchedAreaDetails.selectedArea){
         alert("We do not provide services in this area!")

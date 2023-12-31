@@ -17,6 +17,7 @@ export class HomeHeaderComponent  implements OnInit {
   // main address line one is the input address line provided by the database where as the address line 1 and 2 are calculated by the client side depending upn the address character length
   addressLineOne:string = ''
   addressLineTwo:string = ''
+  addressess:Address[] = [];
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
@@ -29,8 +30,9 @@ export class HomeHeaderComponent  implements OnInit {
   ngOnInit() {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
+        this.addressess = address;
        // console.log("ngOnInit home header....: ",address[0])
-        this.dataProvider.selectedAddress.next(address[0]);
+        this.dataProvider.selectedAddress.next(address);
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
         console.log(this.mainAddressLine);
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
@@ -40,6 +42,9 @@ export class HomeHeaderComponent  implements OnInit {
           this.insertAddressAccordionButton = true;
         }
       }
+      else{
+        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+      }
     })
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
     if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
@@ -48,7 +53,31 @@ export class HomeHeaderComponent  implements OnInit {
       this.insertAddressAccordionButton = true;
     }
   }
+  async changeAddress(address:Address){
+    let addressId = "";
+    let userId = "";
+    if(this.dataProvider.currentUser?.user.uid){
+      userId = this.dataProvider.currentUser?.user.uid;
+      let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
+      ass.map(res=>{
+        let address_ = res.data();
+        if(address.name === address_.name){
+          addressId = res.id;
+        }
+        if(address_.isDefault){
+          address_.isDefault = false;
+          this.addressService.editAddress(userId, res.id,address_);
+        }
+        
+      })
+     
+    }
+   if(userId !== "" && addressId !== ""){
+    address.isDefault = true;
+    this.addressService.editAddress(userId, addressId,address);
+   }
 
+  }
   setopen(flag: boolean){
     if(this.showmodal == false){
       this.showmodal = true;

@@ -1,6 +1,6 @@
 import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { SharedArrayService } from '../../shared-array.service';
 import { Booking } from '../booking/booking.structure';
 import { CartService } from './cart.service';
@@ -42,15 +42,21 @@ export class CartPage implements OnInit {
   discounts:any[] = [];
   cart:any;
   cartLoaded:boolean = false;
+  mainCategoryId:string = '';
+  serviceId:string = '';
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private activatedRoute:ActivatedRoute,
     public cartService:CartService,
     public dataProvider:DataProviderService,
     private modalController:ModalController,
     private loadingController: LoadingController
   ) {
-    
+    this.route.paramMap.subscribe( paramMap => {
+      this.mainCategoryId = paramMap.get('mainCategoryId') ?? '';
+      this.serviceId = paramMap.get('serviceId') ?? '';
+    })
   }
  
   notification(){
@@ -58,9 +64,16 @@ export class CartPage implements OnInit {
   }
 
   temp(){
-    this.dataProvider.selectedAddress.subscribe(currentAddress=>{
-      if(currentAddress){
-        this.dataProvider.currentBooking!.address = currentAddress; 
+    this.dataProvider.selectedAddress.subscribe(address=>{
+      if(address.length > 0){
+        let currentAddress = address.filter(addre=> addre.isDefault);
+        if(currentAddress.length > 0 ){
+          this.dataProvider.currentBooking!.address=currentAddress[0];
+        }else{
+          this.dataProvider.currentBooking!.address=address[0];
+        }
+      }
+      if(this.dataProvider.currentBooking!.address){
       this.router.navigate(["/authorized/select-slot"]);
       }else{
         this.router.navigate(["/authorized/select-address"]);
@@ -147,9 +160,16 @@ export class CartPage implements OnInit {
   orderCount: any = 2;
   async ngOnInit() {
     this.cart = this.cartService.cart;
+    if(this.cart.length > 0){
+      this.setCurrentBooking();
+    }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
       this.cartLoaded = true;
+      if(this.mainCategoryId != 'all'){
+        this.setCurrentBooking();
+      }
+
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
@@ -160,11 +180,18 @@ export class CartPage implements OnInit {
       }else{
         this.selectedBooking = undefined;
       }
+      
     });
   }
 
   calculateTotal() {}
   checkout() {}
   removeFromCart(service: any) {}
+  setCurrentBooking(){
+    this.selectedBooking = this.cart.find((booking) => {
+      const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
+      return serviceFind && booking.mainCategory.id == this.mainCategoryId
+    });
+  }
 }
   

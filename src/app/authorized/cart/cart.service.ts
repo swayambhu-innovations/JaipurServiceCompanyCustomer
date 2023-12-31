@@ -126,7 +126,10 @@ export class CartService {
             });
           }
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
-          loader.dismiss();
+          setTimeout(() => {
+            loader.dismiss();
+          }, 1000);
+          
           return;
         }
       }
@@ -217,7 +220,9 @@ export class CartService {
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
     }
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
 
   async removeFromCart(userId:string,serviceId:string,variantId:string,bookingId:string){
@@ -237,14 +242,15 @@ export class CartService {
       }
     }
     if(data.services.length ===0){
-      console.log("clearCart.......: ",data)
-      await this.clearCart(userId);
+      await this.clearCart(userId,bookingId);
     }else{
       console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
 
   async updateCart(){
@@ -263,7 +269,6 @@ export class CartService {
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
-    
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -278,7 +283,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -297,7 +304,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -320,7 +329,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     const loader = await this.loadingController.create({message:'Please wait...'});
@@ -343,7 +354,9 @@ export class CartService {
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     await this.updateCart();
-    loader.dismiss();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
   }
   async getCart(userId:string){
     let cart = await getDocs(collection(this.firestore,'users',userId,'cart'));
@@ -356,10 +369,8 @@ export class CartService {
     return data;
   }
 
-  async clearCart(userId:string){
-    for (const document of this.cart) {
-      await deleteDoc(doc(this.firestore,'users',userId,'cart',document.id!));
-    }
+  async clearCart(userId:string,bookingId:string){
+    await deleteDoc(doc(this.firestore,'users',userId,'cart',bookingId!));
   }
 
   generateOtpCode(){
