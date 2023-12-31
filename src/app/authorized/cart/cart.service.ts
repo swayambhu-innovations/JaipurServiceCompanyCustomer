@@ -54,9 +54,6 @@ export class CartService {
   async addToCart(userId:string,variantId:string,service:Service,mainCategory:Category,subCategory:SubCategory){
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
-    console.log(service);
-    console.log(mainCategory);
-    console.log(subCategory); 
     let variant = service.variants.find(v=>v.id == variantId);
     if (variant){
       for (const data of this.cart) {
@@ -126,6 +123,7 @@ export class CartService {
             });
           }
           await setDoc(doc(this.firestore,'users',userId,'cart',data.id!),data);
+          this.updateCart();
           setTimeout(() => {
             loader.dismiss();
           }, 1000);
@@ -215,11 +213,9 @@ export class CartService {
           id : ''
         }
       };
-      console.log(data);
-      console.log(userId);
       await addDoc(collection(this.firestore,'users',userId,'cart'),data);
+      this.updateCart();
     }
-    await this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -244,10 +240,9 @@ export class CartService {
     if(data.services.length ===0){
       await this.clearCart(userId,bookingId);
     }else{
-      console.log("removeFromCart.......: ",data)
       await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
     }
-    await this.updateCart();
+    this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -263,6 +258,10 @@ export class CartService {
         return cartItem;
       });
       this.cartSubject.next(this.cart);
+      this.cart.map(async (cartItem:any) => {
+        await setDoc(doc(this.firestore,'users',this.dataProvider.currentUser?.user!.uid!,'cart',cartItem.id),cartItem);
+      });
+      
     });
   }
 
@@ -282,7 +281,7 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    await this.updateCart();
+    this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -303,7 +302,7 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    await this.updateCart();
+    this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -328,7 +327,7 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    await this.updateCart();
+    this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -353,7 +352,7 @@ export class CartService {
       }
     }
     await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    await this.updateCart();
+    this.updateCart();
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
