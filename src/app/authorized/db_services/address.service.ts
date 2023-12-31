@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Address } from '../select-address/address.structure';
@@ -15,23 +15,31 @@ import { Router } from '@angular/router';
 export class AddressService {
   addresses:Address[] = [];
   selectedAddres:Address;
+  action:BehaviorSubject<any> = new BehaviorSubject<any>({isEdit:false})
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
   constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient,private router:Router) {
-    if(this.dataProvider.currentUser!.user.uid !== undefined)
-    collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
-      this.addresses = addresses;
-      this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
-     // console.log("addresses collectionData....",addresses.length)
-      this.fetchedAddresses.next(this.addresses);
-      // if(addresses.length == 0){
-      //   this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
-      // }
-    })
+    if(this.dataProvider.currentUser!.user.uid !== undefined){
+         
+         collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
+          this.getAddresses2(this.dataProvider.currentUser!.user.uid).then(result=>{
+            this.addresses = result.docs.map((address:any) => {
+              return { ...address.data(),id: address.id };
+            });
+            this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
+             //console.log("addresses collectionData....",this.addresses,this.addresses.length)
+             this.fetchedAddresses.next(this.addresses);
+         });
+        });
+    }
   }
 
   async getAddresses(userId:string){
 
     return (await getDocs(collection(this.firestore, 'users', userId, 'addresses'))).docs;
+  }
+  async getAddresses2(userId:string){
+
+    return (await getDocs(collection(this.firestore, 'users', userId, 'addresses')));
   }
   async getArea(stateId:string,cityId:string){
     return new Promise((resolve,rejects)=>{

@@ -30,7 +30,7 @@ export class HomeService {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(async address=>{
         if(address.length > 0){
-          console.log("address...........: ",address)
+         // console.log("address...........: ",address)
           let currentAddress = address.filter(addre=> addre.isDefault);
           if(currentAddress.length > 0 ){
             let areas:any = await this.addressService.getArea(currentAddress[0].stateId,currentAddress[0].cityId);

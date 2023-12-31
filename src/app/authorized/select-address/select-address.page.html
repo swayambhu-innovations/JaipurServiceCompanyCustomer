@@ -82,8 +82,8 @@
             <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
           </div>
           <div class="edit-delete-address">
-            <img src="../../../assets/edit-button.svg" alt="">
-            <img src="../../../assets/delete-button.svg" alt="">
+            <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
+            <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
           </div>
         </div>
       </div>

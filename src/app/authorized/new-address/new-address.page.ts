@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, filter, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, filter, firstValueFrom } from 'rxjs';
 import {
   Area,
   City,
@@ -19,6 +19,7 @@ import { LocationService } from './services/location.service';
 import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { ActivatedRouteSnapshot, CanActivate, NavigationStart, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Address } from '../select-address/address.structure';
 
 @Component({
   selector: 'app-new-address',
@@ -27,6 +28,8 @@ import { ActivatedRouteSnapshot, CanActivate, NavigationStart, Router, RouterSta
 })
 export class NewAddressPage implements OnInit, CanActivate{
   areaOptions: any;
+   
+  selectedState:any;
   showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
   addressForm = this.fb.group({
@@ -56,6 +59,8 @@ export class NewAddressPage implements OnInit, CanActivate{
   areas$: Observable<Area[]> | undefined;
   searchedAreaDetails: any;
   areaDetails:any;
+  editData:any;
+  isEdit:boolean = false;
   constructor(private fb : FormBuilder,private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
     private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
     ,private router:Router) {
@@ -65,26 +70,75 @@ export class NewAddressPage implements OnInit, CanActivate{
     throw new Error('Method not implemented.');
   }
   ionViewWillEnter(){
+   
   }
   ngOnInit(): void {
     const navigation = this.router.getCurrentNavigation();
-    console.log("navigation......:",navigation,navigation?.extras.state?.isfirstTime);
      if(navigation?.extras.state?.isfirstTime){
       this.showHeader =  false
       this.dataProvider.isFirstTime.next(false);
      }else{
       this.showHeader = true;
      }
-   this.store.dispatch(editAddressStateActions.LOAD());
-    this.states$ = this.store.select('editAddress', 'states');
-    this.cities$ = this.store.select('editAddress', 'cities');
-    this.areas$ = this.store.select('editAddress', 'areas');
-    // get current location
-    this.areas$.subscribe(result=>{
-    });
-    this.getLocation();
+     this.addressService.action.subscribe(async action=>{
+      let loader = await this.loadingController.create({message:'Adding address...'});
+     // console.log("navigation?.extras.state?.isEdit: ",action)
+      this.store.dispatch(editAddressStateActions.LOAD());
+      this.states$ = this.store.select('editAddress', 'states');
+      this.cities$ = this.store.select('editAddress', 'cities');
+      this.areas$ = this.store.select('editAddress', 'areas');
+      this.getLocation();
+      if(action.isEdit){
+        loader.present();
+        this.isEdit = true;
+        this.editData = action.data;
+          let address = action.data
+          //console.log("address......:",address);
+          
+          this.selectedState = address;
+          let state:any = {state:address.state,id:address.stateId};
+          let city:any = {name:address.city,id:address.cityId};
+          this.store.dispatch(editAddressCitiesActions.LOAD({ stateId: address.stateId }));
+          this.addressForm.patchValue({
+              'state': state,
+              'city':city,
+          });
+          this.store.dispatch(
+            editAddressAreasActions.LOAD({stateId: address.stateId, cityId: address.cityId }),
+          );
+          this.addressForm.controls.name.setValue(address.name);
+          this.searchedAreaDetails = {selectedArea:address['selectedArea']} ;
+          this.addressForm.controls.pincode.setValue(address.pincode);
+          this.addressForm.controls.addressLine1.setValue(address.addressLine1);
+          this.currentPosition = {lat:address['geometry'].location.lat,lng:address['geometry'].location.lng}
+         loader.dismiss();
+      }else{
+        this.isEdit = action.isEdit;
+        this.addressForm.reset();
+      }
+     })
+ 
+    // // get current location
+    // this.areas$.subscribe(result=>{
+    // });
+    
   }
-
+  compareStateFn(e1: any, e2: any): boolean {
+    if(e2.name){
+      return e1 && e2 ? e1.name === e2.name : e1 == e2;
+    }else{
+      return e1 && e2 ? e1.state === e2.state : e1 == e2;
+    }
+  
+  }
+  compareCityFn(e1: any, e2: any): boolean {
+    if(e2.name){
+      return e1 && e2 ? e1.name === e2.name : e1 == e2;
+    }else{
+      return e1 && e2 ? e1.state === e2.state : e1 == e2;
+    }
+  
+  }
   getLocation() {
     if(this.platform.is('capacitor')){
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
@@ -124,20 +178,20 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   newPosition(event: any) {
-    console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
+    //console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
     this.currentPosition = event.latLng.toJSON();
   }
 
   fetchCities(event: any) {
-    this.store.dispatch(
-      editAddressCitiesActions.LOAD({ stateId: event.detail.value.id }),
-    );
+      this.store.dispatch(
+        editAddressCitiesActions.LOAD({ stateId: event.detail.value.id }),
+      );
   }
 
   fetchAreas(event: any, stateId: string) {
-    this.store.dispatch(
-      editAddressAreasActions.LOAD({ stateId, cityId: event.detail.value.id }),
-    );
+      this.store.dispatch(
+        editAddressAreasActions.LOAD({ stateId, cityId: event.detail.value.id }),
+      );
   }
 
   fetchPostalCode(event: any) {
@@ -167,20 +221,32 @@ export class NewAddressPage implements OnInit, CanActivate{
     addressObject.state = state;
     addressObject.isDefault = false;
     addressObject.area = addressObject.formatted_address;
-
-    await loader.present()
     if(this.addressForm.valid){
-      this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
-        this.dataProvider.isFirstTime.next(true);
-        this.addressForm.reset()
-        // this.router.navigate(['/authorized/select-address'])
-        this.router.navigate(['/authorized/home'])
-      }).catch(err=>{
-        console.log(err)
-      }).finally(()=>loader.dismiss())
-    } else{
-      await loader.dismiss()
-    }
+      if(this.isEdit){
+       // console.log("addressObject: ",addressObject)
+       await loader.present()
+       this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
+         this.dataProvider.isFirstTime.next(true);
+         this.addressForm.reset()
+         this.router.navigate(['/authorized/home'])
+       }).catch(err=>{
+         console.log(err)
+       }).finally(()=>loader.dismiss())
+
+      }else{
+        await loader.present()
+          this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
+            this.dataProvider.isFirstTime.next(true);
+            this.addressForm.reset()
+            // this.router.navigate(['/authorized/select-address'])
+            this.router.navigate(['/authorized/home'])
+          }).catch(err=>{
+            console.log(err)
+          }).finally(()=>loader.dismiss())
+        } 
+      }else{
+        await loader.dismiss()
+      }
   }
 
   createDataForAddAreas(searchedAreaDetails:any){
@@ -244,18 +310,23 @@ export class NewAddressPage implements OnInit, CanActivate{
     this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
       this.areaDetails = response.result;
       //console.log("response.result.formatted_address: ",response.result,response.result.formatted_address)
-      this.addressForm.controls.area.setValue(response.result.formatted_address)
+      
       let codinate = {
         lat:this.areaDetails['geometry'].location.lat,
         lng:this.areaDetails['geometry'].location.lng
       }
-      this.areaOptions = []
+     
       this.currentPosition = codinate;
       this.center = codinate;
       this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
       loader.dismiss();
       if(!this.searchedAreaDetails.selectedArea){
-        alert("We do not provide services in this area!")
+        alert("We do not provide services in this area!");
+        this.searchedAreaDetails = null;
+        return;
+      }else{
+        this.areaOptions = [];
+        this.addressForm.controls.area.setValue(response.result.formatted_address)
       }
     });
   }

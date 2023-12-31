@@ -9,10 +9,11 @@
         toggleIcon="chevron-down"
         justify="space-between"
         placeholder="State"
+        [compareWith]="compareStateFn"
         (ionChange)="fetchCities($event)"
         #selectedState
       >
-        <ion-select-option [value]="state" *ngFor="let state of states$ | async"
+        <ion-select-option [value]="state" *ngFor="let state of states$ | async"  
           >{{state.state | titlecase}}</ion-select-option
         >
       </ion-select>
@@ -25,6 +26,7 @@
         toggleIcon="chevron-down"
         justify="space-between"
         placeholder="City"
+        [compareWith]="compareCityFn"
         (ionChange)="fetchAreas($event,selectedState.value.id)"
       >
         <ion-select-option [value]="city" *ngFor="let city of cities$ | async"

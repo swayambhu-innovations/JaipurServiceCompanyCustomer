@@ -150,7 +150,7 @@ export class ProfileInfoPage implements OnInit {
           if(this.urlparam === 'profile'){
             this.route.navigate(['authorized/profile']);
           }else{
-            this.route.navigateByUrl('/authorized/new-address');
+            this.route.navigate(['/authorized/new-address'],{state:{isEdit:false}});
           }
           // this.userProfileForm.reset()
           loader.dismiss();

@@ -28,7 +28,7 @@ export class HomeHeaderComponent  implements OnInit {
    notification(){
     this.router.navigate(['authorized/notification']);
    }
-
+ 
   ngOnInit() {
     this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
       if(address.length > 0){
@@ -36,11 +36,11 @@ export class HomeHeaderComponent  implements OnInit {
         let currentAddress = address.filter(add=>add.isDefault);
        // console.log("ngOnInit home header....: ",address[0])
         this.dataProvider.selectedAddress.next(address);
-        if(currentAddress){
+        if(currentAddress.length> 0){
           this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
         }else
         this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
-        console.log(this.mainAddressLine);
+       // console.log(this.mainAddressLine);
         this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
         if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
           this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
@@ -49,7 +49,7 @@ export class HomeHeaderComponent  implements OnInit {
         }
       }
       else{
-        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
+        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true,isEdit:true} });
       }
     })
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
@@ -76,18 +76,18 @@ export class HomeHeaderComponent  implements OnInit {
           address_.isDefault = false;
           this.addressService.editAddress(userId, res.id,address_);
         }
-        
       });
-     
     }
-   if(userId !== "" && addressId !== ""){
-    address.isDefault = true;
-    this.addressService.editAddress(userId, addressId,address);
-    loader.dismiss();
-   }else{
-    loader.dismiss();
-   }
-
+    if(userId !== "" && addressId !== ""){
+      address.isDefault = true;
+      this.addressService.editAddress(userId, addressId,address);
+      loader.dismiss();
+    }else{
+      loader.dismiss();
+    }
+    this.addressLineTwoVisible = false;
+    this.showmodal = false;
+    this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
   setopen(){
     this.addressLineTwoVisible = true;
@@ -101,6 +101,27 @@ export class HomeHeaderComponent  implements OnInit {
   }
   
   navigate(){
-    this.router.navigate(['/authorized/new-address']);
+    setTimeout(() => {
+      this.router.navigate(['/authorized/new-address']);
+    }, 10);
+    this.addressLineTwoVisible = false;
+    this.showmodal = false;
+    this.MAX_ADDRESS_LINE_LENGTH = 30;
+    this.addressService.action.next({isEdit:false});
+  }
+
+  deleteAddress(address:Address){
+    if(this.dataProvider.currentUser?.user.uid)
+    this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+  }
+  editAddress(address:Address){
+    this.addressLineTwoVisible = false;
+    this.showmodal = false;
+    this.MAX_ADDRESS_LINE_LENGTH = 30;
+    this.addressService.action.next({isEdit:true,data:address});
+    setTimeout(() => {
+      this.router.navigate(['/authorized/new-address']);
+    }, 10);
+    
   }
 }

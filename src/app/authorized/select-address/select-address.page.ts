@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { Address } from './address.structure';
 
 @Component({
   selector: 'app-select-address',
@@ -22,5 +23,13 @@ export class SelectAddressPage implements OnInit {
   setValue(event:any){
     this.dataProvider.currentBooking!.address = event.detail.value;
     console.log(event.detail.value);
+  }
+  deleteAddress(address:Address){
+    if(this.dataProvider.currentUser?.user.uid)
+    this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+  }
+  editAddress(address:Address){
+    this.addressService.action.next({isEdit:true,data:address});
+    this.router.navigate(['/authorized/new-address']);
   }
 }
