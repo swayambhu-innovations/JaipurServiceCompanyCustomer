@@ -50,7 +50,7 @@
 				<ion-row style="margin-left: 7px;">
 					<ion-col size="12">
 						<div class="details" *ngFor="let des of result.description.blocks">
-							<div class="description" *ngIf = "des.data.text != ''">
+							<div class="description" *ngIf = "des?.data?.text != undefined">
 								<ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
 								<strong>{{des.data.text}}</strong>
 							</div>

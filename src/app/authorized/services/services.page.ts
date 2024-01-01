@@ -51,6 +51,7 @@ export class ServicesPage implements OnInit {
         return;
       }
       this.services = this.matchingSubCategory.services;
+      console.log(this.services);
     });
   }
 

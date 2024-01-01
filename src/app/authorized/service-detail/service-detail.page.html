@@ -50,11 +50,19 @@
     <div class="row descriptionBody">
       <h5 class="descrption-title">Product Description</h5>
       <div class="pdt-desc">
-        <ul>
+        <div class="details" *ngFor="let des of this.matchingService?.description.blocks">
+          <div class="description" *ngIf = "des?.data?.text != undefined">
+            <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+            <strong>{{des.data.text}}</strong>
+          </div>
+        </div>
+        <!-- <ul>
           <li *ngFor="let items of this.matchingService?.description.blocks">
-            {{items.data.text}}
+            <ng-container *ngIf = "items.data?.text != undefined">
+              {{items.data.text}}
+            </ng-container>
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
     <!-- <div class="row mt-4 text-left">
