@@ -114,55 +114,57 @@
     <hr class="horizontalRow">
   </div>
 
-  <div class="mainCategory" *ngFor="let mainCategory of homeService.mainCategories | async">
-    <!-- <div *ngIf="mainCategory.name !== '' "></div> -->
-    <div class="container">
-      <div class="heading">
-        <div class="col-9">
-          <h4>{{mainCategory.name}}</h4>
-        </div>
-        <div class="see-all-button">
-          <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
-          <img src="assets/icon/rightArrow/rightArrow.svg">
-        </div>
-      </div>
-    </div>
-    <!-- <h3>{{mainCategory.name}}</h3> -->
-    <img class="banner" [src]="mainCategory.image" alt="">
-    <!-- <div class="container">
-      <div class="heading">
-        <div class="col-9">
-          <h4>Services</h4>
-        </div>
-        <div class="see-all-button">
-          <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
-          <img src="assets/icon/rightArrow/rightArrow.svg">
+  <ng-container *ngIf="categories.length > 0">
+    <div class="mainCategory" *ngFor="let mainCategory of categories">
+      <!-- <div *ngIf="mainCategory.name !== '' "></div> -->
+      <div class="container">
+        <div class="heading">
+          <div class="col-9">
+            <h4>{{mainCategory.name}}</h4>
+          </div>
+          <div class="see-all-button">
+            <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
+            <img src="assets/icon/rightArrow/rightArrow.svg">
+          </div>
         </div>
       </div>
-    </div> -->
-    <!-- <div class="servicecontainer mt-2">
-      <div class="row serviceRowOverflow">
-        <div class="col text-center" *ngFor="let subCategory of mainCategory.subCategories">
-          <div class="service-det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
-            <img alt="" src="{{subCategory.image}}" />
+      <!-- <h3>{{mainCategory.name}}</h3> -->
+      <img class="banner" [src]="mainCategory.image" alt="">
+      <!-- <div class="container">
+        <div class="heading">
+          <div class="col-9">
+            <h4>Services</h4>
+          </div>
+          <div class="see-all-button">
+            <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
+            <img src="assets/icon/rightArrow/rightArrow.svg">
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="servicecontainer mt-2">
+        <div class="row serviceRowOverflow">
+          <div class="col text-center" *ngFor="let subCategory of mainCategory.subCategories">
+            <div class="service-det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
+              <img alt="" src="{{subCategory.image}}" />
+              <h3>{{subCategory.name}}</h3>
+            </div>
+          </div>
+        </div>
+      </div> -->
+  
+      <div class="services">
+        <div class="services-cont">
+          <div class="col-4 service-det" *ngFor="let subCategory of mainCategory.subCategories">
+            <div class="det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
+              <img alt="" src="{{subCategory.image}}" />
+             
+            </div>
             <h3>{{subCategory.name}}</h3>
           </div>
         </div>
       </div>
-    </div> -->
-
-    <div class="services">
-      <div class="services-cont">
-        <div class="col-4 service-det" *ngFor="let subCategory of mainCategory.subCategories">
-          <div class="det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
-            <img alt="" src="{{subCategory.image}}" />
-           
-          </div>
-          <h3>{{subCategory.name}}</h3>
-        </div>
-      </div>
     </div>
-  </div>
+  </ng-container>
 
   <div class="banner-container">
     <swiper-container [loop]="true" [autoplay]="{delpay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">

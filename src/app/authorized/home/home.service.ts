@@ -13,6 +13,7 @@ import { Category } from '../../core/types/category.structure';
 import { where } from 'firebase/firestore';
 import { Router } from '@angular/router';
 import { AddressService } from '../db_services/address.service';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root', 
@@ -25,7 +26,8 @@ export class HomeService {
     private firestore: Firestore,
     private dataProvider: DataProviderService,
     private addressService: AddressService,
-    private router:Router
+    private router:Router,
+    private loadingController: LoadingController
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(async address=>{
@@ -60,7 +62,10 @@ export class HomeService {
       let serverCatDb=doc(this.firestore, 'service-catalogue',serviceCatalogueId);
       const docSnap = await getDoc(serverCatDb);
         if (docSnap.exists()) {
-          this.mainCategories.next(await this.getMainCategories(serviceCatalogueId));
+          const loader = await this.loadingController.create({message:'Please wait...'});
+          loader.present();
+          await this.mainCategories.next(await this.getMainCategories(serviceCatalogueId));
+          loader.dismiss();
         }
   }
   async getMainCategories(serviceCatalogueId:string) {
