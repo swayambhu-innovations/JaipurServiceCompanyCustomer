@@ -226,6 +226,7 @@ export class SelectSlotPage implements OnInit {
             this.dataProvider.currentUser!.user.uid,
             this.dataProvider.currentBooking!.id!
           )
+          await this.cartService.updateCart();
           this.router.navigate(['/authorized/order-placed']);
         })
         .finally(() => {
