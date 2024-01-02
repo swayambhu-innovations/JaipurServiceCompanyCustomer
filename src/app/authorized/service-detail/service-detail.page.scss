@@ -28,7 +28,7 @@
     //     margin-bottom: 3px;
     //   }
     // }
-
+  
     .description {
       font-size: 12px;
       font-weight: 400;
@@ -465,4 +465,8 @@ ion-button {
 .temp-div {
   max-height: 50%;
   overflow: scroll;
+}
+.search-item .item-inner{
+  display: flex;
+  flex-wrap: nowrap;
 }

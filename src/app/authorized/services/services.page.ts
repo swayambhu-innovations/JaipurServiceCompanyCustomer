@@ -55,5 +55,7 @@ export class ServicesPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    //console.log("result services, ",this.services)
+  }
 }
