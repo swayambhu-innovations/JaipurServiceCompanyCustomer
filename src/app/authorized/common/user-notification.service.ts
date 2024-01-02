@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { UserNotification } from './notification.structure';
+import { DataProviderService } from 'src/app/core/data-provider.service';
+import { limit, orderBy, query } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root'
 })
 export class UserNotificationService {
 
-  constructor(private firestore:Firestore) { }
+  constructor(private firestore:Firestore,public dataProvider:DataProviderService,) { }
 
   notificationBase = {
     createdAt: new Date(),
@@ -50,5 +52,9 @@ export class UserNotificationService {
 
   addUserNotification(userId: string, notification: UserNotification){
     return addDoc(collection(this.firestore, 'users', userId, 'notifications'), notification);
+  }
+
+  getCurrentUserNotification(){
+    return getDocs(query(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'notifications'),orderBy("createdAt",'desc'),limit(100)));
   }
 }
