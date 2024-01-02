@@ -26,12 +26,12 @@ export class AuthService {
               user:user,
               userData:userData
             }
+            console.log("userData.....:",userData)
             if(userData.name.length ===0){
                 this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
             }else{
               this.router.navigate(['../../authorized/home']);
             }
-           
             this.dataProvider.checkingAuth = false;
           });
         } else {
