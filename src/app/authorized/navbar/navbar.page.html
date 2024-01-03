@@ -55,7 +55,7 @@
           <ion-label>Cart</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="profile" class="footer-ion-tab-button">
-          <ng-container *ngIf = "router.url == '/authorized/profile' else profile">
+          <ng-container *ngIf = "router.url == '/authorized/profile/profile-info?from=profile' else profile">
             <img src="assets/icon/navbar/profile1.svg" alt="">
           </ng-container >
           <ng-template #profile>
