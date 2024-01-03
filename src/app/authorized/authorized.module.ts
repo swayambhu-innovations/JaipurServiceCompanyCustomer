@@ -19,6 +19,7 @@ import { NavbarPage } from './navbar/navbar.page';
   declarations: [
     AuthorizedPage,
     NavbarPage
-  ]
+  ],
+  exports:[NavbarPage]
 })
 export class AuthorizedPageModule {}

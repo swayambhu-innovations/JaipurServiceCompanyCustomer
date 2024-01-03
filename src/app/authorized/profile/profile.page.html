@@ -1,17 +1,10 @@
+
 <ion-content [fullscreen]="true">
   <ion-card>
-    <!-- Signout button -->
-    <ion-button fill="clear" id="open-modal" expand="block">
-      <span>
-        <img src="../../assets/Icons.svg" style="margin-top: 5px; margin-right: 7px" />
-      </span>
-      Sign out
-    </ion-button>
-    <!-- Signout modal -->
     <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
       <ng-template>
         <ion-card-title class="logout-title">Logout</ion-card-title>
-        <ion-item-divider></ion-item-divider>
+       
         <ion-card-subtitle class="subtitle">Are you sure want to Logout ?</ion-card-subtitle>
         <div style="display: flex;margin: auto;padding: 20px;">
           <ion-button class="cancel-btn" fill="clear" (click)="closeModal()">Cancel</ion-button>
@@ -74,7 +67,12 @@
         <p>Contact Us</p>
       </div>
     </ion-button>
-
+    <ion-button expand="block" fill="clear" class="side-buttons" id="open-modal">
+      <div class="w-100 d-flex align-items-center">
+        <img style="padding:auto;" class="icons" src="../../assets/logout.svg" alt="" style=" width: 25px; margin-left: 20px;" />
+        <p>Sign out</p>
+      </div>
+    </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons">
       <div class="w-100 d-flex align-items-center shreeva">
         <a href="https://shreeva.in/" target="_blank">
@@ -117,3 +115,48 @@
 
   <!-- <ion-header> </ion-header> -->
 </ion-content>
+<ion-footer style="height: 50px;">
+  <ion-tabs>
+    <ion-tab-bar slot="bottom,top" class="footer" >
+          <ion-tab-button (click)="close('/authorized/home')" class="footer-ion-tab-button" >
+            <ng-container *ngIf = "router.url == '/authorized/home' else home">
+              <img src="assets/icon/navbar/home.svg" alt="">
+            </ng-container >
+            <ng-template #home>
+              <img src="assets/icon/navbar/home1.svg" alt="">
+            </ng-template>
+            
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
+          <ion-tab-button (click)="close('/authorized/booking/upcoming-history')"  class="footer-ion-tab-button">
+            <ng-container *ngIf = "router.url == '/authorized/booking/upcoming-history' else calender">
+              <img src="assets/icon/navbar/calendar1.svg" alt="">
+            </ng-container >
+            <ng-template #calender>
+              <img src="assets/icon/navbar/calendar.svg" alt="">
+            </ng-template>
+            
+            <ion-label>Bookings</ion-label>
+          </ion-tab-button>
+          <ion-tab-button (click)="close('/authorized/cart/all/all')" class="footer-ion-tab-button">
+            <ng-container *ngIf = "router.url == '/authorized/cart/all/all' else cart">
+              <img src="assets/icon/navbar/cart1.svg" alt="">
+            </ng-container >
+            <ng-template #cart>
+              <img src="assets/icon/navbar/cart.svg" alt="">
+            </ng-template>
+            <ion-label>Cart</ion-label>
+          </ion-tab-button>
+          <ion-tab-button (click)="close('/authorized/profile')" class="footer-ion-tab-button">
+            <ng-container *ngIf = "router.url == '/authorized/profile' else profile">
+              <img src="assets/icon/navbar/profile1.svg" alt="">
+            </ng-container >
+            <ng-template #profile>
+              <img src="assets/icon/navbar/profile.svg" alt="">
+            </ng-template>
+            <ion-label>Profile</ion-label>
+          </ion-tab-button>
+      </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>
+<!-- <app-navbar></app-navbar> -->
