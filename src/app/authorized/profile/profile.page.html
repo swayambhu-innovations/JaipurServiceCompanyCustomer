@@ -22,7 +22,9 @@
     </ion-modal>
 
     <!-- Profile -->
-    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic" />
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic" *ngIf="this.dataProvider.currentUser?.userData?.photoUrl == undefined" />
+    <img src="{{this.dataProvider.currentUser?.userData?.photoUrl}}" class="profile-pic" *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined" />
+    
     <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.userData?.name}}</h4>
   </ion-card>
 

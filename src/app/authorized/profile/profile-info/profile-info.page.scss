@@ -175,3 +175,43 @@ ion-datetime-button {
     }
   }
 }
+
+.outer {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 106px !important; /* any size */
+  max-height: 106px !important; /* any size */
+  margin: auto;
+  border-radius: 100%;
+  background:#e6e7e8;
+  position: relative;
+  background-size: 106px 106px;
+}
+.inner {
+  background-color: #fff;
+  width: 43px;
+  height: 43px;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.camera-icon {
+  height: 30px;
+  width: 30px;
+  color: black;
+}
+.container1{
+  width: 106px;
+  height: 106px;
+  display: block;
+  margin: 0 auto;
+
+}
+.profile-pic {
+  width: 150px;
+  height: 150px;
+}

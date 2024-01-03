@@ -6,19 +6,28 @@
 
   <div class="container">
     <!-- Profile picture with camera button -->
-    <h3 *ngIf="!name">Welcome, New User</h3>
-    <h3 *ngIf="name">Welcome, {{name}}</h3>
-    <p>Let’s know you better !</p>
-    <div class="profile-pic">
-      <img src="../../../assets/profile-3.svg" alt="" class="img" />
-      <img src="../../../assets/Ellipse 152.svg" alt="" class="circle" />
-      <img src="../../../assets/fi-rr-camera.svg" alt="" class="camera-icon" [routerLink]="['/upload-images']" />
-    </div>
+    
     <!-- <div class="title">
       <h6>{{name2}}</h6>
     </div> -->
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
+      <div class="container1">
+        <div class="outer"
+          [ngStyle]="{'background-image': 'url(' +  this.userData.photoUrl + ')'}">
+            <div class="inner" (click)="profilePicker1.click()">
+               <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
+            </div>
+         </div>
+      </div>
+      <input
+        type="file"
+        hidden
+        tabindex="-1"
+        accept="image/*"
+        (input)="setPhoto($event)"
+        #profilePicker1
+      />
       <div class="input">
         <ion-input class="inputs" formControlName="name" label="Full Name" label-placement="floating" fill="outline"
           required></ion-input>
