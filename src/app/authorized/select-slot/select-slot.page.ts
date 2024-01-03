@@ -41,36 +41,36 @@ export class SelectSlotPage implements OnInit {
     {
       light : '../../../assets/icon/slots/morning1.svg',
       dark : '../../../assets/icon/slots/morning2.svg',
-      disabled : '../../../assests/icon/slots/morning3.svg'
+      disabled : '../../../assets/icon/slots/morning3.svg'
     },
     {
-      light : '../../../assests/icon/slots/lateMorning1.svg',
+      light : '../../../assets/icon/slots/lateMorning1.svg',
       dark : '../../../assets/icon/slots/lateMorning2.svg',
-      disabled : '../../../assests/icon/slots/lateMorning3.svg'
+      disabled : '../../../assets/icon/slots/lateMorning3.svg'
     },
     {
-      light : '../../../assests/icon/slots/afternoon1.svg',
+      light : '../../../assets/icon/slots/afternoon1.svg',
       dark : '../../../assets/icon/slots/afternoon2.svg',
-      disabled : '../../../assests/icon/slots/afternoon3.svg'
+      disabled : '../../../assets/icon/slots/afternoon3.svg'
     },
     {
-      light : '../../../assests/icon/slots/lateafternoon1.svg',
+      light : '../../../assets/icon/slots/lateafternoon1.svg',
       dark : '../../../assets/icon/slots/lateAfternoon2.svg',
-      disabled : '../../../assests/icon/slots/lateafternoon3.svg'
+      disabled : '../../../assets/icon/slots/lateafternoon3.svg'
     },
     {
-      light : '../../../assests/icon/slots/evening1.svg',
+      light : '../../../assets/icon/slots/evening1.svg',
       dark : '../../../assets/icon/slots/evening2.svg',
-      disabled : '../../../assests/icon/slots/evening3.svg'
+      disabled : '../../../assets/icon/slots/evening3.svg'
     },
     {
-      light : '../../../assests/icon/slots/lateevening1.svg',
-      dark : '../../../assests/icon/slots/lateevening2.svg',
+      light : '../../../assets/icon/slots/lateevening1.svg',
+      dark : '../../../assets/icon/slots/lateevening2.svg',
       disabled : '../../../assets/icon/slots/lateEvening3.svg'
     },
     {
-      light : '../../../assests/icon/slots/night1.svg',
-      dark : '../../../assests/icon/slots/night2.svg',
+      light : '../../../assets/icon/slots/night1.svg',
+      dark : '../../../assets/icon/slots/night2.svg',
       disabled : '../../../assets/icon/slots/night3.svg'
     }
   ];
