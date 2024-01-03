@@ -109,7 +109,7 @@ export class AuthService {
         userData:userDoc.data()
       }
       loader.dismiss();
-      this.alertify.presentToast("Welcome back,"+user.displayName+" 😄");
+      //this.alertify.presentToast("Welcome back,"+user.displayName+" 😄");
       return
     }
     this.alertify.presentToast("Creating new account");
