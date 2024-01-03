@@ -171,11 +171,14 @@
   </ng-container>
 
   <div class="banner-container">
-    <swiper-container [loop]="true" [autoplay]="{delay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
-      <swiper-slide *ngFor="let items of banners">
-        <img style="height: 200px;" src="{{items.img}}" alt="">
-      </swiper-slide>
-    </swiper-container>
+    <div #swiperContainer class="swiper-container">
+      <div class="swiper-wrapper">
+        <div *ngFor="let items of banners" class="swiper-slide">
+          <img style="width: 100%" src="{{items.img}}" alt="">
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>    
   </div>
 
   <div class="client-section">
