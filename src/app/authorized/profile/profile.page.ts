@@ -14,10 +14,11 @@ import { error } from 'console';
 export class ProfilePage implements OnInit {
   [x: string]: any;
   constructor(
-    private router: Router,
+    public router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public dataProvider:DataProviderService
+    public dataProvider:DataProviderService,
+    
   ) {
    // this.router.navigate(['authorized/profile/profile-info']);
   }
@@ -26,9 +27,10 @@ export class ProfilePage implements OnInit {
     console.log(this.dataProvider.currentUser);
   }
   
-  close() {
-    this.router.navigate(['/authorized/home']);
+  close(url:any) {
+    this.router.navigate([url]);
   }
+
   job() {
     this.router.navigate(['job-history']);
   }
