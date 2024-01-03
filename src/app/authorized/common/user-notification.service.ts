@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { UserNotification } from './notification.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { limit, orderBy, query } from 'firebase/firestore';
+import { limit, orderBy, query, writeBatch } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root'
 })
@@ -57,4 +57,31 @@ export class UserNotificationService {
   getCurrentUserNotification(){
     return getDocs(query(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'notifications'),orderBy("createdAt",'desc'),limit(100)));
   }
+
+
+  async markAllNotificationsAsRead(): Promise<void> {
+    const notificationsQuery = query(
+      collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'notifications')
+    );
+    const querySnapshot = await getDocs(notificationsQuery);
+    const batch = writeBatch(this.firestore);
+    querySnapshot.forEach((doc1: any) => {
+      const notificationRef = doc(
+        this.firestore,
+        'users',
+        this.dataProvider.currentUser!.user.uid,
+        'notifications',
+        doc1.id
+      );
+      batch.update(notificationRef, { read: true });
+    });
+    await batch.commit();
+  }
+
+  deleteNotification(notificationId: string): Promise<void> {
+    return deleteDoc(
+      doc(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'notifications', notificationId)
+    );
+  }
+  
 }

@@ -115,7 +115,7 @@
     <hr class="horizontalRow">
   </div>
 
-  <ng-container *ngIf="categories.length > 0">
+  <ng-container *ngIf="isLoaded && categories.length > 0">
     <div class="mainCategory" *ngFor="let mainCategory of categories">
       <!-- <div *ngIf="mainCategory.name !== '' "></div> -->
       <div class="container">
@@ -155,13 +155,16 @@
   
       <div class="services">
         <div class="services-cont">
-          <div class="col-4 service-det" *ngFor="let subCategory of mainCategory.subCategories">
-            <div class="det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
-              <img alt="" src="{{subCategory.image}}" />
-             
+          <ng-container *ngFor="let subCategory of mainCategory.subCategories">
+            <div class="col-4 service-det" *ngIf="subCategory.enabled">
+              <div class="det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
+                <img alt="" src="{{subCategory.image}}" />
+              
+              </div>
+              <h3>{{subCategory.name}}</h3>
             </div>
-            <h3>{{subCategory.name}}</h3>
-          </div>
+            
+          </ng-container>
         </div>
       </div>
     </div>
@@ -244,6 +247,19 @@
     </ion-grid>
   </div>
 </ion-content>
+
+<ion-modal [isOpen]="isLoaded && isNotServiceableModalOpen" (willDismiss)="onNotServiceableDismiss($event)">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <p>
+        Sorry, we do not provide services to the selected area, please select a valid serviceable address.
+      </p>
+      <button (click)="onGotItClick()" class="got-it-button">
+        Okay, Got It
+      </button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 <!-- <ion-content>
   <app-navbar></app-navbar>

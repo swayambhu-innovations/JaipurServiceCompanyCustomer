@@ -21,6 +21,7 @@ import { LoadingController } from '@ionic/angular';
 export class HomeService {
   mainCategories: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>([]);
   refetchCategories: Subject<void> = new Subject<void>();
+  isCatalogueLoaded: boolean = false;
 
   constructor(
     private firestore: Firestore,
@@ -64,7 +65,11 @@ export class HomeService {
         if (docSnap.exists()) {
           const loader = await this.loadingController.create({message:'Please wait...'});
           loader.present();
-          await this.mainCategories.next(await this.getMainCategories(serviceCatalogueId));
+          this.isCatalogueLoaded = true;
+          const mainCategoryArray = await this.getMainCategories(serviceCatalogueId);
+          const activeMainCategories = mainCategoryArray.filter(item => item.enabled);
+          await this.mainCategories.next(activeMainCategories);
+          
           loader.dismiss();
         }
   }
@@ -80,6 +85,7 @@ export class HomeService {
           icon: mainCategory.data()['icon'],
           description:mainCategory.data()['description'],
           subCategories: await this.getSubCategories(serviceCatalogueId,mainCategory.id),
+          enabled: mainCategory.data()['enabled']
         };
       })
     );
@@ -156,6 +162,7 @@ export class HomeService {
           icon:subCategory.data()['icon'],
           description: subCategory.data()['description'],
           services: await this.getServices(serviceCatalogueId,mainCategoryId, subCategory.id),
+          enabled: subCategory.data()['enabled']
         };
       })
     );

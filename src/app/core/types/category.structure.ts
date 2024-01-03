@@ -4,14 +4,18 @@ export interface Category {
   image: string;
   icon:string;
   description:string,
+  enabled?: boolean;
   subCategories: SubCategory[];
+  
 }
 export interface SubCategory {
   id: string;
   name: string;
   image: string;
   icon:string;
+  enabled?: boolean;
   services: Service[];
+  
 }
 export interface Service {
   id: string;

@@ -26,6 +26,8 @@ interface bannerConfig {
 })
 export class HomePage implements OnInit {
   todayDate: number = Date.now();
+  isLoaded : boolean = false;
+  isNotServiceableModalOpen: boolean = false;
   utils: any;
 
   promotionalBanners: bannerConfig[] = [
@@ -84,8 +86,12 @@ export class HomePage implements OnInit {
     this.recentActivity();
     this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
-    this.dataProvider.mainCategories.subscribe((categories) => {
+    this.dataProvider.mainCategories.subscribe(categories => {
+      this.isLoaded = true;
       this.categories = categories;
+      if(this.homeService.isCatalogueLoaded == true && this.categories.length == 0){
+        this.isNotServiceableModalOpen = true;
+      }
     });
     loader.dismiss();
   }
@@ -331,6 +337,19 @@ export class HomePage implements OnInit {
     });
     return savedFile;
   }
+
+  onNotServiceableDismiss(event){
+
+  }
+
+  onGotItClick() {
+    this.isNotServiceableModalOpen = false;
+    setTimeout(() =>{
+      this.router.navigate(['/authorized/select-address']);
+    },100);
+    
+  }
+  
 }
 
 export interface Banner {
