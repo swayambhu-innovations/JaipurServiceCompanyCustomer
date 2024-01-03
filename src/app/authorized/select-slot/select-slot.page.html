@@ -37,31 +37,34 @@
 
           <ng-container *ngIf = "(currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false) else notdisabled">
             <img src="{{slotsIcons[items.index-1].disabled}}" alt="">
+            <div class="slot-det">
+              <p style="color: #D7D7D7;">{{slotsStatus[items.index-1]}}</p>
+              <p style="color: #D7D7D7;">{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :
+                  (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " :
+                  items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
+            </div>
           </ng-container>
 
           <ng-template #notdisabled>
             <ng-container *ngIf = "(startTime == items.start) else notActiveIcon">
               <img src="{{slotsIcons[items.index-1].light}}" alt="">
+              <div class="slot-det light">
+                <p>{{slotsStatus[items.index-1]}}</p>
+                <p>{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :
+                    (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " :
+                    items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
+              </div>
             </ng-container>
             <ng-template  #notActiveIcon>
               <img src="{{slotsIcons[items.index-1].dark}}" alt="">
+              <div class="slot-det dark">
+                <p>{{slotsStatus[items.index-1]}}</p>
+                <p>{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :
+                    (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " :
+                    items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
+              </div>
             </ng-template>
           </ng-template>
-
-          <!-- <img src="{{slotsIcons[items.index-1]}}" alt=""> -->
-
-
-
-
-
-
-
-          <div class="slot-det">
-            <p>{{slotsStatus[items.index-1]}}</p>
-            <p>{{items.start < 12 && items.end> 12 ? items.start + " AM " + '-' + (items.end - 12) + " PM " :
-                (items.start > 12 && items.end > 12 ? (items.start-12) + " PM " + ' - ' + (items.end-12) + " PM " :
-                items.start + " AM " + ' - ' + items.end + " AM ")}}</p>
-          </div>
         </button>
       </div>
       <h2 style="margin-top: 20px;">Select Preferred Agent Arrival Time</h2>

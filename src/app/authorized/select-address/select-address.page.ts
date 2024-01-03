@@ -25,8 +25,14 @@ export class SelectAddressPage implements OnInit {
     console.log(event.detail.value);
   }
   deleteAddress(address:Address){
-    if(this.dataProvider.currentUser?.user.uid)
-    this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+    if(address.isDefault){
+      alert("Default Address cannot be Deleted!");
+      return;
+    }
+    if(confirm("Are you sure you want to delete this address?")){
+      if(this.dataProvider.currentUser?.user.uid)
+      this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+    }
   }
   editAddress(address:Address){
     this.addressService.action.next({isEdit:true,data:address});

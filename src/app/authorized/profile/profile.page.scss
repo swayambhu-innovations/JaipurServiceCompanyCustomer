@@ -171,10 +171,16 @@ ion-modal {
 }
 
 .shreeva{
-  img{
-    margin-left: -6px;
+  a{
+    text-decoration: none;
+    display: flex;
+    img{
+      margin-left: -6px;
+    }
+    p{
+      margin-left: 0px;
+      margin-top: 6px;
+    }
   }
-  p{
-    margin-left: 0px;
-  }
+  
 }

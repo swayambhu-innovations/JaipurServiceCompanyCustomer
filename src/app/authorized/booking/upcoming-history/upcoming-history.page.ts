@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { BookingService } from '../booking.service';
+import Utils from '../../common/util';
 
 @Component({
   selector: 'app-upcoming-history',
@@ -9,6 +10,7 @@ import { BookingService } from '../booking.service';
   styleUrls: ['./upcoming-history.page.scss'],
 })
 export class UpcomingHistoryPage implements OnInit {
+  utils:any;
   name2 = 'Bookings';
   @Input() title!: string;
   highlightedName: string = 'Pending';
@@ -74,6 +76,7 @@ export class UpcomingHistoryPage implements OnInit {
     private alertController: AlertController,
     public bookingService:BookingService
   ) {
+    this.utils = Utils.stageMaster;
     bookingService.bookingsSubject.subscribe(bookings=> {
       console.log("bookings..............",bookings)
     })
