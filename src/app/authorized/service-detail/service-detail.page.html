@@ -56,9 +56,19 @@
       <h5 class="descrption-title">Product Description</h5>
       <div class="pdt-desc">
         <div class="details" *ngFor="let des of this.matchingService?.description.blocks">
-          <div class="description" *ngIf="des?.data?.text != undefined">
-            <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
-            <strong>{{des.data.text}}</strong>
+
+         
+          <div class="header">
+            <h4  *ngIf="des.type =='header'">{{des.data.text}}</h4>
+            <div class="list"  *ngIf="des.type =='list'">
+              <div class="description"  *ngFor="let item Of des?.data?.items">
+                <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+                <strong>{{item}}</strong>
+              </div>
+            </div>
+            <div class="description" *ngIf="des.type =='paragraph'">
+              <strong>{{des.data.text}}</strong>
+            </div>
           </div>
         </div>
         <!-- <ul>

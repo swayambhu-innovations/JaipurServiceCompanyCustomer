@@ -67,7 +67,7 @@ export class ServiceDetailPage implements OnInit {
       }
       
       this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
-      console.log(this.matchingService);
+      //console.log(this.matchingService);
       if(this.matchingService?.variants && this.matchingService?.variants.length >0){
         this.startPrice = this.matchingService?.variants[0].price;
       }

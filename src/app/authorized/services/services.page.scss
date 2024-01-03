@@ -233,7 +233,7 @@ ion-label {
     font-weight: 400;
     line-height: 14px;
     display: flex;
-    width: 76%;
+    width: 100%;
     // align-items: center;
 
     strong {
@@ -262,10 +262,10 @@ ion-label {
 }
 .search-item {
   margin-bottom: 5px;
-  max-height: 266px;
-  height: 100px;
+  // max-height: 26 6px;
+  height: 115px;
   min-height: 100px;
-  overflow: auto;
+  // overflow: auto;
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-start;

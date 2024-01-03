@@ -111,8 +111,14 @@ export class HomeHeaderComponent  implements OnInit {
   }
 
   deleteAddress(address:Address){
-    if(this.dataProvider.currentUser?.user.uid)
-    this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+    if(address.isDefault){
+      alert("Default Address cannot be Deleted!");
+      return;
+    }
+    if(confirm("Are you sure you want to delete this address?")){
+      if(this.dataProvider.currentUser?.user.uid)
+      this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+    }
   }
   editAddress(address:Address){
     this.addressLineTwoVisible = false;

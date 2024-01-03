@@ -23,7 +23,7 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom,top" class="footer" 
-  *ngIf = "(router.url == '/authorized/profile') || (router.url == '/authorized/home') ||  (router.url == '/authorized/cart/all/all') || (router.url == '/authorized/booking/upcoming-history')"
+  *ngIf = "(router.url == '/authorized/profile/profile-info?from=profile') || (router.url == '/authorized/home') ||  (router.url == '/authorized/cart/all/all') || (router.url == '/authorized/booking/upcoming-history')"
       >
         <ion-tab-button tab="home" class="footer-ion-tab-button" >
           <ng-container *ngIf = "router.url == '/authorized/home' else home">
