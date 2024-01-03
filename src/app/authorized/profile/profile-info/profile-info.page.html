@@ -13,10 +13,15 @@
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
       <div class="container1">
-        <div class="outer"
-          [ngStyle]="{'background-image': 'url(' +  this.userData.photoUrl + ')'}">
+        <div class="outer" *ngIf="this.userData?.photoUrl"
+          [ngStyle]="{'background-image': 'url(' +  this.userData?.photoUrl + ')'}">
             <div class="inner" (click)="profilePicker1.click()">
                <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
+            </div>
+         </div>
+         <div class="outer" *ngIf="!this.userData?.photoUrl">
+            <div class="inner" (click)="profilePicker1.click()">
+              <img src="../../../assets/profile-3.svg" alt="" class="img" />
             </div>
          </div>
       </div>
