@@ -23,6 +23,7 @@ export class ServiceDetailPage implements OnInit {
   itemList:any = [];
   cartDetils:any;
   tags: any;
+  showmodal: boolean = false;
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -80,7 +81,8 @@ export class ServiceDetailPage implements OnInit {
     })
   }
   showAllVariants(modal:any){
-    modal.setCurrentBreakpoint(0.6);
+    modal.setCurrentBreakpoint(0.5);
+    this.showmodal = true;
     this.isAddToCart = true;
     this.modal = modal;
   }

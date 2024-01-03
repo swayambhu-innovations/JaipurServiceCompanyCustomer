@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +18,7 @@ import { WidgetsModule } from 'src/app/widgets/widgets.module';
     ServiceDetailPageRoutingModule,
     WidgetsModule
   ],
-  declarations: [ServiceDetailPage,BodyComponent,RemoveExtraBrPipe]
+  declarations: [ServiceDetailPage,BodyComponent,RemoveExtraBrPipe],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ServiceDetailPageModule {}

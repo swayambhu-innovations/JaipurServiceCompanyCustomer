@@ -18,7 +18,7 @@ ion-content {
     .first-section {
       background-color: #fff;
       padding: 12px 16px;
-      margin-top: 4px;
+      margin-top: 13px;
       border: 1px solid var(--line, #e9e9e9);
 
       section {
@@ -28,7 +28,6 @@ ion-content {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #cdf4df;
         border-radius: 12px;
 
         /* card sahdow 2 */
@@ -220,7 +219,7 @@ ion-content {
 
     ion-button {
       margin-top: 22px;
-      padding: 0px 16px;
+      padding: 0px 8px;
       --border-radius: 12px;
       margin-bottom: 28px;
       --padding-top: 16px;

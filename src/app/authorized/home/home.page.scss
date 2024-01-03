@@ -343,49 +343,65 @@ homepage.scss .serviceCategory {
       .row-1-col-2 {
         display: flex;
         justify-content: end;
+        height: 32px;
 
-        .status-box {
-          display: inline-flex;
-          padding: 4px 8px;
-          justify-content: center;
-          align-items: center;
-          gap: 8px;
-          border-radius: 4px;
-          font-size: 12px;
-          height: 30px;
+        p {
+          padding: 5px 7px;
+          border-radius: 6px;
         }
 
-        .allotmentpending {
-          background: rgba(6, 163, 184, 0.25);
-          color: var(--Allotment-Pending, #06a3b8);
+        .allotmentPending,
+        .acceptancePending,
+        .otpVerificationPending {
+          background: rgba(235, 131, 60, 0.25);
+          color: rgba(235, 131, 60, 1);
         }
-        .compelete {
-          background: rgba(7, 191, 114, 0.25);
-          color: var(--Completed, #07bf72);
+        .inProgress,
+        .jobAccepted {
+          background: rgba(255, 197, 84, 0.25);
+          color: rgba(255, 169, 0, 1);
         }
-        .progress {
-          background: rgba(215, 194, 6, 0.25);
-          color: var(--In-progress, #d7c206);
+        .completed,
+        .jobStarted {
+          background: rgba(240, 239, 255, 1);
+          color: rgba(106, 93, 255, 1);
         }
-        .canelled {
+        .discarded {
           background: #ffe1e3;
           color: #d3424a;
         }
 
-        .acceptancepending {
-          background: rgba(0, 81, 139, 0.25);
-          color: var(--Acceptance-Pending, #00518b);
-        }
+        // .allotmentpending {
+        //   background: rgba(6, 163, 184, 0.25);
+        //   color: var(--Allotment-Pending, #06a3b8);
+        // }
+        // .compelete {
+        //   background: rgba(7, 191, 114, 0.25);
+        //   color: var(--Completed, #07bf72);
+        // }
+        // .progress {
+        //   background: rgba(215, 194, 6, 0.25);
+        //   color: var(--In-progress, #d7c206);
+        // }
+        // .canelled {
+        //   background: #ffe1e3;
+        //   color: #d3424a;
+        // }
 
-        .otpverify {
-          background: rgba(0, 126, 218, 0.25);
-          color: var(--OTP-Verification, #007eda);
-        }
+        // .acceptancepending {
+        //   background: rgba(0, 81, 139, 0.25);
+        //   color: var(--Acceptance-Pending, #00518b);
+        // }
 
-        .expired {
-          background: rgba(168, 168, 168, 0.25);
-          color: var(--Expired, #a8a8a8);
-        }
+        // .otpverify {
+        //   background: rgba(0, 126, 218, 0.25);
+        //   color: var(--OTP-Verification, #007eda);
+        // }
+
+        // .expired {
+        //   background: rgba(168, 168, 168, 0.25);
+        //   color: var(--Expired, #a8a8a8);
+        // }
       }
 
       p {

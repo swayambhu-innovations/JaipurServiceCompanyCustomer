@@ -52,6 +52,7 @@ ion-content {
     flex-direction: row;
     border-bottom: 3px solid #e6e6e6;
     align-items: center;
+    padding-top: 0;
   }
   .serviceTitle {
     font-size: 16px;
@@ -159,7 +160,7 @@ ion-content {
     margin: 0px 10px;
   }
   .maskimage {
-    width: 18%;
+    width: 22%;
 
     img {
       width: 100%;
@@ -280,6 +281,7 @@ ion-content {
   animation-name: slideInRight;
   animation-duration: 300ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  margin-top: 27px;
 }
 
 @keyframes slideInRight {
@@ -547,6 +549,7 @@ ion-content {
 ion-content.noItems {
   .empty-cart-img {
     margin: 40px;
+    margin-top: 100px;
   }
   .spacer {
     height: 50px;
@@ -574,6 +577,7 @@ ion-content.noItems {
       line-height: 20px;
       text-align: center;
       width: 80%;
+      margin-top: 10px;
     }
   }
 }

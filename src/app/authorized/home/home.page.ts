@@ -9,7 +9,10 @@ import { log } from 'console';
 import { ProfileService } from '../db_services/profile.service';
 import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-const CASHE_FOLDER = "CASHED_IMG";
+import { BookingService } from '../booking/booking.service';
+import { LoadingController } from '@ionic/angular';
+import Utils from '../common/util';
+const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
   image: string;
@@ -22,8 +25,8 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   todayDate: number = Date.now();
+  utils: any;
 
   promotionalBanners: bannerConfig[] = [
     {
@@ -50,43 +53,53 @@ export class HomePage implements OnInit {
 
   // stageClasses = {
   //   pending: "red",
-  //   complete: 
+  //   complete:
   // }
-
-
-
 
   banners: any[] = [];
   recentActivityData: any[] = [];
   categories: any[] = []; // added by ronak
   icon: any[] = []; // added by ronak
- 
 
-  constructor(private router: Router, private profileService: ProfileService,private dataProvider:DataProviderService, public homeService: HomeService, private imageService: FileService, private http: HttpClient) {
-
+  constructor(
+    private router: Router,
+    private profileService: ProfileService,
+    private dataProvider: DataProviderService,
+    public homeService: HomeService,
+    private imageService: FileService,
+    private http: HttpClient,
+    public bookingService:BookingService,
+    private loadingController: LoadingController
+  ) {
+    this.utils = Utils.stageMaster;
+    bookingService.bookingsSubject.subscribe(  bookings=> {
+      
+    })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let loader = await this.loadingController.create({message:'Please wait...'});
+    loader.present();
     this.fetchBanners();
     this.recentActivity();
     this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
-    this.dataProvider.mainCategories.subscribe(categories => {
+    this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;
-    })
+    });
+    loader.dismiss();
   }
 
   fetchBanners() {
     this.homeService.getBanners().then((images) => {
       this.banners = images.docs.map((doc) => {
-        return doc.data()
+        return doc.data();
       });
       this.getImage(this.banners[0].img);
     });
   }
   // added by ronak
   async fetchMainCategory() {
-
     // await this.homeService.getCategory().then((name) => {
     //   this.categories = name.docs.map((doc) => {
     //     this.categories = [...this.categories];
@@ -94,15 +107,24 @@ export class HomePage implements OnInit {
     //   });
     // })
   }
+
+  isFutureDate(date: Date|undefined) {
+    if (!date) return false;
+    // return true if date is of tomorrow or later
+    let maxTimeToday = new Date();
+    maxTimeToday.setHours(23, 59, 59, 999);
+    return date > maxTimeToday;
+  }
+  
   fetchMainCategoryIcon() {
     this.homeService.getCategory().then((icon) => {
       this.icon = icon.docs.map((doc) => {
         this.icon = [...this.icon];
-        return doc.data()
+        return doc.data();
       });
-    })
+    });
   }
-  // till here 
+  // till here
 
   cart() {
     this.router.navigate(['cart']);
@@ -119,13 +141,12 @@ export class HomePage implements OnInit {
     this.router.navigate(['notification']);
   }
 
-
-  async recentActivity(){
+  async recentActivity() {
     await this.homeService.getRecentBookings().then((activity) => {
       this.recentActivityData = activity.docs.map((doc) => {
         return doc.data();
-      })
-    })
+      });
+    });
   }
 
   condition: boolean = true;
@@ -215,38 +236,40 @@ export class HomePage implements OnInit {
   getImage(url: string) {
     let imageName = url.split('/').pop();
     if (imageName?.includes('?')) {
-      imageName = imageName.split("?")[0];
-      imageName = imageName.replaceAll("%2", "");
+      imageName = imageName.split('?')[0];
+      imageName = imageName.replaceAll('%2', '');
     }
     let fileType = url.split('.').pop();
     if (fileType?.includes('?')) {
-      fileType = fileType.split("?")[0];
+      fileType = fileType.split('?')[0];
     }
     //debugger
     Filesystem.readFile({
       directory: Directory.Cache,
-      path: `${CASHE_FOLDER}/${imageName}`
-    }).then(async readFile => {
-      //console.log("Local File",imageName, readFile);
-      if (readFile.data === "") {
-        let file = await this.saveImage(url, imageName);
-        // console.log("server file")
-        return `data:image/${fileType};base64,${file}`;
-      } else
-        return `data:image/${fileType};base64,${readFile.data}`;
-    }).catch(async e => {
-      // wirte a file
-      //console.log("e........: ", e)
-      let file = await this.saveImage(url, imageName);
-      Filesystem.readFile({
-        directory: Directory.Cache,
-        path: `${CASHE_FOLDER}/${imageName}`
-      }).then(readFile => {
-        return `data:image/${fileType};base64,${readFile.data}`;
+      path: `${CASHE_FOLDER}/${imageName}`,
+    })
+      .then(async (readFile) => {
+        //console.log("Local File",imageName, readFile);
+        if (readFile.data === '') {
+          let file = await this.saveImage(url, imageName);
+          // console.log("server file")
+          return `data:image/${fileType};base64,${file}`;
+        } else return `data:image/${fileType};base64,${readFile.data}`;
       })
-    }).finally(() => {
-      // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
-    });
+      .catch(async (e) => {
+        // wirte a file
+        //console.log("e........: ", e)
+        let file = await this.saveImage(url, imageName);
+        Filesystem.readFile({
+          directory: Directory.Cache,
+          path: `${CASHE_FOLDER}/${imageName}`,
+        }).then((readFile) => {
+          return `data:image/${fileType};base64,${readFile.data}`;
+        });
+      })
+      .finally(() => {
+        // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
+      });
   }
 
   async saveImage(url: string, path) {
@@ -274,34 +297,37 @@ export class HomePage implements OnInit {
 
     const response: any = await fetch(url, {
       headers: new Headers({
-        'Origin': location.origin
+        Origin: location.origin,
       }),
-      mode: 'no-cors'
-    }).then(response => {
-      // console.log("response....... ",response.body)
-    }).catch(error => {
-      console.log("errror.....", error);
-    });
+      mode: 'no-cors',
+    })
+      .then((response) => {
+        // console.log("response....... ",response.body)
+      })
+      .catch((error) => {
+        console.log('errror.....', error);
+      });
     // convert to a Blob
     // debugger
     let blob = await response.body?.blob();
-    const convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-      const reader = new FileReader;
-      reader.onerror = reject;
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      //console.log("blob...........: ",blob)
-      reader.readAsDataURL(blob);
-    });
+    const convertBlobToBase64 = (blob: Blob) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        //console.log("blob...........: ",blob)
+        reader.readAsDataURL(blob);
+      });
     // convert to base64 data, which the Filesystem plugin requires
-    const base64Data = await convertBlobToBase64(blob) as string;
+    const base64Data = (await convertBlobToBase64(blob)) as string;
     // console.log("Saving.................");
 
     const savedFile = await Filesystem.writeFile({
       path: `${CASHE_FOLDER}/${path}`,
       data: base64Data,
-      directory: Directory.Cache
+      directory: Directory.Cache,
     });
     return savedFile;
   }
