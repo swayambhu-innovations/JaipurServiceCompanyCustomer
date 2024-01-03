@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, getDocs, query, where } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -8,16 +8,15 @@ export class AddressService {
   constructor(private firestore: Firestore) {}
 
   loadStates() {
-    return getDocs(collection(this.firestore, 'areas'));
+    return getDocs(query(collection(this.firestore,'areas'),where("active","==",true)));
   }
+  
 
   loadCities(stateId: string) {
-    return getDocs(collection(this.firestore, 'areas', stateId, 'cities'));
+    return getDocs(query(collection(this.firestore,'areas', stateId, 'cities'),where("active","==",true)));
   }
 
   loadAreas(stateId: string, cityId: string) {
-    return getDocs(
-      collection(this.firestore, 'areas', stateId, 'cities', cityId, 'areas'),
-    );
+    return getDocs(query(collection(this.firestore, 'areas', stateId, 'cities', cityId, 'areas'),where("active",'==',true)));
   }
 }
