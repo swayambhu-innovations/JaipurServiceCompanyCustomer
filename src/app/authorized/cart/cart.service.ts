@@ -10,6 +10,7 @@ import { LoadingController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class CartService {
+  selectedCatalogue:any;
   cart:Booking[] = [];
   applicableDiscounts :any[] = [];
   discounts:any[] = [];
@@ -49,6 +50,43 @@ export class CartService {
     });
 
     
+  }
+
+  async getServices(serviceCatalogueId:string,mainCategoryId: string, subCategoryId: string) {
+    return await Promise.all(
+      (
+        await getDocs(
+          collection(
+            this.firestore,
+            'service-catalogue',
+            serviceCatalogueId,
+            'categories',
+            mainCategoryId,
+            'categories',
+            subCategoryId,
+            'services'
+          )
+        )
+      ).docs.map((service) => {
+        return {
+          id: service.id,
+          name: service.data()['name'],
+          image: service.data()['image'],
+          video: service.data()['video'],
+          color:service.data()['color'],
+          hsnCode:service.data()['hsnCode'],
+          reviewEditable:service.data()['reviewEditable'],
+          description: service.data()['description'],
+          enabled: service.data()['enabled'],
+          allowReviews: service.data()['allowReviews'],
+          taxes:service.data()['taxes'],
+          tags:service.data()['tags'],
+          taxType:service.data()['taxType'],
+          discounts: service.data()['discounts'],
+          variants: service.data()['variants'],
+        };
+      })
+    );
   }
 
   async addToCart(userId:string,variantId:string,service:Service,mainCategory:Category,subCategory:SubCategory){

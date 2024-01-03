@@ -25,7 +25,7 @@
         </ol>
       </li>
     </ol>
-    <ion-button color="dark" (click)="selectedBooking = booking">Checkout</ion-button>
+    <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
   </div>
 </ion-content>
 
@@ -210,11 +210,17 @@
     <p class="tag-text">Yay! You have saved {{selectedBooking.billing.discount}} on final bill</p>
   </div>
 
-  <div class="recommended-container">
+  <div class="recommended-container" *ngIf="recommendedServices.length > 0">
     <h6 class="recommended-text">Recommended Add Ons</h6>
-    <div class="recommended-items-box">
-      <img src="../../../assets/images/kitchenImg.png" alt="">
+    <div class="recommended-items-box-parent">
+      <div class="recommended-items-box" *ngFor="let item of recommendedServices">
+        <ng-container *ngIf="item?.image[0]">
+          <img [src]="item?.image[0]" alt="" (click)="onClickRecommendedServices(item)">
+        </ng-container>
+        
+      </div>
     </div>
+    
   </div>
   <!-- <span  style="height: 32px; color: aqua;" ></span> -->
   <button class="select-address-button" (click)="this.dataProvider.currentBooking = selectedBooking; temp()">
