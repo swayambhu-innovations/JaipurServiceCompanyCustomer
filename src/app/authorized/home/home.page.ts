@@ -92,7 +92,8 @@ export class HomePage implements OnInit {
       if(this.homeService.isCatalogueLoaded == true && this.categories.length == 0){
         this.isNotServiceableModalOpen = true;
       }
-    })
+    });
+    loader.dismiss();
   }
 
   fetchBanners() {
