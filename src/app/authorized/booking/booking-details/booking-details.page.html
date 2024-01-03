@@ -107,7 +107,7 @@
     <div class="row-5">
       <p class="head">Services </p>
       <!-- <div class="row-6"> -->
-      <p class="body {{currentBooking?.stage}}"  >{{ utils[currentBooking?.stage || 'allotmentPending'].text }}</p>
+      <p class="body {{currentBooking?.stage}}">{{ utils[currentBooking?.stage || 'allotmentPending'].text }}</p>
       <!-- </div> -->
     </div>
     <!-- Price and Subject -->
@@ -337,7 +337,7 @@
         Cancel Booking
       </button>
     </div>
-    <div class="container" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending' || currentBooking?.stage == 'inProgress'">
+    <div class="container" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending' || currentBooking?.stage == 'inProgress'" style="margin-bottom: 25px;">
       <ion-card style="margin: 0px;">
         <ion-card-content>
           <ul>

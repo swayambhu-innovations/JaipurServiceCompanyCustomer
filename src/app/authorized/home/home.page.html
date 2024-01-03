@@ -8,7 +8,7 @@
     </span>
   </button>
   <div class="banner-container">
-    <swiper-container [loop]="true" [autoplay]="{delpay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
+    <swiper-container [loop]="true" [autoplay]="{delay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
       <swiper-slide *ngFor="let items of promotionalBanners">
         <a href="{{items.url}}">
           <img src="{{items.image}}" alt="">
@@ -17,20 +17,21 @@
     </swiper-container>
   </div>
 
-  <div class="recent-container" *ngIf="recentActivityData.length !== 0">
+  <div class="recent-container" *ngIf="bookingService.bookingsSubject != null">
     <ion-label class="label">Upcoming Bookings</ion-label>
 
     <swiper-container [loop]="true" [spaceBetween]="20">
-      <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData">
-        <!-- <div class="recent-container-details" *ngFor="let data of recentActivityData"> -->
-        <ion-grid width="100">
+      <!-- <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData"> -->
+      <swiper-slide class="recent-container-details" *ngFor="let data of bookingService.bookingsSubject | async">
+        <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
           <ion-row class="row-1">
             <ion-col>
               <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
               <p>{{data.billing.grandTotal | currency:'INR'}}</p>
             </ion-col>
             <ion-col class="row-1-col-2">
-              <ng-container *ngIf="data.stage == 'allotmentPending'">
+              <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
+              <!-- <ng-container *ngIf="data.stage == 'allotmentPending'">
                 <div class="status-box allotmentpending">
                   {{data.stage | titlecase}}
                 </div>
@@ -64,7 +65,7 @@
                 <div class="status acceptancepending">
                   {{data.stage | titlecase}}
                 </div>
-              </ng-container>
+              </ng-container> -->
 
 
             </ion-col>
@@ -167,9 +168,9 @@
   </ng-container>
 
   <div class="banner-container">
-    <swiper-container [loop]="true" [autoplay]="{delpay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
+    <swiper-container [loop]="true" [autoplay]="{delay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
       <swiper-slide *ngFor="let items of banners">
-        <img src="{{items.img}}" alt="">
+        <img style="height: 200px;" src="{{items.img}}" alt="">
       </swiper-slide>
     </swiper-container>
   </div>

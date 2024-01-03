@@ -62,7 +62,7 @@ ion-toolbar {
     }
   }
 
-  .temp-div{
+  .temp-div {
     margin-top: 10px;
     overflow: scroll;
     max-height: 50%;
@@ -86,8 +86,8 @@ ion-toolbar {
           display: flex;
           cursor: pointer;
 
-          .radio-input{
-            accent-color: black;
+          input[type="radio"] {
+            accent-color: #232323;
           }
         }
 
@@ -118,9 +118,8 @@ ion-toolbar {
   }
 }
 
-.top-address{
-  span{
+.top-address {
+  span {
     display: block;
-    
   }
 }

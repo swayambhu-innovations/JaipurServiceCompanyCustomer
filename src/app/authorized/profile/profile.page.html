@@ -21,13 +21,8 @@
       </ng-template>
     </ion-modal>
 
-    <!-- Close Icon -->
-    <!-- <ion-button fill="clear" class="close-btn" (click)="close()">
-      <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-    </ion-button> -->
     <!-- Profile -->
-    <img src="https://api.dicebear.com/6.x/initials/svg?seed"
-      class="profile-pic" />
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic" />
     <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.userData?.name}}</h4>
   </ion-card>
 
@@ -39,7 +34,7 @@
         <img style="padding: auto;" class="icons" src="../../assets/User_2.svg" alt="" />
         <p>Edit Profile</p>
       </div>
-      
+
     </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../booking/upcoming-history">
       <div class="w-100 d-flex align-items-center">
@@ -49,22 +44,19 @@
     </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../select-address">
       <div class="w-100 d-flex align-items-center">
-        <img
-        style="padding: auto;" class="icons" src="../../assets/location.svg" alt="" />
-      <p>Address Book</p>
+        <img style="padding: auto;" class="icons" src="../../assets/location.svg" alt="" />
+        <p>Address Book</p>
       </div>
     </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../no-notification">
       <div class="w-100 d-flex align-items-center">
-        <img
-        style="padding: auto;" class="icons" src="../../assets/Group 1000002396.svg" alt="" />
-      <p>Notifications</p>
+        <img style="padding: auto;" class="icons" src="../../assets/Group 1000002396.svg" alt="" />
+        <p>Notifications</p>
       </div>
     </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons">
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons"
-        src="../../assets/info-circle.svg" alt="" />
+        <img style="padding:auto;" class="icons" src="../../assets/info-circle.svg" alt="" />
         <p>About</p>
       </div>
     </ion-button>
@@ -74,20 +66,21 @@
         <p>Invite Friend</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
+    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../contact-us">
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons"
-        src="../../assets/Call(1).svg" alt="" />
+        <img style="padding:auto;" class="icons" src="../../assets/Call(1).svg" alt="" />
         <p>Contact Us</p>
       </div>
     </ion-button>
 
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
+    <ion-button expand="block" fill="clear" class="side-buttons">
       <div class="w-100 d-flex align-items-center shreeva">
-        <img style="padding:auto;" class="icons"
-        src="../../../assets/images/shreevaIcon.png" alt="" />
-        <p>Powered By Shreeva</p>
+        <a href="https://shreeva.in/" target="_blank">
+          <img style="padding:auto;" class="icons" src="../../../assets/images/shreevaIcon.png" alt="" />
+          <p>Powered By Shreeva</p>
+        </a>
       </div>
+
     </ion-button>
 
     <!-- <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
@@ -99,14 +92,14 @@
     </ion-button> -->
 
 
-    <!-- <ion-button class="side-buttons"  fill="clear"  expand="block">
+    <!-- <ion-button class="side-buttons" id="open-modal"  fill="clear"  expand="block">
       <div class="w-100 d-flex align-items-center">
         <img src="../../assets/Icons.svg" style="padding:auto;" class="icons"/>
         <p>Sign out</p>
       </div>
-    </ion-button>
+    </ion-button> -->
 
-    <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+    <!-- <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
       <ng-template>
         <ion-card-title class="logout-title">Logout</ion-card-title>
         <ion-item-divider></ion-item-divider>

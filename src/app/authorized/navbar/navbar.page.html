@@ -26,19 +26,41 @@
   *ngIf = "(router.url == '/authorized/profile/profile-info?from=profile') || (router.url == '/authorized/home') ||  (router.url == '/authorized/cart/all/all') || (router.url == '/authorized/booking/upcoming-history')"
       >
         <ion-tab-button tab="home" class="footer-ion-tab-button" >
-          <img src="assets/icon/navbar/home.svg" alt="">
+          <ng-container *ngIf = "router.url == '/authorized/home' else home">
+            <img src="assets/icon/navbar/home.svg" alt="">
+          </ng-container >
+          <ng-template #home>
+            <img src="assets/icon/navbar/home1.svg" alt="">
+          </ng-template>
+          
           <ion-label>Home</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="booking/upcoming-history" class="footer-ion-tab-button">
-          <img src="assets/icon/navbar/calendar.svg" alt="">
+          <ng-container *ngIf = "router.url == '/authorized/booking/upcoming-history' else calender">
+            <img src="assets/icon/navbar/calendar1.svg" alt="">
+          </ng-container >
+          <ng-template #calender>
+            <img src="assets/icon/navbar/calendar.svg" alt="">
+          </ng-template>
+          
           <ion-label>Bookings</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="cart/all/all" class="footer-ion-tab-button">
-          <img src="assets/icon/navbar/cart.svg" alt="">
+          <ng-container *ngIf = "router.url == '/authorized/cart/all/all' else cart">
+            <img src="assets/icon/navbar/cart1.svg" alt="">
+          </ng-container >
+          <ng-template #cart>
+            <img src="assets/icon/navbar/cart.svg" alt="">
+          </ng-template>
           <ion-label>Cart</ion-label>
         </ion-tab-button>
         <ion-tab-button tab="profile" class="footer-ion-tab-button">
-          <img src="assets/icon/navbar/profile.svg" alt="">
+          <ng-container *ngIf = "router.url == '/authorized/profile' else profile">
+            <img src="assets/icon/navbar/profile1.svg" alt="">
+          </ng-container >
+          <ng-template #profile>
+            <img src="assets/icon/navbar/profile.svg" alt="">
+          </ng-template>
           <ion-label>Profile</ion-label>
         </ion-tab-button>
     </ion-tab-bar>
