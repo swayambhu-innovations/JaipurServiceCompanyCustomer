@@ -17,19 +17,19 @@
             <img [src]="image" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item active">
-            <video [src]="this.matchingService?.video" class="d-block w-100"></video>
+            <video  autoplay [src]="this.matchingService?.video" class="d-block w-100"></video>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        </button> -->
+        <!-- <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button> -->
       </div>  
     </div>
     
@@ -48,7 +48,7 @@
       <div class="col-3 text-end">
         <ion-label class="price">
           {{this.matchingService?.variants![0]?.price | currency:'INR': 'symbol' : '1.0-0'}}
-          <span>{{this.matchingService?.variants![0]?.price | currency:'INR' : 'symbol' : '1.0-0'}}</span>
+          <!-- <span>{{this.matchingService?.variants![0]?.price | currency:'INR' : 'symbol' : '1.0-0'}}</span> -->
         </ion-label>
       </div>
     </div>

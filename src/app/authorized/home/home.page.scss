@@ -483,3 +483,48 @@ homepage.scss .serviceCategory {
   animation-duration: 300ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
+
+
+.marquee {
+  width: 100%;
+  border: 1px solid red;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee ion-row {
+  display: inline-block;
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(82vw);
+  }
+  100% {
+    transform: translateX(-270vw);
+  }
+}
+
+.marquee1 {
+  width: 100%;
+  border: 1px solid red;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee1 ion-row {
+  display: inline-block;
+  animation: marquee1 8s linear infinite;
+}
+
+@keyframes marquee1 {
+  0% {
+    transform: translateX(-270vw);
+  }
+  100% {
+    transform: translateX(82vw);
+  }
+}
