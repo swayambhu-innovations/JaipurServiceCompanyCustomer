@@ -28,7 +28,7 @@ export class ProfileInfoPage implements OnInit {
   selectedGender: string = '';
   isGenderSelected: boolean = false;
   isFocused: boolean = false;
-
+  photoUrl:any ;
   urlparam: string = '';
 
   constructor(
@@ -64,8 +64,6 @@ export class ProfileInfoPage implements OnInit {
       this.urlparam = param.from;
       if (param.from === 'profile') {
         this.userData = this.dataProvider.currentUser?.userData;
-
-  
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
@@ -179,5 +177,27 @@ export class ProfileInfoPage implements OnInit {
     }
 
     console.log('Dismissed');
+  }
+  setPhoto(event: any) {
+    this.photoUrl = event.target.files[0];
+    this.updateUser(this.photoUrl);
+  }
+  async updateUser(file:any){
+    let loader = await this.loadingController.create({
+      message: 'Updating Coustomer Details.........',
+    });
+    loader.present();
+    this.profileService.updatePic(file,this.dataProvider.currentUser!.user.uid)
+    .then((url) => {
+      this.userData.photoUrl = url;
+     // this.auth.updateUserDate();
+      // this.route.navigateByUrl('/authorized/select-address');
+      // this.userProfileForm.reset()
+      loader.dismiss();
+    })
+    .catch((error: any) => {
+      console.log(error);
+    })
+    .finally(() => loader.dismiss());
   }
 }
