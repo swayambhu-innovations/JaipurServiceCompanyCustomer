@@ -94,10 +94,12 @@
       </div>
       <div class="row-2">
         <section style="margin-left: 10px;">
-          <p class="head">{{this.dataProvider.currentBooking?.address?.address1}}</p>
-          <p class="body">{{this.dataProvider.currentBooking?.address?.cityName}}</p>
-          <p class="body">{{this.dataProvider.currentBooking?.address?.state}}</p>
-          <p class="body">{{this.dataProvider.currentBooking?.address?.pincode}}</p>
+          <p class="head">{{this.dataProvider.currentBooking?.address?.name}}</p>
+          <p class="body">{{this.dataProvider.currentBooking?.address?.addressLine1}}</p>
+          <p class="body"><b>Locality:</b> {{this.dataProvider.currentBooking?.address?.locality}}</p>
+          <p class="body"><b>City:</b> {{this.dataProvider.currentBooking?.address?.cityName}}</p>
+          <p class="body"><b>State:</b> {{this.dataProvider.currentBooking?.address?.state}}</p>
+          <p class="body"><b>Pincode:</b> {{this.dataProvider.currentBooking?.address?.pincode}}</p>
         </section>
       </div>
     </div>

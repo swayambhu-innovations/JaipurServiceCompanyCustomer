@@ -82,7 +82,7 @@
               </span>
             </p>
             <div class="stock">
-              <button fill="clear" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
+              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
                 <img src="../../../assets/remove.svg" alt="">
               </button>
               <p class="item-count">{{variant.quantity}}</p>
