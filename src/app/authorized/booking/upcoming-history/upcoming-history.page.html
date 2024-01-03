@@ -13,10 +13,10 @@
   </div>
 
   <div class="bookings">
-    <ng-container *ngIf="bookingService.bookingsSubject != undefined else noBookings">
-      <ng-container *ngFor="let details of bookingService.bookingsSubject | async">
+    <ng-container *ngIf="bookings.length > 0 else noBookings">
+      <ng-container *ngFor="let details of bookings">
         <div class="details-1" routerLink="../booking-details/{{details.id}}"
-          *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate()) : isPastDate(details.timeSlot?.date?.toDate())">
+          *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate(),details.stage) : isPastDate(details.timeSlot?.date?.toDate(),details.stage)">
           <div class="head">
             <div class="col-3 img-div">
               <div class="img-circle-div">

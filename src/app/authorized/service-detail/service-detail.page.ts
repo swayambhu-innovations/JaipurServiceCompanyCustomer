@@ -80,11 +80,16 @@ export class ServiceDetailPage implements OnInit {
       this.cartDetils = cartDetils;
     })
   }
+
   showAllVariants(modal:any){
     modal.setCurrentBreakpoint(0.5);
     this.showmodal = true;
-    this.isAddToCart = true;
+    this.isAddToCart = false;
     this.modal = modal;
+  }
+
+  ionBreakpointDidChange(event){
+    this.isAddToCart = !this.isAddToCart;
   }
 
   ViewCart(modal:any){
@@ -93,6 +98,7 @@ export class ServiceDetailPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.isAddToCart = false;
     this.modal.dismiss();
   }
 

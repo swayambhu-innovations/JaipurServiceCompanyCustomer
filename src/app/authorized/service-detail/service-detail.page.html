@@ -17,7 +17,7 @@
             <img [src]="image" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item active">
-            <video  autoplay [src]="this.matchingService?.video" class="d-block w-100"></video>
+            <video playsinline autoplay muted loop [src]="this.matchingService?.video" class="d-block w-100"></video>
           </div>
         </div>
         <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -173,20 +173,46 @@
           Variants</ion-button></p>
     </div> -->
 
-    <ion-modal #modal3 id="modal3" class="my-class" [isOpen]="showmodal" trigger="open-modal" [keyboardClose]="false" [showBackdrop]="true"
-      [initialBreakpoint]="0.11" [breakpoints]="[0.12, 0.12, 0.5]" [backdropDismiss]="false" [backdropBreakpoint]="0.5">
+    <ion-modal #modal3 
+    (ionBreakpointDidChange)="ionBreakpointDidChange($event)"
+    id="modal3" class="my-class" [isOpen]="showmodal" trigger="open-modal" [keyboardClose]="false" [backdrop]="true"
+      [initialBreakpoint]="0.09" [breakpoints]="[0.10, 0.10, 0.5]" [backdropDismiss]="false">
       <ng-template>
         <ion-content class="ion-padding">
-          <div *ngIf="isAddToCart" class="coupon">
-            <img src="../../../assets/couponTag.svg" alt="">
-            <p>Apply Coupons to save upto 70%!</p>
-          </div>
-          <div class="row variants_modal" style="align-items: center;" *ngIf="showVariant">
-            <div class="col-6 details" *ngIf="!isAddToCart">
-              <h3>{{matchingService?.variants?.length}} Variants Available</h3>
-              <p>Starting from {{startPrice | currency:'INR'}}</p>
+          
+          <div class=" variants_modal" style="align-items: center;" *ngIf="showVariant">
+            <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == false}">
+              <div class="col-6 details" >
+                <h3>{{matchingService?.variants?.length}} Variants Available</h3>
+                <p>Starting from {{startPrice | currency:'INR'}}</p>
+              </div>
+              <div class="col-6 see-all-variants" style="text-align: end;">
+                <p>
+                  <ion-button class="service-common-button" color="dark" (click)="showAllVariants(modal3)">
+                    See All Variants
+                  </ion-button>
+                </p>
+              </div>
             </div>
-            <div class="col-6 cart-details" *ngIf="isAddToCart">
+            <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
+              <div class="col-6 cart-details">
+                <h3 class="">
+                  {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) |
+                  currency:'INR'}} <p>{{
+                    this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
+                    }} items</p>
+                </h3>
+              </div>
+              <div class="col-6 see-all-variants" style="text-align: end;">
+                <p class="view-cart">
+                  <ion-button class="service-common-button" color="dark" (click)="ViewCart(modal3)">
+                    View Cart
+                  </ion-button>
+                </p>
+              </div>
+            </div>
+            
+            <!-- <div class="col-6 cart-details services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
               <h3 class="">
                 {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) |
                 currency:'INR'}} <p>{{
@@ -195,13 +221,22 @@
               </h3>
             </div>
             <div class="col-6 see-all-variants" style="text-align: end;">
-              <p *ngIf="!isAddToCart"><ion-button color="dark" (click)="showAllVariants(modal3)">See All
-                  Variants</ion-button></p>
-              <p *ngIf="isAddToCart" class="view-cart"><ion-button color="dark" (click)="ViewCart(modal3)">View
-                  Cart</ion-button></p>
-            </div>
+                <p [ngClass]="{'services-button' : isAddToCart == false}" class="services-button-view">
+                  <ion-button class="service-common-button" color="dark" (click)="showAllVariants(modal3)">
+                    See All Variants
+                  </ion-button>
+                </p>
+                <p [ngClass]="{'services-button' : isAddToCart == true}" class="view-cart services-button-view">
+                  <ion-button class="service-common-button" color="dark" (click)="ViewCart(modal3)">
+                    View Cart
+                  </ion-button>
+                </p>
+            </div> -->
           </div>
-
+          <div class="coupon">
+            <img src="../../../assets/couponTag.svg" alt="">
+            <p>Apply Coupons to save upto 70%!</p>
+          </div>
           <ion-content [scrollEvents]="true" style="height: 36%;">
             <ion-list class="variants">
               <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">

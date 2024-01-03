@@ -19,7 +19,6 @@ export class BookingService {
   ) {
     collectionData(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'bookings')).subscribe((bookings:any)=>{
       this.bookings = bookings;
-      console.log("Bookings loaded",bookings);
       this.bookingsSubject.next(this.bookings);
     })
   }

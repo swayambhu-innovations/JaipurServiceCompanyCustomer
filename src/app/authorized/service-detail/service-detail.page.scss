@@ -480,3 +480,19 @@ ion-button {
   display: flex;
   flex-wrap: nowrap;
 }
+
+.service-common-button{
+  min-width: 143px;
+}
+
+.services-button-view{
+  display: flex;
+  align-items: center;
+  height: 0px;
+  transition: ease-in-out 400ms height;
+  overflow: hidden;
+}
+
+.services-button-view.services-button{
+  height: auto;
+}

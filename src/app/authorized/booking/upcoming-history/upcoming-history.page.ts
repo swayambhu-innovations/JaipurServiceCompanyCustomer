@@ -14,6 +14,7 @@ export class UpcomingHistoryPage implements OnInit {
   name2 = 'Bookings';
   @Input() title!: string;
   highlightedName: string = 'Pending';
+  bookings:any[] = [];
 
   visibilityMode:'upcoming'|'history' = 'upcoming';
 
@@ -77,7 +78,9 @@ export class UpcomingHistoryPage implements OnInit {
     public bookingService:BookingService
   ) {
     this.utils = Utils.stageMaster;
-    bookingService.bookingsSubject.subscribe(bookings=> {
+    this.bookings = this.bookingService.bookings;
+    this.bookingService.bookingsSubject.subscribe(bookings=> {
+      this.bookings = bookings;
       console.log("bookings..............",bookings)
     })
   }
@@ -85,15 +88,18 @@ export class UpcomingHistoryPage implements OnInit {
   
   ngOnInit() {}
 
-  isFutureDate(date: Date|undefined) {
+  isFutureDate(date: Date|undefined,stage) {
     if (!date) return false;
+
+    if(stage == 'expired' || stage == 'discarded') return false;
     // return true if date is of tomorrow or later
     let maxTimeToday = new Date();
     maxTimeToday.setHours(23, 59, 59, 999);
     return date > maxTimeToday;
   }
 
-  isPastDate(date: Date|undefined) {
+  isPastDate(date: Date|undefined,stage) {
+    if(stage == 'expired' || stage == 'discarded') return true;
     if (!date) return false;
     // return true if date is of yesterday or earlier
     return date < new Date();
