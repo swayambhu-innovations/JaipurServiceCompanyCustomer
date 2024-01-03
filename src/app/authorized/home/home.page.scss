@@ -455,3 +455,15 @@ homepage.scss .serviceCategory {
     }
   }
 }
+.got-it-button {
+  width: 90%;
+  margin: 0 5%;
+  background-color: #1a1d1f;
+  color: #ffffff;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 10px;
+  animation-name: slideInRight;
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}

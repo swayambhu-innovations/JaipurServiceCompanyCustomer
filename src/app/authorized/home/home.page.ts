@@ -22,9 +22,9 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   todayDate: number = Date.now();
-
+  isLoaded : boolean = false;
+  isNotServiceableModalOpen: boolean = false;
   promotionalBanners: bannerConfig[] = [
     {
       image: 'assets/banners/dealSlide1.svg',
@@ -72,7 +72,11 @@ export class HomePage implements OnInit {
     this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
     this.dataProvider.mainCategories.subscribe(categories => {
+      this.isLoaded = true;
       this.categories = categories;
+      if(this.homeService.isCatalogueLoaded == true && this.categories.length == 0){
+        this.isNotServiceableModalOpen = true;
+      }
     })
   }
 
@@ -305,6 +309,19 @@ export class HomePage implements OnInit {
     });
     return savedFile;
   }
+
+  onNotServiceableDismiss(event){
+
+  }
+
+  onGotItClick() {
+    this.isNotServiceableModalOpen = false;
+    setTimeout(() =>{
+      this.router.navigate(['/authorized/select-address']);
+    },100);
+    
+  }
+  
 }
 
 export interface Banner {
