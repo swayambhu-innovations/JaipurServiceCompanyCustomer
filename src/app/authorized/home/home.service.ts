@@ -14,6 +14,7 @@ import { where } from 'firebase/firestore';
 import { Router } from '@angular/router';
 import { AddressService } from '../db_services/address.service';
 import { LoadingController } from '@ionic/angular';
+import { CartService } from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root', 
@@ -28,7 +29,8 @@ export class HomeService {
     private dataProvider: DataProviderService,
     private addressService: AddressService,
     private router:Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    public _cartService : CartService
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
       this.dataProvider.selectedAddress.subscribe(async address=>{
@@ -49,6 +51,7 @@ export class HomeService {
           }else{
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
+          this._cartService.selectedCatalogue = address[0].selectedArea.serviceCatalogue;
         }else{
               //this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
               // this.router.navigate(['authorized/new-address',{isfistTime: true}],);

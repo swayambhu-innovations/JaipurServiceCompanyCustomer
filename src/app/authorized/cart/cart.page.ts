@@ -29,6 +29,7 @@ export class HomePage {}
 })
 export class CartPage implements OnInit {
   // action sheet buttons
+  recommendedServices :any[] = [];
   isModalOpen = true;
   isCouponActive:boolean =false;
   bookings:Booking[]=[];
@@ -193,5 +194,18 @@ export class CartPage implements OnInit {
       return serviceFind && booking.mainCategory.id == this.mainCategoryId
     });
   }
+
+  async onSelectBooking(booking){
+    this.selectedBooking = booking;
+    const servicesList = await this.cartService.getServices(this.cartService.selectedCatalogue, this.selectedBooking?.mainCategory.id ?? '', this.selectedBooking?.subCategory.id ?? '');
+    this.recommendedServices = servicesList.filter((item) => {
+      return item.id != this.selectedBooking?.services[0].serviceId;
+    });
+  }
+
+  onClickRecommendedServices(service){
+    this.router.navigate(['authorized','service-detail',this.selectedBooking?.mainCategory.id, this.selectedBooking?.subCategory.id,service.id]);
+  }
+  
 }
   

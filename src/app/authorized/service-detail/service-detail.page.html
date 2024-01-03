@@ -176,7 +176,8 @@
     <ion-modal #modal3 
     (ionBreakpointDidChange)="ionBreakpointDidChange($event)"
     id="modal3" class="my-class" [isOpen]="showmodal" trigger="open-modal" [keyboardClose]="false" [backdrop]="true"
-      [initialBreakpoint]="0.09" [breakpoints]="[0.10, 0.10, 0.5]" [backdropDismiss]="false">
+      [initialBreakpoint]="0.09" [breakpoints]="[0.10, 0.10, 0.5]" [backdropDismiss]="false"
+      [backdropBreakpoint]="backdropValue">
       <ng-template>
         <ion-content class="ion-padding">
           

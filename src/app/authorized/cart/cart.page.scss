@@ -595,10 +595,15 @@ ion-content.noItems {
     color: var(--neutral-07, #1a1d1f);
     font-size: 18px;
   }
-
-  .recommended-items-box {
+  .recommended-items-box-parent{
     display: flex;
+    gap: 7px 2%;
+    flex-wrap: wrap;
+    .recommended-items-box { 
+      flex: 0 0 49%;
+    }
   }
+  
 }
 .par-info {
   font-size: 12px;

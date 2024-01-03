@@ -24,6 +24,7 @@ export class ServiceDetailPage implements OnInit {
   cartDetils:any;
   tags: any;
   showmodal: boolean = false;
+  backdropValue: any = 0.5;
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -99,6 +100,7 @@ export class ServiceDetailPage implements OnInit {
 
   ionViewWillLeave() {
     this.isAddToCart = false;
+    this.showmodal = false;
     this.modal.dismiss();
   }
 
