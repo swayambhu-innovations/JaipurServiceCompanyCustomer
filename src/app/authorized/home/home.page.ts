@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
@@ -12,6 +12,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
 import Utils from '../common/util';
+import Swiper from 'swiper';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -24,7 +25,8 @@ interface bannerConfig {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   todayDate: number = Date.now();
   isLoaded : boolean = false;
   isNotServiceableModalOpen: boolean = false;
@@ -62,6 +64,7 @@ export class HomePage implements OnInit {
   recentActivityData: any[] = [];
   categories: any[] = []; // added by ronak
   icon: any[] = []; // added by ronak
+  swiper!: Swiper;
 
   constructor(
     private router: Router,
@@ -94,6 +97,26 @@ export class HomePage implements OnInit {
       }
     });
     loader.dismiss();
+  }
+
+  ngAfterViewInit() {
+    this.swiper = new Swiper(this.swiperContainer.nativeElement, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay : 2000
+      },
+      
+    });
+  }
+  ngOnDestroy() {
+    if (this.swiper) {
+      this.swiper.destroy();
+    }
   }
 
   fetchBanners() {
