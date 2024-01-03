@@ -13,12 +13,19 @@
     <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm">
       <div class="container1">
-        <div class="outer"
-          [ngStyle]="{'background-image': 'url(' +  this.userData.photoUrl + ')'}">
+        <div class="outer" *ngIf="this.userData?.photoUrl"
+          [ngStyle]="{'background-image': 'url(' +  this.userData?.photoUrl + ')'}">
             <div class="inner" (click)="profilePicker1.click()">
                <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
             </div>
+        </div>
+        <div class="outer dummy-profile-pic" *ngIf="!this.userData?.photoUrl"
+        [ngStyle]="{'background-image': 'url(assets/images/dummy-profile.jpg)'}"
+          (click)="profilePicker1.click()">
+          <div class="inner">
+            <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
          </div>
+        </div>
       </div>
       <input
         type="file"
