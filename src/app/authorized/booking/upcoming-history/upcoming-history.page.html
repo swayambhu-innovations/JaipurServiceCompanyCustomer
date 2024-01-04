@@ -4,17 +4,17 @@
 <!-- Buttons -->
 <div class="main">
   <div class="container">
-    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}" (click)="visibilityMode = 'upcoming'">
+    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}" (click)="changeVisibility('upcoming')">
       Upcoming
     </button>
-    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}" (click)="visibilityMode = 'history'">
+    <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}" (click)="changeVisibility('history')">
       History
     </button>
   </div>
 
   <div class="bookings">
-    <ng-container *ngIf="bookings.length > 0 else noBookings">
-      <ng-container *ngFor="let details of bookings">
+    <ng-container *ngIf="filteredBookings.length > 0; else noBookings">
+      <ng-container *ngFor="let details of filteredBookings">
         <div class="details-1" routerLink="../booking-details/{{details.id}}"
           *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate(),details.stage) : isPastDate(details.timeSlot?.date?.toDate(),details.stage)">
           <div class="head">

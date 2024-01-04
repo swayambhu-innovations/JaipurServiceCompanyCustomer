@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { Profile } from '../models/profile.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { FileService } from './file.service';
 import { LoadingController } from '@ionic/angular';
 
@@ -50,6 +50,7 @@ export class ProfileService {
   editUsers(userId:string, profileId:string, profileDetails:any){
     return updateDoc(doc(this.firestore, 'users', userId), profileDetails);
   }
+
   async updatePic(photoUrl:any,uid: string ) {
     let loader = await this.loadingController.create({
       message: 'updating Coustomer Details.........',

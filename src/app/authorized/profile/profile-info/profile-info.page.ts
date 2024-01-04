@@ -28,7 +28,7 @@ export class ProfileInfoPage implements OnInit {
   selectedGender: string = '';
   isGenderSelected: boolean = false;
   isFocused: boolean = false;
-  photoUrl:any ;
+  photoUrl: any;
   urlparam: string = '';
 
   constructor(
@@ -43,15 +43,18 @@ export class ProfileInfoPage implements OnInit {
   ) {
     console.log(this.dataProvider.currentUser?.userData);
   }
+
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     dateofbirth: ['', [Validators.required]],
     // agentGender: new FormControl('', Validators.required)
   });
+
   onUpdateText() {
     // Replace this with your own logic to set the updateText
     this.updateText = 'Updated!';
   }
+
   onFocus() {
     this.isFocused = true;
   }
@@ -59,6 +62,7 @@ export class ProfileInfoPage implements OnInit {
   onBlur() {
     this.isFocused = false;
   }
+
   ngOnInit() {
     this.activeRoute.queryParams.subscribe((param: any) => {
       this.urlparam = param.from;
@@ -67,24 +71,25 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        if(this.userData.dateofbirth){
+        if (this.userData.dateofbirth) {
           let datearray = this.userData.dateofbirth?.split("-");
           let newdate = datearray[0] + '-' + datearray[1] + '-' + datearray[2];
           let date = new DatePipe('en-US').transform(this.userData.dateofbirth, 'yyyy-MM-dd');
           this.userProfileForm.controls.dateofbirth.setValue(newdate)
         }
-        else{
+        else {
           let date = new Date().toISOString();
           this.userProfileForm.controls.dateofbirth.setValue(date)
         }
-        
-       
+
+
         this.isFromProfile = true;
       } else {
         this.isFromProfile = false;
       }
     });
   }
+
   // Click to select male and female
   async openGenderPicker() {
     const actionSheet = await this.actionSheetController.create({
@@ -104,36 +109,35 @@ export class ProfileInfoPage implements OnInit {
         },
       ],
     });
-
     await actionSheet.present();
   }
-  async nextFunction() {
 
-   let date = "";
-    if( this.userProfileForm.controls.dateofbirth.value &&  this.userProfileForm.controls.dateofbirth.value !== '' ){
+  async nextFunction() {
+    let date = "";
+    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== '') {
       date = this.userProfileForm.controls.dateofbirth.value.split('-');
-      date = date[2] + '/'+date[1] + '/' + date[0];
-    }else{
+      date = date[2] + '/' + date[1] + '/' + date[0];
+    } else {
       return;
     }
-    if( this.userProfileForm.controls.name.value &&  this.userProfileForm.controls.name.value === ''){
+    if (this.userProfileForm.controls.name.value && this.userProfileForm.controls.name.value === '') {
       return;
     }
 
     this.isSubmitForm = true;
-      if (this.selectedGender === '') {
-        this.isGenderSelected = false;
-        return;
-      } else {
-        this.isGenderSelected = true;
-      }
+    if (this.selectedGender === '') {
+      this.isGenderSelected = false;
+      return;
+    } else {
+      this.isGenderSelected = true;
+    }
     let finalData = {
-      gender:this.selectedGender,
-      dateofbirth:date,
-      name:this.userProfileForm.controls.name.value
+      gender: this.selectedGender,
+      dateofbirth: date,
+      name: this.userProfileForm.controls.name.value
     }
     let loader = await this.loadingController.create({
-      message: 'Adding Coustomer Details.........',
+      message: 'Adding Customer Details.........',
     });
 
     await loader.present();
@@ -144,11 +148,11 @@ export class ProfileInfoPage implements OnInit {
           finalData
         )
         .then(() => {
-          console.log("this.urlparam .......: ",this.urlparam )
-          if(this.urlparam === 'profile'){
+          console.log("this.urlparam .......: ", this.urlparam)
+          if (this.urlparam === 'profile') {
             this.route.navigate(['authorized/profile']);
-          }else{
-            this.route.navigate(['/authorized/new-address'],{state:{isEdit:false}});
+          } else {
+            this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
           }
           // this.userProfileForm.reset()
           loader.dismiss();
@@ -158,46 +162,39 @@ export class ProfileInfoPage implements OnInit {
         })
         .finally(() => loader.dismiss());
     } else {
-      this.profileService
+        await this.profileService
         .editUsers(
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentUser?.userData.uid,
-          this.userProfileForm.value
-        )
-        .then(() => {
-          this.auth.updateUserDate();
-          // this.route.navigateByUrl('/authorized/select-address');
-          // this.userProfileForm.reset()
-          loader.dismiss();
-        })
-        .catch((error: any) => {
-          console.log(error);
-        })
-        .finally(() => loader.dismiss());
+          finalData
+        );
+        await this.auth.updateUserDate(false);
+        loader.dismiss();
     }
-
     console.log('Dismissed');
   }
+
   setPhoto(event: any) {
     this.photoUrl = event.target.files[0];
     this.updateUser(this.photoUrl);
   }
-  async updateUser(file:any){
+
+  async updateUser(file: any) {
     let loader = await this.loadingController.create({
       message: 'Updating Coustomer Details.........',
     });
     loader.present();
-    this.profileService.updatePic(file,this.dataProvider.currentUser!.user.uid)
-    .then((url) => {
-      this.userData.photoUrl = url;
-     // this.auth.updateUserDate();
-      // this.route.navigateByUrl('/authorized/select-address');
-      // this.userProfileForm.reset()
-      loader.dismiss();
-    })
-    .catch((error: any) => {
-      console.log(error);
-    })
-    .finally(() => loader.dismiss());
+    this.profileService.updatePic(file, this.dataProvider.currentUser!.user.uid)
+      .then((url) => {
+        this.userData.photoUrl = url;
+        // this.auth.updateUserDate();
+        // this.route.navigateByUrl('/authorized/select-address');
+        // this.userProfileForm.reset()
+        loader.dismiss();
+      })
+      .catch((error: any) => {
+        console.log(error);
+      })
+      .finally(() => loader.dismiss());
   }
 }
