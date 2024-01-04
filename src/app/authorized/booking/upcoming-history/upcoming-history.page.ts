@@ -88,7 +88,9 @@ export class UpcomingHistoryPage implements OnInit {
   }
 
   
-  ngOnInit() {}
+  ngOnInit() {
+    this.changeVisibility(this.visibilityMode);
+  }
 
   changeVisibility(visibility: 'upcoming'|'history') {
     this.visibilityMode = visibility;
