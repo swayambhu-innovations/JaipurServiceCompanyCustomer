@@ -41,7 +41,7 @@ export class AuthService {
     })
   }
  
-  updateUserDate(){
+  updateUserDate(redirect?: boolean){
     this.dataProvider.checkingAuth = true;
     this.auth.onAuthStateChanged((user)=>{
       if(user){
@@ -56,7 +56,9 @@ export class AuthService {
             this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
           }else{
            /// debugger
-            this.router.navigate(['/authorized/select-address']);
+            if (redirect != false) {
+              this.router.navigate(['/authorized/select-address']);
+            }
           }
         });
       } else {

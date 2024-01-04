@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { BookingService } from '../booking.service';
 import Utils from '../../common/util';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-upcoming-history',
@@ -15,6 +16,7 @@ export class UpcomingHistoryPage implements OnInit {
   @Input() title!: string;
   highlightedName: string = 'Pending';
   bookings:any[] = [];
+  filteredBookings:any[] = [];
 
   visibilityMode:'upcoming'|'history' = 'upcoming';
 
@@ -81,12 +83,23 @@ export class UpcomingHistoryPage implements OnInit {
     this.bookings = this.bookingService.bookings;
     this.bookingService.bookingsSubject.subscribe(bookings=> {
       this.bookings = bookings;
-      console.log("bookings..............",bookings)
-    })
+    });
+    this.filteredBookings = [...this.bookings];
   }
 
   
   ngOnInit() {}
+
+  changeVisibility(visibility: 'upcoming'|'history') {
+    this.visibilityMode = visibility;
+    this.filteredBookings = this.bookings.filter((booking) => {
+      if (visibility === 'upcoming') {
+        return this.isFutureDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);
+      } else {
+        return this.isPastDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);
+      }
+    });
+  }
 
   isFutureDate(date: Date|undefined,stage) {
     if (!date) return false;
