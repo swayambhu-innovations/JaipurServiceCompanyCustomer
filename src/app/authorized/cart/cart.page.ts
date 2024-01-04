@@ -161,12 +161,13 @@ export class CartPage implements OnInit {
   orderCount: any = 2;
   async ngOnInit() {
     this.cart = this.cartService.cart;
+    this.cartLoaded = true;
     if(this.cart.length > 0){
       this.setCurrentBooking();
     }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
-      this.cartLoaded = true;
+      
       if(this.mainCategoryId != 'all'){
         this.setCurrentBooking();
       }
@@ -197,9 +198,16 @@ export class CartPage implements OnInit {
 
   async onSelectBooking(booking){
     this.selectedBooking = booking;
+    this.recommendedServices = [];
     const servicesList = await this.cartService.getServices(this.cartService.selectedCatalogue, this.selectedBooking?.mainCategory.id ?? '', this.selectedBooking?.subCategory.id ?? '');
-    this.recommendedServices = servicesList.filter((item) => {
-      return item.id != this.selectedBooking?.services[0].serviceId;
+    servicesList.map((serviceItem) => {
+      this.selectedBooking?.services.map((selectedService) => {
+        if(selectedService.serviceId == serviceItem.id){
+          serviceItem.services.map((recommended) => {
+            this.recommendedServices.push(recommended);
+          });
+        }
+      })
     });
   }
 

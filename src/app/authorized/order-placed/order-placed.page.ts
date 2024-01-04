@@ -8,7 +8,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 })
 export class OrderPlacedPage implements OnInit {
   name = 'Order Placed';
-  successLogo = 'assets/icon/confirmation/booking-success.gif';
+  successLogo = 'assets/icon/order-placed/booked.svg';
   slotStartTime:Date|undefined;
   slotEndTime:Date|undefined;
 

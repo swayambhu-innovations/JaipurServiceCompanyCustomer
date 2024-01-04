@@ -48,7 +48,10 @@ export class BookingDetailsPage implements OnInit {
           this.discount = this.currentBooking?.billing?.coupanDiscunt + this.currentBooking?.billing.discount;
           else
           this.currentBooking?.billing.discount;
-          this.jobOtp = [...booking.jobOtp];
+          if(booking?.jobOtp){
+            this.jobOtp = [...booking.jobOtp];
+          }
+          
           if(this.currentBooking)
            this.picAvalable = this.currentBooking?.picsBefore.length > 0
           let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
@@ -127,6 +130,13 @@ export class BookingDetailsPage implements OnInit {
     
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
+  }
+  ionModalDidDismiss(event){
+    this.isModalOpenCancellation = false;
+  }
+
+  onClickCancelBooking(){
+    this.isModalOpenCancellation = true;
   }
 
 }

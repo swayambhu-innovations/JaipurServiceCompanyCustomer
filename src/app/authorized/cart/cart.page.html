@@ -213,12 +213,11 @@
   <div class="recommended-container" *ngIf="recommendedServices.length > 0">
     <h6 class="recommended-text">Recommended Add Ons</h6>
     <div class="recommended-items-box-parent">
-      <div class="recommended-items-box" *ngFor="let item of recommendedServices">
-        <ng-container *ngIf="item?.image[0]">
+      <ng-container *ngFor="let item of recommendedServices">
+        <div class="recommended-items-box" *ngIf="item?.image[0]">
           <img [src]="item?.image[0]" alt="" (click)="onClickRecommendedServices(item)">
-        </ng-container>
-        
-      </div>
+        </div>
+      </ng-container>
     </div>
     
   </div>
