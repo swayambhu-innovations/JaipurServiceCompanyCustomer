@@ -39,7 +39,7 @@ export class ProfileInfoPage implements OnInit {
     private profileService: ProfileService,
     public formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
-    private auth: AuthService
+    public auth: AuthService
   ) {
     console.log(this.dataProvider.currentUser?.userData);
   }
@@ -162,16 +162,21 @@ export class ProfileInfoPage implements OnInit {
         })
         .finally(() => loader.dismiss());
     } else {
+      this.auth.isProfileUpdated= true;
         await this.profileService
         .editUsers(
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
         );
+        
         await this.auth.updateUserDate(false);
         loader.dismiss();
     }
     console.log('Dismissed');
+  }
+  ionViewDidLeave (){
+    this.auth.isProfileUpdated = false;
   }
 
   setPhoto(event: any) {
