@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { BookingDetailsPageRoutingModule } from './booking-details-routing.module';
 
 import { BookingDetailsPage } from './booking-details.page';
+import { WidgetsModule } from 'src/app/widgets/widgets.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { BookingDetailsPage } from './booking-details.page';
     IonicModule,
     BookingDetailsPageRoutingModule,  ReactiveFormsModule,
     FormsModule,
+    WidgetsModule
   ],
   declarations: [BookingDetailsPage]
 })

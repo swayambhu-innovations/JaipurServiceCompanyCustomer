@@ -13,7 +13,7 @@ import { AddressService } from '../authorized/db_services/address.service';
   providedIn: 'root'
 })
 export class AuthService {
-
+  isProfileUpdated:boolean = false;
   constructor(private profileService:ProfileService, private router:Router,public auth:Auth,private firestore:Firestore,
     private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,
     private loadingController: LoadingController) {
@@ -30,7 +30,9 @@ export class AuthService {
             if(userData.name.length ===0){
                 this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
             }else{
-              this.router.navigate(['../../authorized/home']);
+              if(!this.isProfileUpdated){
+                this.router.navigate(['../../authorized/home']);
+              }
             }
             this.dataProvider.checkingAuth = false;
           });
@@ -65,29 +67,6 @@ export class AuthService {
         this.dataProvider.loggedIn = false;
         this.dataProvider.checkingAuth = false;
       }
-      // if(user){
-      //   this.dataProvider.currentUser = {
-      //     user:user,
-      //     userData:{}
-      //   }
-      //   this.dataProvider.loggedIn = true;
-      //   this.profileService.getUsers().then(async (userDetails) => {
-      //     this.dataProvider.checkingAuth = false;
-      //     console.log("usr deti......: ",userDetails)
-      //     if(userDetails.length ===0){
-      //      this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } })
-      //     }else{
-      //       this.router.navigate(['../../authorized/home']);
-      //       this.dataProvider.currentUser = {
-      //         user:user,
-      //         userData:userDetails[0]
-      //       }
-      //     }
-      //    });
-      // } else {
-      //   this.dataProvider.loggedIn = false;
-      //   this.dataProvider.checkingAuth = false;
-      // }
     });
   }
   getUserData(uid:string){

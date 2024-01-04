@@ -1,13 +1,6 @@
 <div class="main">
   <!-- Toolbar -->
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-icon name="arrow-back-outline" class="back-icon" routerLink="../../upcoming-history"></ion-icon><span
-        class="booking-title">Booking Details</span>
-      <img class="notification" routerLink="../../../notification" src="../../../assets/fi-rr-bell.svg" alt="" />
-      <img class="notification" src="../../assets/Ellipse 1.svg" alt="" />
-    </ion-toolbar>
-  </ion-header>
+  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
@@ -71,7 +64,7 @@
       </div>
       <hr>
       <!-- OTP -->
-        <div class="row-4" *ngIf="currentBooking?.stage !== 'discarded'">
+        <div class="row-4" *ngIf="(currentBooking?.stage !== 'discarded') && jobOtp.length > 0">
           <h5>OTP to start the service</h5>
           <div class="otp-div">
             <!-- {{(currentBooking?.jobOtp)?.length}} -->
@@ -333,7 +326,7 @@
 
     <div class="reschedule-container mt-4" *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending'  || currentBooking?.stage == 'jobAccepted'">
       <button class = "reschedule-button" type="button"  (click)="rescheduleSubmit()">Reschedule</button>
-      <button class = "cancel-button" type="button" (click)="isModalOpenCancellation = true" >
+      <button class = "cancel-button" type="button" (click)="onClickCancelBooking()" >
         Cancel Booking
       </button>
     </div>
@@ -351,7 +344,7 @@
       </ion-card>
     </div>
 
-    <ion-modal mode="ios" [isOpen]="isModalOpenCancellation" trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    <ion-modal mode="ios" [isOpen]="isModalOpenCancellation" (ionModalDidDismiss)="ionModalDidDismiss($event)" trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]"
       handleBehavior="cycle">
       <ng-template>
         <ion-content class="ion-padding">

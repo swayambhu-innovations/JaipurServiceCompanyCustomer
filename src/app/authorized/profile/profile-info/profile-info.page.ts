@@ -39,7 +39,7 @@ export class ProfileInfoPage implements OnInit {
     private profileService: ProfileService,
     public formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
-    private auth: AuthService
+    public auth: AuthService
   ) {
     console.log(this.dataProvider.currentUser?.userData);
   }
@@ -71,15 +71,14 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        if (this.userData.dateofbirth) {
-          let datearray = this.userData.dateofbirth?.split("-");
+        if(this.userData.dateofbirth){
+          let datearray = this.userData.dateofbirth?.split("/");
           let newdate = datearray[0] + '-' + datearray[1] + '-' + datearray[2];
-          let date = new DatePipe('en-US').transform(this.userData.dateofbirth, 'yyyy-MM-dd');
-          this.userProfileForm.controls.dateofbirth.setValue(newdate)
-        }
-        else {
-          let date = new Date().toISOString();
+          let date = new DatePipe('en-US').transform(newdate, 'yyyy-MM-dd');
           this.userProfileForm.controls.dateofbirth.setValue(date)
+        }
+        else{
+          this.userProfileForm.controls.dateofbirth.setValue('yyyy-MM-dd')
         }
 
 
@@ -162,16 +161,21 @@ export class ProfileInfoPage implements OnInit {
         })
         .finally(() => loader.dismiss());
     } else {
+      this.auth.isProfileUpdated= true;
         await this.profileService
         .editUsers(
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
         );
+        
         await this.auth.updateUserDate(false);
         loader.dismiss();
     }
     console.log('Dismissed');
+  }
+  ionViewDidLeave (){
+    this.auth.isProfileUpdated = false;
   }
 
   setPhoto(event: any) {

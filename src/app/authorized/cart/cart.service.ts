@@ -81,6 +81,7 @@ export class CartService {
           allowReviews: service.data()['allowReviews'],
           taxes:service.data()['taxes'],
           tags:service.data()['tags'],
+          services: service.data()['services'],
           taxType:service.data()['taxType'],
           discounts: service.data()['discounts'],
           variants: service.data()['variants'],
