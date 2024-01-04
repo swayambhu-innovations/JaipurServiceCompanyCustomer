@@ -47,23 +47,6 @@
             <ion-text color="danger">Name should be min 3 chars long.</ion-text>
           </div>
         </div>
-        <!-- <ion-label position="floating">Date of Birth</ion-label>
-        <ion-datetime-button class="w-100 mb-3" datetime="datetime"></ion-datetime-button>
-        <ion-modal [keepContentsMounted]="true" style="margin-top: 18px;">
-          <ng-template>
-            <ion-datetime 
-              presentation="date" 
-              id="datetime"
-              formControlName="dateofbirth"
-              label-placement="floating"
-              placeholder="date of birth"
-              displayFormat="yyyy-mm-dd"
-              pickerFormat="yyyy-mm-dd"
-              required
-              [showDefaultButtons]="true"></ion-datetime>
-          </ng-template>
-        </ion-modal> -->
-
         <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy" class="inputs"
           formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
           placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
@@ -75,12 +58,13 @@
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>
-        <ion-item lines="outline" fill="outline" class="gender-input">
-          <ion-label position="floating">Gender</ion-label>
-          <ion-input type="text" readonly [value]="selectedGender" class="gender-input-box" placeholder="Gender"
-            required></ion-input>
-          <ion-icon name="chevron-down-outline" slot="end" (click)="openGenderPicker()"></ion-icon>
-        </ion-item>
+        <ion-input fill="outline" 
+          shape="round" label="Gender" 
+          label-placement="floating" readonly 
+          [value]="selectedGender" class="gender-input-box"
+          required>
+          <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true" (click)="openGenderPicker()"></ion-icon>
+        </ion-input>
         <div *ngIf="!isGenderSelected && isSubmitForm" style="padding: 8px 0px;">
           <div class="">
             <ion-text color="danger">Gender is required.</ion-text>
