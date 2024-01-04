@@ -104,7 +104,7 @@ export class UpcomingHistoryPage implements OnInit {
   isFutureDate(date: Date|undefined,stage) {
     if (!date) return false;
 
-    if(stage == 'expired' || stage == 'discarded') return false;
+    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled') return false;
     // return true if date is of tomorrow or later
     let maxTimeToday = new Date();
     maxTimeToday.setHours(23, 59, 59, 999);
@@ -112,7 +112,7 @@ export class UpcomingHistoryPage implements OnInit {
   }
 
   isPastDate(date: Date|undefined,stage) {
-    if(stage == 'expired' || stage == 'discarded') return true;
+    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled') return true;
     if (!date) return false;
     // return true if date is of yesterday or earlier
     return date < new Date();
