@@ -1,15 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataProviderService } from '../../core/data-provider.service';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../payment.service';
 import * as $ from 'jquery';
+import Swiper from 'swiper';
 @Component({
   selector: 'app-service-detail',
   templateUrl: './service-detail.page.html',
   styleUrls: ['./service-detail.page.scss'],
 })
-export class ServiceDetailPage implements OnInit {
+export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
+  @ViewChild('videoContainer', { static: false, read: ElementRef }) videoElement:ElementRef;
+  @ViewChild('swiperContainerServiceDetail') swiperContainerServiceDetail!: ElementRef;
   @ViewChild('modal3') modal;
   matchingService:Service|undefined;
   matchingSubCategory:SubCategory|undefined;
@@ -25,6 +28,7 @@ export class ServiceDetailPage implements OnInit {
   tags: any;
   showmodal: boolean = false;
   backdropValue: any = 0.5;
+  swiper!: Swiper;
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -68,7 +72,6 @@ export class ServiceDetailPage implements OnInit {
       }
       
       this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
-      //console.log(this.matchingService);
       if(this.matchingService?.variants && this.matchingService?.variants.length >0){
         this.startPrice = this.matchingService?.variants[0].price;
       }
@@ -80,6 +83,32 @@ export class ServiceDetailPage implements OnInit {
     this.cartService.cartSubject.subscribe(cartDetils=>{
       this.cartDetils = cartDetils;
     })
+  }
+
+  ngAfterViewInit() {
+    
+    this.swiper = new Swiper(this.swiperContainerServiceDetail.nativeElement, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination-service-detail',
+        clickable: true,
+      },
+      autoplay: {
+        delay : 2000,
+        disableOnInteraction: true
+      },
+      rewind : true
+    });
+    if(this.videoElement?.nativeElement){
+      this.videoElement.nativeElement.muted = true;
+    }
+    
+  }
+  ngOnDestroy() {
+    if (this.swiper) {
+      this.swiper.destroy();
+    }
   }
 
   showAllVariants(modal:any){

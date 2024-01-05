@@ -11,6 +11,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 import { ProfileService } from '../../db_services/profile.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/auth.service';
+import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.page.html',
@@ -39,7 +40,8 @@ export class ProfileInfoPage implements OnInit {
     private profileService: ProfileService,
     public formBuilder: FormBuilder,
     private activeRoute: ActivatedRoute,
-    public auth: AuthService
+    public auth: AuthService,
+    private alertify:AlertsAndNotificationsService
   ) {
     console.log(this.dataProvider.currentUser?.userData);
   }
@@ -64,10 +66,15 @@ export class ProfileInfoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.userData = this.dataProvider.currentUser?.userData;
+    this.dataProvider.currentUser$.subscribe((response) => {
+      this.userData = response?.userData ?? '';
+    });
+    
     this.activeRoute.queryParams.subscribe((param: any) => {
       this.urlparam = param.from;
-      if (param.from === 'profile') {
-        this.userData = this.dataProvider.currentUser?.userData;
+      console.log("user data",this.userData);
+      if (this.userData?.name) {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
@@ -80,11 +87,9 @@ export class ProfileInfoPage implements OnInit {
         else{
           this.userProfileForm.controls.dateofbirth.setValue('yyyy-MM-dd')
         }
-
-
-        this.isFromProfile = true;
-      } else {
-        this.isFromProfile = false;
+      }
+      else{
+        this.userProfileForm.controls.dateofbirth.setValue('yyyy-MM-dd')
       }
     });
   }
@@ -148,12 +153,7 @@ export class ProfileInfoPage implements OnInit {
         )
         .then(() => {
           console.log("this.urlparam .......: ", this.urlparam)
-          if (this.urlparam === 'profile') {
-            this.route.navigate(['authorized/profile']);
-          } else {
-            this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
-          }
-          // this.userProfileForm.reset()
+          this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
           loader.dismiss();
         })
         .catch((error: any) => {
@@ -167,7 +167,9 @@ export class ProfileInfoPage implements OnInit {
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
-        );
+        ).then(() => {
+          this.alertify.presentToast("Profile updated...");
+        });
         
         await this.auth.updateUserDate(false);
         loader.dismiss();
@@ -191,9 +193,6 @@ export class ProfileInfoPage implements OnInit {
     this.profileService.updatePic(file, this.dataProvider.currentUser!.user.uid)
       .then((url) => {
         this.userData.photoUrl = url;
-        // this.auth.updateUserDate();
-        // this.route.navigateByUrl('/authorized/select-address');
-        // this.userProfileForm.reset()
         loader.dismiss();
       })
       .catch((error: any) => {

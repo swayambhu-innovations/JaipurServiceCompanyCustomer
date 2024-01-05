@@ -216,6 +216,9 @@
       <ng-container *ngFor="let item of recommendedServices">
         <div class="recommended-items-box" *ngIf="item?.image[0]">
           <img [src]="item?.image[0]" alt="" (click)="onClickRecommendedServices(item)">
+          <div class="text">
+            <div class="item">{{item.name}}</div>
+          </div>
         </div>
       </ng-container>
     </div>

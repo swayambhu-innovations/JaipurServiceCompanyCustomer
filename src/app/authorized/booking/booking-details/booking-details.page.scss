@@ -3,6 +3,12 @@
   color: black;
   box-shadow: none !important;
 }
+.mt-20{
+  margin-top: 20px;
+}
+.mb-20{
+  margin-bottom: 20px !important;
+}
 
 .main {
   background-color: #f7f7f7;
@@ -589,7 +595,7 @@
   box-shadow: none;
   left: -10px;
   border: 1px solid var(--line, #e9e9e9);
-
+  flex-direction: row !important;
   background: #fff;
   margin-top: 3px;
 
@@ -614,7 +620,21 @@
       background: #fff;
     }
   }
-
+  .payment-row{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+    .payment-heading{
+      text-align: left;
+      flex: 0 0 50%;
+      font-weight: 500;
+    }
+    .payment-value{
+      text-align: right;
+      flex: 0 0 50%;
+    }
+  }
   .head {
     float: left;
     display: inline;
@@ -643,16 +663,12 @@
   }
 
   .total-price {
-    margin-top: 20px;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
   }
 
   .amount {
-    float: right;
-    display: inline;
-    margin-top: -20px;
     font-size: 16px;
     font-style: normal;
   }

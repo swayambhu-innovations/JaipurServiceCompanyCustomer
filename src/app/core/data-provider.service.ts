@@ -21,6 +21,7 @@ export class DataProviderService {
     user:User,
     userData:any;
   }|undefined;
+  currentUser$:BehaviorSubject<any> = new BehaviorSubject<any>('');
   constructor() {
     console.log("data provider works");
    }
