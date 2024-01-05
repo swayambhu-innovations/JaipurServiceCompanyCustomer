@@ -234,48 +234,29 @@
             <img src="../../../../assets/download.svg" alt="">
           </button>
         </div>
-        <span>
-          <div class="head">Total Duration</div>
-        </span>
-        <span>
-          <div class="body">{{duration}}</div>
-        </span>
-        <span>
-          <div class="head">Total (MRP)</div>
-        </span>
-        <span>
-          <div class="body">
-            {{currentBooking?.billing?.subTotal | currency:'INR'}}
-          </div>
-        </span>
-        <span>
-          <div class="head">Discount</div>
-        </span>
-        <span>
-          <div class="body" style="color: #579540">
-            {{discount | currency:'INR'}}
-          </div>
-        </span>
-        <span>
-          <div class="head">Discounted Price</div>
-        </span>
-        <span>
-          <div class="body">
-            {{currentBooking?.billing?.grandTotal | currency:'INR'}}
-          
-          </div>
-        </span>
+        <div class="payment-row">
+          <div class="payment-heading">Total Duration</div>
+          <div class="payment-value">{{duration}}</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Total (MRP)</div>
+          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR'}}</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Discount</div>
+          <div class="payment-value" style="color: #579540">{{discount | currency:'INR'}}</div>
+        </div>
+        <div class="payment-row mb-20">
+          <div class="payment-heading">Discounted Price</div>
+          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
+        </div>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
-          <span>
-            <div class="total-price">Total</div>
-          </span>
-          <span>
-            <div class="amount">
-              {{(currentBooking?.billing?.subTotal || 0) -
-                (currentBooking?.billing?.discount || 0) | currency:'INR'}}
-            </div>
-          </span>
+          <div class="payment-row mt-20">
+            <div class="payment-heading total-price">Total</div>
+            <div class="payment-value amount">{{(currentBooking?.billing?.subTotal || 0) -
+              (currentBooking?.billing?.discount || 0) | currency:'INR'}}</div>
+          </div>
         </div>
         <!-- Banner -->
 

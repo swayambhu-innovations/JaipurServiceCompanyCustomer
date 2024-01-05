@@ -601,6 +601,17 @@ ion-content.noItems {
     flex-wrap: wrap;
     .recommended-items-box { 
       flex: 0 0 49%;
+      
+      position: relative;
+      img{
+        border-radius: 15px;
+        width: 100%;
+      }
+
+      .text{
+        border-radius: 10px 0px 10px 0px;
+        text-align: center;
+      }
     }
   }
   

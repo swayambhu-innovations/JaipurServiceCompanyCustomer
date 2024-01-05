@@ -107,10 +107,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         el: '.swiper-pagination',
         clickable: true,
       },
-      autoplay: {
+      autoplay:{
         delay : 2000
-      },
-      
+      }
     });
   }
   ngOnDestroy() {

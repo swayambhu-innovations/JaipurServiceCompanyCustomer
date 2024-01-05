@@ -3,14 +3,14 @@
   border-radius: 12px;
   background: rgba(232, 233, 234, 0.7);
   margin: 1px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   .descrption-title {
     color: var(--primary, #181f29);
     font-family: Lato;
-    font-size: 14px;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     line-height: normal;
+    margin-top: 8px;
   }
 
   .pdt-desc {
@@ -145,7 +145,7 @@
   .service-title {
     font-weight: 700;
     margin-top: 18px;
-    font-size: 14px;
+    font-size: 18px;
     margin-bottom: 5px;
   }
 
@@ -168,7 +168,7 @@
     }
     .price {
       display: flex;
-      font-size: 14px;
+      font-size: 18px;
       color: #579540;
       font-weight: 700;
     }
@@ -192,7 +192,6 @@
   }
 
   .see-all-variants {
-    padding: 0 6px 0 0px;
     p {
       ion-button {
         --border-radius: 12px;
@@ -495,4 +494,28 @@ ion-button {
 
 .services-button-view.services-button{
   height: auto;
+}
+.swiper-main{
+  padding-bottom: 35px;
+  swiper-container {
+    width: 100%;
+  }
+
+  swiper-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+
+    a {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      // box-shadow: -1px 11px 13px -6px red;
+      border-radius: 17px;
+    }
+  }
 }
