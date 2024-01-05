@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
 import { ApplicationVerifier, Auth, User, UserCredential, signInWithPhoneNumber } from '@angular/fire/auth';
 import { Firestore, docData } from '@angular/fire/firestore';
-import { addDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { DataProviderService } from './data-provider.service';
 import { AlertsAndNotificationsService } from '../alerts-and-notifications.service';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../authorized/db_services/profile.service';
-import { AddressService } from '../authorized/db_services/address.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   isProfileUpdated:boolean = false;
-  constructor(private profileService:ProfileService, private router:Router,public auth:Auth,private firestore:Firestore,
-    private dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,
+  constructor(
+    private profileService:ProfileService, 
+    private router:Router,
+    public auth:Auth,
+    private firestore:Firestore,
+    private dataProvider:DataProviderService,
+    private alertify:AlertsAndNotificationsService,
     private loadingController: LoadingController) {
     this.dataProvider.checkingAuth = true;
     this.auth.onAuthStateChanged((user)=>{
@@ -26,9 +30,13 @@ export class AuthService {
               user:user,
               userData:userData
             }
-            console.log("userData.....:",userData)
-            if(userData.name.length ===0){
-                this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
+            console.log("userData.....:",userData);
+            this.dataProvider.currentUser$.next({
+              user:user,
+              userData:userData
+            });
+            if(!userData || !userData.name){
+                this.router.navigate(['/authorized/profile/profile-info']);
             }else{
               if(!this.isProfileUpdated){
                 this.router.navigate(['../../authorized/home']);
@@ -53,15 +61,18 @@ export class AuthService {
             user:user,
             userData:userData
           }
-          this.dataProvider.checkingAuth = false;
-          if(userData.name.length ===0){
-            this.router.navigate(['/authorized/profile/profile-info'],{ queryParams: { "from":"auth" } });
-          }else{
-           /// debugger
-            if (redirect != false) {
+          this.getAddresses(this.dataProvider.currentUser!.user.uid).then(result=>{
+            const addresses = result.docs.map((address:any) => {
+              return { ...address.data(),id: address.id };
+            });
+            if(addresses.length > 0){
+              this.router.navigate(['/authorized/profile/profile-info']);
+            }
+            else{
               this.router.navigate(['/authorized/select-address']);
             }
-          }
+          });
+          this.dataProvider.checkingAuth = false;
         });
       } else {
         this.dataProvider.loggedIn = false;
@@ -69,6 +80,10 @@ export class AuthService {
       }
     });
   }
+  async getAddresses(userId:string){
+    return (await getDocs(collection(this.firestore, 'users', userId, 'addresses')));
+  }
+
   getUserData(uid:string){
     return docData(doc(this.firestore,'users',uid));
   }

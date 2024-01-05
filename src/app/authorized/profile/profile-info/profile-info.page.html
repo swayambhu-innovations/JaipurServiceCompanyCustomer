@@ -1,6 +1,6 @@
 <div class="main">
 
-  <ng-container *ngIf="urlparam == 'profile'">
+  <ng-container *ngIf="userData.name">
     <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="true"></app-header-with-back>
   </ng-container>
 

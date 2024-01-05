@@ -2,6 +2,9 @@
 <ion-content>
   <form [formGroup]="addressForm">
     <div class="input">
+      <input type="text" formControlName="name" placeholder="Name" />
+    </div>
+    <div class="input">
       <ion-select
         formControlName="state"
         aria-label="state"
@@ -35,7 +38,14 @@
       </ion-select>
     </div>
     <div class="input">
-      <input type="text" formControlName="name" placeholder="Name" />
+      <input type="number" formControlName="pincode" placeholder="Pin Code" />
+    </div>
+    <div class="input">
+      <input
+        type="text"
+        formControlName="addressLine1"
+        placeholder="House/Flat/Block/Building"
+      />
     </div>
     <div class="area-container">
       <ion-toolbar>
@@ -46,17 +56,6 @@
               <ion-label > {{ item?.formatted_address }}</ion-label>
           </ion-item>
       </ion-list>
-    </div>
-    
-    <div class="input">
-      <input type="number" formControlName="pincode" placeholder="Pin Code" />
-    </div>
-    <div class="input">
-      <input
-        type="text"
-        formControlName="addressLine1"
-        placeholder="House/Flat/Block/Building"
-      />
     </div>
     <google-map
       height="400px"
