@@ -35,7 +35,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   addressForm = this.fb.group({
     name: ['', Validators.required],
     addressLine1: ['', Validators.required],
-    area: [''],
+    selectedArea: ['', Validators.required],
     city: ['', Validators.required],
     state: ['', Validators.required],
     pincode: ['', Validators.required]
@@ -123,6 +123,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     // });
     
   }
+
   compareStateFn(e1: any, e2: any): boolean {
     if(e2.name){
       return e1 && e2 ? e1.name === e2.name : e1 == e2;
@@ -131,14 +132,23 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
   
   }
+
   compareCityFn(e1: any, e2: any): boolean {
     if(e2.name){
       return e1 && e2 ? e1.name === e2.name : e1 == e2;
     }else{
       return e1 && e2 ? e1.state === e2.state : e1 == e2;
     }
-  
   }
+
+  compareAreaFn(e1: any, e2: any): boolean {
+    if(e2.name){
+      return e1 && e2 ? e1.name === e2.name : e1 == e2;
+    }else{
+      return e1 && e2 ? e1.state === e2.state : e1 == e2;
+    }
+  }
+
   getLocation() {
     if(this.platform.is('capacitor')){
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
@@ -194,13 +204,13 @@ export class NewAddressPage implements OnInit, CanActivate{
       );
   }
 
-  fetchPostalCode(event: any) {
-    let area = event.detail.value as Area;
-    let postalCode = area.address_components.find((component: any) =>
-      component.types.includes('postal_code'),
-    );
-    this.addressForm.patchValue({ pincode: postalCode?.long_name });
-  }
+  // fetchPostalCode(event: any) {
+  //   let area = event.detail.value as Area;
+  //   let postalCode = area.address_components.find((component: any) =>
+  //     component.types.includes('postal_code'),
+  //   );
+  //   this.addressForm.patchValue({ pincode: postalCode?.long_name });
+  // }
 
   async submit(){
     let loader = await this.loadingController.create({message:'Adding address...'});
@@ -208,19 +218,26 @@ export class NewAddressPage implements OnInit, CanActivate{
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
-    if(!this.searchedAreaDetails.selectedArea){
-      return;
+    const latLong = {
+      latitude : this.center.lat,
+      longitude : this.center.lng
     }
+    let selectedArea:any = this.addressForm.get("selectedArea")?.value;
+    selectedArea = {...selectedArea, ...latLong};
+
+    // if(!this.searchedAreaDetails.selectedArea){
+    //   return;
+    // }
     const addressObject ={
-      ...this.searchedAreaDetails,
+      ...selectedArea,
       ...this.addressForm.value,
       cityId : cityId,
-      stateId: stateId
+      stateId: stateId,
+      selectedArea : selectedArea,
+      isDefault : false
     }
     addressObject.city = city;
     addressObject.state = state;
-    addressObject.isDefault = false;
-    addressObject.area = addressObject.formatted_address;
     if(this.addressForm.valid){
       if(this.isEdit){
        // console.log("addressObject: ",addressObject)
@@ -249,91 +266,11 @@ export class NewAddressPage implements OnInit, CanActivate{
       }
   }
 
-  createDataForAddAreas(searchedAreaDetails:any){
-    searchedAreaDetails.address_components.map((addressComponent:any)=>{
-      const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
-      if(geoProofingLocality){
-        searchedAreaDetails['geoProofingLocality'] = addressComponent.long_name;
-      }
-
-      searchedAreaDetails['latitude'] = searchedAreaDetails['geometry'].location.lat;
-      searchedAreaDetails['longitude'] = searchedAreaDetails['geometry'].location.lng;
-      const cityName = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_2") > -1);
-      if(cityName){
-        searchedAreaDetails['cityName'] = addressComponent.long_name;
-      }
-
-      const cityKey = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_2") > -1);
-      if(cityKey){
-        searchedAreaDetails['cityKey'] = addressComponent.short_name;
-      }
-
-      const stateName = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_1") > -1);
-      if(stateName){
-        searchedAreaDetails['stateName'] = addressComponent.long_name;
-      }
-
-      const stateCode = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_1") > -1);
-      if(stateCode){
-        searchedAreaDetails['stateCode'] = addressComponent.short_name;
-      }
-
-      const countryId = addressComponent.types.find((type:any) => type.indexOf("country") > -1);
-      if(countryId){
-        searchedAreaDetails['countryId'] = addressComponent.short_name;
-      }
-
-      const postalCode = addressComponent.types.find((type:any) => type.indexOf("postal_code") > -1);
-      if(postalCode){
-        searchedAreaDetails['postalCode'] = addressComponent.long_name;
-      }
-
-      const locality = addressComponent.types.find((type:any) => type.indexOf("locality") > -1);
-      if(locality){
-        searchedAreaDetails['locality'] = addressComponent.long_name;
-      }
-
-    });
-    this.areas$?.subscribe(areas=>{
-     let selectedArea =  areas.filter(area=> area.geoProofingLocality == searchedAreaDetails.geoProofingLocality);
-      if(selectedArea){
-        searchedAreaDetails['selectedArea']= selectedArea[0];
-      }
-    })
-    return searchedAreaDetails;
+  onAreaChange($event){
+    this.center = {
+      lat: $event.detail.value.latitude,
+      lng: $event.detail.value.longitude,
+    };
   }
 
- async onAreaDropdownSelect(event:any){
-    const placeId = event.place_id;
-    let loader = await this.loadingController.create({message:'Selecting Location...'});
-    loader.present();
-    this.addressService.getAreaDetailByPlaceId(placeId).subscribe((response:any) => {
-      this.areaDetails = response.result;
-      //console.log("response.result.formatted_address: ",response.result,response.result.formatted_address)
-      
-      let codinate = {
-        lat:this.areaDetails['geometry'].location.lat,
-        lng:this.areaDetails['geometry'].location.lng
-      }
-     
-      this.currentPosition = codinate;
-      this.center = codinate;
-      this.searchedAreaDetails = this.createDataForAddAreas(this.areaDetails);
-      loader.dismiss();
-      if(!this.searchedAreaDetails.selectedArea){
-        alert("We do not provide services in this area!");
-        this.searchedAreaDetails = null;
-        return;
-      }else{
-        this.areaOptions = [];
-        this.addressForm.controls.area.setValue(response.result.formatted_address)
-      }
-    });
-  }
-
-  getAreaOnSearch(areaSearchInput:any){
-    this.addressService.getAreaOnSearch(areaSearchInput.detail.value).subscribe((response:any) => {
-      this.areaOptions = response.results;
-    });
-  }
 }

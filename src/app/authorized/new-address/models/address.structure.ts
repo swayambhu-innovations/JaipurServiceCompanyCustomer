@@ -32,6 +32,7 @@ export interface Area {
   postalCode: string;
   address_components: AddressComponent[];
   stateCode: string;
+  name: string;
 }
 
 export interface CustomAddressFields {}
