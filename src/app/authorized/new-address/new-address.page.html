@@ -47,15 +47,21 @@
         placeholder="House/Flat/Block/Building"
       />
     </div>
-    <div class="area-container">
-      <ion-toolbar>
-        <ion-searchbar formControlName="area" placeholder="Search Area" [debounce]="500" (ionInput)="getAreaOnSearch($event)"></ion-searchbar>
-      </ion-toolbar>
-      <ion-list>
-          <ion-item class="ion-border"*ngFor="let item of areaOptions" (click)="onAreaDropdownSelect(item)" tappable>
-              <ion-label > {{ item?.formatted_address }}</ion-label>
-          </ion-item>
-      </ion-list>
+    <div class="input">
+      <ion-select
+        formControlName="selectedArea"
+        aria-label="area"
+        interface="action-sheet"
+        toggleIcon="chevron-down"
+        justify="space-between"
+        placeholder="Area"
+        [compareWith]="compareAreaFn"
+        (ionChange)="onAreaChange($event)"
+      >
+        <ion-select-option [value]="area" *ngFor="let area of areas$ | async">
+          {{area.name}} | {{area.locality}}
+        </ion-select-option>
+      </ion-select>
     </div>
     <google-map
       height="400px"

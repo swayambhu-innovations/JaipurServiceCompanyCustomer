@@ -210,7 +210,7 @@
     <p class="tag-text">Yay! You have saved {{selectedBooking.billing.discount}} on final bill</p>
   </div>
 
-  <div class="recommended-container" *ngIf="recommendedServices.length > 0">
+  <div class="recommended-container" *ngIf="isRecommended">
     <h6 class="recommended-text">Recommended Add Ons</h6>
     <div class="recommended-items-box-parent">
       <ng-container *ngFor="let item of recommendedServices">

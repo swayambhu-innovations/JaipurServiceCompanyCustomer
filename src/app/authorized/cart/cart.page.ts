@@ -45,6 +45,7 @@ export class CartPage implements OnInit {
   cartLoaded:boolean = false;
   mainCategoryId:string = '';
   serviceId:string = '';
+  isRecommended: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -199,6 +200,7 @@ export class CartPage implements OnInit {
   async onSelectBooking(booking){
     this.selectedBooking = booking;
     this.recommendedServices = [];
+    this.isRecommended = false;
     const servicesList = await this.cartService.getServices(this.cartService.selectedCatalogue, this.selectedBooking?.mainCategory.id ?? '', this.selectedBooking?.subCategory.id ?? '');
     servicesList.map((serviceItem) => {
       this.selectedBooking?.services.map((selectedService) => {
@@ -208,6 +210,11 @@ export class CartPage implements OnInit {
           });
         }
       })
+    });
+    this.recommendedServices.map((item) => {
+      if(item?.image[0]){
+        this.isRecommended = true;
+      }
     });
   }
 
