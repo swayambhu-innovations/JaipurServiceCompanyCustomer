@@ -92,25 +92,35 @@ export class UpcomingHistoryPage implements OnInit {
     this.changeVisibility(this.visibilityMode);
   }
 
+  ionViewWillEnter(){
+    this.visibilityMode = 'upcoming';
+    this.changeVisibility(this.visibilityMode);
+  }
+
   changeVisibility(visibility: 'upcoming'|'history') {
     this.visibilityMode = visibility;
     this.filteredBookings = this.bookings.filter((booking) => {
       if (visibility === 'upcoming') {
         return this.isFutureDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);
       } else {
-        return this.isPastDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);
+        return !this.isFutureDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);
       }
     });
   }
 
   isFutureDate(date: Date|undefined,stage) {
-    if (!date) return false;
+    //if (!date) return false;
+    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled'){
+      return false;
+    }
+    else{
+      return true;
+    }
 
-    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled') return false;
     // return true if date is of tomorrow or later
-    let maxTimeToday = new Date();
-    maxTimeToday.setHours(23, 59, 59, 999);
-    return date > maxTimeToday;
+    // let maxTimeToday = new Date();
+    // maxTimeToday.setHours(23, 59, 59, 999);
+    // return date > maxTimeToday;
   }
 
   isPastDate(date: Date|undefined,stage) {

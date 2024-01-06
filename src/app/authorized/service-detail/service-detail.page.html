@@ -10,7 +10,7 @@
           </div>
           <div class="swiper-slide" *ngIf="this.matchingService?.video">
             <ion-content>
-              <video class="d-block w-100" #videoContainer preload="auto" muted width="100%">
+              <video class="d-block w-100" #videoContainer controls preload="auto" muted width="100%">
                    <source src="{{this.matchingService?.video}}" type="video/mp4" />
               </video>
             </ion-content>
