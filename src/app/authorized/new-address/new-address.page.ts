@@ -29,7 +29,7 @@ import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.
 })
 export class NewAddressPage implements OnInit, CanActivate{
   areaOptions: any;
-   
+  isValidMarker : boolean = false;
   selectedState:any;
   showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
@@ -41,6 +41,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     state: ['', Validators.required],
     pincode: ['', Validators.required]
   });
+  markerSet: boolean = false;
   
 
   currentPosition: google.maps.LatLngLiteral | undefined;
@@ -70,16 +71,21 @@ export class NewAddressPage implements OnInit, CanActivate{
     throw new Error('Method not implemented.');
   }
   
-  ionViewWillEnter(){
-    
+  async ionViewWillEnter(){
+    this.isValidMarker = false;
     this.addressForm.reset();
     const navigation = this.router.getCurrentNavigation();
-    if(navigation?.extras.state?.isfirstTime){
-     this.showHeader =  false
-     this.dataProvider.isFirstTime.next(false);
-    }else{
-     this.showHeader = true;
-    }
+    let haveOldAddresses = true;
+    
+    await this.addressService.getAddresses(this.dataProvider.currentUser!.user!.uid).then((addresses) => {
+      if(addresses.length == 0){
+        
+        haveOldAddresses = false;
+        this.dataProvider.isFirstTime.next(false);
+      }
+    });
+    
+    this.showHeader = haveOldAddresses;
     this.addressService.action.subscribe(async action=>{
      let loader = await this.loadingController.create({message:'Adding address...'});
      this.store.dispatch(editAddressStateActions.LOAD());
@@ -184,15 +190,22 @@ export class NewAddressPage implements OnInit, CanActivate{
     if (event.latLng != null) {
       this.center = event.latLng.toJSON();
       this.currentPosition = event.latLng.toJSON();
-      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddress:any) => {
-        console.log(searchedAddress);
+      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
+        const searchedAddress = searchedAddressResult.results[0];
         searchedAddress.address_components.map((addressComponent:any)=>{
           const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
           if(geoProofingLocality){
             const geoProfing = addressComponent.long_name;
             const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
-            if(tempSelectedArea.selectedArea.geoProofingLocality != geoProfing){
-              this.alertify.presentToast("Selected location point is outside the selected area...");
+            if(tempSelectedArea && tempSelectedArea.geoProofingLocality){
+              if(tempSelectedArea.geoProofingLocality != geoProfing){
+                this.isValidMarker = false;
+                this.alertify.presentToast("Selected location point is outside the selected area...");
+              }
+              else{
+                this.markerSet = true;
+                this.isValidMarker = true;
+              }
             }
           }
         });
@@ -230,6 +243,10 @@ export class NewAddressPage implements OnInit, CanActivate{
   // }
 
   async submit(){
+    if(!this.addressForm.valid){
+      this.alertify.presentToast("Please fill all the required fields...");
+      return;
+    }
     let loader = await this.loadingController.create({message:'Adding address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
     const stateId = this.addressForm.get("state")?.getRawValue().id;
@@ -239,6 +256,7 @@ export class NewAddressPage implements OnInit, CanActivate{
       latitude : this.center.lat,
       longitude : this.center.lng
     }
+
     let selectedArea:any = this.addressForm.get("selectedArea")?.value;
     selectedArea = {...selectedArea, ...latLong};
 
@@ -252,7 +270,17 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
     addressObject.city = city;
     addressObject.state = state;
+    
     if(this.addressForm.valid){
+      if(!this.markerSet){
+        this.alertify.presentToast("Please select a valid marker on the map...");
+        return;
+      }
+      if(!this.isValidMarker){
+        this.alertify.presentToast("Selected location point is outside the selected area...");
+        return;
+      }
+      
       if(this.isEdit){
        await loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
@@ -264,14 +292,29 @@ export class NewAddressPage implements OnInit, CanActivate{
        }).finally(()=>loader.dismiss())
 
       }else{
-        await loader.present()
+        await loader.present();
+        this.addressService.getAddresses(this.dataProvider.currentUser!.user!.uid).then((addresses) => {
+          let haveOldAddresses = true;
+          if(addresses.length == 0){
+            haveOldAddresses = false;
+            addressObject.isDefault = true;
+          }
+          this.alertify.presentToast("Address is added...");
           this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
             this.dataProvider.isFirstTime.next(true);
-            this.addressForm.reset()
-            this.router.navigate(['/authorized/home'])
+            this.addressForm.reset();
+            if(!haveOldAddresses){
+              this.router.navigate(['/authorized/home'])
+            }
+            else{
+              this.alertify.presentToast("Address is added...");
+            }
           }).catch(err=>{
             console.log(err)
           }).finally(()=>loader.dismiss())
+        });
+
+          
         } 
       }else{
         await loader.dismiss()
@@ -279,6 +322,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   onAreaChange($event){
+    this.markerSet = false;
     this.center = {
       lat: $event.detail.value.latitude,
       lng: $event.detail.value.longitude,
