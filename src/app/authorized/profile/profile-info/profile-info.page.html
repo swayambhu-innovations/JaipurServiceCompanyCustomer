@@ -1,8 +1,6 @@
 <div class="main">
 
-  <ng-container *ngIf="userData.name">
-    <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="true"></app-header-with-back>
-  </ng-container>
+  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="userData.name" [showBackButton]="userData.name"></app-header-with-back>
 
   <div class="container">
     <!-- Profile picture with camera button -->
@@ -58,8 +56,8 @@
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>
-        <ion-input fill="outline" 
-          shape="round" label="Gender" 
+        <ion-input fill="outline"
+          label="Gender" 
           label-placement="floating" readonly 
           [value]="selectedGender" class="gender-input-box"
           required>
