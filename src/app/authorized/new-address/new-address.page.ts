@@ -29,7 +29,7 @@ import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.
 })
 export class NewAddressPage implements OnInit, CanActivate{
   areaOptions: any;
-   
+  isValidMarker : boolean = false;
   selectedState:any;
   showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
@@ -71,7 +71,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
   
   ionViewWillEnter(){
-    
+    this.isValidMarker = false;
     this.addressForm.reset();
     const navigation = this.router.getCurrentNavigation();
     if(navigation?.extras.state?.isfirstTime){
@@ -184,15 +184,21 @@ export class NewAddressPage implements OnInit, CanActivate{
     if (event.latLng != null) {
       this.center = event.latLng.toJSON();
       this.currentPosition = event.latLng.toJSON();
-      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddress:any) => {
-        console.log(searchedAddress);
+      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
+        const searchedAddress = searchedAddressResult.results[0];
         searchedAddress.address_components.map((addressComponent:any)=>{
           const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
           if(geoProofingLocality){
             const geoProfing = addressComponent.long_name;
             const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
-            if(tempSelectedArea.selectedArea.geoProofingLocality != geoProfing){
-              this.alertify.presentToast("Selected location point is outside the selected area...");
+            if(tempSelectedArea && tempSelectedArea.geoProofingLocality){
+              if(tempSelectedArea.geoProofingLocality != geoProfing){
+                this.isValidMarker = false;
+                this.alertify.presentToast("Selected location point is outside the selected area...");
+              }
+              else{
+                this.isValidMarker = true;
+              }
             }
           }
         });
@@ -230,6 +236,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   // }
 
   async submit(){
+    
     let loader = await this.loadingController.create({message:'Adding address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
     const stateId = this.addressForm.get("state")?.getRawValue().id;
@@ -252,7 +259,13 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
     addressObject.city = city;
     addressObject.state = state;
+    
     if(this.addressForm.valid){
+      if(!this.isValidMarker){
+        this.alertify.presentToast("Selected location point is outside the selected area...");
+        return;
+      }
+      
       if(this.isEdit){
        await loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{

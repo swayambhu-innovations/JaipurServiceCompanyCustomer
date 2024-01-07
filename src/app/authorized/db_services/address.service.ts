@@ -69,7 +69,7 @@ export class AddressService {
   }
 
   getAreaDetail(latitude: number, longitude : number){
-    return this.http.get(`${environment.firebase.functionURL}getAreaDetail?latitude=${latitude}&longitude=${longitude}`);
+    return this.http.get(`${environment.firebase.functionURL}getAreaDetailByLatLng?lat=${latitude}&lng=${longitude}`);
   }
 
   getAreaDetailByPlaceId(placeId: string){
