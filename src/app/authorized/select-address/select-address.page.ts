@@ -13,8 +13,10 @@ export class SelectAddressPage implements OnInit {
 
   temp:any = {};
   constructor(private router:Router, public addressService:AddressService, public dataProvider:DataProviderService) { }
+
   newAddress(){
-    this.router.navigate(['new-address'])
+    this.addressService.action.next({isEdit:false});
+    this.router.navigate(['/authorized/new-address']);
   }
 
   ngOnInit() {

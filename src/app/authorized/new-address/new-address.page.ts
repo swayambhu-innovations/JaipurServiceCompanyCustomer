@@ -20,6 +20,7 @@ import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { ActivatedRouteSnapshot, CanActivate, NavigationStart, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Address } from '../select-address/address.structure';
+import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
 
 @Component({
   selector: 'app-new-address',
@@ -57,66 +58,68 @@ export class NewAddressPage implements OnInit, CanActivate{
   states$: Observable<State[]> | undefined;
   cities$: Observable<City[]> | undefined;
   areas$: Observable<Area[]> | undefined;
-  searchedAreaDetails: any;
   areaDetails:any;
   editData:any;
   isEdit:boolean = false;
   constructor(private fb : FormBuilder,private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
     private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
-    ,private router:Router) {
+    ,private router:Router,private alertify:AlertsAndNotificationsService) {
      
     }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     throw new Error('Method not implemented.');
   }
+  
   ionViewWillEnter(){
-   
-  }
-  ngOnInit(): void {
+    
+    this.addressForm.reset();
     const navigation = this.router.getCurrentNavigation();
-     if(navigation?.extras.state?.isfirstTime){
-      this.showHeader =  false
-      this.dataProvider.isFirstTime.next(false);
+    if(navigation?.extras.state?.isfirstTime){
+     this.showHeader =  false
+     this.dataProvider.isFirstTime.next(false);
+    }else{
+     this.showHeader = true;
+    }
+    this.addressService.action.subscribe(async action=>{
+     let loader = await this.loadingController.create({message:'Adding address...'});
+     this.store.dispatch(editAddressStateActions.LOAD());
+     this.states$ = this.store.select('editAddress', 'states');
+     this.cities$ = this.store.select('editAddress', 'cities');
+     this.areas$ = this.store.select('editAddress', 'areas');
+     
+     if(action.isEdit){
+       loader.present();
+       this.isEdit = true;
+       this.editData = action.data;
+        let address = action.data;
+        this.selectedState = address;
+        let state:any = {state:address.state,id:address.stateId};
+        let city:any = {name:address.city,id:address.cityId};
+        this.store.dispatch(editAddressCitiesActions.LOAD({ stateId: address.stateId }));
+        this.store.dispatch(
+          editAddressAreasActions.LOAD({stateId: address.stateId, cityId: address.cityId }),
+        );
+        this.addressForm.patchValue({
+            'state': state,
+            'city':city,
+            'selectedArea' : address.selectedArea
+        });
+        
+        this.addressForm.controls.name.setValue(address.name);
+        this.addressForm.controls.pincode.setValue(address.pincode);
+        this.addressForm.controls.addressLine1.setValue(address.addressLine1);
+        this.center = {lat:address['selectedArea']['geometry'].location.lat,lng:address['selectedArea']['geometry'].location.lng}
+        this.currentPosition = {lat:address.selectedArea.latitude,lng:address.selectedArea.longitude};
+        loader.dismiss();
      }else{
-      this.showHeader = true;
+       this.isEdit = false;
+       this.getLocation();
      }
-     this.addressService.action.subscribe(async action=>{
-      let loader = await this.loadingController.create({message:'Adding address...'});
-     // console.log("navigation?.extras.state?.isEdit: ",action)
-      this.store.dispatch(editAddressStateActions.LOAD());
-      this.states$ = this.store.select('editAddress', 'states');
-      this.cities$ = this.store.select('editAddress', 'cities');
-      this.areas$ = this.store.select('editAddress', 'areas');
-      this.getLocation();
-      if(action.isEdit){
-        loader.present();
-        this.isEdit = true;
-        this.editData = action.data;
-          let address = action.data
-          //console.log("address......:",address);
-          
-          this.selectedState = address;
-          let state:any = {state:address.state,id:address.stateId};
-          let city:any = {name:address.city,id:address.cityId};
-          this.store.dispatch(editAddressCitiesActions.LOAD({ stateId: address.stateId }));
-          this.addressForm.patchValue({
-              'state': state,
-              'city':city,
-          });
-          this.store.dispatch(
-            editAddressAreasActions.LOAD({stateId: address.stateId, cityId: address.cityId }),
-          );
-          this.addressForm.controls.name.setValue(address.name);
-          this.searchedAreaDetails = {selectedArea:address['selectedArea']} ;
-          this.addressForm.controls.pincode.setValue(address.pincode);
-          this.addressForm.controls.addressLine1.setValue(address.addressLine1);
-          this.currentPosition = {lat:address['geometry'].location.lat,lng:address['geometry'].location.lng}
-         loader.dismiss();
-      }else{
-        this.isEdit = action.isEdit;
-        this.addressForm.reset();
-      }
-     })
+    })
+  }
+
+  ngOnInit(): void {
+    
  
     // // get current location
     // this.areas$.subscribe(result=>{
@@ -181,6 +184,20 @@ export class NewAddressPage implements OnInit, CanActivate{
     if (event.latLng != null) {
       this.center = event.latLng.toJSON();
       this.currentPosition = event.latLng.toJSON();
+      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddress:any) => {
+        console.log(searchedAddress);
+        searchedAddress.address_components.map((addressComponent:any)=>{
+          const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
+          if(geoProofingLocality){
+            const geoProfing = addressComponent.long_name;
+            const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
+            if(tempSelectedArea.selectedArea.geoProofingLocality != geoProfing){
+              this.alertify.presentToast("Selected location point is outside the selected area...");
+            }
+          }
+        });
+        
+      });
     }
   }
   move(event: google.maps.MapMouseEvent) {
@@ -225,9 +242,6 @@ export class NewAddressPage implements OnInit, CanActivate{
     let selectedArea:any = this.addressForm.get("selectedArea")?.value;
     selectedArea = {...selectedArea, ...latLong};
 
-    // if(!this.searchedAreaDetails.selectedArea){
-    //   return;
-    // }
     const addressObject ={
       ...selectedArea,
       ...this.addressForm.value,
@@ -240,7 +254,6 @@ export class NewAddressPage implements OnInit, CanActivate{
     addressObject.state = state;
     if(this.addressForm.valid){
       if(this.isEdit){
-       // console.log("addressObject: ",addressObject)
        await loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
          this.dataProvider.isFirstTime.next(true);
@@ -255,7 +268,6 @@ export class NewAddressPage implements OnInit, CanActivate{
           this.addressService.addAddress(this.dataProvider.currentUser!.user!.uid, addressObject).then(()=>{
             this.dataProvider.isFirstTime.next(true);
             this.addressForm.reset()
-            // this.router.navigate(['/authorized/select-address'])
             this.router.navigate(['/authorized/home'])
           }).catch(err=>{
             console.log(err)
