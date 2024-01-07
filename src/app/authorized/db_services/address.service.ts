@@ -61,12 +61,14 @@ export class AddressService {
   editAddress(userId:string, addressId:string, address:any){
     return updateDoc(doc(this.firestore, 'users', userId, 'addresses', addressId), address);
   }
+
   getAreaOnSearch(searchInput: string) {
     return this.http.get(
        `${environment.firebase.functionURL}getAreaOnSearch?searchInput=${searchInput}`
     );
-   }
-   getAreaDetail(latitude: number, longitude : number){
+  }
+
+  getAreaDetail(latitude: number, longitude : number){
     return this.http.get(`${environment.firebase.functionURL}getAreaDetail?latitude=${latitude}&longitude=${longitude}`);
   }
 
