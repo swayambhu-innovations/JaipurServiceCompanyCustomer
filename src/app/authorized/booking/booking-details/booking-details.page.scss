@@ -14,6 +14,7 @@
   background-color: #f7f7f7;
   height: 100%;
   overflow-y: scroll;
+  padding-bottom: 20px;
 
   //   Header
   .toolbar {
@@ -1101,5 +1102,79 @@ li.pargraph{
     letter-spacing: 0em;
     text-align: left;
     color: #D3424A;
+  }
+}
+
+.ion-padding {
+  .container {
+    h2 {
+      color: var(--primary, #181f29);
+      font-family: Lato;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      margin-bottom: 6px;
+      margin-top: 8px;
+    }
+    small {
+      font-family: Lato;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      margin-bottom: 10px;
+    }
+
+    ion-img {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    ion-img::part(image) {
+      width: 156px;
+      height: 99px;
+      border-radius: 12px;
+    }
+
+    .rating-star {
+      display: flex;
+      justify-content: space-evenly;
+      padding: 0 110px;
+      margin-bottom: 14px;
+    }
+
+    .form-group {
+      input {
+        margin: 10px 0;
+        padding: 9px 12px;
+      }
+    }
+
+    .bottom-buttons {
+      padding: 0;
+      justify-content: space-between;
+      margin-top: 31px !important;
+
+      button{
+        width: 48%;
+        padding: 13px 20px;
+        font-size: 18px;
+        font-weight: 700;
+        border-radius: 12px;
+      }
+      .skipbtn { 
+        background: white;
+        color: #181F29;
+        border: 1px solid var(--primary, #181f29);
+      }
+
+      .submitbtn {
+        background: var(--primary, #181f29);
+        color: white;
+        border: 1px solid var(--primary, #181f29);
+      }
+    }
   }
 }
