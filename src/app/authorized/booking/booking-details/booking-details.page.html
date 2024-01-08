@@ -1,6 +1,6 @@
 <div class="main">
   <!-- Toolbar -->
-  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
+  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="false"></app-header-with-back>
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
@@ -362,12 +362,12 @@
         <ion-content class="ion-padding">
           <div class="container">
             <div class="row text-center">
-              <h2><b> Kitchen Cleaning </b></h2>
+              <h2> Kitchen Cleaning</h2>
               <small style="color: #6f767e">Complete Kitchen Shape</small>
               <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
                 alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
               <small style="color: #579540">Thank you for your rating!</small>
-              <div class="col">
+              <div class="col rating-star">
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
@@ -381,14 +381,14 @@
 
                   <textarea class="form-control" placeholder="Service Review" rows="3"></textarea>
                 </div>
-                <div class="container mt-4">
-                  <button type="button" class="btn btn-outline-dark">
+                <div class="container mt-4 bottom-buttons">
+                  <button  type="button" class="skipbtn">
                     Skip
                   </button>
 
-                  <span class="example-spacer"></span>
+                  <!-- <span class="example-spacer"></span> -->
 
-                  <button type="button text-light" class="btn btn-dark">
+                  <button type="button" class="submitbtn">
                     Submit
                   </button>
                 </div>
