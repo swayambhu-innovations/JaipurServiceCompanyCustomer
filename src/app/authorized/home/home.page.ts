@@ -13,6 +13,7 @@ import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
 import Utils from '../common/util';
 import Swiper from 'swiper';
+import * as moment from 'moment';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -370,6 +371,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.router.navigate(['/authorized/select-address']);
     },100);
     
+  }
+
+  tConvert (time) {
+    return moment (time, "HH:mm").format ("hh:mm a"); 
   }
   
 }

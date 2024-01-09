@@ -149,7 +149,7 @@ export class SelectSlotPage implements OnInit {
   totalSlots() {
     getDocs(collection(this.firestore,'slots')).then((slots) => {
       this.slots = slots.docs.map((slot) => {
-        return { id: slot.id, ...slot.data() };
+        return { ...slot.data(),id: slot.id };
       });
       this.slotsArray = this.slots.sort((a: any, b: any) =>
         a.index > b.index ? 1 : -1
@@ -216,7 +216,8 @@ export class SelectSlotPage implements OnInit {
     });
     loader.present();
     let booking = this.dataProvider.currentBooking;
-    if(!booking?.isUpdateSlot){
+    if(booking && !booking?.isUpdateSlot){
+      booking.createdAt = Timestamp.fromDate(new Date());
         this.bookingService.addBooking(
           this.dataProvider.currentBooking!,
           this.dataProvider.currentUser!.user!.uid

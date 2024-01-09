@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc,collection, getDocs, addDoc, setDoc, collectionData,updateDoc, docData } from '@angular/fire/firestore';
+import { Firestore, doc,collection, getDocs, addDoc, setDoc, collectionData,updateDoc, docData, query, collectionGroup } from '@angular/fire/firestore';
 import { Review } from './booking.page';
 import { Booking } from './booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
@@ -18,8 +18,26 @@ export class BookingService {
     private dataProvider:DataProviderService
   ) {
     collectionData(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'bookings')).subscribe((bookings:any)=>{
-      this.bookings = bookings;
-      this.bookingsSubject.next(this.bookings);
+      getDocs(query(collectionGroup(this.firestore,'agents'))).then((agentsData) => {
+        const agents = agentsData.docs.map((agent) => {
+          return { ...agent.data(), id: agent.id };
+        });
+      
+        getDocs(query(collectionGroup(this.firestore,'slots'))).then((slotsData) => {
+          const slots = slotsData.docs.map((slot) => {
+            return { ...slot.data(), id: slot.id };
+          });
+          this.bookings = bookings.map((booking) => {
+            const agent = agents.find((agent) => booking.assignedAgent == agent.id);
+            booking.agentData = agent;
+            const timeslot = slots.find((slot) => booking.timeSlot.id == slot.id);
+            booking.timeData = timeslot;
+            return booking;
+          });
+          this.bookingsSubject.next(this.bookings);
+        });
+      });
+      
     })
   }
 

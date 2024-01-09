@@ -73,15 +73,16 @@
           <ion-row class="row-2">
             <ion-col class="row-2-col-1">
               <span>Serviced By</span>
-              <h3>Vijay Solanki</h3>
+              <h3>{{data.assignedAgent ? data.agentData.name : 'NA'}}</h3>
             </ion-col>
             <ion-col class="row-2-col-1">
               <span>Time</span>
-              <h3>{{data.createdAt.toDate() | date:'hh:mm a'}}</h3>
+              <h3>{{tConvert(data.timeData.start)}} to </h3>
+              <h3>{{tConvert(data.timeData.end)}}</h3>
             </ion-col>
             <ion-col>
-              <span>{{data.createdAt.toDate() | date: 'shortDate'}}</span>
-              <h3>{{data.createdAt.toDate() | date: 'EEEE'}}</h3>
+              <span>{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span>
+              <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
             </ion-col>
           </ion-row>
 
