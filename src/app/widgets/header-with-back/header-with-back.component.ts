@@ -23,7 +23,6 @@ export class HeaderWithBackComponent  implements OnInit {
   }
   onBackButtonClick(){
     const previousUrlArray = this._navigationBack.getPreviourUrl();
-    console.log(previousUrlArray);
     const previousUrl = previousUrlArray[previousUrlArray.length - 2];
     this._navigationBack.setDataAfterNavigation();
     this.router.navigate([previousUrl]);

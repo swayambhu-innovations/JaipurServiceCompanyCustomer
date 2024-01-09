@@ -21,6 +21,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 import { ActivatedRouteSnapshot, CanActivate, NavigationStart, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Address } from '../select-address/address.structure';
 import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
+import { NavigationBackService } from 'src/app/navigation-back.service';
 
 @Component({
   selector: 'app-new-address',
@@ -62,9 +63,17 @@ export class NewAddressPage implements OnInit, CanActivate{
   areaDetails:any;
   editData:any;
   isEdit:boolean = false;
-  constructor(private fb : FormBuilder,private store: Store<{ editAddress: SignupState }>,private platform:Platform,private locationService:LocationService,
-    private addressService: AddressService,public dataProvider:DataProviderService, private loadingController: LoadingController
-    ,private router:Router,private alertify:AlertsAndNotificationsService) {
+  constructor(
+    private fb : FormBuilder,
+    private store: Store<{ editAddress: SignupState }>,
+    private platform:Platform,
+    private locationService:LocationService,
+    private addressService: AddressService,
+    public dataProvider:DataProviderService, 
+    private loadingController: LoadingController,
+    private router:Router,
+    private alertify:AlertsAndNotificationsService,
+    public _navigationBack : NavigationBackService) {
      
     }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
@@ -308,6 +317,10 @@ export class NewAddressPage implements OnInit, CanActivate{
             }
             else{
               this.alertify.presentToast("Address is added...");
+              const previousUrlArray = this._navigationBack.getPreviourUrl();
+              const previousUrl = previousUrlArray[previousUrlArray.length - 2];
+              this._navigationBack.setDataAfterNavigation();
+              this.router.navigate([previousUrl]);
             }
           }).catch(err=>{
             console.log(err)
