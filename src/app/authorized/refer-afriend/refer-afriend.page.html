@@ -19,12 +19,21 @@
   </div>
 </ion-content> -->
 
-<app-header-with-back [title]="'Refer A Friend'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back [title]="'Refer A Friend'" [showNotificationIcon]="false"></app-header-with-back>
 <div class="container" id="container">
 
-  <img src="assets\Group 1000003215.png" alt="Refer A Friend">
-  <div class="row mt-4">
-    <div class="col mt-4"><ion-button w-50 shape="round"  color="dark">Refer A Friend</ion-button></div>
+  <img src="../../../assets/refertofriend.png" alt="Refer A Friend">
+  <div class="text-div">
+    <h2 style="margin-top: 15px;">Refer a Friend & Get </h2>
+    <h2>50% off</h2>
   </div>
+
+  <div class="refer-button">
+    <button (click) = "shareLink()">Refer A Friend</button>
+  </div>
+  
+  <!-- <div class="row mt-4">
+    <div class="col mt-4"><ion-button w-50 shape="round"  color="dark">Refer A Friend</ion-button></div>
+  </div> -->
   
 </div>

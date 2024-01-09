@@ -67,8 +67,10 @@ export class HomeHeaderComponent  implements OnInit {
     if(this.dataProvider.currentUser?.user.uid){
       userId = this.dataProvider.currentUser?.user.uid;
       let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
+      
       ass.map(res=>{
         let address_ = res.data();
+        console.log(address_);
         if(address.name === address_.name){
           addressId = res.id;
         }

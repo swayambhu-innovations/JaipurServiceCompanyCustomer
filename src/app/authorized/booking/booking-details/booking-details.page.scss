@@ -1141,8 +1141,11 @@ li.pargraph{
     .rating-star {
       display: flex;
       justify-content: space-evenly;
-      padding: 0 110px;
+      padding: 0 77px;
       margin-bottom: 14px;
+      i{
+        font-size: 26px;
+      }
     }
 
     .form-group {
@@ -1155,7 +1158,7 @@ li.pargraph{
     .bottom-buttons {
       padding: 0;
       justify-content: space-between;
-      margin-top: 31px !important;
+      margin-top: 25px !important;
 
       button{
         width: 48%;
