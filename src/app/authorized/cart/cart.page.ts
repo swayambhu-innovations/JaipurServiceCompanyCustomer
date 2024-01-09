@@ -144,10 +144,10 @@ export class CartPage implements OnInit {
      });
     let duration =  '';
     if(mins > 1){
-      duration = mins + "Hours"
+      duration = mins + " Hours"
     }
     else{
-      duration = mins + "Hour"
+      duration = mins + " Hour"
     }
     return duration;
   }
