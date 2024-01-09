@@ -225,7 +225,7 @@
           </div>
           <ion-content [scrollEvents]="true" style="height: 36%;">
             <ion-list class="variants">
-              <ion-item class="variant" *ngFor="let variant of matchingService?.variants;">
+              <ion-item lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
                 <div class="" style="    width: -webkit-fill-available;">
                   <div class="row detail">
                     <p class="col-8 name">{{variant.name}}</p>
@@ -251,7 +251,7 @@
                         </button>
                       </div>
                     </div>
-                    <ion-item class="remove-pading" no-lines class="{{variant.id}}"
+                    <ion-item class="remove-pading" lines="none" class="{{variant.id}}"
                       *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
                       <div class="row addCartdiv" style="width: -webkit-fill-available;">
                         <div class="col-6">
