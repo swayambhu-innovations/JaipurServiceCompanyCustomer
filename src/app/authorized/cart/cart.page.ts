@@ -142,7 +142,13 @@ export class CartPage implements OnInit {
           mins += (variant.jobDuration * variant.quantity) ;
         })
      });
-     let duration =  Math.floor( mins/60 )+ " Hour "+    mins%60 + " Minutes"
+    let duration =  '';
+    if(mins > 1){
+      duration = mins + " Hours"
+    }
+    else{
+      duration = mins + " Hour"
+    }
     return duration;
   }
 

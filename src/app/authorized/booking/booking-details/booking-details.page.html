@@ -228,9 +228,9 @@
   <div>
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
-        <div class="title">
+        <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
           <span>Payment Details</span>
-          <button>
+          <button (click)="downloadInvoice(currentBooking)">
             <img src="../../../../assets/download.svg" alt="">
           </button>
         </div>
