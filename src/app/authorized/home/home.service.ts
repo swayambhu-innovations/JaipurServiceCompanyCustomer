@@ -33,21 +33,12 @@ export class HomeService {
     public _cartService : CartService
   ) {
     this.mainCategories = this.dataProvider.mainCategories;
-      this.dataProvider.selectedAddress.subscribe(async address=>{
+      this.dataProvider.selectedAddress.subscribe(async (address:any)=>{
         if(address.length > 0){
          // console.log("address...........: ",address)
-          let currentAddress = address.filter(addre=> addre.isDefault);
-          if(currentAddress.length > 0 ){
-            let areas:any = await this.addressService.getArea(currentAddress[0].stateId,currentAddress[0].cityId);
-            let selectedArea = areas?.filter(area=>area.geoProofingLocality === currentAddress[0].geoProofingLocality);
-           
-            if(selectedArea.length > 0){
-              //console.log("selectedArea............: ",selectedArea[0])
-              this.fetchData(selectedArea[0].serviceCatalogue);
-            }else{
-              // code for Area Not Found
-            }
-          
+          let currentAddress = address.find(addre=> addre.isDefault);
+          if(currentAddress){
+            this.fetchData(currentAddress.selectedArea.serviceCatalogue);
           }else{
             this.fetchData(address[0].selectedArea.serviceCatalogue);
           }

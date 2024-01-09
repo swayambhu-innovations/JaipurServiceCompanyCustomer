@@ -7,7 +7,12 @@
 }
 
 ion-toolbar{
-  margin-top: -25px;
+  position: fixed;
+  top: 0px;
+  width: 124px;
+  right: 0px;
+  padding-right: 2px;
+  padding-left: 0px;
 }
 
 ion-button {
@@ -23,7 +28,7 @@ ion-button {
   border-radius: 23px;
   button {
     display: flex;
-    background: white;
+    background: transparent;
     color: var(--tertiary, #5e0080);
     font-weight: 600;
     cursor: pointer;
