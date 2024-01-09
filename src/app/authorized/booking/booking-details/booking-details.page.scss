@@ -599,7 +599,9 @@
   flex-direction: row !important;
   background: #fff;
   margin-top: 3px;
-
+  ion-card-header{
+    flex-direction: column;
+  }
   .title {
     display: flex;
     float: left;
