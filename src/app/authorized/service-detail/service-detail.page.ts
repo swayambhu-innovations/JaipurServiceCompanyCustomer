@@ -27,7 +27,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   cartDetils:any;
   tags: any;
   showmodal: boolean = false;
-  backdropValue: any = 0.5;
+  backdropValue: any = 0.1;
   swiper!: Swiper;
   CustomerReview ={
     userCount: 80,
