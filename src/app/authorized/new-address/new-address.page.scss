@@ -12,6 +12,16 @@
 .formdiv{
   margin-top: 10px;
 }
+ion-card {
+    --background: #f2ebf5;
+    --color: #5e0080;
+    border-radius: 12px;
+    box-shadow: none;
+    ion-card-content{
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+}
 
 .address-fields {
   display: block;

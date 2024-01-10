@@ -196,7 +196,8 @@
 
     <div class="row-2">
       <section style="margin-left: 10px">
-        <p class="head">{{currentBooking?.address?.addressLine1}}</p>
+        <p class="head">{{currentBooking?.address?.name}}</p>
+        <p class="body">{{currentBooking?.address?.addressLine1}}</p>
         <p class="body">{{currentBooking?.address?.cityName}}</p>
         <p class="body">{{currentBooking?.address?.stateName}}</p>
         <p class="body">{{currentBooking?.address?.pincode}}</p>
@@ -262,7 +263,7 @@
 
         <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}} on final bill</p>
+          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}}.</p>
         </div>
       </ion-card-header>
     </ion-card>
