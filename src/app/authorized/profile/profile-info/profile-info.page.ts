@@ -49,6 +49,7 @@ export class ProfileInfoPage implements OnInit {
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     dateofbirth: ['', [Validators.required]],
+    gender: ['', [Validators.required]]
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -103,11 +104,13 @@ export class ProfileInfoPage implements OnInit {
           text: 'Male',
           handler: () => {
             this.selectedGender = 'Male';
+            this.userProfileForm.get("gender")?.setValue("Male");
           },
         },
         {
           text: 'Female',
           handler: () => {
+            this.userProfileForm.get("gender")?.setValue("Female");
             this.selectedGender = 'Female';
           },
         },
@@ -118,17 +121,19 @@ export class ProfileInfoPage implements OnInit {
 
   async nextFunction() {
     let date = "";
-    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== '') {
+    this.isSubmitForm = true;
+    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'yyyy-MM-dd') {
       date = this.userProfileForm.controls.dateofbirth.value.split('-');
       date = date[2] + '/' + date[1] + '/' + date[0];
     } else {
       return;
     }
-    if (this.userProfileForm.controls.name.value && this.userProfileForm.controls.name.value === '') {
+    
+    if (this.userProfileForm.controls.name.value == "") {
       return;
     }
 
-    this.isSubmitForm = true;
+    
     if (this.selectedGender === '') {
       this.isGenderSelected = false;
       return;
@@ -136,7 +141,7 @@ export class ProfileInfoPage implements OnInit {
       this.isGenderSelected = true;
     }
     let finalData = {
-      gender: this.selectedGender,
+      gender: this.userProfileForm.controls.gender.value,
       dateofbirth: date,
       name: this.userProfileForm.controls.name.value
     }
@@ -154,6 +159,7 @@ export class ProfileInfoPage implements OnInit {
         .then(() => {
           console.log("this.urlparam .......: ", this.urlparam)
           this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
+          this.isSubmitForm = false;
           loader.dismiss();
         })
         .catch((error: any) => {
@@ -168,6 +174,7 @@ export class ProfileInfoPage implements OnInit {
           this.dataProvider.currentUser?.userData.uid,
           finalData
         ).then(() => {
+          this.isSubmitForm = false;
           this.alertify.presentToast("Profile updated...");
         });
         
