@@ -1,8 +1,38 @@
 <app-header-with-back [title]="'cart'" [showNotificationIcon]="false"></app-header-with-back>
 
 <ion-content *ngIf="!selectedBooking && cart?.length > 0">
-  <!-- <h3 class="header">You have {{cart.length}} bookings.</h3> -->
+
   <div class="orderCard" *ngFor="let booking of cart">
+    <div class="detail">
+      <img [src]="booking.subCategory.image" alt="">
+      <div class="categories">
+        <div class="main">
+          <p>{{booking.subCategory.name}}</p>
+        </div>
+        <div class="sub">
+          <p>{{booking?.services?.length}} Services</p>
+          <span>{{booking.billing.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- <hr class="dashed-line"> -->
+
+    <div class="items">
+      <ng-container *ngFor="let item of booking.services">
+        <ul>
+          <li *ngFor="let variant of item.variants">{{variant.name}} X <span>{{variant.quantity}}</span></li>
+        </ul>
+      </ng-container>
+    </div>
+    <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
+  </div>
+
+
+
+
+  <!-- <h3 class="header">You have {{cart.length}} bookings.</h3> -->
+  <!-- <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
       <img [src]="booking.subCategory.image" alt="">
       <div class="categories">
@@ -26,7 +56,10 @@
       </li>
     </ol>
     <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
-  </div>
+  </div> -->
+
+
+
 </ion-content>
 
 <ion-content class="page-body" *ngIf="selectedBooking">
