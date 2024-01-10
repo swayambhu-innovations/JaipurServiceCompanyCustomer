@@ -52,19 +52,20 @@
         <div
           *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
           style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.errors?.required">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'yyyy-MM-dd' || this.userProfileForm.get('dateofbirth')?.value == ''">
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>
         <ion-input fill="outline"
           label="Gender" 
           label-placement="floating" readonly 
-          [value]="selectedGender" class="gender-input-box"
-          required>
-          <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true" (click)="openGenderPicker()"></ion-icon>
+          class="gender-input-box"
+          formControlName="gender"
+          (click)="openGenderPicker()">
+          <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true"></ion-icon>
         </ion-input>
-        <div *ngIf="!isGenderSelected && isSubmitForm" style="padding: 8px 0px;">
-          <div class="">
+        <div *ngIf="this.userProfileForm.get('gender')?.touched && this.userProfileForm.get('gender')?.invalid || isSubmitForm" style="padding: 8px 0px;">
+          <div class="" *ngIf="this.userProfileForm.get('gender')?.value == ''">
             <ion-text color="danger">Gender is required.</ion-text>
           </div>
         </div>
