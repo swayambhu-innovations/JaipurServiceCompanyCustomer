@@ -1,6 +1,6 @@
 <div class="main">
   <!-- Toolbar -->
-  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
+  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="false"></app-header-with-back>
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
@@ -196,7 +196,8 @@
 
     <div class="row-2">
       <section style="margin-left: 10px">
-        <p class="head">{{currentBooking?.address?.addressLine1}}</p>
+        <p class="head">{{currentBooking?.address?.name}}</p>
+        <p class="body">{{currentBooking?.address?.addressLine1}}</p>
         <p class="body">{{currentBooking?.address?.cityName}}</p>
         <p class="body">{{currentBooking?.address?.stateName}}</p>
         <p class="body">{{currentBooking?.address?.pincode}}</p>
@@ -228,60 +229,41 @@
   <div>
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
-        <div class="title">
+        <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
           <span>Payment Details</span>
-          <button>
+          <button (click)="downloadInvoice(currentBooking)">
             <img src="../../../../assets/download.svg" alt="">
           </button>
         </div>
-        <span>
-          <div class="head">Total Duration</div>
-        </span>
-        <span>
-          <div class="body">{{duration}}</div>
-        </span>
-        <span>
-          <div class="head">Total (MRP)</div>
-        </span>
-        <span>
-          <div class="body">
-            {{currentBooking?.billing?.subTotal | currency:'INR'}}
-          </div>
-        </span>
-        <span>
-          <div class="head">Discount</div>
-        </span>
-        <span>
-          <div class="body" style="color: #579540">
-            {{discount | currency:'INR'}}
-          </div>
-        </span>
-        <span>
-          <div class="head">Discounted Price</div>
-        </span>
-        <span>
-          <div class="body">
-            {{currentBooking?.billing?.grandTotal | currency:'INR'}}
-          
-          </div>
-        </span>
+        <div class="payment-row">
+          <div class="payment-heading">Total Duration</div>
+          <div class="payment-value">{{duration}}</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Total (MRP)</div>
+          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR'}}</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Discount</div>
+          <div class="payment-value" style="color: #579540">{{discount | currency:'INR'}}</div>
+        </div>
+        <div class="payment-row mb-20">
+          <div class="payment-heading">Discounted Price</div>
+          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
+        </div>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
-          <span>
-            <div class="total-price">Total</div>
-          </span>
-          <span>
-            <div class="amount">
-              {{(currentBooking?.billing?.subTotal || 0) -
-                (currentBooking?.billing?.discount || 0) | currency:'INR'}}
-            </div>
-          </span>
+          <div class="payment-row mt-20">
+            <div class="payment-heading total-price">Total</div>
+            <div class="payment-value amount">{{(currentBooking?.billing?.subTotal || 0) -
+              (currentBooking?.billing?.discount || 0) | currency:'INR'}}</div>
+          </div>
         </div>
         <!-- Banner -->
 
         <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}} on final bill</p>
+          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}}.</p>
         </div>
       </ion-card-header>
     </ion-card>
@@ -381,12 +363,12 @@
         <ion-content class="ion-padding">
           <div class="container">
             <div class="row text-center">
-              <h2><b> Kitchen Cleaning </b></h2>
+              <h2> Kitchen Cleaning</h2>
               <small style="color: #6f767e">Complete Kitchen Shape</small>
               <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
                 alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
               <small style="color: #579540">Thank you for your rating!</small>
-              <div class="col">
+              <div class="col rating-star">
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
@@ -400,14 +382,14 @@
 
                   <textarea class="form-control" placeholder="Service Review" rows="3"></textarea>
                 </div>
-                <div class="container mt-4">
-                  <button type="button" class="btn btn-outline-dark">
+                <div class="container mt-4 bottom-buttons">
+                  <button  type="button" class="skipbtn">
                     Skip
                   </button>
 
-                  <span class="example-spacer"></span>
+                  <!-- <span class="example-spacer"></span> -->
 
-                  <button type="button text-light" class="btn btn-dark">
+                  <button type="button" class="submitbtn">
                     Submit
                   </button>
                 </div>

@@ -186,3 +186,12 @@
     }
   }
 }
+ion-button {
+  padding: 0px 8px;
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  width: 50%;
+  text-transform: none;
+  margin: 0px auto;
+}

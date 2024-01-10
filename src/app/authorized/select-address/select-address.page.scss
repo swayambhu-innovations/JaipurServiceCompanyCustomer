@@ -6,6 +6,15 @@
   width: 90%;
 }
 
+ion-toolbar{
+  position: fixed;
+  top: 0px;
+  width: 124px;
+  right: 0px;
+  padding-right: 2px;
+  padding-left: 0px;
+}
+
 ion-button {
   height: 48px;
   font-size: 14px;
@@ -14,9 +23,12 @@ ion-button {
 .new-add-button {
   display: flex;
   float: right;
+  border: 1px solid #5e0080;
+  padding: 10px 13px;
+  border-radius: 23px;
   button {
     display: flex;
-    background: white;
+    background: transparent;
     color: var(--tertiary, #5e0080);
     font-weight: 600;
     cursor: pointer;
@@ -42,7 +54,7 @@ ion-button {
   // }
 
   .address-det-div {
-    margin-top: 15px;
+    margin-top: 7px;
     .address-box {
       border-radius: 12px;
       border: 1px solid var(--Line, #e9e9e9);
@@ -58,6 +70,9 @@ ion-button {
         .input-div {
           display: flex;
           cursor: pointer;
+          input[type="radio"] {
+            accent-color: #232323;
+          }
         }
 
         .address-details {

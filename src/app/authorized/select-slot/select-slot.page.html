@@ -1,20 +1,15 @@
 <app-header-with-back [title]="name" [showNotificationIcon]="false"></app-header-with-back>
-
+ 
 <ion-content>
 
   <div class="row-1">
     <div class="left">
-      <h2>{{dataProvider.currentBooking?.address?.addressLine1}}</h2>
-      <p>{{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
-      <p>{{dataProvider.currentBooking?.address?.area + " " + dataProvider.currentBooking?.address?.city
-        + " " + dataProvider.currentBooking?.address?.pincode}}</p>
-      <!-- <p>{{dataProvider.currentBooking?.address?.addressLine2}}</p> -->
-      <!-- <p>{{dataProvider.currentBooking?.address?.pinCode}}</p> -->
+      <h2 class="mb-1">Name: {{dataProvider.currentBooking?.address?.name}}</h2>
+      <h2>Address: {{dataProvider.currentBooking?.address?.addressLine1}}</h2>
+      <p>Phone no.: {{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
+      <p>City: {{dataProvider.currentBooking?.address?.city}}</p>
+      <p>Pincode: {{dataProvider.currentBooking?.address?.pincode}}</p>
     </div>
-    <!-- <div class="right" routerLink="../select-address">
-      Change Address
-      <img src="assets/icon/select-slot/right-arrow.svg" alt="">
-    </div> -->
   </div>
 
 
@@ -82,6 +77,18 @@
       <ion-button [disabled]="!(selectedDate && selectedTimeState)" expand="block">
         Book
       </ion-button>
+    </div>
+
+
+    <div class="temp" style="display: none;">
+      <div class="bottom1">
+        <button class="payafter"  >
+          Pay After Job
+        </button>
+        <button class="paynow"  >
+          Pay Now
+        </button>
+      </div>
     </div>
   </div>
 

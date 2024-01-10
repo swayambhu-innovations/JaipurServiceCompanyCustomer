@@ -19,76 +19,41 @@
 
   <div class="recent-container" *ngIf="bookingService.bookingsSubject != null">
     <ion-label class="label">Upcoming Bookings</ion-label>
-
-    <swiper-container [loop]="true" [spaceBetween]="20">
-      <!-- <swiper-slide class="recent-container-details" *ngFor="let data of recentActivityData"> -->
-      <swiper-slide class="recent-container-details" *ngFor="let data of bookingService.bookingsSubject | async">
-        <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
-          <ion-row class="row-1">
-            <ion-col>
-              <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
-              <p>{{data.billing.grandTotal | currency:'INR'}}</p>
-            </ion-col>
-            <ion-col class="row-1-col-2">
-              <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
-              <!-- <ng-container *ngIf="data.stage == 'allotmentPending'">
-                <div class="status-box allotmentpending">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'compelete'">
-                <div class="status compelete">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'progress'">
-                <div class="status progress">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'cancelled'">
-                <div class="status cancelled">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'expired'">
-                <div class="status expired">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'otpVerify'">
-                <div class="status otpverify">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container>
-              <ng-container *ngIf="data.stage == 'acceptancePending'">
-                <div class="status acceptancepending">
-                  {{data.stage | titlecase}}
-                </div>
-              </ng-container> -->
-
-
-            </ion-col>
-          </ion-row>
-          <ion-row class="row-2">
-            <ion-col class="row-2-col-1">
-              <span>Serviced By</span>
-              <h3>Vijay Solanki</h3>
-            </ion-col>
-            <ion-col class="row-2-col-1">
-              <span>Time</span>
-              <h3>{{data.createdAt.toDate() | date:'hh:mm a'}}</h3>
-            </ion-col>
-            <ion-col>
-              <span>{{data.createdAt.toDate() | date: 'shortDate'}}</span>
-              <h3>{{data.createdAt.toDate() | date: 'EEEE'}}</h3>
-            </ion-col>
-          </ion-row>
-
-        </ion-grid>
-        <!-- </div> -->
-      </swiper-slide>
-    </swiper-container>
+    <div class="banner-container">
+      <div #swiperContainer1 class="swiper-container">
+        <div class="swiper-wrapper recent-container-details">
+          <div class="swiper-slide" *ngFor="let data of upcomingBookings">
+            <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
+              <ion-row class="row-1">
+                <ion-col>
+                  <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
+                  <p>{{data.billing.grandTotal | currency:'INR'}}</p>
+                </ion-col>
+                <ion-col class="row-1-col-2">
+                  <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
+                </ion-col>
+              </ion-row>
+              <ion-row class="row-2">
+                <ion-col class="row-2-col-1">
+                  <span>Serviced By</span>
+                  <h3>{{data.assignedAgent ? data.agentData.name : 'NA'}}</h3>
+                </ion-col>
+                <ion-col class="row-2-col-1">
+                  <span>Time</span>
+                  <h3>{{tConvert(data.timeData.start)}} to </h3>
+                  <h3>{{tConvert(data.timeData.end)}}</h3>
+                </ion-col>
+                <ion-col>
+                  <span>{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span>
+                  <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
+        <div class="swiper-pagination swiper-pagination1"></div>
+      </div>    
+    </div>
   </div>
 
   <div>

@@ -1,15 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataProviderService } from '../../core/data-provider.service';
 import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../payment.service';
 import * as $ from 'jquery';
+import Swiper from 'swiper';
 @Component({
   selector: 'app-service-detail',
   templateUrl: './service-detail.page.html',
   styleUrls: ['./service-detail.page.scss'],
 })
-export class ServiceDetailPage implements OnInit {
+export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
+  @ViewChild('videoContainer', { static: false, read: ElementRef }) videoElement:ElementRef;
+  @ViewChild('swiperContainerServiceDetail') swiperContainerServiceDetail!: ElementRef;
   @ViewChild('modal3') modal;
   matchingService:Service|undefined;
   matchingSubCategory:SubCategory|undefined;
@@ -24,7 +27,8 @@ export class ServiceDetailPage implements OnInit {
   cartDetils:any;
   tags: any;
   showmodal: boolean = false;
-  backdropValue: any = 0.5;
+  backdropValue: any = 0.1;
+  swiper!: Swiper;
   CustomerReview ={
     userCount: 80,
     average:"4/5",
@@ -52,34 +56,23 @@ export class ServiceDetailPage implements OnInit {
   constructor(public dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router,
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
-    this.activatedRoute.params.subscribe(async (params)=>{
-      
-      
-      let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
-      this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
-      if(!this.matchingMainCategory){
-        this.router.navigate(['/home']);
-        return;
-      }
-      this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory)=>subCategory.id==params['subCategoryId'])
-      if(!this.matchingSubCategory){
-        this.router.navigate(['/home']);
-        return;
-      }
-      
-      this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
-      //console.log(this.matchingService);
-      if(this.matchingService?.variants && this.matchingService?.variants.length >0){
-        this.startPrice = this.matchingService?.variants[0].price;
-      }
-    });
+    
    
   }
  async ngOnInit() {
-    this.cartDetils = this.cartService.cart;
-    this.cartService.cartSubject.subscribe(cartDetils=>{
-      this.cartDetils = cartDetils;
-    })
+    
+  }
+
+
+  ngAfterViewInit() {
+    
+    
+    
+  }
+  ngOnDestroy() {
+    if (this.swiper) {
+      this.swiper.destroy();
+    }
   }
 
   showAllVariants(modal:any){
@@ -104,8 +97,50 @@ export class ServiceDetailPage implements OnInit {
     this.modal.dismiss();
   }
 
+  ionViewWillEnter(){
+    this.activatedRoute.params.subscribe(async (params)=>{
+      let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
+      this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
+      if(!this.matchingMainCategory){
+        this.router.navigate(['/home']);
+        return;
+      }
+      this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory)=>subCategory.id==params['subCategoryId'])
+      if(!this.matchingSubCategory){
+        this.router.navigate(['/home']);
+        return;
+      }
+      
+      this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
+      if(this.matchingService?.variants && this.matchingService?.variants.length >0){
+        this.startPrice = this.matchingService?.variants[0].price;
+      }
+    });
+  }
+
   ionViewDidEnter(){
+    this.cartDetils = this.cartService.cart;
+    this.cartService.cartSubject.subscribe(cartDetils=>{
+      this.cartDetils = cartDetils;
+    })
     this.modal.present();
+
+    this.swiper = new Swiper(this.swiperContainerServiceDetail.nativeElement, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination-service-detail',
+        clickable: true,
+      },
+      autoplay: {
+        delay : 2000,
+        disableOnInteraction: true
+      },
+      rewind : true
+    });
+    if(this.videoElement?.nativeElement){
+      this.videoElement.nativeElement.muted = true;
+    }
   }
 
   async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){

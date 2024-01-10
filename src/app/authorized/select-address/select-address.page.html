@@ -1,10 +1,11 @@
-<app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'" [showNotificationIcon]="addressService.addresses.length > 0"></app-header-with-back>
+<app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'" [showNotificationIcon]="false"></app-header-with-back>
+<!-- [showNotificationIcon]="addressService.addresses.length > 0" -->
 <div class="container">
   <div class="row">
     <ion-toolbar slot="end">
 
         <div class="new-add-button">
-          <button routerLink="../new-address">
+          <button (click)="newAddress()">
             <span>Add New</span>
             <img src="../../../assets/add-button.svg" alt="">
           </button>
@@ -74,7 +75,8 @@
       <div class="address-box" *ngFor="let address of addressService.addresses">
         <div class="add-cont" >
           <div class="input-div">
-            <!-- <input type="radio" (click)="setValue($event)" [checked]="address.isDefault" /> -->
+            <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
+            <!-- <input  type="radio" > -->
           </div>
           <div class="address-details">
             <h2>{{address.name}}</h2>

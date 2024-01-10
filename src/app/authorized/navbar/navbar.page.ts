@@ -15,6 +15,13 @@ export class NavbarPage implements OnInit {
     ngOnInit(){
         console.log(this.router.url);
     }
+    close(url:any) {
+        this.router.navigate([url]);
+    }
+
+    getBookingDetailUrl(a,b){
+        return a.indexOf(b) > -1;
+    }
 }
 
 

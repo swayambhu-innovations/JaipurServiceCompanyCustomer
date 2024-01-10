@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDocs, query, updateDoc } from '@angular/fire/firestore';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { Address } from '../select-address/address.structure';
 import { promises, resolve } from 'dns';
 import { rejects } from 'assert';
 import { Router } from '@angular/router';
+import { CartService } from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AddressService {
   selectedAddres:Address;
   action:BehaviorSubject<any> = new BehaviorSubject<any>({isEdit:false})
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
-  constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient,private router:Router) {
+  constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient,private router:Router, public cartService: CartService) {
     if(this.dataProvider.currentUser!.user.uid !== undefined){
          
          collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
@@ -61,17 +62,31 @@ export class AddressService {
   editAddress(userId:string, addressId:string, address:any){
     return updateDoc(doc(this.firestore, 'users', userId, 'addresses', addressId), address);
   }
+
   getAreaOnSearch(searchInput: string) {
     return this.http.get(
        `${environment.firebase.functionURL}getAreaOnSearch?searchInput=${searchInput}`
     );
-   }
-   getAreaDetail(latitude: number, longitude : number){
-    return this.http.get(`${environment.firebase.functionURL}getAreaDetail?latitude=${latitude}&longitude=${longitude}`);
+  }
+
+  getAreaDetail(latitude: number, longitude : number){
+    return this.http.get(`${environment.firebase.functionURL}getAreaDetailByLatLng?lat=${latitude}&lng=${longitude}`);
   }
 
   getAreaDetailByPlaceId(placeId: string){
     return this.http.get(`${environment.firebase.functionURL}getAreaDetailByPlaceId?placeId=${placeId}`);
+  }
+
+  async clearCart(userId:string){
+    collectionData(collection(this.firestore, 'users', userId, 'cart')).subscribe((carts:any)=>{
+      const thisCart = carts;
+      thisCart.map(async (cart) => {
+        await deleteDoc(doc(this.firestore,'users',userId,'cart',cart.id!));
+      })
+
+    });
+    this.cartService.cart = [];
+    this.cartService.cartSubject.next([]);
   }
 
 }

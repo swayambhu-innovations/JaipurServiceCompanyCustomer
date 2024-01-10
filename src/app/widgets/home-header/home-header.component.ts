@@ -67,8 +67,10 @@ export class HomeHeaderComponent  implements OnInit {
     if(this.dataProvider.currentUser?.user.uid){
       userId = this.dataProvider.currentUser?.user.uid;
       let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
+      
       ass.map(res=>{
         let address_ = res.data();
+        console.log(address_);
         if(address.name === address_.name){
           addressId = res.id;
         }
@@ -81,6 +83,7 @@ export class HomeHeaderComponent  implements OnInit {
     if(userId !== "" && addressId !== ""){
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
+      this.addressService.clearCart(userId).then(() => {});
       loader.dismiss();
     }else{
       loader.dismiss();

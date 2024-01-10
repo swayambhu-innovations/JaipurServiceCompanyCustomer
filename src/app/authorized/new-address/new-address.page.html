@@ -1,6 +1,9 @@
-<app-header-with-back [title]="'Add New Address'" [showNotificationIcon]="showHeader" [showBackButton]="showHeader"></app-header-with-back>
+<app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false" [showBackButton]="showHeader"></app-header-with-back>
 <ion-content>
   <form [formGroup]="addressForm">
+    <div class="input">
+      <input type="text" formControlName="name" placeholder="Address Name" />
+    </div>
     <div class="input">
       <ion-select
         formControlName="state"
@@ -35,20 +38,6 @@
       </ion-select>
     </div>
     <div class="input">
-      <input type="text" formControlName="name" placeholder="Name" />
-    </div>
-    <div class="area-container">
-      <ion-toolbar>
-        <ion-searchbar formControlName="area" placeholder="Search Area" [debounce]="500" (ionInput)="getAreaOnSearch($event)"></ion-searchbar>
-      </ion-toolbar>
-      <ion-list>
-          <ion-item class="ion-border"*ngFor="let item of areaOptions" (click)="onAreaDropdownSelect(item)" tappable>
-              <ion-label > {{ item?.formatted_address }}</ion-label>
-          </ion-item>
-      </ion-list>
-    </div>
-    
-    <div class="input">
       <input type="number" formControlName="pincode" placeholder="Pin Code" />
     </div>
     <div class="input">
@@ -58,6 +47,27 @@
         placeholder="House/Flat/Block/Building"
       />
     </div>
+    <div class="input">
+      <ion-select
+        formControlName="selectedArea"
+        aria-label="area"
+        interface="action-sheet"
+        toggleIcon="chevron-down"
+        justify="space-between"
+        placeholder="Area"
+        [compareWith]="compareAreaFn"
+        (ionChange)="onAreaChange($event)"
+      >
+        <ion-select-option [value]="area" *ngFor="let area of areas$ | async">
+          {{area.name}} | {{area.locality}}
+        </ion-select-option>
+      </ion-select>
+    </div>
+    <ion-card style="margin: 0px;">
+      <ion-card-content>
+        Please click on map to select your location.
+      </ion-card-content>
+    </ion-card>
     <google-map
       height="400px"
       width="100%"

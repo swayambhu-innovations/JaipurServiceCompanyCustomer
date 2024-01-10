@@ -1,8 +1,12 @@
-<app-header-with-back [title]="'Notification'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back [title]="'Notification'" [showNotificationIcon]="false"></app-header-with-back>
 <ion-content>
   <div class="container">
     <div class="row text-center mt-4">
-      <div class="col"><img src="assets/Frame 34605.png" alt="Notification"></div>
+      <div class="col notification-div">
+        <img src="../../../../assets/notification.svg" alt="Notification">
+        <h2>No Notifications!</h2>
+        <p>You don't have any notification yet. Please place order</p>
+      </div>
     </div>
   
     <div class="container mt-4">

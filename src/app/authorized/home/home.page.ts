@@ -13,6 +13,7 @@ import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
 import Utils from '../common/util';
 import Swiper from 'swiper';
+import * as moment from 'moment';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -27,6 +28,7 @@ interface bannerConfig {
 })
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
+  @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   todayDate: number = Date.now();
   isLoaded : boolean = false;
   isNotServiceableModalOpen: boolean = false;
@@ -65,6 +67,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   categories: any[] = []; // added by ronak
   icon: any[] = []; // added by ronak
   swiper!: Swiper;
+  swiper1!: Swiper;
+  upcomingBookings:any[] = [];
 
   constructor(
     private router: Router,
@@ -78,7 +82,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.utils = Utils.stageMaster;
     bookingService.bookingsSubject.subscribe(  bookings=> {
-      
+     this.upcomingBookings = bookings.filter((item) =>{
+      if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
+        return false;
+      }
+      else{
+        return true;
+      }
+     }); 
     })
   }
 
@@ -107,15 +118,29 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         el: '.swiper-pagination',
         clickable: true,
       },
-      autoplay: {
+      autoplay:{
         delay : 2000
+      }
+    });
+    this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination1',
+        clickable: true,
       },
-      
+      centeredSlides: true,
+      autoplay:{
+        delay : 2000
+      }
     });
   }
   ngOnDestroy() {
     if (this.swiper) {
       this.swiper.destroy();
+    }
+    if (this.swiper1) {
+      this.swiper1.destroy();
     }
   }
 
@@ -371,6 +396,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.router.navigate(['/authorized/select-address']);
     },100);
     
+  }
+
+  tConvert (time) {
+    return moment (time, "HH:mm").format ("hh:mm a"); 
   }
   
 }

@@ -149,7 +149,7 @@ export class SelectSlotPage implements OnInit {
   totalSlots() {
     getDocs(collection(this.firestore,'slots')).then((slots) => {
       this.slots = slots.docs.map((slot) => {
-        return { id: slot.id, ...slot.data() };
+        return { ...slot.data(),id: slot.id };
       });
       this.slotsArray = this.slots.sort((a: any, b: any) =>
         a.index > b.index ? 1 : -1
@@ -236,6 +236,7 @@ export class SelectSlotPage implements OnInit {
           console.log("paymentResponse ........: ",paymentResponse)
         }
       });
+    }
         // this.bookingService.addBooking(
         //   this.dataProvider.currentBooking!,
         //   this.dataProvider.currentUser!.user!.uid
@@ -251,12 +252,29 @@ export class SelectSlotPage implements OnInit {
         // .finally(() => {
         //   loader.dismiss();
         // });
-      }else{
-        this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
-          this.router.navigate(['/authorized/order-placed']);
-          loader.dismiss();
-        });
-      }
+    // if(booking && !booking?.isUpdateSlot){
+    //   booking.createdAt = Timestamp.fromDate(new Date());
+    //     this.bookingService.addBooking(
+    //       this.dataProvider.currentBooking!,
+    //       this.dataProvider.currentUser!.user!.uid
+    //     )
+    //     .then(async () => {
+    //       await this.cartService.deleteBooking(
+    //         this.dataProvider.currentUser!.user.uid,
+    //         this.dataProvider.currentBooking!.id!
+    //       )
+    //       await this.cartService.updateCart();
+    //       this.router.navigate(['/authorized/order-placed']);
+    //     })
+    //     .finally(() => {
+    //       loader.dismiss();
+    //     });
+    //   }else{
+    //     this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+    //       this.router.navigate(['/authorized/order-placed']);
+    //       loader.dismiss();
+    //     });
+    //   }
    
   }
 }
