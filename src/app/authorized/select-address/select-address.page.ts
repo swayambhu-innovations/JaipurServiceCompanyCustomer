@@ -56,14 +56,13 @@ export class SelectAddressPage implements OnInit {
     let addressId = "";
     let userId = "";
     let loader = await this.loadingController.create({message:'Changing  Location...'});
-      loader.present();
+    loader.present();
     if(this.dataProvider.currentUser?.user.uid){
       userId = this.dataProvider.currentUser?.user.uid;
       let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
       
       ass.map(res=>{
         let address_ = res.data();
-        console.log(address_);
         if(address.name === address_.name){
           addressId = res.id;
         }
@@ -77,11 +76,10 @@ export class SelectAddressPage implements OnInit {
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
       loader.dismiss();
+      this.addressService.clearCart(userId).then(() => {});
+      
     }else{
       loader.dismiss();
     }
-    // this.addressLineTwoVisible = false;
-    // this.showmodal = false;
-    // this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
 }
