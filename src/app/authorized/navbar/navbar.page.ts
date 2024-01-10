@@ -18,6 +18,10 @@ export class NavbarPage implements OnInit {
     close(url:any) {
         this.router.navigate([url]);
     }
+
+    getBookingDetailUrl(a,b){
+        return a.indexOf(b) > -1;
+    }
 }
 
 

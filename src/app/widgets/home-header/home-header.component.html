@@ -28,7 +28,7 @@
 
 
 <ion-content>
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)" [isOpen]="showmodal" [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)" [backdropBreakpoint]="0" [isOpen]="showmodal" [initialBreakpoint]="0.4" [breakpoints]="[0.3, 0.3, 0.3,0.3]">
     <ng-template>
       <div class="main-container">
         <div class="address-head">
