@@ -15,9 +15,9 @@ var corsOptions = {
 };
 const cors = require('cors')(corsOptions);
 // ---- Live keys ----
-let key_id = 'rzp_test_8cTBlk022y2EDq';
+let key_id = 'rzp_test_cRbZQgloSbjdSu';
 
-let key_secret = 'ybRsi5dG5RbrftoA4uK9593s';
+let key_secret = 'lcxsvz0bwLxbI1uy1MU1kkjV';
 // // --- Live keys ----
 // let key_id = 'rzp_live_8hEmHG2aEOtNa8';
 // let key_secret = 'qfV59uWWXaI7gJBP1cSbSUyE';

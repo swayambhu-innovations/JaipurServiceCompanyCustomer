@@ -217,42 +217,46 @@ export class SelectSlotPage implements OnInit {
     loader.present();
     let booking = this.dataProvider.currentBooking;
     if(!booking?.isUpdateSlot){
-        this.bookingService.addBooking(
-          this.dataProvider.currentBooking!,
-          this.dataProvider.currentUser!.user!.uid
-        )
-        .then(async () => {
-          await this.cartService.deleteBooking(
-            this.dataProvider.currentUser!.user.uid,
-            this.dataProvider.currentBooking!.id!
-          )
-          await this.cartService.updateCart();
-          this.router.navigate(['/authorized/order-placed']);
-        })
-        .finally(() => {
-          loader.dismiss();
-        });
+      this.paymentService.handlePayment({
+        grandTotal: this.dataProvider.currentBooking!.billing.grandTotal,
+        user:{
+          phone: this.dataProvider.currentUser?.user.phoneNumber || '',
+        }
+      }).subscribe((paymentResponse)=>{
+        console.log("paymentResponse ........: ",paymentResponse['body'])
+        if(paymentResponse['body'] && JSON.parse(paymentResponse['body'])?.status == 'captured'){
+          this.dataProvider.currentBooking!.payment = JSON.parse(paymentResponse['body']);
+          this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
+            await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
+            this.router.navigate(['/authorized/order-placed']);
+          }).finally(()=>{
+            loader.dismiss();
+          })
+        }else{
+          console.log("paymentResponse ........: ",paymentResponse)
+        }
+      });
+        // this.bookingService.addBooking(
+        //   this.dataProvider.currentBooking!,
+        //   this.dataProvider.currentUser!.user!.uid
+        // )
+        // .then(async () => {
+        //   await this.cartService.deleteBooking(
+        //     this.dataProvider.currentUser!.user.uid,
+        //     this.dataProvider.currentBooking!.id!
+        //   )
+        //   await this.cartService.updateCart();
+        //   this.router.navigate(['/authorized/order-placed']);
+        // })
+        // .finally(() => {
+        //   loader.dismiss();
+        // });
       }else{
         this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
           this.router.navigate(['/authorized/order-placed']);
           loader.dismiss();
         });
       }
-    // this.paymentService.handlePayment({
-    //   grandTotal: this.dataProvider.currentBooking!.billing.grandTotal,
-    //   user:{
-    //     phone: this.dataProvider.currentUser?.user.phoneNumber || '',
-    //   }
-    // }).subscribe((paymentResponse)=>{
-    //   if(JSON.parse(paymentResponse['body']).status == 'captured'){
-    //     this.dataProvider.currentBooking!.payment = JSON.parse(paymentResponse['body']);
-    //     this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
-    //       await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
-    //       this.router.navigate(['/authorized/order-placed']);
-    //     }).finally(()=>{
-    //       loader.dismiss();
-    //     })
-    //   }
-    // })
+   
   }
 }

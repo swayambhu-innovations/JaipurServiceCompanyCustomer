@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -10,10 +10,16 @@ import { NumberFormatStyle } from '@angular/common';
   providedIn: 'root'
 })
 export class PaymentService {
-  constructor(private https:HttpClient,private alertify:AlertsAndNotificationsService) { }
+  constructor(private https:HttpClient,private alertify:AlertsAndNotificationsService, private dataProvider:DataProviderService) { }
   WindowRef: any;
   orders: any[] = [];
-
+   httpOptions = {
+    headers: new HttpHeaders({
+      "Access-Control-Allow-Origin": "*",
+      'Accept':"*/*",
+      'Content-Type':  'application/json'
+    })
+  };
   get MainWindowRef() {
     return this.WindowRef;
   }
@@ -24,6 +30,7 @@ export class PaymentService {
   
   handleWallet(amount:number){
     console.log(amount);
+   
     this.WindowRef = window;
     var result:Subject<any> = new Subject();
       var ref = this;
@@ -34,22 +41,27 @@ export class PaymentService {
           name: 'Pay',
           currency: order.currency,
           order_id: order.id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
-          image: 'https://madhavseva.com/assets/Images/logo.png',
+          image: 'https://jaipurservicecompany.com/images/logo.png',
           handler: function (response: any) {
+            console.log("handler response......: ",response)
             ref.finalizePayment(response,result);
           },
-          // prefill: {
-          //   name: this.dataProvider.user.name,
-          //   contact: '+91' + orderDetails.user.phone,
-          // },
+          prefill: {
+            name: ref.dataProvider?.currentUser?.userData?.name,
+            contact: '+91' +ref.dataProvider?.currentUser?.userData?.userMobile,
+          },
           theme: {
             color: '#ffc670',
           },
         };
       }
-      let orderDetails = {
+      let orderDetails:CreateOrder = {
         amount: amount * 100,
         receipt: this.generateRecipetNumber(),
+        currency:"INR",
+        notes:{
+
+        }
       };
       console.log("Order details",orderDetails);
       this.createOrder(orderDetails).subscribe((order) => {
@@ -74,6 +86,9 @@ export class PaymentService {
 
   handlePayment(data:booking){
     console.log(data);
+    this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
+      console.log("res order..................: ",response)
+    });
     this.WindowRef = window;
     var result:Subject<any> = new Subject();
       var ref = this;
@@ -83,28 +98,39 @@ export class PaymentService {
           amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 29935 refers to 29935 paise or INR 299.35.
           name: 'Pay',
           currency: order.currency,
-          order_id: order.id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
-          image: 'https://madhavseva.com/assets/Images/logo.png',
+         // order_id: order.id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
+          image: 'https://jaipurservicecompany.com/images/logo.png',
           handler: function (response: any) {
+            console.log("preparePaymentDetails response.............: ",response,result)
             ref.finalizePayment(response,result);
           },
           prefill: {
             name: orderDetails.user.displayName,
-            contact: '+91' + orderDetails.user.phone,
+            contact: orderDetails.user.phone,
           },
           theme: {
-            color: '#ffc670',
+            color: '#2a1234',
           },
         };
       }
-      let orderDetails = {
+      let orderDetails:CreateOrder = {
         amount: Math.round(data.grandTotal! * 100),
         receipt: this.generateRecipetNumber(),
+        currency: "INR",
+        notes: {
+        }
       };
       console.log("Order details",orderDetails);
       this.createOrder(orderDetails).subscribe((order) => {
           console.log("Payment details",order)
-          let orderDetail = preparePaymentDetails(order, data,result)
+          let orderDetail = preparePaymentDetails(order, data,result);
+          orderDetail['method'] = {
+            netbanking: true,
+            card: true,
+            wallet: true,
+            upi: true
+          };
+          console.log("Payment orderDetail",orderDetail)
           var rzp1 = new this.WindowRef.Razorpay(orderDetail);
           this.orders.push(orderDetail);
           rzp1.open();
@@ -137,7 +163,7 @@ export class PaymentService {
   }
 
   finalizePayment(response: any,result:Subject<any>) {
-    console.log(response);
+    console.log("Payment details",response);
     this.https.post(
       environment.cloudFunctions.capturePayment,{
       amount: this.orders.find((order) => order.order_id == response.razorpay_order_id).amount,
@@ -157,15 +183,17 @@ export class PaymentService {
 
   }
 
-  createOrder(orderDetails: any) {
-    return this.https.post(
-      environment.cloudFunctions.createOrder,
-      orderDetails
-    );
+  createOrder(orderDetails: CreateOrder) {
+    return this.https.post(environment.cloudFunctions.createOrder ,orderDetails,this.httpOptions);
+  }
+  geteOrderById(orderId: string) {
+    return this.https.get(environment.cloudFunctions.getOrderById +orderId);
   }
 }
 
 import { AlertsAndNotificationsService } from './alerts-and-notifications.service';
+import { DataProviderService } from './core/data-provider.service';
+import { CreateOrder } from './authorized/models/payment.structure';
 
 export interface paymentDetail extends booking {
     cost: number;

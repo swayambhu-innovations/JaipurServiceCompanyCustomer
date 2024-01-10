@@ -14,13 +14,16 @@ export const environment = {
     functionURL: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/',
   },
   cloudFunctions : {
-    createOrder: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createOrder',
+    createOrder: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/createOrder',
+    getOrderById: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/getOrderById?id=',
     capturePayment: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/capturePayments',
     createSubscription: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createSubscription',
     verifySubscription:'https://us-central1-jaipurservicecompany.cloudfunctions.net/verifySubscription',
     checkSubscriptionStatus:'https://us-central1-jaipurservicecompany.cloudfunctions.net/checkSubscriptionStatus',
   },
-  RAZORPAY_KEY_ID: 'rzp_test_8cTBlk022y2EDq',
+  RAZORPAY_KEY_ID: 'rzp_test_cRbZQgloSbjdSu',
+  RAZORPAY_KEY:'lcxsvz0bwLxbI1uy1MU1kkjV',
+  RAZORPAY_DOMAIN:'https://api.razorpay.com/v1/',
   production: false
 };
 
