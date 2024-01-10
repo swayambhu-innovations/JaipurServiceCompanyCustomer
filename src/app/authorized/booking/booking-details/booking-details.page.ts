@@ -9,6 +9,7 @@ import Utils from '../../common/util';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.page.html',
@@ -453,8 +454,14 @@ export class BookingDetailsPage implements OnInit {
         ],
         theme: 'plain',
     });
-
-    return doc.save(`Invoice_${currentBookingData.id}`);
+    let pdfOutput = doc.output();
+    
+    return Filesystem.writeFile({
+        path: `Invoice_${currentBookingData.id}`,
+        data: pdfOutput,
+        directory: Directory.Documents,
+        encoding: Encoding.UTF8,
+    });
   }
 
   toProperCase = (text: string) => {
