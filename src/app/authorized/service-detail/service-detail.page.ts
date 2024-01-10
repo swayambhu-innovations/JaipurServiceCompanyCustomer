@@ -56,53 +56,17 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   constructor(public dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router,
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
-    this.activatedRoute.params.subscribe(async (params)=>{
-      
-      
-      let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
-      this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
-      if(!this.matchingMainCategory){
-        this.router.navigate(['/home']);
-        return;
-      }
-      this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory)=>subCategory.id==params['subCategoryId'])
-      if(!this.matchingSubCategory){
-        this.router.navigate(['/home']);
-        return;
-      }
-      
-      this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
-      if(this.matchingService?.variants && this.matchingService?.variants.length >0){
-        this.startPrice = this.matchingService?.variants[0].price;
-      }
-    });
+    
    
   }
  async ngOnInit() {
-    this.cartDetils = this.cartService.cart;
-    this.cartService.cartSubject.subscribe(cartDetils=>{
-      this.cartDetils = cartDetils;
-    })
+    
   }
+
 
   ngAfterViewInit() {
     
-    this.swiper = new Swiper(this.swiperContainerServiceDetail.nativeElement, {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination-service-detail',
-        clickable: true,
-      },
-      autoplay: {
-        delay : 2000,
-        disableOnInteraction: true
-      },
-      rewind : true
-    });
-    if(this.videoElement?.nativeElement){
-      this.videoElement.nativeElement.muted = true;
-    }
+    
     
   }
   ngOnDestroy() {
@@ -133,8 +97,50 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
     this.modal.dismiss();
   }
 
+  ionViewWillEnter(){
+    this.activatedRoute.params.subscribe(async (params)=>{
+      let mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
+      this.matchingMainCategory = mainCategories.find((mainCategory)=>mainCategory.id==params['mainCategoryId'])
+      if(!this.matchingMainCategory){
+        this.router.navigate(['/home']);
+        return;
+      }
+      this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory)=>subCategory.id==params['subCategoryId'])
+      if(!this.matchingSubCategory){
+        this.router.navigate(['/home']);
+        return;
+      }
+      
+      this.matchingService = this.matchingSubCategory.services.find((service)=>service.id==params['serviceId']);
+      if(this.matchingService?.variants && this.matchingService?.variants.length >0){
+        this.startPrice = this.matchingService?.variants[0].price;
+      }
+    });
+  }
+
   ionViewDidEnter(){
+    this.cartDetils = this.cartService.cart;
+    this.cartService.cartSubject.subscribe(cartDetils=>{
+      this.cartDetils = cartDetils;
+    })
     this.modal.present();
+
+    this.swiper = new Swiper(this.swiperContainerServiceDetail.nativeElement, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination-service-detail',
+        clickable: true,
+      },
+      autoplay: {
+        delay : 2000,
+        disableOnInteraction: true
+      },
+      rewind : true
+    });
+    if(this.videoElement?.nativeElement){
+      this.videoElement.nativeElement.muted = true;
+    }
   }
 
   async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){
