@@ -104,6 +104,8 @@ export class SelectSlotPage implements OnInit {
     this.totalSlots();
   }
   ionViewDidEnter(){
+    this.selectedDate = undefined;
+    this.clearSlot();
     let booking = this.dataProvider.currentBooking;
     if(booking?.isUpdateSlot && booking.timeSlot){
       this.selectedDate = booking.timeSlot.date.toDate();
