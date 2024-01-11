@@ -33,6 +33,7 @@ export interface  Booking {
     totalJobAcceptanceCharge: number;
   };
   createdAt: Timestamp;
+  completedAt?: Timestamp;
   jobOtp: string;
   isUpdateSlot:boolean;
   address: Address | undefined;

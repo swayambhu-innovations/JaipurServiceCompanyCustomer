@@ -13,11 +13,12 @@ import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 import {File} from "@awesome-cordova-plugins/file";
 import { FileOpener } from '@awesome-cordova-plugins/file-opener';
 import { Platform } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
 
 var pdfMakeX = require('pdfmake/build/pdfmake.js');
 var pdfFontsX = require('pdfmake/build/vfs_fonts.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
-import * as pdfMake from 'pdfmake/build/pdfmake';
+const pdfMake = require('pdfmake/build/pdfmake.js');
 @Component({
   selector: 'app-booking-details',
   templateUrl: './booking-details.page.html',
@@ -516,14 +517,196 @@ export class BookingDetailsPage implements OnInit {
     }
 
     getPdfDefination(){
-        var dd = {
-            content: [
-                'First paragraph',
-                'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines'
-            ]
-            
+      var dd:any = {
+        content: [
+          {
+              columns: [
+                  {
+                      text: 'Jaipur Service Company',
+                      width: '90%',
+                  },
+                  {
+                      text: 'Invoice',
+                      width: '30%',
+                  }
+              ],
+              style: 'header'
+              
+          },
+          {
+              text: '\nGSTN: 09IXVPK0011F1ZE\n\n\n',
+              fontSize: 13
+          },
+          {
+              columns: [
+                    {
+                      text: [
+                              {
+                                  text:'From:\n'
+                              },
+                              {
+                                  text:'Jaipur Service Company\n',
+                                  fontSize: 10
+                              },
+                              {
+                                  text:' Shop C-01,409/276-277,\n',
+                                  fontSize: 10
+                              },
+                              {
+                                  text:' Shakuntalam Apartment,\n',
+                                  fontSize: 10
+                              },
+                              {
+                                  text:' Mutthiganj, Near Maya Press\n',
+                                  fontSize: 10
+                              },
+                              {
+                                  text:' 211003 - Prayagraj\n',
+                                  fontSize: 10
+                              },
+                              {
+                                  text:' India\n',
+                                  fontSize: 10
+                              }
+                          ],
+                          width: '60%'
+                          
+                    },
+                    {
+                        text: [
+                            {
+                                text: `Reference: #${this.currentBooking?.id}\n`
+                            },
+                            {
+                              text: new DatePipe('en-US').transform(this.currentBooking?.timeSlot?.date?.toDate(), 'dd-MMM-yyyy')
+                            }
+                        ],
+                        width: '44%',
+                        alignment: 'right'
+                    }
+              ]
+          },
+          {
+              text: '\n\nProducts & Services',
+              fontSize: 16
+          },
+        ],
+        styles: {
+          header: {
+            fontSize: 22,
+            bold: true,
+            height:60,
+          }
         }
-        return dd;
+      };
+      this.currentBooking?.services.map((item) =>{
+        const headingName = {
+            text: '\n'+item.name+'\n\n',
+            fontSize: 14
+        };
+        dd.content.push(headingName);
+        const serviceContent:any = {
+          layout: 'lightHorizontalLines',
+          alignment: 'center',
+          table: {
+            headerRows: 1,
+            widths: [ '33%', '33%', '33%'],
+
+            body: [
+              [
+                  {
+                      text: 'Varient',
+                      fillColor: '#181f29',
+                      color: 'white'
+                  },
+                  {
+                      text: 'Quantity',
+                      fillColor: '#181f29',
+                      color: 'white'
+                  },
+                  {
+                      text: 'Price',
+                      fillColor: '#181f29',
+                      color: 'white'
+                  }
+              
+              ]
+            ]
+          }
+        };
+        item.variants.map((variant) => {
+          const variantItem = [
+            {
+                text: variant.name,
+                color: '#aca6a6'
+            },
+            {
+                text: variant.quantity,
+                color: '#aca6a6'
+            },
+            {
+                text: variant.price,
+                color: '#aca6a6'
+            }
+          ];
+          serviceContent.table.body.push(variantItem);
+        })
+        dd.content.push(serviceContent);
+      })
+      const afterData = [
+        {
+          text: '\n\n'
+        },
+        {
+        layout: 'noBorders',
+        alignment: 'right',
+        table: {
+          headerRows: 1,
+          widths: [ '50%', '50%'],
+
+          body: [
+            [
+                {text: 'Subtotal:'},
+                {text: this.currentBooking?.billing.subTotal},
+            ],
+            [
+                {text: 'Discount:'},
+                {text: 'INR '+this.currentBooking?.billing.discount},
+            ],
+            [
+                {text: 'Tax Rate:'},
+                {text: 'INR '+this.currentBooking?.billing.tax},
+            ],
+            [
+                {text: 'Total amount:'},
+                {text: 'INR '+this.currentBooking?.billing.grandTotal}
+            ],
+          ]
+        }
+      },
+      {
+          text: '\n\nTerms & notes\n\n',
+          fontSize: 14
+      },
+      {
+          text: [
+                  'The mentioned billing is final and non-negotiable. This bill is auto generated  by system and does not require any',
+                  'signature. Please contact us if you have any query and we will be happy to help you.\n\n\n'
+              ]
+      },
+      
+      {
+          text: 'Powered by Shreeva',
+          alignment: 'center'
+          
+      },
+      {
+          text: 'shreeva.com',
+          alignment: 'center'
+          
+      }];
+      dd.content = [...dd.content,...afterData];
+      return dd;
     }
 
 }
