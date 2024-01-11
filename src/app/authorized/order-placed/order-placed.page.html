@@ -5,7 +5,10 @@
 
     <div class="first-section">
       <section>
-        <img [src]="successLogo" alt="">
+        <img  [src]="successLogo" alt="">
+
+        <img style="display: none;" [src] = "paymentFailedLogo" alt="">
+
         <h2>Your order has been Placed</h2>
         <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
       </section>
@@ -103,9 +106,20 @@
         </section>
       </div>
     </div>
-    <div class="footer">
+    <div  class="footer">
       <ion-button routerLink="../rating" expand="block" color="dark">
         Back To Home
+      </ion-button>
+    </div>
+
+
+    <!-- new button -->
+    <div style="display: none;"  class="footer1">
+      <ion-button class="btn1">
+        Back To Home
+      </ion-button>
+      <ion-button class="btn2">
+        Retry Payment
       </ion-button>
     </div>
   </div>
