@@ -38,7 +38,6 @@ ion-content {
   width: 100%;
   margin-top: 7px;
   padding-top: 7px;
-  padding-bottom: 35px;
   position: relative;
   swiper-container {
     width: 100%;
@@ -312,6 +311,7 @@ homepage.scss .serviceCategory {
 //recent activity
 
 .recent-container {
+  padding-top: 20px;
   ion-grid {
     border-radius: 8px;
     border: 1px solid #e7a5ff;

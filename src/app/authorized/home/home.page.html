@@ -17,7 +17,7 @@
     </swiper-container>
   </div>
 
-  <div class="recent-container" *ngIf="bookingService.bookingsSubject != null">
+  <div class="recent-container" *ngIf="bookingService.bookingsSubject && upcomingBookings.length > 0">
     <ion-label class="label">Upcoming Bookings</ion-label>
     <div class="banner-container">
       <div #swiperContainer1 class="swiper-container">
