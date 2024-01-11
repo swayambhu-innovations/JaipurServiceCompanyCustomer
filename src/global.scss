@@ -41,3 +41,6 @@ ion-toolbar{
 :host(.modal-sheet) .modal-wrapper, :host(.modal-sheet) .modal-shadow{
     border-radius: 20px !important;
 }
+ion-modal::part(backdrop) {
+    --backdrop-opacity: .8;
+}

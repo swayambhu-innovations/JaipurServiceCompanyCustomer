@@ -109,8 +109,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     });
     loader.dismiss();
   }
-
-  ngAfterViewInit() {
+  ionViewDidEnter(){
     this.swiper = new Swiper(this.swiperContainer.nativeElement, {
       slidesPerView: 1,
       spaceBetween: 20,
@@ -122,26 +121,37 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         delay : 2000
       }
     });
-    this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination1',
-        clickable: true,
-      },
-      centeredSlides: true,
-      autoplay:{
-        delay : 2000
-      }
-    });
+    if(this.upcomingBookings.length > 0){
+      this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        pagination: {
+          el: '.swiper-pagination1',
+          clickable: true,
+        },
+        centeredSlides: true,
+        autoplay:{
+          delay : 2000
+        }
+      });
+     }
   }
-  ngOnDestroy() {
+
+  ionViewDidLeave(){
     if (this.swiper) {
       this.swiper.destroy();
     }
     if (this.swiper1) {
       this.swiper1.destroy();
     }
+  }
+
+
+  ngAfterViewInit() {
+    
+  }
+  ngOnDestroy() {
+    
   }
 
   fetchBanners() {
