@@ -20,6 +20,7 @@ export interface  Booking {
     image: string;
     icon:string;
   };
+  isPaid:boolean;
   cancelReason:string;
   services: SelectedService[];
   appliedCoupon?:Coupon;

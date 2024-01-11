@@ -10,7 +10,8 @@ import { NumberFormatStyle } from '@angular/common';
   providedIn: 'root'
 })
 export class PaymentService {
-  constructor(private https:HttpClient,private alertify:AlertsAndNotificationsService, private dataProvider:DataProviderService) { }
+  constructor(private https:HttpClient,private alertify:AlertsAndNotificationsService,
+    private loadingController: LoadingController, private dataProvider:DataProviderService) { }
   WindowRef: any;
   orders: any[] = [];
    httpOptions = {
@@ -83,12 +84,12 @@ export class PaymentService {
       )
       return result
   }
-
+  orderDetails:any;
   handlePayment(data:booking){
     console.log(data);
-    this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
-      console.log("res order..................: ",response)
-    });
+    // this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
+    //   console.log("res order..................: ",response)
+    // });
     this.WindowRef = window;
     var result:Subject<any> = new Subject();
       var ref = this;
@@ -101,7 +102,6 @@ export class PaymentService {
          // order_id: order.id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
           image: 'https://jaipurservicecompany.com/images/logo.png',
           handler: function (response: any) {
-            console.log("preparePaymentDetails response.............: ",response,result)
             ref.finalizePayment(response,result);
           },
           prefill: {
@@ -120,9 +120,9 @@ export class PaymentService {
         notes: {
         }
       };
-      console.log("Order details",orderDetails);
       this.createOrder(orderDetails).subscribe((order) => {
           console.log("Payment details",order)
+          this.orderDetails = order;
           let orderDetail = preparePaymentDetails(order, data,result);
           orderDetail['method'] = {
             netbanking: true,
@@ -130,7 +130,6 @@ export class PaymentService {
             wallet: true,
             upi: true
           };
-          console.log("Payment orderDetail",orderDetail)
           var rzp1 = new this.WindowRef.Razorpay(orderDetail);
           this.orders.push(orderDetail);
           rzp1.open();
@@ -153,7 +152,6 @@ export class PaymentService {
       response,
       { responseType: 'json' }
     ).subscribe((res: any) => {
-      console.log('Subscription', res);
       if (res.verified == true){
         result.next({...res,response,stage:"paymentCaptureSuccess"})
       } else {
@@ -163,20 +161,24 @@ export class PaymentService {
   }
 
   finalizePayment(response: any,result:Subject<any>) {
-    console.log("Payment details",response);
     this.https.post(
       environment.cloudFunctions.capturePayment,{
       amount: this.orders.find((order) => order.order_id == response.razorpay_order_id).amount,
+      currency: "INR",
       payment_id: response.razorpay_payment_id,
-    }).subscribe((res: any) => {
-      if (res.res.statusCode) {
-        console.log("Current order detail",res)
-        result.next({...res,stage:"paymentCaptureSuccess"})
+    }).subscribe({
+      next:(res: any) => {
+      if (res.status == "captured") {
+        result.next({...res,stage:"paymentCaptureSuccess","orderDetails": this.orderDetails});
       } else {
-        console.log('Some error occured please retry your payment. Or please contact +91-9026296062', res);
         result.next({...res,stage:"paymentCaptureFailed"})
       }
-    });
+    },
+    error:(error)=>{
+      console.log("error..........:",error);
+      return;
+    }
+  });
   }
 
   handleSubscriptionPayment(data:paymentDetail){
@@ -194,6 +196,7 @@ export class PaymentService {
 import { AlertsAndNotificationsService } from './alerts-and-notifications.service';
 import { DataProviderService } from './core/data-provider.service';
 import { CreateOrder } from './authorized/models/payment.structure';
+import { LoadingController } from '@ionic/angular';
 
 export interface paymentDetail extends booking {
     cost: number;

@@ -16,7 +16,7 @@ export const environment = {
   cloudFunctions : {
     createOrder: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/createOrder',
     getOrderById: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/getOrderById?id=',
-    capturePayment: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/capturePayments',
+    capturePayment: 'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/capturePayments',
     createSubscription: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createSubscription',
     verifySubscription:'https://us-central1-jaipurservicecompany.cloudfunctions.net/verifySubscription',
     checkSubscriptionStatus:'https://us-central1-jaipurservicecompany.cloudfunctions.net/checkSubscriptionStatus',

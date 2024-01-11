@@ -73,19 +73,19 @@
         <p>Free cancellation till 3 hrs before the booked slot, post that ₹100 chargeable</p>
       </div>
     </div>
-    <div class="bottom" (click)="createBooking()">
+    <!-- <div class="bottom" (click)="createBooking()">
       <ion-button [disabled]="!(selectedDate && selectedTimeState)" expand="block">
         Book
       </ion-button>
-    </div>
+    </div> -->
 
 
-    <div class="temp" style="display: none;">
+    <div class="temp" >
       <div class="bottom1">
-        <button class="payafter"  >
+        <button class="payafter"  [disabled]="!(selectedDate && selectedTimeState)" (click)="createBookingWithoutPay()">
           Pay After Job
         </button>
-        <button class="paynow"  >
+        <button class="paynow"   [disabled]="!(selectedDate && selectedTimeState)" (click)="createBooking()">
           Pay Now
         </button>
       </div>

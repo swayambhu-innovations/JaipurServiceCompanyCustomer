@@ -183,6 +183,7 @@ export class CartService {
           image:subCategory.image,
           icon:subCategory.icon
         },
+        isPaid:false,
         address:this.userCurrentAddress,
         isUpdateSlot:false,
         picsAfter:[],

@@ -208,7 +208,37 @@ export class SelectSlotPage implements OnInit {
     };
     this.selectedTimeState = true;
   }
-
+ async createBookingWithoutPay(){
+  let loader = await this.loadingController.create({
+    message: 'Please wait...',
+  });
+  loader.present();
+  let booking = this.dataProvider.currentBooking;
+  if(booking && !booking?.isUpdateSlot){
+    booking.isPaid = false;
+      booking.createdAt = Timestamp.fromDate(new Date());
+        this.bookingService.addBooking(
+          this.dataProvider.currentBooking!,
+          this.dataProvider.currentUser!.user!.uid
+        )
+        .then(async () => {
+          await this.cartService.deleteBooking(
+            this.dataProvider.currentUser!.user.uid,
+            this.dataProvider.currentBooking!.id!
+          )
+          await this.cartService.updateCart();
+          this.router.navigate(['/authorized/order-placed']);
+        })
+        .finally(() => {
+          loader.dismiss();
+        });
+      }else{
+        this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+          this.router.navigate(['/authorized/order-placed']);
+          loader.dismiss();
+        });
+      }
+ }
   async createBooking() {
     
     let loader = await this.loadingController.create({
@@ -223,11 +253,13 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-        console.log("paymentResponse ........: ",paymentResponse['body'])
-        if(paymentResponse['body'] && JSON.parse(paymentResponse['body'])?.status == 'captured'){
-          this.dataProvider.currentBooking!.payment = JSON.parse(paymentResponse['body']);
+        console.log("createBooking paymentResponse ........: ",paymentResponse['body'])
+        if(paymentResponse['status'] &&(paymentResponse['status']) == 'captured'){
+          this.dataProvider.currentBooking!.payment = paymentResponse;
+          this.dataProvider.currentBooking!.isPaid = true;
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
+            await this.cartService.updateCart();
             this.router.navigate(['/authorized/order-placed']);
           }).finally(()=>{
             loader.dismiss();
@@ -237,21 +269,6 @@ export class SelectSlotPage implements OnInit {
         }
       });
     }
-        // this.bookingService.addBooking(
-        //   this.dataProvider.currentBooking!,
-        //   this.dataProvider.currentUser!.user!.uid
-        // )
-        // .then(async () => {
-        //   await this.cartService.deleteBooking(
-        //     this.dataProvider.currentUser!.user.uid,
-        //     this.dataProvider.currentBooking!.id!
-        //   )
-        //   await this.cartService.updateCart();
-        //   this.router.navigate(['/authorized/order-placed']);
-        // })
-        // .finally(() => {
-        //   loader.dismiss();
-        // });
     // if(booking && !booking?.isUpdateSlot){
     //   booking.createdAt = Timestamp.fromDate(new Date());
     //     this.bookingService.addBooking(
