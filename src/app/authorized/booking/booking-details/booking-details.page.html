@@ -64,7 +64,7 @@
       </div>
       <hr>
       <!-- OTP -->
-        <div class="row-4" *ngIf="(currentBooking?.stage !== 'discarded') && jobOtp.length > 0">
+        <div class="row-4" *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
           <h5>OTP to start the service</h5>
           <div class="otp-div">
             <!-- {{(currentBooking?.jobOtp)?.length}} -->
@@ -124,7 +124,7 @@
         </div>
       </div> -->
       
-      <div *ngFor="let service of currentBooking?.services">
+      <div>
         <div *ngFor="let variant of service.variants" class="service-det-div" >
           <div class="img-div">
             <div class="img-circle-div">

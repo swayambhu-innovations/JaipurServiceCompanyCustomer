@@ -84,6 +84,7 @@ export class UpcomingHistoryPage implements OnInit {
     this.bookingService.bookingsSubject.subscribe(bookings=> {
       this.bookings = bookings;
     });
+    console.log(this.bookings);
     this.filteredBookings = [...this.bookings];
   }
 
@@ -110,7 +111,7 @@ export class UpcomingHistoryPage implements OnInit {
 
   isFutureDate(date: Date|undefined,stage) {
     //if (!date) return false;
-    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled'){
+    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled' || stage == 'completed'){
       return false;
     }
     else{
@@ -124,7 +125,7 @@ export class UpcomingHistoryPage implements OnInit {
   }
 
   isPastDate(date: Date|undefined,stage) {
-    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled') return true;
+    if(stage == 'expired' || stage == 'discarded' || stage == 'cancelled' || stage == 'completed') return true;
     if (!date) return false;
     // return true if date is of yesterday or earlier
     return date < new Date();

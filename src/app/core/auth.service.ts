@@ -66,7 +66,7 @@ export class AuthService {
               return { ...address.data(),id: address.id };
             });
             if(addresses.length > 0){
-              this.router.navigate(['/authorized/profile/profile-info']);
+              this.router.navigate(['/authorized/profile']);
             }
             else{
               this.router.navigate(['/authorized/select-address']);
