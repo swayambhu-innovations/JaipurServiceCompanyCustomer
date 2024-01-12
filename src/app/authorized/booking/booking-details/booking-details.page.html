@@ -260,13 +260,37 @@
           </div>
         </div>
         <!-- Banner -->
-
         <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}}.</p>
+          <p class="tag-text">Yay! You have saved {{discount | currency:'INR' : 'symbol' : '1.0-0'}}.</p>
         </div>
       </ion-card-header>
     </ion-card>
+  </div>
+
+  <!-- payment card -->
+  <div class="payment-details-div">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="heading" size = "4">Payment Details</ion-col>
+        <ion-col class="title-det row1col" size = "8"><span>Completed</span></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Payment Mode</ion-col>
+        <ion-col class="title-det row2col" size = "8">Pre Paid Online</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Transaction ID</ion-col>
+        <ion-col class="title-det row3col" size = "8"><img src="../../../../assets/transaction.svg" alt="">hgfg76746uwbhjwyry387837548b</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Refund Status</ion-col>
+        <ion-col class="title-det row4col" size = "8">
+          Your Refund has been initiated <br>
+          It will be processed before 3 Business Days
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
   <!-- Rating -->
