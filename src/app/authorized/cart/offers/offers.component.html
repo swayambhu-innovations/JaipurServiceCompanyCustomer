@@ -5,12 +5,12 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Discount</ion-title>
-    <ion-buttons slot="end">
+    <ion-title class="coupon-title">Coupons</ion-title>
+    <!-- <ion-buttons slot="end">
       <ion-button>
         <img src="../../../assets/images/bell.svg" alt="" />
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +22,7 @@
     </ion-item>
   </div>
   <div *ngFor="let service Of  this.booking?.services">
-    <h2 style="margin-left: 20px;">{{service.name}}</h2>
+    <h2 class="heading-name" style="margin-left: 20px;">{{service.name}}</h2>
     <ng-container *ngFor="let discount of service.discounts">
       <div class="coupon-card">
         <div class="coupon-content">
@@ -40,5 +40,5 @@
       </div>
     </ng-container>
   </div>
-  <button class="select-address-button" (click)="modalController.dismiss(selectedCoupan)">Done</button>
+  <button style="margin-top: 20px;" class="select-address-button" (click)="modalController.dismiss(selectedCoupan)">Done</button>
 </ion-content>
