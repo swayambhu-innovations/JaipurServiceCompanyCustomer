@@ -3,10 +3,10 @@
   color: black;
   box-shadow: none !important;
 }
-.mt-20{
+.mt-20 {
   margin-top: 20px;
 }
-.mb-20{
+.mb-20 {
   margin-bottom: 20px !important;
 }
 
@@ -164,7 +164,7 @@
         display: flex;
         align-items: center;
 
-        .mechanic-icon{
+        .mechanic-icon {
           margin-right: 6px;
         }
 
@@ -234,7 +234,7 @@
         }
       }
       .call-text p {
-        color: #6F767E;
+        color: #6f767e;
         font-family: Lato !important;
         font-size: 12px;
         font-weight: 400;
@@ -309,22 +309,25 @@
 .Service-section {
   border: 1px solid var(--line, #e9e9e9);
   background: #fff;
-  .allotmentPending,.acceptancePending,.otpVerificationPending{
+  .allotmentPending,
+  .acceptancePending,
+  .otpVerificationPending {
     background: rgba(235, 131, 60, 0.25);
     color: rgba(235, 131, 60, 1);
   }
-  .inProgress,.jobAccepted{
+  .inProgress,
+  .jobAccepted {
     background: rgba(255, 197, 84, 0.25);
     color: rgba(255, 169, 0, 1);
   }
-  .completed,.jobStarted{
+  .completed,
+  .jobStarted {
     background: rgba(240, 239, 255, 1);
     color: rgba(106, 93, 255, 1);
-
   }
-  .discarded{
-    background: #FFE1E3;
-    color: #D3424A;
+  .discarded {
+    background: #ffe1e3;
+    color: #d3424a;
   }
   .row-5 {
     display: flex;
@@ -599,7 +602,7 @@
   flex-direction: row !important;
   background: #fff;
   margin-top: 3px;
-  ion-card-header{
+  ion-card-header {
     flex-direction: column;
   }
   .title {
@@ -623,17 +626,17 @@
       background: #fff;
     }
   }
-  .payment-row{
+  .payment-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 10px;
-    .payment-heading{
+    .payment-heading {
       text-align: left;
       flex: 0 0 50%;
       font-weight: 500;
     }
-    .payment-value{
+    .payment-value {
       text-align: right;
       flex: 0 0 50%;
     }
@@ -654,7 +657,7 @@
   .body {
     float: right;
     display: inline;
-  
+
     margin-bottom: 10px;
     color: #252525;
     text-align: center;
@@ -681,7 +684,7 @@
 .offer-bar {
   display: flex;
   // width: 327px;
-  height: 25px;
+  min-height: 25px;
   padding: 2px 40px;
   justify-content: center;
   align-items: center;
@@ -754,7 +757,7 @@
       }
     }
   }
-  
+
   // Price and Subject
 
   .service-review-cont {
@@ -762,13 +765,13 @@
       display: grid;
       grid-template-columns: 19% 65% 19%;
       padding: 19px 13px 5px;
-      .img-div{
+      .img-div {
         width: 50px;
         height: 50px;
         background: #f5f5f5;
         border-radius: 58px;
         border: 1px solid #c7c4c4;
-        img{
+        img {
           padding-top: 12px;
           padding-left: 12px;
         }
@@ -800,8 +803,6 @@
             margin-top: 7px;
           }
         }
-
-        
       }
       .rating {
         // border-bottom: 1px solid #d7d7d7;
@@ -941,7 +942,6 @@ input {
   }
 }
 
-
 h2,
 p {
   margin: 0px;
@@ -999,8 +999,6 @@ ion-content {
       }
     }
 
-   
-     
     .third-section {
       background-color: #fff;
       padding: 12px 16px;
@@ -1082,28 +1080,28 @@ ion-content {
     }
   }
 }
-li.pargraph{
+li.pargraph {
   font-size: 12px;
   font-weight: 400;
   line-height: 14px;
   letter-spacing: 0em;
   text-align: left;
-  color: #5E0080;
+  color: #5e0080;
 }
-.row-discarded{
+.row-discarded {
   display: grid;
-  grid-template-columns:  80% 20%;
+  grid-template-columns: 80% 20%;
   padding: 19px 12px 19px 12px;
   margin: 5px 0px;
-  background: #FFE1E3;
-  p{
+  background: #ffe1e3;
+  p {
     font-family: Lato;
     font-size: 12px;
     font-weight: 400;
     line-height: 14px;
     letter-spacing: 0em;
     text-align: left;
-    color: #D3424A;
+    color: #d3424a;
   }
 }
 
@@ -1145,7 +1143,7 @@ li.pargraph{
       justify-content: space-evenly;
       padding: 0 77px;
       margin-bottom: 14px;
-      i{
+      i {
         font-size: 26px;
       }
     }
@@ -1162,16 +1160,16 @@ li.pargraph{
       justify-content: space-between;
       margin-top: 25px !important;
 
-      button{
+      button {
         width: 48%;
         padding: 13px 20px;
         font-size: 18px;
         font-weight: 700;
         border-radius: 12px;
       }
-      .skipbtn { 
+      .skipbtn {
         background: white;
-        color: #181F29;
+        color: #181f29;
         border: 1px solid var(--primary, #181f29);
       }
 
@@ -1181,5 +1179,52 @@ li.pargraph{
         border: 1px solid var(--primary, #181f29);
       }
     }
+  }
+}
+
+.payment-details-div {
+  border: 1px solid var(--Line, #e9e9e9);
+  background: #fff;
+  margin-bottom: 13px;
+  .heading {
+    color: var(--primary, #181f29);
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .sub-title {
+    color: var(--secondry-text-color, #7e8083);
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .title-det {
+    display: flex;
+    justify-content: end;
+    color: #252525;
+    text-align: right;
+    font-family: Lato;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    img {
+      margin-right: 5px;
+    }
+  }
+
+  span {
+    border-radius: 5px;
+    background: #dff3d7;
+    padding: 4px 8px;
+    color: #579540;
+    font-size: 10px;
   }
 }

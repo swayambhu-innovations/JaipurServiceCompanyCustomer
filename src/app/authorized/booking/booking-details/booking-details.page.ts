@@ -708,5 +708,4 @@ export class BookingDetailsPage implements OnInit {
       dd.content = [...dd.content,...afterData];
       return dd;
     }
-
 }
