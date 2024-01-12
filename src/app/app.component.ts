@@ -14,6 +14,7 @@ import { App } from '@capacitor/app';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  currentUrl: string;
   constructor(
     private platform: Platform,
     public _navigationBack : NavigationBackService,
@@ -21,15 +22,15 @@ export class AppComponent implements OnInit {
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
-      if(previousUrlArray.length > 1){
-        const previousUrl = previousUrlArray[previousUrlArray.length - 2];
-        this._navigationBack.setDataAfterNavigation();
-        this.router.navigate([previousUrl]);
-      }
-      else{
+      if(this.currentUrl == '/authorized/home'){
         if(this.platform.is('cordova') || this.platform.is('mobile')){
           App.exitApp();
         }
+      }
+      else{
+        const previousUrl = previousUrlArray[previousUrlArray.length - 2];
+        this._navigationBack.setDataAfterNavigation();
+        this.router.navigate([previousUrl]);
       }
       
       
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
+      this.currentUrl = event.url;
       const lastUrlArray = this._navigationBack.getPreviourUrl();
       if(lastUrlArray[lastUrlArray.length -1 ] != event.url){
         this._navigationBack.addPreviousUrl(event.url);
