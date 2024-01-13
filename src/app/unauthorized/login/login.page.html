@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" style="height: 100%; background-color: white;">
   <section class="header">
     <img src="assets/images/logo.png" alt="">
     <p>Jaipur Service Company</p>
@@ -16,7 +16,8 @@
       <input type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
     </div>
     <div id="recaptcha-container"></div>
-    <ion-button [disabled] = "phoneNumber.length < 10 ? true : false" class="signup" color="dark" (click)="login()">Login/SignUp</ion-button>
+    <ion-button [disabled]="phoneNumber.length < 10 ? true : false" class="signup" color="dark"
+      (click)="login()">Login/SignUp</ion-button>
   </section>
 
   <section class="login" *ngIf="this.dataProvider.checkingAuth">
@@ -24,8 +25,15 @@
     <h6>Please wait till we verify you.</h6>
   </section>
 
+  <div style="position: fixed; bottom: 0; width: 100%;">
+    <footer>
+      <img src="assets/images/footer-1.png" style="height: 100px;">
+      <img src="assets/images/footer-2.png" style="height: 80px; margin-top:auto">
+    </footer>
+  </div>
+
 </div>
-<footer>
+<!-- <footer>
   <img src="assets/images/footer-1.png" style="height: 100px;">
   <img src="assets/images/footer-2.png" style="height: 80px; margin-top:auto">
-</footer>
+</footer> -->

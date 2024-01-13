@@ -1,6 +1,6 @@
 <div class="main">
   <!-- Toolbar -->
-  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="false"></app-header-with-back>
+  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
@@ -136,7 +136,7 @@
             <span>{{variant.name }} x {{ variant.quantity}}</span>
           </div>
           <div class="price-div">
-            <span>{{variant.billing.discountedPrice | currency:'INR' }}</span>
+            <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' : '1.0-0' }}</span>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
       <div class="row-9">
         <h6>Total</h6>
         <span>
-          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR'}}</h5>
+          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</h5>
         </span>
       </div>
     </div>
@@ -241,22 +241,22 @@
         </div>
         <div class="payment-row">
           <div class="payment-heading">Total (MRP)</div>
-          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR'}}</div>
+          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Discount</div>
-          <div class="payment-value" style="color: #579540">{{discount | currency:'INR'}}</div>
+          <div class="payment-value" style="color: #C16256;">-{{discount | currency:'INR': 'symbol' : '1.0-0'}}</div>
         </div>
         <div class="payment-row mb-20">
           <div class="payment-heading">Discounted Price</div>
-          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
+          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
         </div>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Total</div>
-            <div class="payment-value amount">{{(currentBooking?.billing?.subTotal || 0) -
-              (currentBooking?.billing?.discount || 0) | currency:'INR'}}</div>
+            <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.subTotal || 0) -
+              (currentBooking?.billing?.discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
           </div>
         </div>
         <!-- Banner -->

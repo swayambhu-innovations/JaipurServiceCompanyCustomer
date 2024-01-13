@@ -268,8 +268,8 @@ ion-content {
 .btn-select-addr {
   --background-color: #181f29;
 }
-.background-none{
-  background : none;
+.background-none {
+  background: none;
 }
 
 .select-address-button,
@@ -286,7 +286,7 @@ ion-content {
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
   margin-top: 27px;
 }
-.select-address-button{
+.select-address-button {
   margin-bottom: 20px;
 }
 
@@ -505,6 +505,8 @@ ion-content {
         p {
           text-align: right;
           color: grey;
+          font-size: 16px;
+          font-weight: 500;
         }
 
         span {
@@ -524,9 +526,9 @@ ion-content {
     flex-direction: column;
     justify-content: space-between;
     margin-top: 17px;
-    border-top: 2px dashed #D7D7D7;
+    border-top: 2px dashed #d7d7d7;
     padding-top: 8px;
-    
+
     ul {
       padding-left: 17px;
       margin-bottom: 0px;
@@ -543,6 +545,7 @@ ion-content {
     --border-radius: 12px;
     --padding-top: 16px;
     --padding-bottom: 16px;
+    font-weight: 700;
 
     button {
       color: var(--Neutral-01, #fcfcfc);
@@ -602,26 +605,25 @@ ion-content.noItems {
     color: var(--neutral-07, #1a1d1f);
     font-size: 18px;
   }
-  .recommended-items-box-parent{
+  .recommended-items-box-parent {
     display: flex;
     gap: 7px 2%;
     flex-wrap: wrap;
-    .recommended-items-box { 
+    .recommended-items-box {
       flex: 0 0 49%;
-      
+
       position: relative;
-      img{
+      img {
         border-radius: 15px;
         width: 100%;
       }
 
-      .text{
+      .text {
         border-radius: 10px 0px 10px 0px;
         text-align: center;
       }
     }
   }
-  
 }
 .par-info {
   font-size: 12px;
