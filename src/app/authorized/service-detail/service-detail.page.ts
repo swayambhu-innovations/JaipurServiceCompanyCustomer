@@ -14,6 +14,9 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   @ViewChild('videoContainer', { static: false, read: ElementRef }) videoElement:ElementRef;
   @ViewChild('swiperContainerServiceDetail') swiperContainerServiceDetail!: ElementRef;
   @ViewChild('modal3') modal;
+
+  particularBooking:any;
+
   matchingService:Service|undefined;
   matchingSubCategory:SubCategory|undefined;
   matchingMainCategory:Category|undefined;
@@ -200,6 +203,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
     let bookingId = '';
     this.cartDetils.map((booking) => {
       if (booking.mainCategory.id == matchingCategoryId && booking.subCategory.id == matchingSubCategoryId){
+        // this.particularBooking = booking;
         const service = booking.services.map((services) => {
           return matchingService.id == services.serviceId
         });
@@ -208,6 +212,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
         }
       }
     });
+    // console.log(this.particularBooking);
     return bookingId;
   }
  

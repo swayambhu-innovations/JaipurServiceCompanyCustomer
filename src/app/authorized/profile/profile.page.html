@@ -1,10 +1,9 @@
-
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-modal trigger="open-modal-logout" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
       <ng-template>
         <ion-card-title class="logout-title">Logout</ion-card-title>
-       
+
         <ion-card-subtitle class="subtitle">Are you sure want to Logout ?</ion-card-subtitle>
         <div style="display: flex;margin: auto;padding: 20px;">
           <ion-button class="cancel-btn" fill="clear" (click)="closeModal()">Cancel</ion-button>
@@ -15,9 +14,11 @@
     </ion-modal>
 
     <!-- Profile -->
-    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic" *ngIf="this.dataProvider.currentUser?.userData?.photoUrl == undefined" />
-    <img src="{{this.dataProvider.currentUser?.userData?.photoUrl}}" class="profile-pic" *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined" />
-    
+    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl == undefined" />
+    <img src="{{this.dataProvider.currentUser?.userData?.photoUrl}}" class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined" />
+
     <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.userData?.name}}</h4>
   </ion-card>
 
@@ -48,12 +49,16 @@
         <p>Notifications</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons">
-      <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons" src="../../assets/info-circle.svg" alt="" />
-        <p><a target="_blank" href="https://jaipurservicecompany.com">About</a></p>
-      </div>
-    </ion-button>
+
+    <a style="text-decoration: none;" target="_blank" href="https://jaipurservicecompany.com">
+      <ion-button expand="block" fill="clear" class="side-buttons">
+        <div class="w-100 d-flex align-items-center">
+          <img style="padding:auto;" class="icons" src="../../assets/info-circle.svg" alt="" />
+          <p>About</p>
+        </div>
+      </ion-button>
+    </a>
+
     <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../refer-afriend">
       <div class="w-100 d-flex align-items-center">
         <img style="padding:auto;" class="icons" src="../../assets/profile-2user.svg" alt="" />
@@ -68,19 +73,22 @@
     </ion-button>
     <ion-button expand="block" fill="clear" class="side-buttons" id="open-modal-logout">
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons" src="../../assets/logout.svg" alt="" style=" width: 25px; margin-left: 20px;" />
+        <img style="padding:auto;" class="icons" src="../../assets/logout.svg" alt=""
+          style=" width: 25px; margin-left: 20px;" />
         <p>Sign out</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons">
-      <div class="w-100 d-flex align-items-center shreeva">
-        <a href="https://shreeva.in/" target="_blank">
+
+    <a style="text-decoration: none;" href="https://shreeva.in/" target="_blank">
+      <ion-button expand="block" fill="clear" class="side-buttons">
+        <div class="w-100 d-flex align-items-center shreeva">
+          <!-- <a href="https://shreeva.in/" target="_blank"> -->
           <img style="padding:auto;" class="icons" src="../../../assets/images/shreevaIcon.png" alt="" />
           <p>Powered By Shreeva</p>
-        </a>
-      </div>
-
-    </ion-button>
+          <!-- </a> -->
+        </div>
+      </ion-button>
+    </a>
 
     <!-- <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
       <div class="w-100 d-flex align-items-center">
@@ -114,7 +122,7 @@
 
   <!-- <ion-header> </ion-header> -->
 </ion-content>
-<ion-footer style="height: 57px;">
+<!-- <ion-footer style="height: 57px;">
   <ion-tabs>
     <ion-tab-bar slot="bottom,top" class="footer" >
           <ion-tab-button (click)="close('/authorized/home')" class="footer-ion-tab-button" >
@@ -157,5 +165,5 @@
           </ion-tab-button>
       </ion-tab-bar>
   </ion-tabs>
-</ion-footer>
+</ion-footer> -->
 <!-- <app-navbar></app-navbar> -->
