@@ -3,13 +3,15 @@ import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs,
 import { UserNotification } from './notification.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { limit, orderBy, query, writeBatch } from 'firebase/firestore';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class UserNotificationService {
 
   constructor(private firestore:Firestore,public dataProvider:DataProviderService,) { }
-
+  unreadNotifications: any[] = [];
+  allNotifications: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   notificationBase = {
     createdAt: new Date(),
     read: false,

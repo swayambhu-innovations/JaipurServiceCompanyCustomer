@@ -13,6 +13,7 @@ import { LoadingController } from '@ionic/angular';
 export class HomeHeaderComponent  implements OnInit {
   showmodal: boolean = false;
   @Input() MAX_ADDRESS_LINE_LENGTH!:number;
+  @Input() showUnreadNotification: boolean = false;
   // addressLine:string = "Nehru Rd, Vile Parle East, Mumbai"
   mainAddressLine:string = '';
   // main address line one is the input address line provided by the database where as the address line 1 and 2 are calculated by the client side depending upn the address character length

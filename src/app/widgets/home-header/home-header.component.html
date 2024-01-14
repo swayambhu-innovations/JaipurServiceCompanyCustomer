@@ -20,7 +20,8 @@
     </ion-text>
     <ion-buttons slot="end">
       <ion-button (click)="notification()">
-        <img src="assets/ui_icons/notification.svg" alt="">
+        <img *ngIf="!showUnreadNotification" src="assets/images/bell.svg" alt="">
+        <img *ngIf="showUnreadNotification" src="assets/ui_icons/notification.svg" alt="">
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
