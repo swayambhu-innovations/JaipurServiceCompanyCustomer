@@ -47,7 +47,7 @@
         </div>
         <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy" class="inputs"
           formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
-          placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
+          placeholder="date of birth" style="margin-top: 18px;"></ion-input>
 
         <div
           *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
