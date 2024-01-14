@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { UserNotificationService } from 'src/app/authorized/common/user-notification.service';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 
 @Component({
@@ -12,12 +13,20 @@ export class HeaderWithBackComponent  implements OnInit {
   @Input() title!:string;
   @Input() showNotificationIcon:boolean = false;
   @Input() showBackButton:boolean = true;
+
+  notifications: any[] = [];
+  unreadNotifications: any[] = [];
   constructor(
     public _navigationBack : NavigationBackService,
     private router: Router,
-    ) { }
+    private _notificationService: UserNotificationService,
+  ) {
+    
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.unreadNotifications = this._notificationService.unreadNotifications;
+  }
   notification(){
     this.router.navigate(['authorized/notification']);
   }

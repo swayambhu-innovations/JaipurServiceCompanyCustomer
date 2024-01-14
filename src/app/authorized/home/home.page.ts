@@ -14,6 +14,7 @@ import { LoadingController } from '@ionic/angular';
 import Utils from '../common/util';
 import Swiper from 'swiper';
 import * as moment from 'moment';
+import { UserNotificationService } from '../common/user-notification.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -69,7 +70,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   swiper!: Swiper;
   swiper1!: Swiper;
   upcomingBookings:any[] = [];
-
+  notifications:any[] = [];
+  unreadNotifications:any[] = [];
   constructor(
     private router: Router,
     private profileService: ProfileService,
@@ -78,8 +80,17 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private imageService: FileService,
     private http: HttpClient,
     public bookingService:BookingService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private _notificationService: UserNotificationService,
   ) {
+    this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
+      this.notifications = notificationRequest.docs.map((notification:any) => {
+        return { ...notification.data(),id: notification.id };
+      });
+      this.unreadNotifications = this.notifications.filter((notification:any) => { return  !notification.read});
+      this._notificationService.allNotifications.next(this.notifications);
+      this._notificationService.unreadNotifications = this.unreadNotifications;
+    });
     this.utils = Utils.stageMaster;
     bookingService.bookingsSubject.subscribe(  bookings=> {
      this.upcomingBookings = bookings.filter((item) =>{
@@ -110,6 +121,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     loader.dismiss();
   }
   ionViewDidEnter(){
+    this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
+      this.notifications = notificationRequest.docs.map((notification:any) => {
+        return { ...notification.data(),id: notification.id };
+      });
+      this.unreadNotifications = this.notifications.filter((notification:any) => { return  !notification.read});
+    });
     this.swiper = new Swiper(this.swiperContainer.nativeElement, {
       slidesPerView: 1,
       spaceBetween: 20,

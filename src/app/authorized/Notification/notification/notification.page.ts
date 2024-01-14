@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserNotificationService } from '../../common/user-notification.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { UserNotification } from '../../common/notification.structure';
-import { LoadingController } from '@ionic/angular';
+import { ActionSheetController, LoadingController } from '@ionic/angular';
+import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
 
 @Component({
   selector: 'app-notification',
@@ -33,8 +34,34 @@ export class NotificationPage implements OnInit {
   constructor(
     private _notificationService: UserNotificationService, 
     public dataProvider:DataProviderService,
-    private loadingController: LoadingController) { }
+    private loadingController: LoadingController,
+    private actionSheetController: ActionSheetController,
+    private alertify:AlertsAndNotificationsService) { }
 
+    async openMenu() {
+      const actionSheet = await this.actionSheetController.create({
+        buttons: [
+          {
+            text: 'Mark as read.',
+            handler: () => {
+              this._notificationService.markAllNotificationsAsRead().then(() => {
+                this._notificationService.unreadNotifications = [];
+                this.alertify.presentToast("All notifications are marked as read...");
+              });
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ]
+      });
+  
+      await actionSheet.present();
+    }
   async ngOnInit() {
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
