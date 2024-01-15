@@ -147,10 +147,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   }
 
   ionBackdropTap(modal){
-    if(this.isAddToCart){
-      modal.setCurrentBreakpoint(0.1);
-      this.isAddToCart = false;
-    }
+    modal.setCurrentBreakpoint(0.1);
   }
 
   async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){
