@@ -59,7 +59,6 @@ export class BookingDetailsPage implements OnInit {
       let duration = 0;
       if (params['bookingId']){
         let loader = await this.loadingController.create({message:'Please wait...'});
-        loader.present();
         this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
           this.currentBooking = booking;
           this.createPDF(this.currentBooking);
@@ -146,7 +145,6 @@ export class BookingDetailsPage implements OnInit {
         this.currentBooking.stage = 'allotmentPending';
       }
     }
-    
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
   }

@@ -29,6 +29,7 @@ export class HomePage {}
 })
 export class CartPage implements OnInit {
   // action sheet buttons
+  pageLeaved:boolean = false;
   recommendedServices :any[] = [];
   isModalOpen = true;
   isCouponActive:boolean =false;
@@ -68,6 +69,7 @@ export class CartPage implements OnInit {
 
   temp(){
     this.dataProvider.selectedAddress.subscribe(address=>{
+      
       if(address.length > 0){
         let currentAddress = address.filter(addre=> addre.isDefault);
         if(currentAddress.length > 0 ){
@@ -75,6 +77,9 @@ export class CartPage implements OnInit {
         }else{
           this.dataProvider.currentBooking!.address=address[0];
         }
+      }
+      if(this.pageLeaved){
+        return;
       }
       if(this.dataProvider.currentBooking!.address){
       this.router.navigate(["/authorized/select-slot"]);
@@ -108,13 +113,14 @@ export class CartPage implements OnInit {
   }
   ionViewDidLeave(){
     // this.selectedBooking = undefined;
-
+    this.pageLeaved = true;
     if(this.cart.length !== 1){
       this.selectedBooking = undefined;
     }
   }
 
   ionViewDidEnter(){
+    this.pageLeaved = false;
     console.log(this.cartService.cart);
     if(this.cartService.cart.length === 1){
       this.selectedBooking = this.cartService.cart[0];

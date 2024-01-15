@@ -78,11 +78,11 @@ export class SelectSlotPage implements OnInit {
 
   slotsStatus = [
     'Morning',
-    'lateMorning',
+    'Late Morning',
     'Afternoon',
-    'LateAfternoon',
+    'Late Afternoon',
     'Evening',
-    'LateEvening',
+    'Late Evening',
     'Night',
   ];
 
@@ -105,13 +105,15 @@ export class SelectSlotPage implements OnInit {
     this.totalSlots();
   }
   ionViewDidEnter(){
-this.selectedDate = undefined;
     this.clearSlot();
     let booking = this.dataProvider.currentBooking;
     if(booking?.isUpdateSlot && booking.timeSlot){
-      this.selectedDate = booking.timeSlot.date.toDate();
-      this.selectedStartTime = booking.timeSlot.time.startTime.toDate();
-      this.selectedEndTime = booking.timeSlot.time.endTime.toDate();
+      //this.selectedDate = booking.timeSlot.date.toDate();
+      this.selectedDate = undefined;
+      //this.selectedStartTime = booking.timeSlot.time.startTime.toDate();
+      this.selectedStartTime = undefined;
+      //this.selectedEndTime = booking.timeSlot.time.endTime.toDate();
+      this.selectedEndTime = undefined;
     }
   }
   generateSlots() {
@@ -123,7 +125,6 @@ this.selectedDate = undefined;
         today.getMonth(),
         today.getDate() + i
       );
-      console.log("date:",date)
       this.dates.push(date);
     }
 
