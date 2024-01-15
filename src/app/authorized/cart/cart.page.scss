@@ -610,12 +610,14 @@ ion-content.noItems {
     gap: 7px 2%;
     flex-wrap: wrap;
     .recommended-items-box {
-      flex: 0 0 49%;
+      // flex: 0 0 49%;
+      flex: 0 0 32%;
 
       position: relative;
       img {
         border-radius: 15px;
         width: 100%;
+        height: 100px;
       }
 
       .text {
