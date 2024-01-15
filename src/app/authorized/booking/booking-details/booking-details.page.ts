@@ -144,7 +144,6 @@ export class BookingDetailsPage implements OnInit {
         this.currentBooking.stage = 'allotmentPending';
       }
     }
-    
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
   }
