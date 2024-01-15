@@ -230,7 +230,7 @@
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
-          <span>Payment Details</span>
+          <span>Invoice</span>
           <button (click)="downloadInvoice(currentBooking)">
             <img src="../../../../assets/download.svg" alt="">
           </button>
@@ -268,7 +268,28 @@
       </ion-card-header>
     </ion-card>
   </div>
-
+  <!-- Payment Method -->
+  <div>
+    <ion-card class="payment">
+      <ion-card-header style="border-bottom: 1px double #d7d7d7">
+        <div class="title">
+          <span>Payment Details</span>
+          <p class="body" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" [ngClass]="[currentBooking?.payment?.status === 'captured' ? 'success' : 'faild']">{{ currentBooking?.payment?.status === 'captured' ? 'Completed' : 'Failed' }}</p>
+          <p class="body paylater" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater" >Pending</p>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Payment Mode</div>
+          <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false">Pre Paid Online</div>
+          <div class="payment-value"  *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">Pay After Job</div>
+        </div>
+        <div class="payment-row">
+          <div class="payment-heading">Transaction ID</div>
+          <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" title="{{currentBooking?.payment?.acquirer_data.upi_transaction_id}}">{{currentBooking?.payment?.acquirer_data.upi_transaction_id}}</div>
+          <div class="payment-value"  *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater" >{{currentBooking?.id}}</div>
+        </div>
+      </ion-card-header>
+    </ion-card>
+  </div>
   <!-- Rating -->
   <div class="review-section">
     <!-- Card header -->

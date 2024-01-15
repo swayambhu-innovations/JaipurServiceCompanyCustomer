@@ -104,6 +104,13 @@ export class PaymentService {
           handler: function (response: any) {
             ref.finalizePayment(response,result);
           },
+          modal: {
+            ondismiss: function(){
+                console.log('‘Checkout form closed’',event);
+
+                result.next({...orderDetails,...order,stage:"paymentGatewayClosed"})
+            }
+        },
           prefill: {
             name: orderDetails.user.displayName,
             contact: orderDetails.user.phone,
@@ -133,15 +140,16 @@ export class PaymentService {
           var rzp1 = new this.WindowRef.Razorpay(orderDetail);
           this.orders.push(orderDetail);
           rzp1.open();
-          result.next({...orderDetails,stage:"paymentGatewayOpened"})
+          result.next({...orderDetails,stage:"paymentGatewayOpened"});
         },
         (error) => {
            console.log(error.message, "error");
-          result.next({...orderDetails,stage:"paymentGatewayError"})
+          result.next({...orderDetails,stage:"paymentGatewayError"});
         },
         ()=>{
           // completed
-          result.next({...orderDetails,stage:"paymentGatewayClosed"})
+          console.log("error............... paymentGatewayClosed");
+          result.next({...orderDetails,stage:"paymentGatewayClosed"});
         }
       )
       return result

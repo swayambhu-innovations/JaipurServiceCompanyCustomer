@@ -3,14 +3,20 @@
 <ion-content>
   <div class="container px-0">
 
-    <div class="first-section">
+    <div class="first-section" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
       <section>
         <img [src]="successLogo" alt="">
         <h2>Your order has been Placed</h2>
         <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
       </section>
     </div>
-
+    <div class="payment-faild" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.payment.status == 'faild'">
+      <section>
+        <img [src]="failiarLogo" alt="">
+        <h2>Payment Failed. Booking Cancelled.</h2>
+        <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
+      </section>
+    </div>
 
     <!-- <div class="second-section">
       <div class="row-1">
@@ -103,10 +109,19 @@
         </section>
       </div>
     </div>
-    <div class="footer">
+    <div class="footer" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
       <ion-button routerLink="../rating" expand="block" color="dark">
         Back To Home
       </ion-button>
+      <ion-button routerLink="../rating" expand="block" color="dark">
+        Retry Payment
+      </ion-button>
+    </div>
+    <div class="temp" *ngIf="this.dataProvider.currentBooking?.isPaylater == false || this.dataProvider.currentBooking?.payment?.status == 'faild'">
+      <div class="bottom1">
+        <button class="payafter" routerLink="../rating">Back To Home</button>
+        <button class="paynow" routerLink="../select-slot">Retry Payment</button>
+      </div>
     </div>
   </div>
 </ion-content>

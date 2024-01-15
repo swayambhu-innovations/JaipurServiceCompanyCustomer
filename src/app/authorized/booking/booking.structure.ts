@@ -21,6 +21,7 @@ export interface  Booking {
     icon:string;
   };
   isPaid:boolean;
+  isPaylater:boolean;
   cancelReason:string;
   services: SelectedService[];
   appliedCoupon?:Coupon;

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CartService } from '../cart/cart.service';
 import { Timestamp, collection } from 'firebase/firestore';
 import { Firestore, getDocs } from '@angular/fire/firestore';
+import { error } from 'console';
 
 @Component({
   selector: 'app-select-slot',
@@ -216,6 +217,7 @@ export class SelectSlotPage implements OnInit {
   let booking = this.dataProvider.currentBooking;
   if(booking && !booking?.isUpdateSlot){
     booking.isPaid = false;
+    booking.isPaylater = true;
       booking.createdAt = Timestamp.fromDate(new Date());
         this.bookingService.addBooking(
           this.dataProvider.currentBooking!,
@@ -228,6 +230,9 @@ export class SelectSlotPage implements OnInit {
           )
           await this.cartService.updateCart();
           this.router.navigate(['/authorized/order-placed']);
+        }).catch(error=>{
+          console.log("errror............: ",error)
+          loader.dismiss();
         })
         .finally(() => {
           loader.dismiss();
@@ -240,7 +245,6 @@ export class SelectSlotPage implements OnInit {
       }
  }
   async createBooking() {
-    
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
@@ -253,19 +257,38 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-        console.log("createBooking paymentResponse ........: ",paymentResponse['body'])
-        if(paymentResponse['status'] &&(paymentResponse['status']) == 'captured'){
+        console.log("createBooking paymentResponse ........: ",paymentResponse)
+
+        if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
+          loader.present();
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
+         // debugger
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
-            this.router.navigate(['/authorized/order-placed']);
-          }).finally(()=>{
             loader.dismiss();
+            this.router.navigate(['/authorized/order-placed']); 
+           
+          }).finally(()=>{
+           // loader.dismiss();
           })
         }else{
-          console.log("paymentResponse ........: ",paymentResponse)
+          console.info("payment Response faild........: ",paymentResponse)
+          if(booking){
+            if(paymentResponse.stage == 'paymentCaptureFailed' ){
+              loader.dismiss();
+              paymentResponse.status = 'faild'
+              booking.payment = paymentResponse;
+              this.router.navigate(['/authorized/order-placed']); 
+            }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
+              setTimeout(() => {
+                loader.dismiss();
+              }, 10000);  
+            }else{
+              loader.dismiss();
+            }
+          }
         }
       });
     }

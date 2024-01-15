@@ -1183,3 +1183,28 @@ li.pargraph{
     }
   }
 }
+
+.success{
+  padding: 7px;
+    background: #DFF3D7;
+    color: #579540;
+    border-radius: 10px;
+}
+.faild{
+  padding: 7px;
+  background: #FFD2D2;
+  color: #E82C2C;
+  border-radius: 10px;
+}
+.paylater{
+  padding: 7px;
+  background: #FFDFD2;
+  color: #FF820F;
+  border-radius: 10px;
+}
+.payment-value{
+  width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

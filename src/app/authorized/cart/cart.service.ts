@@ -184,6 +184,7 @@ export class CartService {
           icon:subCategory.icon
         },
         isPaid:false,
+        isPaylater:false,
         address:this.userCurrentAddress,
         isUpdateSlot:false,
         picsAfter:[],
