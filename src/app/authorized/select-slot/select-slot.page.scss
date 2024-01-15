@@ -176,6 +176,33 @@ ion-content {
 }
 
 
+.footer1 {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 9px;
+
+  ion-button {
+    width: 48%;
+    --border-style: solid;
+    --padding-top: 18px;
+    --padding-bottom: 18px;
+    font-size: 13px;
+    --border-width: 2px;
+  }
+  .btn1 {
+    --background: #fff;
+    --color: #181f29;
+    --border-color: #181f29;
+    font-weight: 600;
+  }
+
+  .btn2 {
+    --background: #1A1D1F;
+    --color: white;
+    --border-color: #1A1D1F;
+  }
+}
+
 .bottom1{
   display: flex;
   justify-content: space-between;

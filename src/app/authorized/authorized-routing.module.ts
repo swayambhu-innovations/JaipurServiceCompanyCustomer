@@ -59,11 +59,11 @@ const routes: Routes = [
         loadChildren: () => import('./offers/offers.module').then(m => m.OffersPageModule),
         canActivate:[AuthGuard]
       },
-      {
-        path: 'offers',
-        loadChildren: () => import('./offers/offers.module').then(m => m.OffersPageModule),
-        canActivate:[AuthGuard]
-      },
+      // {
+      //   path: 'offers',
+      //   loadChildren: () => import('./offers/offers.module').then(m => m.OffersPageModule),
+      //   canActivate:[AuthGuard]
+      // },
       {
         path: 'empty-cart',
         loadChildren: () => import('./empty-cart/empty-cart.module').then(m => m.EmptyCartPageModule),

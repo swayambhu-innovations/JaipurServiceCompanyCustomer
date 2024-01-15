@@ -1,4 +1,4 @@
-<app-home-header [MAX_ADDRESS_LINE_LENGTH]="30"></app-home-header>
+<app-home-header [MAX_ADDRESS_LINE_LENGTH]="30" [showUnreadNotification]="unreadNotifications.length > 0"></app-home-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
   <button id="search" routerLink="../search">
@@ -17,7 +17,7 @@
     </swiper-container>
   </div>
 
-  <div class="recent-container" *ngIf="bookingService.bookingsSubject != null">
+  <div class="recent-container" *ngIf="bookingService.bookingsSubject && upcomingBookings.length > 0">
     <ion-label class="label">Upcoming Bookings</ion-label>
     <div class="banner-container">
       <div #swiperContainer1 class="swiper-container">

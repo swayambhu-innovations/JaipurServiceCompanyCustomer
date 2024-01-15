@@ -1,6 +1,6 @@
 <div class="main">
 
-  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="userData.name" [showBackButton]="userData.name"></app-header-with-back>
+  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false" [showBackButton]="userData.name"></app-header-with-back>
 
   <div class="container">
     <!-- Profile picture with camera button -->
@@ -9,7 +9,7 @@
       <h6>{{name2}}</h6>
     </div> -->
     <!-- Input boxes -->
-    <form class="col" [formGroup]="userProfileForm">
+    <form class="col" [formGroup]="userProfileForm" style="background-color: white;">
       <div class="container1">
         <div class="outer" *ngIf="this.userData?.photoUrl"
           [ngStyle]="{'background-image': 'url(' +  this.userData?.photoUrl + ')'}">
@@ -47,7 +47,7 @@
         </div>
         <ion-input type="date" pattern="dd/mm/yyyy" displayFormat="dd/mm/yyyy" class="inputs"
           formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
-          placeholder="date of birth" style="margin-top: 18px;" required></ion-input>
+          placeholder="date of birth" style="margin-top: 18px;"></ion-input>
 
         <div
           *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"

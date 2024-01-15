@@ -1,6 +1,6 @@
 <div class="main">
   <!-- Toolbar -->
-  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="false"></app-header-with-back>
+  <app-header-with-back [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
   <!-- Order ID card -->
   <div class="container">
     <div class="row">
@@ -64,7 +64,7 @@
       </div>
       <hr>
       <!-- OTP -->
-        <div class="row-4" *ngIf="(currentBooking?.stage !== 'discarded') && jobOtp.length > 0">
+        <div class="row-4" *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
           <h5>OTP to start the service</h5>
           <div class="otp-div">
             <!-- {{(currentBooking?.jobOtp)?.length}} -->
@@ -124,7 +124,7 @@
         </div>
       </div> -->
       
-      <div *ngFor="let service of currentBooking?.services">
+      <div>
         <div *ngFor="let variant of service.variants" class="service-det-div" >
           <div class="img-div">
             <div class="img-circle-div">
@@ -136,7 +136,7 @@
             <span>{{variant.name }} x {{ variant.quantity}}</span>
           </div>
           <div class="price-div">
-            <span>{{variant.billing.discountedPrice | currency:'INR' }}</span>
+            <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' : '1.0-0' }}</span>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
       <div class="row-9">
         <h6>Total</h6>
         <span>
-          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR'}}</h5>
+          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</h5>
         </span>
       </div>
     </div>
@@ -230,7 +230,7 @@
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
-          <span>Invoice</span>
+          <span>Payment Details</span>
           <button (click)="downloadInvoice(currentBooking)">
             <img src="../../../../assets/download.svg" alt="">
           </button>
@@ -241,33 +241,57 @@
         </div>
         <div class="payment-row">
           <div class="payment-heading">Total (MRP)</div>
-          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR'}}</div>
+          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Discount</div>
-          <div class="payment-value" style="color: #579540">{{discount | currency:'INR'}}</div>
+          <div class="payment-value" style="color: #C16256;">-{{discount | currency:'INR': 'symbol' : '1.0-0'}}</div>
         </div>
         <div class="payment-row mb-20">
           <div class="payment-heading">Discounted Price</div>
-          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
+          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
         </div>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Total</div>
-            <div class="payment-value amount">{{(currentBooking?.billing?.subTotal || 0) -
-              (currentBooking?.billing?.discount || 0) | currency:'INR'}}</div>
+            <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.subTotal || 0) -
+              (currentBooking?.billing?.discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
           </div>
         </div>
         <!-- Banner -->
-
         <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved {{discount | currency:'INR'}}.</p>
+          <p class="tag-text">Yay! You have saved {{discount | currency:'INR' : 'symbol' : '1.0-0'}}.</p>
         </div>
       </ion-card-header>
     </ion-card>
   </div>
+
+  <!-- payment card -->
+  <!-- <div class="payment-details-div">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="heading" size = "4">Payment Details</ion-col>
+        <ion-col class="title-det row1col" size = "8"><span>Completed</span></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Payment Mode</ion-col>
+        <ion-col class="title-det row2col" size = "8">Pre Paid Online</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Transaction ID</ion-col>
+        <ion-col class="title-det row3col" size = "8"><img src="../../../../assets/transaction.svg" alt="">hgfg76746uwbhjwyry387837548b</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="sub-title" size = "4">Refund Status</ion-col>
+        <ion-col class="title-det row4col" size = "8">
+          Your Refund has been initiated <br>
+          It will be processed before 3 Business Days
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div> -->
   <!-- Payment Method -->
   <div>
     <ion-card class="payment">

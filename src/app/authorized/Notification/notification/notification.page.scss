@@ -8,6 +8,19 @@
 .page-container{
   flex: auto;
 }
+.icon-container{
+  margin-top: 12px;
+  position: fixed;
+  top: -2px;
+  z-index: 100;
+  ion-icon{
+    width: 25px;
+    height: 25px;
+  }
+}
+.justify-content-end{
+  justify-content: flex-end;
+}
 .circle-container {
   background: #fff;
   width: 20px;

@@ -5,7 +5,10 @@
 
     <div class="first-section" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
       <section>
-        <img [src]="successLogo" alt="">
+        <img  [src]="successLogo" alt="">
+
+        <img style="display: none;" [src] = "paymentFailedLogo" alt="">
+
         <h2>Your order has been Placed</h2>
         <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
       </section>
@@ -122,6 +125,17 @@
         <button class="payafter" routerLink="../rating">Back To Home</button>
         <button class="paynow" routerLink="../select-slot">Retry Payment</button>
       </div>
+    </div>
+
+
+    <!-- new button -->
+    <div style="display: none;"  class="footer1">
+      <ion-button class="btn1">
+        Back To Home
+      </ion-button>
+      <ion-button class="btn2">
+        Retry Payment
+      </ion-button>
     </div>
   </div>
 </ion-content>

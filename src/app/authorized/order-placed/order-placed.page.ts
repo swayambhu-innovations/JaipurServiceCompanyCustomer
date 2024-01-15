@@ -10,6 +10,9 @@ export class OrderPlacedPage implements OnInit {
   name = 'Order Placed';
   successLogo = 'assets/icon/order-placed/booked.svg';
   failiarLogo = 'assets/icon/order-placed/failedpaymentFaild.png';
+
+  paymentFailedLogo = 'assets/icon/order-placed/unbooked.svg'
+  
   slotStartTime:Date|undefined;
   slotEndTime:Date|undefined;
 

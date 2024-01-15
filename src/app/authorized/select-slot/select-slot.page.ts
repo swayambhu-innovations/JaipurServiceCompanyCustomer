@@ -105,6 +105,8 @@ export class SelectSlotPage implements OnInit {
     this.totalSlots();
   }
   ionViewDidEnter(){
+this.selectedDate = undefined;
+    this.clearSlot();
     let booking = this.dataProvider.currentBooking;
     if(booking?.isUpdateSlot && booking.timeSlot){
       this.selectedDate = booking.timeSlot.date.toDate();
@@ -258,9 +260,9 @@ export class SelectSlotPage implements OnInit {
         }
       }).subscribe((paymentResponse)=>{
         console.log("createBooking paymentResponse ........: ",paymentResponse)
-
+        loader.present();
         if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
-          loader.present();
+        
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
          // debugger
