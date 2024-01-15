@@ -288,6 +288,7 @@ export class SelectSlotPage implements OnInit {
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
               setTimeout(() => {
                 loader.dismiss();
+                alert("payment Faild")
               }, 30000);  
             }else{
               loader.dismiss();
