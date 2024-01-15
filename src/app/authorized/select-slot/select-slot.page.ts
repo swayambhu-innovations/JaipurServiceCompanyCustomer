@@ -263,7 +263,6 @@ export class SelectSlotPage implements OnInit {
         console.log("createBooking paymentResponse ........: ",paymentResponse)
         loader.present();
         if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
-        
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
          // debugger
@@ -271,6 +270,7 @@ export class SelectSlotPage implements OnInit {
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader.dismiss();
+            alert("payment Done")
             this.router.navigate(['/authorized/order-placed']); 
            
           }).finally(()=>{
@@ -280,6 +280,7 @@ export class SelectSlotPage implements OnInit {
           console.info("payment Response faild........: ",paymentResponse)
           if(booking){
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
+              alert("payment faild")
               loader.dismiss();
               paymentResponse.status = 'faild'
               booking.payment = paymentResponse;
@@ -287,7 +288,7 @@ export class SelectSlotPage implements OnInit {
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
               setTimeout(() => {
                 loader.dismiss();
-              }, 10000);  
+              }, 30000);  
             }else{
               loader.dismiss();
             }
