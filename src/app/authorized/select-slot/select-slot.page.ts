@@ -77,11 +77,11 @@ export class SelectSlotPage implements OnInit {
 
   slotsStatus = [
     'Morning',
-    'lateMorning',
+    'Late Morning',
     'Afternoon',
-    'LateAfternoon',
+    'Late Afternoon',
     'Evening',
-    'LateEvening',
+    'Late Evening',
     'Night',
   ];
 
