@@ -202,7 +202,7 @@ export class NewAddressPage implements OnInit, CanActivate{
       this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
         const searchedAddress = searchedAddressResult.results[0];
         searchedAddress.address_components.map((addressComponent:any)=>{
-          const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("administrative_area_level_3") > -1);
+          const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("sublocality") > -1);
           if(geoProofingLocality){
             const geoProfing = addressComponent.long_name;
             const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;

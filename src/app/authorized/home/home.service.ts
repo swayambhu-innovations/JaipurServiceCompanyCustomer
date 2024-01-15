@@ -38,9 +38,18 @@ export class HomeService {
          // console.log("address...........: ",address)
           let currentAddress = address.find(addre=> addre.isDefault);
           if(currentAddress){
-            this.fetchData(currentAddress.selectedArea.serviceCatalogue);
+            const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
+              return { ...area.data(), id: area.id };
+            }).filter(area => area['geoProofingLocality'] === currentAddress.geoProofingLocality && area.serviceCatalogue);
+            if (areas.length > 0) {
+              this.fetchData(areas[0].serviceCatalogue);
+            }
+            else{
+              this.isCatalogueLoaded = true;
+              this.mainCategories.next([]);
+            }
           }else{
-            this.fetchData(address[0].selectedArea.serviceCatalogue);
+            //this.fetchData(address[0].selectedArea.serviceCatalogue);
           }
           this._cartService.selectedCatalogue = address[0].selectedArea.serviceCatalogue;
         }else{
