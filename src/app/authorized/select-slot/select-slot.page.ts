@@ -124,7 +124,6 @@ export class SelectSlotPage implements OnInit {
         today.getMonth(),
         today.getDate() + i
       );
-      console.log("date:",date)
       this.dates.push(date);
     }
 
