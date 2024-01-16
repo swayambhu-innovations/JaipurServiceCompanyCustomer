@@ -197,6 +197,18 @@ ion-content {
       font-size: 12px;
     }
   }
+
+  .items{
+    .row1{
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 3px;
+      p{
+        color: #7e8083;
+      }
+    }
+  }
 }
 
 .payment-detials-text {
@@ -461,6 +473,7 @@ ion-content {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 10px 14px;
   border-bottom: 2px solid #e6e6e6;
+  margin-bottom: 9px;
   .detail {
     display: flex;
     justify-content: space-between;
