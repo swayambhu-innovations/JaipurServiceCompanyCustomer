@@ -297,11 +297,9 @@ export class SelectSlotPage implements OnInit {
           console.info("payment Response faild........: ",JSON.stringify(paymentResponse))
           paymentResponse.status = 'faild';
           if(booking){
-            alert("in booking");
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
               //alert("paymentCaptureFailed payment faild")
               loader.dismiss();
-             
               booking.payment = paymentResponse;
               this.router.navigate(['/authorized/order-placed']); 
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
