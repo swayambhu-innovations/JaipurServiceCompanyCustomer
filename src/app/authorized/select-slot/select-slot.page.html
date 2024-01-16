@@ -28,9 +28,9 @@
           [ngClass]="{active:startTime==items.start}"
 
 
-          [disabled]="currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false">
+          [disabled]="getApplicableSlots(items)">
 
-          <ng-container *ngIf = "(currentDateNTime.todaydate == selectedDate?.getDate()? (currentDateNTime.currenttime < items.start ? false : true): false) else notdisabled">
+          <ng-container *ngIf = "getApplicableSlots(items) else notdisabled">
             <img src="{{slotsIcons[items.index-1].disabled}}" alt="">
             <div class="slot-det">
               <p style="color: #D7D7D7;">{{slotsStatus[items.index-1]}}</p>

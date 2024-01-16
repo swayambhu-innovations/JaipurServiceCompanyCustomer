@@ -504,7 +504,7 @@ export class CartService {
           // we will now calculate the total job acceptance charge
           totalJobAcceptanceCharge += variant.jobAcceptanceCharge;
           // we will now calculate the total job time
-          totalJobTime += variant.jobDuration;
+          totalJobTime += (+variant.jobDuration);
         })
       }
       // we will now calculate the billing for the booking
