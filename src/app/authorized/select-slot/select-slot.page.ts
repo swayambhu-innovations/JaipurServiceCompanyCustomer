@@ -270,7 +270,6 @@ export class SelectSlotPage implements OnInit {
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader.dismiss();
-           // alert("payment Done")
             this.router.navigate(['/authorized/order-placed']); 
            
           }).finally(()=>{
@@ -278,11 +277,13 @@ export class SelectSlotPage implements OnInit {
           })
         }else{
           console.info("payment Response faild........: ",JSON.stringify(paymentResponse))
+          paymentResponse.status = 'faild';
           if(booking){
+            alert("in booking");
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
               //alert("paymentCaptureFailed payment faild")
               loader.dismiss();
-              paymentResponse.status = 'faild'
+             
               booking.payment = paymentResponse;
               this.router.navigate(['/authorized/order-placed']); 
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){

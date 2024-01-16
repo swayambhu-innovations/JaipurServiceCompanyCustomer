@@ -220,12 +220,15 @@
 <ion-modal [isOpen]="isLoaded && isNotServiceableModalOpen" (willDismiss)="onNotServiceableDismiss($event)">
   <ng-template>
     <ion-content class="ion-padding">
-      <p>
-        Sorry, we do not provide services to the selected area, please select a valid serviceable address.
-      </p>
-      <button (click)="onGotItClick()" class="got-it-button">
-        Okay, Got It
-      </button>
+      <div class="no-catalogue-center-container">
+        <p>
+          Sorry, we do not provide services to the selected area, please select a valid serviceable address.
+        </p>
+        <button (click)="onGotItClick()" class="got-it-button">
+          Okay, Got It
+        </button>
+      </div>
+      
     </ion-content>
   </ng-template>
 </ion-modal>

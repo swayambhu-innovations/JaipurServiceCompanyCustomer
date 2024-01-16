@@ -51,6 +51,11 @@ export class AddressService {
    
     //return (await getDocs(collection(this.firestore, 'areas', stateId, 'cities',cityId,'areas'))).docs;
   }
+
+  async getAreaForCatalogue(stateId:string,cityId:string){
+    return getDocs(collection(this.firestore, 'areas', stateId, 'cities',cityId,'areas'));
+  }
+
   addAddress(userId:string, address:any){
     return addDoc(collection(this.firestore, 'users', userId, 'addresses'), address);
   }

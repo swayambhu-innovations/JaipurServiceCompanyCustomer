@@ -73,6 +73,19 @@ ion-thumbnail {
   --size: 100px;
   --border-radius: 14px;
 }
+.no-catalogue-center-container{
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0px;
+  padding: 20px;
+  p{
+    text-align: center;
+  }
+}
 @media only screen and (max-width: 600px) {
   .margin {
     margin-top: 15%;
@@ -472,8 +485,7 @@ homepage.scss .serviceCategory {
   }
 }
 .got-it-button {
-  width: 90%;
-  margin: 0 5%;
+  width: 100%;
   background-color: #1a1d1f;
   color: #ffffff;
   border: none;
