@@ -17,7 +17,7 @@ export const environment = {
     verifySubscription:'https://us-central1-jaipurservicecompany.cloudfunctions.net/verifySubscription',
     checkSubscriptionStatus:'https://us-central1-jaipurservicecompany.cloudfunctions.net/checkSubscriptionStatus',
   },
-  RAZORPAY_KEY_ID: 'rzp_test_8cTBlk022y2EDq',
+  RAZORPAY_KEY_ID: 'rzp_live_bcGiIPGrH5iZE4',
   RAZORPAY_DOMAIN:'https://api.razorpay.com/v1/',
   production: true
 };
