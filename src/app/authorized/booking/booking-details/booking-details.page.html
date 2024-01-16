@@ -235,10 +235,21 @@
             <img src="../../../../assets/download.svg" alt="">
           </button>
         </div>
+
         <div class="payment-row">
           <div class="payment-heading">Total Duration</div>
           <div class="payment-value">{{duration}}</div>
         </div>
+
+        <div class="items">
+          <ng-container *ngFor="let item of currentBooking?.services">
+              <div class="row1" *ngFor="let variant of item.variants">
+                <p class="col1">{{variant.name }} X <span style="color: #7e8083;">{{ variant.quantity}}</span></p>
+                <p style="color: black;">{{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+              </div>
+          </ng-container>
+        </div>
+
         <div class="payment-row">
           <div class="payment-heading">Total (MRP)</div>
           <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
