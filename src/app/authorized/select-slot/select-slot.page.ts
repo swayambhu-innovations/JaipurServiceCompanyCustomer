@@ -260,25 +260,32 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-        console.log("createBooking paymentResponse ........: ",paymentResponse)
+        console.log("createBooking paymentResponse ........: ",paymentResponse);
+        alert(1);
+        alert(paymentResponse['status']);
         loader.present();
         if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
+          alert(2);
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
          // debugger
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
+            alert(3);
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader.dismiss();
-            alert("payment Done")
+            alert("payment Done");
+            this.router.navigateByUrl('authorized/new-address');
             this.router.navigate(['/authorized/order-placed']); 
            
           }).finally(()=>{
            // loader.dismiss();
           })
         }else{
+          alert("fail");
           console.info("payment Response faild........: ",paymentResponse)
           if(booking){
+            alert("in booking");
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
               alert("payment faild")
               loader.dismiss();
