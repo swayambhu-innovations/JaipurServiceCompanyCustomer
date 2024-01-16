@@ -260,7 +260,7 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-        console.log("createBooking paymentResponse ........: ",paymentResponse)
+      //  console.log("createBooking paymentResponse ........: ",JSON.stringify(paymentResponse))
         loader.present();
         if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
           this.dataProvider.currentBooking!.payment = paymentResponse;
@@ -270,26 +270,26 @@ export class SelectSlotPage implements OnInit {
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader.dismiss();
-            alert("payment Done")
+           // alert("payment Done")
             this.router.navigate(['/authorized/order-placed']); 
            
           }).finally(()=>{
            // loader.dismiss();
           })
         }else{
-          console.info("payment Response faild........: ",paymentResponse)
+          console.info("payment Response faild........: ",JSON.stringify(paymentResponse))
           if(booking){
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
-              alert("payment faild")
+              //alert("paymentCaptureFailed payment faild")
               loader.dismiss();
               paymentResponse.status = 'faild'
               booking.payment = paymentResponse;
               this.router.navigate(['/authorized/order-placed']); 
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
               setTimeout(() => {
+               // alert("paymentGatewayClosed paymentGatewayOpened payment faild")
                 loader.dismiss();
-                alert("payment Faild")
-              }, 30000);  
+              }, 50000);  
             }else{
               loader.dismiss();
             }

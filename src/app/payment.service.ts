@@ -86,7 +86,7 @@ export class PaymentService {
   }
   orderDetails:any;
   handlePayment(data:booking){
-    console.log(data);
+    //console.log(data);
     // this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
     //   console.log("res order..................: ",response)
     // });
@@ -106,8 +106,7 @@ export class PaymentService {
           },
           modal: {
             ondismiss: function(){
-                console.log('‘Checkout form closed’',event);
-
+                //console.log('‘Checkout form closed’',event);
                 result.next({...orderDetails,...order,stage:"paymentGatewayClosed"})
             }
         },
@@ -128,7 +127,7 @@ export class PaymentService {
         }
       };
       this.createOrder(orderDetails).subscribe((order) => {
-          console.log("Payment details",order)
+         // console.log("Payment details",JSON.stringify(order))
           this.orderDetails = order;
           let orderDetail = preparePaymentDetails(order, data,result);
           orderDetail['method'] = {
@@ -140,15 +139,15 @@ export class PaymentService {
           var rzp1 = new this.WindowRef.Razorpay(orderDetail);
           this.orders.push(orderDetail);
           rzp1.open();
-          result.next({...orderDetails,stage:"paymentGatewayOpened"});
+          //result.next({...orderDetails,stage:"paymentGatewayOpened"});
         },
         (error) => {
-           console.log(error.message, "error");
+           //console.log(JSON.stringify(error.message), "error");
           result.next({...orderDetails,stage:"paymentGatewayError"});
         },
         ()=>{
           // completed
-          console.log("error............... paymentGatewayClosed");
+         // console.log("error............... paymentGatewayClosed");
           result.next({...orderDetails,stage:"paymentGatewayClosed"});
         }
       )
@@ -183,7 +182,7 @@ export class PaymentService {
       }
     },
     error:(error)=>{
-      console.log("error..........:",error);
+      console.log("error..........:",JSON.stringify(error));
       return;
     }
   });
