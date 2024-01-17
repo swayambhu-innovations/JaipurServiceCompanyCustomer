@@ -197,31 +197,51 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
   moveMap(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) {
-      this.center = event.latLng.toJSON();
+      //this.center = event.latLng.toJSON();
       this.currentPosition = event.latLng.toJSON();
-      this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
-        const searchedAddress = searchedAddressResult.results[0];
-        searchedAddress.address_components.map((addressComponent:any)=>{
-          const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("sublocality") > -1);
-          if(geoProofingLocality){
-            const geoProfing = addressComponent.long_name;
-            const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
-            if(tempSelectedArea && tempSelectedArea.geoProofingLocality){
-              if(tempSelectedArea.geoProofingLocality != geoProfing){
-                this.isValidMarker = false;
-                this.alertify.presentToast("Selected location point is outside the selected area...");
-              }
-              else{
-                this.markerSet = true;
-                this.isValidMarker = true;
-              }
-            }
-          }
-        });
+      const distanceInKm = this.getDistanceInKM(this.center.lat,this.center.lng,this.currentPosition?.lat,this.currentPosition?.lng);
+      if(distanceInKm > 3){
+        this.isValidMarker = false;
+        this.alertify.presentToast("Selected location point is outside the selected area...");
+      }
+      else{
+        this.markerSet = true;
+        this.isValidMarker = true;
+      }
+      // this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
+      //   const searchedAddress = searchedAddressResult.results[0];
+      //   searchedAddress.address_components.map((addressComponent:any)=>{
+      //     const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("sublocality") > -1);
+      //     if(geoProofingLocality){
+      //       const geoProfing = addressComponent.long_name;
+      //       const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
+            
+      //       if(tempSelectedArea && tempSelectedArea.geoProofingLocality){
+              
+      //       }
+      //     }
+      //   });
         
-      });
+      // });
     }
   }
+
+  getDistanceInKM (lat1, lon1, lat2, lon2) {
+    if(lat1 === lat2 && lon1 === lon2) return 0;
+    const 
+      radlat1 = Math.PI * lat1/180,
+      radlat2 = Math.PI * lat2/180,
+      theta = lon1 - lon2;
+    const radtheta = Math.PI * theta/180;
+    let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) dist = 1;
+    dist = Math.acos(dist);
+    dist = dist * 180/Math.PI;
+    dist = dist * 60 * 1.1515;
+    dist = dist * 1.609344;
+    return dist;
+  }
+
   move(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) this.display = event.latLng.toJSON();
   }
