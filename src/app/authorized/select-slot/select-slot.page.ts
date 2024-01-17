@@ -278,13 +278,14 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-        console.log("createBooking paymentResponse ........: ",JSON.stringify(paymentResponse))
+        console.log("createBooking paymentResponse ........: ",paymentResponse)
         loader.present();
-        if(paymentResponse.stage == 'paymentCaptureSuccess'){
+        if(paymentResponse.stage == "paymentCaptureSuccess" || paymentResponse.stage == "paymentCaptureSuccess"){
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
-         // debugger
+          console.log(" this.dataProvider.currentBooking ........: ", this.dataProvider.currentBooking);
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
+            //debugger
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader.dismiss();
@@ -292,19 +293,19 @@ export class SelectSlotPage implements OnInit {
            
           }).finally(()=>{
            // loader.dismiss();
+          }).catch((error:any)=>{
+            console.log("errror...........: ",error)
           })
         }else{
           console.info("payment Response faild........: ",JSON.stringify(paymentResponse))
           paymentResponse.status = 'faild';
           if(booking){
             if(paymentResponse.stage == 'paymentCaptureFailed' ){
-              //alert("paymentCaptureFailed payment faild")
               loader.dismiss();
               booking.payment = paymentResponse;
               this.router.navigate(['/authorized/order-placed']); 
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
               setTimeout(() => {
-               // alert("paymentGatewayClosed paymentGatewayOpened payment faild")
                 loader.dismiss();
               }, 50000);  
             }else{
