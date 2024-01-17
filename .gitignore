@@ -22,6 +22,7 @@ log.txt
 /www
 /platforms
 /plugins
+/android
 
 # Compiled output
 /dist
@@ -62,12 +63,12 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-
 # System files
 .DS_Store
 Thumbs.db
 
 # Firebase
+package-lock.json
 .firebase
 *-debug.log
 .runtimeconfig.json
