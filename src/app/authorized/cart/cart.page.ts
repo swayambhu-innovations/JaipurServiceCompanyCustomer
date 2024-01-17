@@ -141,7 +141,8 @@ export class CartPage implements OnInit {
     let count =0;
     this.selectedBooking?.services.forEach(services=>{
       count += services.discounts.length;
-    })
+    });
+    
     return count;
   }
   services: Service[] = [];
