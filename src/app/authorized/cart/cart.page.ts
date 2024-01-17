@@ -197,11 +197,13 @@ export class CartPage implements OnInit {
     }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
-      if(this.cart.length === 1){
-        this.selectedBooking = this.cart[0];
-      }else{
-        this.selectedBooking = undefined;
-      }
+      // console.log(this.cart);
+      // debugger
+      // if(this.cart.length === 1){
+      //   this.selectedBooking = this.cart[0];
+      // }else{
+      //   this.selectedBooking = undefined;
+      // }
       //
 
       if(this.mainCategoryId != 'all'){
