@@ -602,6 +602,19 @@
   flex-direction: row !important;
   background: #fff;
   margin-top: 3px;
+
+  .items{
+    .row1{
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 3px;
+      p{
+        color: #7e8083;
+      }
+    }
+  }
+  
   ion-card-header {
     flex-direction: column;
   }

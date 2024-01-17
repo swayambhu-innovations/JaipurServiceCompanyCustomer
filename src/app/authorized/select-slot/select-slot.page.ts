@@ -187,6 +187,23 @@ export class SelectSlotPage implements OnInit {
     this.preferredAgentTime(this.startTime, this.endTime);
   }
 
+  getApplicableSlots(items:any){
+    const totalJobTime = +this.dataProvider.currentBooking!.billing.totalJobTime;
+    const index = this.slotsArray.findIndex((item) => item.id == items.id);
+    
+    const slotsTime = (+items.end) - (+items.start);
+    const calcul = slotsTime* (this.slotsArray.length - index) - totalJobTime;
+    //console.log("item",totalJobTime,items.start,calcul);
+    const numStart = +items.start;
+    if(this.currentDateNTime.todaydate == this.selectedDate?.getDate()){
+      return !(this.currentDateNTime.currenttime < numStart && (calcul >= 0));
+    }
+    else{
+      return !(calcul >= 0);
+    }
+  }
+
+
   preferredAgentTime(start: any, end: any){
     this.agentArrivalArray = [];
     let today1 = new Date();

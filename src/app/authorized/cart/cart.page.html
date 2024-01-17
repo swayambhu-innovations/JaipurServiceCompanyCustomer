@@ -116,7 +116,13 @@
             </p>
             <div class="stock">
               <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
-                <img src="../../../assets/remove.svg" alt="">
+                <ng-container *ngIf = "variant.quantity <=1 else clickable">
+                  <img src="../../../assets/remove.svg" alt="">
+                </ng-container>
+                <ng-template #clickable>
+                  <img src="../../../assets/remove1.svg" alt="">
+                </ng-template>
+                
               </button>
               <p class="item-count">{{variant.quantity}}</p>
               <button class="add-btn" fill="solid" (click)="this.cartService.incrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
@@ -208,7 +214,18 @@
         {{totalTimeNeeded}} 
       </p>
     </div>
+    
     <h6 class="payment-detials-text">Payment Details</h6>
+
+    <div class="items">
+      <ng-container *ngFor="let item of selectedBooking.services">
+          <div class="row1" *ngFor="let variant of item.variants">
+            <p class="col1">{{variant.name }} X <span >{{ variant.quantity}}</span></p>
+            <p style="color: black;">{{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+          </div>
+      </ng-container>
+    </div>
+
     <div class="breakup">
       <div class="breakup-item">
         <p class="left-title">Total (MRP)</p>

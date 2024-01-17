@@ -141,7 +141,8 @@ export class CartPage implements OnInit {
     let count =0;
     this.selectedBooking?.services.forEach(services=>{
       count += services.discounts.length;
-    })
+    });
+    
     return count;
   }
   services: Service[] = [];
@@ -196,9 +197,6 @@ export class CartPage implements OnInit {
     }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
-      // console.log(this.cart);
-      console.log(this.cart);
-      
       if(this.cart.length === 1){
         this.selectedBooking = this.cart[0];
       }else{
