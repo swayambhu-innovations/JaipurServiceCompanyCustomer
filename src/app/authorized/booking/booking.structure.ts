@@ -62,6 +62,7 @@ export interface  Booking {
 }
 
 export interface SelectedService {
+  discountsApplicable?: any[];
   name: string;
   serviceId: string;
   description: string;
