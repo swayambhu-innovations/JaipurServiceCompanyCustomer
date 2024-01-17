@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-
+import { Checkout } from 'capacitor-razorpay';
 import { NumberFormatStyle } from '@angular/common';
 
 @Injectable({
@@ -126,19 +126,20 @@ export class PaymentService {
         notes: {
         }
       };
-      this.createOrder(orderDetails).subscribe((order) => {
+      this.createOrder(orderDetails).subscribe((order:any) => {
          // console.log("Payment details",JSON.stringify(order))
-          this.orderDetails = order;
-          let orderDetail = preparePaymentDetails(order, data,result);
-          orderDetail['method'] = {
-            netbanking: true,
-            card: true,
-            wallet: true,
-            upi: true
-          };
-          var rzp1 = new this.WindowRef.Razorpay(orderDetail);
-          this.orders.push(orderDetail);
-          rzp1.open();
+         this.payWithRazorpay(order, data,result);
+          // this.orderDetails = order;
+          // let orderDetail = preparePaymentDetails(order, data,result);
+          // orderDetail['method'] = {
+          //   netbanking: true,
+          //   card: true,
+          //   wallet: true,
+          //   upi: true
+          // };
+          // var rzp1 = new this.WindowRef.Razorpay(orderDetail);
+          // this.orders.push(orderDetail);
+          // rzp1.open();
           //result.next({...orderDetails,stage:"paymentGatewayOpened"});
         },
         (error) => {
@@ -197,6 +198,33 @@ export class PaymentService {
   }
   geteOrderById(orderId: string) {
     return this.https.get(environment.cloudFunctions.getOrderById +orderId);
+  }
+
+  async payWithRazorpay(order:any,data:any,result:any){
+    const options = {
+      key:  environment.RAZORPAY_KEY_ID,
+      amount: order.amount,
+      image: 'https://jaipurservicecompany.com/images/logo.png',
+      order_id: order.id,//Order ID generated in Step 1
+      currency:  order.currency,
+      name: 'Jaipur Service Company',
+      prefill: {
+        name: data.user.displayName,
+        contact: data.user.phone,
+      },
+      theme: {
+        color: '#2a1234'
+      }
+    }
+    try {
+      let data:any = (await Checkout.open(options));
+      console.log("payment on sucesses: ",data.response);
+      result.next({...data.response,...order,...options,stage:"paymentCaptureSuccess"})
+      console.log(JSON.stringify(data))
+    } catch (error:any) {
+      //it's paramount that you parse the data into a JSONObject
+      result.next({...error,stage:"paymentCaptureFailed"})
+    }
   }
 }
 
