@@ -2,7 +2,9 @@
   "name": "JaipurServiceCompanyCustomer",
   "integrations": {
     "capacitor": {},
-    "cordova": {}
+    "cordova": {
+      
+    }
   },
   "type": "angular"
 }

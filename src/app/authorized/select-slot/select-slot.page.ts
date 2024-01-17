@@ -261,9 +261,9 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe((paymentResponse)=>{
-      //  console.log("createBooking paymentResponse ........: ",JSON.stringify(paymentResponse))
+        console.log("createBooking paymentResponse ........: ",JSON.stringify(paymentResponse))
         loader.present();
-        if(paymentResponse['status'] && (paymentResponse['status']) == 'captured'){
+        if(paymentResponse.stage == 'paymentCaptureSuccess'){
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
          // debugger
