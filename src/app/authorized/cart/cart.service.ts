@@ -448,7 +448,7 @@ export class CartService {
           });
           return discountItems.length;
         });
-        service.discounts = [...filteredDiscounts]
+        service.discountsApplicable = [...filteredDiscounts]
 
         // we will first calculate the original price
         const taxesList = service.taxes;

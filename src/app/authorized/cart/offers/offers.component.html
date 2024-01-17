@@ -23,7 +23,7 @@
   </div>
   <div *ngFor="let service Of  this.booking?.services">
     <h2 class="heading-name" style="margin-left: 20px;">{{service.name}}</h2>
-    <ng-container *ngFor="let discount of service.discounts">
+    <ng-container *ngFor="let discount of service.discountsApplicable">
       <div class="coupon-card">
         <div class="coupon-content">
           <div class="coupon-img">
