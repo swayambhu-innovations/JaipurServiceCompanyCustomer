@@ -12,6 +12,7 @@ import { ProfileService } from '../../db_services/profile.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/auth.service';
 import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
+import * as moment from 'moment';
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.page.html',
@@ -74,23 +75,20 @@ export class ProfileInfoPage implements OnInit {
     
     this.activeRoute.queryParams.subscribe((param: any) => {
       this.urlparam = param.from;
-      console.log("user data",this.userData);
       if (this.userData?.name) {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
         if(this.userData.dateofbirth){
-          let datearray = this.userData.dateofbirth?.split("/");
-          let newdate = datearray[0] + '-' + datearray[1] + '-' + datearray[2];
-          let date = new DatePipe('en-US').transform(newdate, 'yyyy-MM-dd');
-          this.userProfileForm.controls.dateofbirth.setValue(date)
+          const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
+          this.userProfileForm.controls.dateofbirth.setValue(momentDate)
         }
         else{
-          this.userProfileForm.controls.dateofbirth.setValue('yyyy-MM-dd')
+          this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
         }
       }
       else{
-        this.userProfileForm.controls.dateofbirth.setValue('yyyy-MM-dd')
+        this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
       }
     });
   }
@@ -122,7 +120,7 @@ export class ProfileInfoPage implements OnInit {
   async nextFunction() {
     let date = "";
     this.isSubmitForm = true;
-    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'yyyy-MM-dd') {
+    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
       date = this.userProfileForm.controls.dateofbirth.value.split('-');
       date = date[2] + '/' + date[1] + '/' + date[0];
     } else {
