@@ -55,7 +55,9 @@
         </div>
         <div class="call-button" *ngIf="jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0 ">
           <button>
-            <img class="call" src="../../../assets/Call.svg" alt="" />
+            <a href="tel:{{assignedAgent.phoneNumber}}">
+              <img class="call" src="../../../assets/Call.svg" alt="" />
+            </a>
           </button>
         </div>
         <div class="call-text" *ngIf="jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0 ">
