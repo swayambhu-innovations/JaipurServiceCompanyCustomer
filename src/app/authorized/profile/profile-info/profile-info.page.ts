@@ -138,7 +138,6 @@ export class ProfileInfoPage implements OnInit {
     } else {
       this.isGenderSelected = true;
     }
-    debugger
     let finalData = {
       gender: this.userProfileForm.controls.gender.value,
       dateofbirth: date,
