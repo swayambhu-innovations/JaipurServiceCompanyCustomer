@@ -311,7 +311,7 @@
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title">
           <span>Payment Details</span>
-          <p class="body" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" [ngClass]="[currentBooking?.payment?.status === 'captured' ? 'success' : 'faild']">{{ currentBooking?.payment?.status === 'captured' ? 'Completed' : 'Failed' }}</p>
+          <p class="body" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']">{{ currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'Completed' : 'Failed' }}</p>
           <p class="body paylater" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater" >Pending</p>
         </div>
         <div class="payment-row">

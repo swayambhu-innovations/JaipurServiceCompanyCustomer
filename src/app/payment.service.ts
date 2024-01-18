@@ -86,7 +86,7 @@ export class PaymentService {
   }
   orderDetails:any;
   handlePayment(data:booking){
-    //console.log(data);
+    console.log("booking: ",data);
     // this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
     //   console.log("res order..................: ",response)
     // });
@@ -200,7 +200,7 @@ export class PaymentService {
     return this.https.get(environment.cloudFunctions.getOrderById +orderId);
   }
 
-  async payWithRazorpay(order:any,data:any,result:any){
+  async payWithRazorpay(order:any,booking:any,result:any){
     const options = {
       key:  environment.RAZORPAY_KEY_ID,
       amount: order.amount,
@@ -209,8 +209,8 @@ export class PaymentService {
       currency:  order.currency,
       name: 'Jaipur Service Company',
       prefill: {
-        name: data.user.displayName,
-        contact: data.user.phone,
+        name: this.dataProvider.currentUser!.userData.name,
+        contact: booking.user.phone,
       },
       theme: {
         color: '#2a1234'
@@ -218,8 +218,13 @@ export class PaymentService {
     }
     try {
       let data:any = (await Checkout.open(options));
+      let obj = {
+        amount: options.amount,
+        prefill:options.prefill
+      }
       console.log("payment on sucesses: ",data.response);
-      result.next({...data.response,...order,...options,stage:"paymentCaptureSuccess"})
+      let paymentDetail = {...data.response,...order,...obj,stage:"paymentCaptureSuccess"}
+      result.next({...paymentDetail,stage:"paymentCaptureSuccess"})
       console.log(JSON.stringify(data))
     } catch (error:any) {
       //it's paramount that you parse the data into a JSONObject

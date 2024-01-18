@@ -30,7 +30,7 @@ export class ProfileInfoPage implements OnInit {
   selectedGender: string = '';
   isGenderSelected: boolean = false;
   isFocused: boolean = false;
-  photoUrl: any;
+  photoUrl:File;
   urlparam: string = '';
 
   constructor(
@@ -191,7 +191,7 @@ export class ProfileInfoPage implements OnInit {
     this.updateUser(this.photoUrl);
   }
 
-  async updateUser(file: any) {
+  async updateUser(file: File) {
     let loader = await this.loadingController.create({
       message: 'Updating Coustomer Details.........',
     });
@@ -203,6 +203,7 @@ export class ProfileInfoPage implements OnInit {
       })
       .catch((error: any) => {
         console.log(error);
+        console.log("error url from file.....: ",JSON.stringify(error))
       })
       .finally(() => loader.dismiss());
   }

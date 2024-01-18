@@ -51,25 +51,29 @@ export class ProfileService {
     return updateDoc(doc(this.firestore, 'users', userId), profileDetails);
   }
 
-  async updatePic(photoUrl:any,uid: string ) {
+  async updatePic(photoUrl:File,uid: string ) {
     let loader = await this.loadingController.create({
       message: 'updating Coustomer Details.........',
     });
+    let response:any;
     try {
-      if (photoUrl instanceof File) {
-        photoUrl = await this.fileService.uploadFile(
+         await this.fileService.uploadFile(
           photoUrl,
           `users/${uid}/profile`,
-          'Profile Picture',
-        );
-      }
+          photoUrl.name,
+        ).then((respose:any)=>{
+          response = respose;
+        }).catch((error:any)=>{
+          console.log("error File........: ", JSON.stringify(error))
+        });
       await updateDoc(doc(this.firestore, 'users', uid), {
-        photoUrl:photoUrl
+        photoUrl:response
       });
       
       await loader.dismiss();
-      return photoUrl;
+      return response;
     } catch (error) {
+      console.log("error File. final.......: ", JSON.stringify(error))
       await loader.dismiss();
       throw error;
     }
