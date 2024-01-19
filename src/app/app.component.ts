@@ -7,6 +7,7 @@ import { NavigationBackService } from './navigation-back.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { App } from '@capacitor/app';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,15 @@ export class AppComponent implements OnInit {
       }
       
       
+    });
+    Network.addListener('networkStatusChange', status => {
+      console.log("network",status);
+      if(!status.connected){
+        this.router.navigate(['/no-internet']);
+      }
+      else{
+        this.router.navigate(['unauthorized/login']);
+      }
     });
   }
 
