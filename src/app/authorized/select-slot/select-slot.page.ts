@@ -171,6 +171,8 @@ export class SelectSlotPage implements OnInit {
   setSlot(slot) {
     let today = new Date();
     
+    this.selectedTimeState = false;
+    
     this.selectedStartTime = new Date(
       today.getFullYear(),
       today.getMonth(),
