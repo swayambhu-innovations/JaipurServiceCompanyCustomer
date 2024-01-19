@@ -155,6 +155,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidLeave(){
+    this.isLoaded = false;
     if (this.swiper) {
       this.swiper.destroy();
     }
