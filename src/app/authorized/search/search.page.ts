@@ -19,8 +19,9 @@ export class SearchPage implements OnInit {
 
   serviceList:Service[] = []
   fuseSearchInstance = new Fuse(this.serviceList,{
-    keys:["name","variants.name" , ],
+    keys:["name","variants.name"],
     includeScore: true,
+    minMatchCharLength : 3
   })
 
   results:searchResult[] = [];
@@ -29,7 +30,8 @@ export class SearchPage implements OnInit {
  
   constructor(private dataProvider:DataProviderService, private route:Router) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      console.log("term: ",term)
+      console.log("term: ",term);
+      this.results = [];
       if(term.length > 2){
         this.results = this.fuseSearchInstance.search(term).map((result)=>{
         

@@ -52,7 +52,7 @@
         <div
           *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
           style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'yyyy-MM-dd' || this.userProfileForm.get('dateofbirth')?.value == ''">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'YYYY-MM-DD' || this.userProfileForm.get('dateofbirth')?.value == ''">
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div>
