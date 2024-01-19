@@ -82,10 +82,10 @@
 
     <div class="temp" >
       <div class="bottom1">
-        <button class="payafter"  [disabled]="!(selectedDate && selectedTimeState)" (click)="createBookingWithoutPay()">
+        <button class="payafter" [ngClass]="{active: (selectedDate && selectedTimeState)}"  [disabled]="!(selectedDate && selectedTimeState)" (click)="createBookingWithoutPay()">
           Pay After Job
         </button>
-        <button class="paynow"   [disabled]="!(selectedDate && selectedTimeState)" (click)="createBooking()">
+        <button class="paynow" [ngClass]="{active: (selectedDate && selectedTimeState)}"   [disabled]="!(selectedDate && selectedTimeState)" (click)="createBooking()">
           Pay Now
         </button>
       </div>

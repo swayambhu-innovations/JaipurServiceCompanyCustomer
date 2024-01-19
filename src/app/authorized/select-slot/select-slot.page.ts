@@ -171,6 +171,8 @@ export class SelectSlotPage implements OnInit {
   setSlot(slot) {
     let today = new Date();
     
+    this.selectedTimeState = false;
+    
     this.selectedStartTime = new Date(
       today.getFullYear(),
       today.getMonth(),
@@ -277,10 +279,13 @@ export class SelectSlotPage implements OnInit {
         user:{
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
-      }).subscribe((paymentResponse)=>{
+      }).subscribe(async(paymentResponse)=>{
         console.log("createBooking paymentResponse ........: ",paymentResponse)
-        loader.present();
         if(paymentResponse.stage == "paymentCaptureSuccess" || paymentResponse.stage == "paymentCaptureSuccess"){
+          let loader2 = await this.loadingController.create({
+            message: 'Please wait...',
+          });
+          loader2.present();
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
           console.log(" this.dataProvider.currentBooking ........: ", this.dataProvider.currentBooking);
@@ -288,12 +293,13 @@ export class SelectSlotPage implements OnInit {
             //debugger
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
-            loader.dismiss();
+            loader2.dismiss();
             this.router.navigate(['/authorized/order-placed']); 
            
           }).finally(()=>{
-           // loader.dismiss();
+            loader.dismiss();
           }).catch((error:any)=>{
+            loader.dismiss();
             console.log("errror...........: ",error)
           })
         }else{
@@ -307,7 +313,7 @@ export class SelectSlotPage implements OnInit {
             }else if(paymentResponse.stage == "paymentGatewayClosed" || paymentResponse.stage == "paymentGatewayOpened"){
               setTimeout(() => {
                 loader.dismiss();
-              }, 50000);  
+              }, 5000);  
             }else{
               loader.dismiss();
             }
