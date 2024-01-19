@@ -40,6 +40,14 @@
     <div class="input">
       <input type="number" formControlName="pincode" placeholder="Pin Code" />
     </div>
+    <div *ngIf="isSubmitForm && (addressForm?.get('pincode')?.invalid && (addressForm?.get('pincode')?.dirty || addressForm?.get('pincode')?.touched))">
+      <div *ngIf="addressForm?.get('pincode')?.errors?.required">
+        <ion-text color="danger">PIN code is required.</ion-text>
+      </div>
+      <div *ngIf="addressForm?.get('pincode')?.errors?.pattern">
+        <ion-text color="danger">Invalid PIN code format.</ion-text>
+      </div>
+    </div>
     <div class="input">
       <input
         type="text"

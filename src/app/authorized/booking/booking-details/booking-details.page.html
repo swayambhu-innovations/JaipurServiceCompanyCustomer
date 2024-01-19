@@ -89,7 +89,7 @@
         </div>
       </div>
   <!-- Offer water -->
-  <div class="water" *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded'">
+  <div class="water" *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded' && currentBooking?.stage !== 'completed' && currentBooking?.stage !== 'expired'">
     <img class="glass-image" src="../../../assets/glass1.svg" alt="" />
     <span>
       <p>Offer drinking water to the professional</p>

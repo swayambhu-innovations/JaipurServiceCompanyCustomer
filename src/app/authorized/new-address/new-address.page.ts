@@ -34,13 +34,14 @@ export class NewAddressPage implements OnInit, CanActivate{
   selectedState:any;
   showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
+  isSubmitForm:boolean = false;
   addressForm = this.fb.group({
     name: ['', Validators.required],
     addressLine1: ['', Validators.required],
     selectedArea: ['', Validators.required],
     city: ['', Validators.required],
     state: ['', Validators.required],
-    pincode: ['', Validators.required]
+    pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]]
   });
   markerSet: boolean = false;
   
@@ -83,6 +84,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   async ionViewWillEnter(){
     this.isValidMarker = false;
     this.addressForm.reset();
+    this.isSubmitForm = false;
     const navigation = this.router.getCurrentNavigation();
     let haveOldAddresses = true;
     
@@ -272,6 +274,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   // }
 
   async submit(){
+    this.isSubmitForm = true;
     if(!this.addressForm.valid){
       this.alertify.presentToast("Please fill all the required fields...");
       return;
@@ -314,6 +317,7 @@ export class NewAddressPage implements OnInit, CanActivate{
        await loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
          this.dataProvider.isFirstTime.next(true);
+         this.isSubmitForm = false;
          this.addressForm.reset()
          this.router.navigate(['/authorized/home'])
        }).catch(err=>{

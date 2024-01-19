@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { DataProviderService } from "src/app/core/data-provider.service";
 
 @Component({
     selector: 'app-navbar',
@@ -8,12 +9,15 @@ import { Router } from "@angular/router";
 })
 
 export class NavbarPage implements OnInit {
-    
+    hasProfileSaved: boolean = false;
     constructor(
-        public router : Router
+        public router : Router,
+        public dataProvider: DataProviderService,
     ){}
     ngOnInit(){
-        console.log(this.router.url);
+        this.dataProvider.currentUser$.subscribe((user) => {
+            this.hasProfileSaved = user?.userData.name ? true : false;
+        })
     }
     close(url:any) {
         this.router.navigate([url]);
