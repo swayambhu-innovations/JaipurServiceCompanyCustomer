@@ -45,6 +45,21 @@ export class AppComponent implements OnInit {
         this.router.navigate(['unauthorized/login']);
       }
     });
+
+    this.platform.ready().then(() => {
+      this.registerIonicLifecycleEvents();
+    });
+  }
+
+  private registerIonicLifecycleEvents() {
+    this.platform.pause.subscribe(() => {
+      // App is paused
+    });
+
+    this.platform.resume.subscribe(() => {
+      // App is resumed
+      this.router.navigate(['unauthorized/login']);
+    });
   }
 
   ngOnInit(): void {
