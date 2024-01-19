@@ -89,7 +89,7 @@ export class OtpPage implements OnInit {
   }
 
   config = {
-    allowNumbersOnly: false,
+    allowNumbersOnly: true,
     length: 6,
     isPasswordInput: false,
     disableAutoFocus: false,
