@@ -46,7 +46,6 @@ export class FileService {
   }
 
  async saveImage(url:string, path){
-  debugger
     const response = await fetch(url);
   // convert to a Blob
     const blob = await response.blob();
