@@ -1,7 +1,10 @@
 <div class="no-internet-main">
   <div class="no-internet-inner">
-    <div>
+    <div *ngIf="!isBackOnline">
       No Internet Connection
+    </div>
+    <div *ngIf="isBackOnline" class="back-online">
+      Back online
     </div>
   </div>
 </div>

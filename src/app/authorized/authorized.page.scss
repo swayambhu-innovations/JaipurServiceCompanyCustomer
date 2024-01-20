@@ -1,0 +1,22 @@
+.loading-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    left: 0px;
+    height: 100%;
+    top: 0px;
+    z-index: 9999;
+    background-color: white;
+    .loading-container-inner{
+        padding: 20px;
+        .image{
+            width: 50%;
+            margin: 0 auto;
+        }
+        .text{
+            text-align: center;
+        }
+    }
+}

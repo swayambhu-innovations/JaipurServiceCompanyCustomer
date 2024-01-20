@@ -15,6 +15,9 @@ import Utils from '../common/util';
 import Swiper from 'swiper';
 import * as moment from 'moment';
 import { UserNotificationService } from '../common/user-notification.service';
+import { AddressService } from '../db_services/address.service';
+import { Address } from '../select-address/address.structure';
+import { CartService } from '../cart/cart.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -31,10 +34,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   todayDate: number = Date.now();
-  isLoaded : boolean = false;
   isNotServiceableModalOpen: boolean = false;
   utils: any;
-
+  hasAddressFatched:boolean = false;
   promotionalBanners: bannerConfig[] = [
     {
       image: 'assets/banners/dealSlide1.svg',
@@ -72,7 +74,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   upcomingBookings:any[] = [];
   notifications:any[] = [];
   unreadNotifications:any[] = [];
+  addresses:Address[] = [];
   constructor(
+    private addressService: AddressService,
     private router: Router,
     private profileService: ProfileService,
     private dataProvider: DataProviderService,
@@ -82,6 +86,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     public bookingService:BookingService,
     private loadingController: LoadingController,
     private _notificationService: UserNotificationService,
+    public _cartService : CartService
   ) {
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
@@ -105,22 +110,70 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
-    let loader = await this.loadingController.create({message:'Please wait...'});
-    loader.present();
     this.fetchBanners();
     this.recentActivity();
-    this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
     this.dataProvider.mainCategories.subscribe(categories => {
-      this.isLoaded = true;
       this.categories = categories;
-      if(this.homeService.isCatalogueLoaded == true && this.categories.length == 0){
-        this.isNotServiceableModalOpen = true;
+      if(this.dataProvider.mainCategoriesLoaded){
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next("loaded");
+        },1000);
       }
     });
-    loader.dismiss();
+    this.fetchAddress();
   }
+
+  fetchAddress(){
+    this.addressService.fetchedAddresses.subscribe(async (address:Address[])=>{
+      this.addresses = address;
+      this.hasAddressFatched = true;
+      this.addressService.addresses = this.addresses;
+      this.setupCategories(this.addresses);
+    });
+  }
+
+  async setupCategories(address){
+    if(this._cartService.selectedCatalogue){
+      return;
+    }
+    if(address.length > 0){
+      // console.log("address...........: ",address)
+       let currentAddress = address.find(addre=> addre.isDefault);
+       if(currentAddress){
+         const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
+           return { ...area.data(), id: area.id };
+         }).filter(area => area['geoProofingLocality'] === currentAddress?.geoProofingLocality && area.serviceCatalogue);
+         if (areas.length > 0) {
+           this.homeService.fetchData(areas[0].serviceCatalogue);
+         }
+         else{
+            this.isNotServiceableModalOpen = true;
+            this.dataProvider.mainCategoriesLoaded = true;
+            this.homeService.mainCategories.next([]);
+            setTimeout(() => {
+              this.dataProvider.isPageLoaded$.next("loaded");
+            },1000);
+            
+         }
+       }else{
+         //this.fetchData(address[0].selectedArea.serviceCatalogue);
+       }
+       this._cartService.selectedCatalogue = address[0].selectedArea.serviceCatalogue;
+     }else{
+      
+     }
+  }
+
+
   ionViewDidEnter(){
+    if(this.addresses.length){
+      this.hasAddressFatched = true;
+      this.setupCategories(this.addresses);
+    }
+    else{
+      this.fetchAddress();
+    }
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
         return { ...notification.data(),id: notification.id };
@@ -155,7 +208,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidLeave(){
-    this.isLoaded = false;
     if (this.swiper) {
       this.swiper.destroy();
     }
@@ -179,15 +231,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
       this.getImage(this.banners[0].img);
     });
-  }
-  // added by ronak
-  async fetchMainCategory() {
-    // await this.homeService.getCategory().then((name) => {
-    //   this.categories = name.docs.map((doc) => {
-    //     this.categories = [...this.categories];
-    //     return doc.data()
-    //   });
-    // })
   }
 
   isFutureDate(date: Date|undefined) {

@@ -102,7 +102,6 @@ export class OtpPage implements OnInit {
   };
   onOtpChange(otp: any) {
     this.otp = otp;
-    console.log(otp);
   }
   setVal(val: number) {
     this.ngOtpInput.setValue(val);

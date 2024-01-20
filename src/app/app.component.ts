@@ -37,12 +37,8 @@ export class AppComponent implements OnInit {
       
     });
     Network.addListener('networkStatusChange', status => {
-      console.log("network",status);
       if(!status.connected){
         this.router.navigate(['/no-internet']);
-      }
-      else{
-        this.router.navigate(['unauthorized/login']);
       }
     });
 
