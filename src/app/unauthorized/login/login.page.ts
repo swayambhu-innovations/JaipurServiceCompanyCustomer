@@ -30,7 +30,6 @@ export class LoginPage implements OnInit {
     this.authService.loginWithPhoneNumber(this.phoneNumber,this.verifier).then((login)=>{
       this.dataProvider.loginConfirmationResult=login;
       this.dataProvider.userMobile = this.phoneNumber;
-      console.log("dataprovider.........: ",this.dataProvider)
       this.router.navigate(['unauthorized/otp'])
     }).catch((error)=>{
       console.log(error);

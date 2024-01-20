@@ -40,13 +40,11 @@ export class HomeHeaderComponent  implements OnInit {
   setupAddress(address){
     if(address.length > 0){
       let currentAddress = address.filter(add=>add.isDefault);
-      // console.log("ngOnInit home header....: ",address[0])
       
       if(currentAddress.length> 0){
         this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
       }else
       this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
-      // console.log(this.mainAddressLine);
       this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
       if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
         this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
@@ -75,7 +73,6 @@ export class HomeHeaderComponent  implements OnInit {
       
       ass.map(res=>{
         let address_ = res.data();
-        console.log(address_);
         if(address.name === address_.name){
           addressId = res.id;
         }

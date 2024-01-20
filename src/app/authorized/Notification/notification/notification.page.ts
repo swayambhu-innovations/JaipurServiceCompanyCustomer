@@ -54,7 +54,6 @@ export class NotificationPage implements OnInit {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
-              console.log('Cancel clicked');
             }
           }
         ]

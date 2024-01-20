@@ -138,7 +138,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     if(address.length > 0){
-      // console.log("address...........: ",address)
        let currentAddress = address.find(addre=> addre.isDefault);
        if(currentAddress){
          const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
@@ -374,16 +373,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       path: `${CASHE_FOLDER}/${imageName}`,
     })
       .then(async (readFile) => {
-        //console.log("Local File",imageName, readFile);
         if (readFile.data === '') {
           let file = await this.saveImage(url, imageName);
-          // console.log("server file")
           return `data:image/${fileType};base64,${file}`;
         } else return `data:image/${fileType};base64,${readFile.data}`;
       })
       .catch(async (e) => {
-        // wirte a file
-        //console.log("e........: ", e)
         let file = await this.saveImage(url, imageName);
         Filesystem.readFile({
           directory: Directory.Cache,
@@ -393,33 +388,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         });
       })
       .finally(() => {
-        // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
       });
   }
 
   async saveImage(url: string, path) {
-    //debugger
-    // this.http.get(url).subscribe({
-    //   next:(rspose)=>{
-    //     console.log("response: ",response)
-    //   },
-    //   error:(error)=>{
-    //     console.log("eer.........:",error)
-    //   }
-
-    // })
-    // let xhr = new XMLHttpRequest();
-    // xhr.responseType = 'blob';
-    // xhr.onload = (event) => {
-    //   console.log("xhr.response: ",xhr.response)
-    //   const blob = xhr.response;
-    //   console.log("blob...........: ",blob)
-    // };
-    // xhr.open('GET', url,true);
-    // xhr.setRequestHeader("Origin",location.origin);
-    // xhr.setRequestHeader("mode",'no-cors');
-    // xhr.send();
-
     const response: any = await fetch(url, {
       headers: new Headers({
         Origin: location.origin,
@@ -427,13 +399,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       mode: 'no-cors',
     })
       .then((response) => {
-        // console.log("response....... ",response.body)
       })
       .catch((error) => {
         console.log('errror.....', error);
       });
-    // convert to a Blob
-    // debugger
     let blob = await response.body?.blob();
     const convertBlobToBase64 = (blob: Blob) =>
       new Promise((resolve, reject) => {
@@ -442,12 +411,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         reader.onload = () => {
           resolve(reader.result);
         };
-        //console.log("blob...........: ",blob)
         reader.readAsDataURL(blob);
       });
-    // convert to base64 data, which the Filesystem plugin requires
     const base64Data = (await convertBlobToBase64(blob)) as string;
-    // console.log("Saving.................");
 
     const savedFile = await Filesystem.writeFile({
       path: `${CASHE_FOLDER}/${path}`,

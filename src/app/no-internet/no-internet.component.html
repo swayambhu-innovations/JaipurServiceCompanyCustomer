@@ -1,10 +1,24 @@
 <div class="no-internet-main">
   <div class="no-internet-inner">
     <div *ngIf="!isBackOnline">
-      No Internet Connection
+      <div class="icon-container">
+        <div class="icon">
+          <img  src="assets/icons/no-signal.svg" alt="">
+        </div>
+      </div>
+      <div class="text">
+        No Internet Connection
+      </div>
     </div>
     <div *ngIf="isBackOnline" class="back-online">
-      Back online
+      <div class="icon-container">
+        <div class="icon">
+          <img  src="assets/icons/signal.svg" alt="">
+        </div>
+      </div>
+      <div class="text">
+        Back online, redirecting...
+      </div>
     </div>
   </div>
 </div>

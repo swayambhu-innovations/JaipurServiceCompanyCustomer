@@ -40,7 +40,6 @@ export class SearchPage implements OnInit {
             price:result.item.variants.sort((a,b)=>a.price-b.price)[0]?.price
           }
         })
-       console.log("searching for ",term,this.fuseSearchInstance, this.results);
        
         if(this.results.length === 0 ){
           this.historyTerms = [];
@@ -70,7 +69,6 @@ export class SearchPage implements OnInit {
         })
       });
       this.fuseSearchInstance.setCollection(services)
-      console.log("fuse search instance",this.fuseSearchInstance);
       this.serviceList = services;
     });
   }
@@ -115,9 +113,7 @@ export class SearchPage implements OnInit {
   removeItemFromHistory(index:number){
     
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}')
-    console.log("index: ",index,data.terms)
     data.terms.splice(index,1)
-    console.log("after index: ",index,data.terms)
     localStorage.setItem('searchedTerms',JSON.stringify(data))
     this.historyTerms = this.getFromHistory();
   }

@@ -22,7 +22,6 @@ export class ReferAfriendPage implements OnInit {
         title: 'JSC app Download Link',
         url: 'https://play.google.com/store/apps/details?id=com.shreeva.jaipurservicecompanycustomer'
       }).then(()=>{
-        console.log("thanks for sharing");
       })
       .catch(console.error);
     }

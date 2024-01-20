@@ -42,9 +42,7 @@ export class OffersComponent  implements OnInit {
     this.cartService.removeCoupon(bookingId);
   }
   searchcoupons(){
-    console.log("searchValue.......:",this.searchValue)
     let coopen = this.coupons.filter(coupon=> coupon.code == this.searchValue) || undefined;
-    console.log("co.........: ", coopen)
     this.selectedCoupan = coopen[0];
   }
 }

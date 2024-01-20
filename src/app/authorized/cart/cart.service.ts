@@ -352,7 +352,7 @@ export class CartService {
     const loader = await this.loadingController.create({message:'Please wait...'});
     loader.present();
     let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
-    console.log(cart);
+
     let data:Booking = cart.data() as unknown as Booking;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
     if (serviceIndex != -1){

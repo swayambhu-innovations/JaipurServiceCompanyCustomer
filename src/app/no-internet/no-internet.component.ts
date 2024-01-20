@@ -8,13 +8,21 @@ import { Network } from '@capacitor/network';
 })
 export class NoInternetComponent  implements OnInit {
   isBackOnline: boolean = false;
+  checkStatus:boolean = true;
   constructor(private router: Router) {
+  }
+
+  ngOnInit() {
+    
+  }
+  ionViewDidEnter(){
+    this.checkStatus = true;
     Network.addListener('networkStatusChange', status => {
-      if(status.connected){
+      if(status.connected && this.checkStatus){
         this.isBackOnline = true;
         setTimeout(() => {
           this.router.navigate(['unauthorized/login']);
-        },10000);
+        },500);
       }
       else{
         this.isBackOnline = false;
@@ -22,9 +30,8 @@ export class NoInternetComponent  implements OnInit {
     });
   }
 
-  ngOnInit() {
-    
+  ionViewDidLeave(){
+    this.checkStatus = false;
   }
-  
 
 }

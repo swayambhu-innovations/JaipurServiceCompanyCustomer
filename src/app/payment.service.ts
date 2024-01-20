@@ -30,7 +30,6 @@ export class PaymentService {
   }
   
   handleWallet(amount:number){
-    console.log(amount);
    
     this.WindowRef = window;
     var result:Subject<any> = new Subject();
@@ -44,7 +43,6 @@ export class PaymentService {
           order_id: order.id, //This is a sample Order ID. Create an Order using Orders API. (https://razorpay.com/docs/payment-gateway/orders/integration/#step-1-create-an-order). Refer the Checkout form table given below
           image: 'https://jaipurservicecompany.com/images/logo.png',
           handler: function (response: any) {
-            console.log("handler response......: ",response)
             ref.finalizePayment(response,result);
           },
           prefill: {
@@ -64,9 +62,7 @@ export class PaymentService {
 
         }
       };
-      console.log("Order details",orderDetails);
       this.createOrder(orderDetails).subscribe((order) => {
-          console.log("Payment details",order)
           let orderDetail = preparePaymentDetails(order, amount,result)
           var rzp1 = new this.WindowRef.Razorpay(orderDetail);
           this.orders.push(orderDetail);
@@ -74,7 +70,6 @@ export class PaymentService {
           result.next({...orderDetails,stage:"paymentGatewayOpened"})
         },
         (error) => {
-          console.log(error.message, "error");
           result.next({...orderDetails,stage:"paymentGatewayError"})
         },
         ()=>{
@@ -86,10 +81,6 @@ export class PaymentService {
   }
   orderDetails:any;
   handlePayment(data:booking){
-    console.log("booking: ",data);
-    // this.geteOrderById("order_NMbTxkHuKmosco").subscribe(response=>{
-    //   console.log("res order..................: ",response)
-    // });
     this.WindowRef = window;
     var result:Subject<any> = new Subject();
       var ref = this;
@@ -106,7 +97,6 @@ export class PaymentService {
           },
           modal: {
             ondismiss: function(){
-                //console.log('‘Checkout form closed’',event);
                 result.next({...orderDetails,...order,stage:"paymentGatewayClosed"})
             }
         },
@@ -127,20 +117,8 @@ export class PaymentService {
         }
       };
       this.createOrder(orderDetails).subscribe((order:any) => {
-         // console.log("Payment details",JSON.stringify(order))
          this.payWithRazorpay(order, data,result);
-          // this.orderDetails = order;
-          // let orderDetail = preparePaymentDetails(order, data,result);
-          // orderDetail['method'] = {
-          //   netbanking: true,
-          //   card: true,
-          //   wallet: true,
-          //   upi: true
-          // };
-          // var rzp1 = new this.WindowRef.Razorpay(orderDetail);
-          // this.orders.push(orderDetail);
-          // rzp1.open();
-          //result.next({...orderDetails,stage:"paymentGatewayOpened"});
+        
         },
         (error) => {
            //console.log(JSON.stringify(error.message), "error");
@@ -183,7 +161,6 @@ export class PaymentService {
       }
     },
     error:(error)=>{
-      console.log("error..........:",JSON.stringify(error));
       return;
     }
   });
@@ -222,10 +199,8 @@ export class PaymentService {
         amount: options.amount,
         prefill:options.prefill
       }
-      console.log("payment on sucesses: ",data.response);
       let paymentDetail = {...data.response,...order,...obj,stage:"paymentCaptureSuccess"}
       result.next({...paymentDetail,stage:"paymentCaptureSuccess"})
-      console.log(JSON.stringify(data))
     } catch (error:any) {
       //it's paramount that you parse the data into a JSONObject
       result.next({...error,stage:"paymentCaptureFailed"})

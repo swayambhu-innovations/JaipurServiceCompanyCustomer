@@ -24,7 +24,6 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.dataProvider.currentUser);
   }
   
   close(url:any) {

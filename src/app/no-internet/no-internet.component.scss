@@ -5,8 +5,20 @@
     width: 100%;
     height: 100%;
     .no-internet-inner{
-        .back-online{
-            color: rgb(35, 172, 35);
+        width: 50%;
+        margin: 0px auto;
+        .icon-container{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            .icon{
+                width: 40px;
+                height: 40px;
+            }
+            
+        }
+        .text{
+            text-align: center;
         }
     }
 }

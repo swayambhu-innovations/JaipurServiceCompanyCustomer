@@ -60,7 +60,6 @@ export class CartPage implements OnInit {
       this.mainCategoryId = paramMap.get('mainCategoryId') ?? '';
       this.serviceId = paramMap.get('serviceId') ?? '';
     })
-    console.log("ngOnit works");
   }
  
   notification(){
@@ -121,7 +120,6 @@ export class CartPage implements OnInit {
 
   ionViewDidEnter(){
     this.pageLeaved = false;
-    console.log(this.cartService.cart);
     if(this.cartService.cart.length === 1){
       this.selectedBooking = this.cartService.cart[0];
     }else{
@@ -193,18 +191,9 @@ export class CartPage implements OnInit {
     this.cartLoaded = true;
     if(this.cart.length > 0){
       this.setCurrentBooking();
-      console.log(this.selectedBooking);
     }
     this.cartService.cartSubject.subscribe((bookings)=>{
       this.cart = bookings;
-      // console.log(this.cart);
-      // debugger
-      // if(this.cart.length === 1){
-      //   this.selectedBooking = this.cart[0];
-      // }else{
-      //   this.selectedBooking = undefined;
-      // }
-      //
 
       if(this.mainCategoryId != 'all'){
         this.setCurrentBooking();
@@ -232,12 +221,10 @@ export class CartPage implements OnInit {
       const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
       return serviceFind && booking.mainCategory.id == this.mainCategoryId
     });
-    console.log(this.selectedBooking);
   }
 
   async onSelectBooking(booking){
     this.selectedBooking = booking;
-    console.log(this.selectedBooking);
     this.recommendedServices = [];
     this.isRecommended = false;
     const servicesList = await this.cartService.getServices(this.cartService.selectedCatalogue, this.selectedBooking?.mainCategory.id ?? '', this.selectedBooking?.subCategory.id ?? '');

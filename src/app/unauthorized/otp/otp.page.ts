@@ -56,7 +56,6 @@ export class OtpPage implements OnInit {
           this.startResendTimer();
         })
         .catch((error) => {
-          console.log(error);
           this.alertify.presentToast(error.message);
         })
         .finally(() => {
@@ -74,7 +73,6 @@ export class OtpPage implements OnInit {
       this.dataProvider.loginConfirmationResult
         .confirm(this.otp)
         .then((result) => {
-          //console.log(result);
           this.authService.setUserData(result.user);
           this.router.navigate(['authorized/profile/profile-info']);
         })

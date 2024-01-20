@@ -31,7 +31,6 @@ export class SelectAddressPage implements OnInit {
 
   setValue(event: any) {
     this.dataProvider.currentBooking!.address = event.detail.value;
-    console.log(event.detail.value);
   }
   deleteAddress(address: Address) {
     if (address.isDefault) {
