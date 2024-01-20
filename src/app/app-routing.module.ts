@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { NoInternetComponent } from './no-internet/no-internet.component';
 
 const routes: Routes = [
 
@@ -20,7 +19,7 @@ const routes: Routes = [
   },
   {
     path: 'no-internet',
-    component: NoInternetComponent
+    loadChildren: () => import('./no-internet/no-internet.module').then( m => m.NoInternetPageModule)
   }
 ];
 

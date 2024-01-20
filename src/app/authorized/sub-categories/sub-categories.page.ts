@@ -31,7 +31,6 @@ export class SubCategoryPage implements OnInit {
         return;
       }
       this.subCategory = this.matchingMainCategory.subCategories;
-      console.log("this.subCategory: ",this.subCategory)
     });
   }
   

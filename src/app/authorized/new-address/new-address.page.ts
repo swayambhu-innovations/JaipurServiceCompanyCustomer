@@ -249,7 +249,6 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   newPosition(event: any) {
-    //console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
     this.currentPosition = event.latLng.toJSON();
   }
 

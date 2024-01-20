@@ -31,7 +31,6 @@ export class AuthService {
               user:user,
               userData:userData
             }
-            console.log("userData.....:",userData);
             this.dataProvider.currentUser$.next({
               user:user,
               userData:userData

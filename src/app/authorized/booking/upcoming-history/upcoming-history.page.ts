@@ -84,7 +84,6 @@ export class UpcomingHistoryPage implements OnInit {
     this.bookingService.bookingsSubject.subscribe(bookings=> {
       this.bookings = bookings;
     });
-    console.log(this.bookings);
     this.filteredBookings = [...this.bookings];
   }
 

@@ -27,7 +27,6 @@ export class AddressService {
               return { ...address.data(),id: address.id };
             });
             this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
-             //console.log("addresses collectionData....",this.addresses,this.addresses.length)
              this.fetchedAddresses.next(this.addresses);
          });
         });

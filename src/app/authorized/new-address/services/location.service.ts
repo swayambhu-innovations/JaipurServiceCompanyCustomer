@@ -25,15 +25,12 @@ export class LocationService {
   watchPosition(){
     Geolocation.watchPosition({enableHighAccuracy:true,timeout:10000, maximumAge:5000},(position, err)=>{
       if(err){
-        console.log('Error getting position',err);
         return;
       }
       if(!position){
-        console.log('Position not found');
         return;
       }
       this.currentLocation.next(position);
-      console.log('Position: ',position);
     })
   }
 }

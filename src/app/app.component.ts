@@ -37,12 +37,8 @@ export class AppComponent implements OnInit {
       
     });
     Network.addListener('networkStatusChange', status => {
-      console.log("network",status);
       if(!status.connected){
         this.router.navigate(['/no-internet']);
-      }
-      else{
-        this.router.navigate(['unauthorized/login']);
       }
     });
 
@@ -53,12 +49,7 @@ export class AppComponent implements OnInit {
 
   private registerIonicLifecycleEvents() {
     this.platform.pause.subscribe(() => {
-      // App is paused
-    });
-
-    this.platform.resume.subscribe(() => {
-      // App is resumed
-      this.router.navigate(['unauthorized/login']);
+      App.exitApp();
     });
   }
 
@@ -79,7 +70,6 @@ export class AppComponent implements OnInit {
     directory:Directory.Cache,
     path:"CASHED_IMG"
   }).then(list=>{
-    console.log("list........:",list)
   }).catch(async e =>{
     await  Filesystem.mkdir({
       directory:Directory.Cache,

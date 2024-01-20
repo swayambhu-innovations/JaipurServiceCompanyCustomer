@@ -6,7 +6,7 @@
       </ion-button>
     </ion-buttons>
     <ion-text (click)="setopen()">
-      <h4 *ngIf="(this.addressService.fetchedAddresses | async)?.length">{{(this.addressService.selectedAddres)?.name}}</h4>
+      <h4 *ngIf="addressess.length > 0">{{(selectedAddress)?.name}}</h4>
       <p>
         {{addressLineOne}}
         <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">

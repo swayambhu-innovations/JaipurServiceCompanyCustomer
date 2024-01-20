@@ -216,7 +216,6 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
         }
       }
     });
-    // console.log(this.particularBooking);
     return bookingId;
   }
  

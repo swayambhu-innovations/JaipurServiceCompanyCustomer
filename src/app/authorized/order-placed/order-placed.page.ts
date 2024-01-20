@@ -19,11 +19,8 @@ export class OrderPlacedPage implements OnInit {
   constructor(public dataProvider:DataProviderService) { 
     this.slotStartTime = dataProvider.currentBooking?.timeSlot?.time?.startTime?.toDate();
     this.slotEndTime = dataProvider.currentBooking?.timeSlot?.time?.endTime?.toDate();
-    // console.log(this.slotTime);
-    console.log("currentBooking............:",this.dataProvider.currentBooking);
   }
 
   ngOnInit() {
-    console.log("currentBooking............:",this.dataProvider.currentBooking);
   }
 }

@@ -44,7 +44,6 @@ export class ProfileInfoPage implements OnInit {
     public auth: AuthService,
     private alertify:AlertsAndNotificationsService
   ) {
-    console.log(this.dataProvider.currentUser?.userData);
   }
 
   userProfileForm: FormGroup = this.formBuilder.group({
@@ -155,7 +154,6 @@ export class ProfileInfoPage implements OnInit {
           finalData
         )
         .then(() => {
-          console.log("this.urlparam .......: ", this.urlparam)
           this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
           this.isSubmitForm = false;
           loader.dismiss();
@@ -179,7 +177,6 @@ export class ProfileInfoPage implements OnInit {
         await this.auth.updateUserDate(false);
         loader.dismiss();
     }
-    console.log('Dismissed');
   }
   ionViewDidLeave (){
     this.auth.isProfileUpdated = false;
@@ -202,7 +199,6 @@ export class ProfileInfoPage implements OnInit {
       })
       .catch((error: any) => {
         console.log(error);
-        console.log("error url from file.....: ",JSON.stringify(error))
       })
       .finally(() => loader.dismiss());
   }

@@ -195,7 +195,6 @@ export class SelectSlotPage implements OnInit {
     
     const slotsTime = (+items.end) - (+items.start);
     const calcul = slotsTime* (this.slotsArray.length - index) - totalJobTime;
-    //console.log("item",totalJobTime,items.start,calcul);
     const numStart = +items.start;
     if(this.currentDateNTime.todaydate == this.selectedDate?.getDate()){
       return !(this.currentDateNTime.currenttime < numStart && (calcul >= 0));
@@ -280,7 +279,6 @@ export class SelectSlotPage implements OnInit {
           phone: this.dataProvider.currentUser?.user.phoneNumber || '',
         }
       }).subscribe(async(paymentResponse)=>{
-        console.log("createBooking paymentResponse ........: ",paymentResponse)
         if(paymentResponse.stage == "paymentCaptureSuccess" || paymentResponse.stage == "paymentCaptureSuccess"){
           let loader2 = await this.loadingController.create({
             message: 'Please wait...',
@@ -288,7 +286,6 @@ export class SelectSlotPage implements OnInit {
           loader2.present();
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
-          console.log(" this.dataProvider.currentBooking ........: ", this.dataProvider.currentBooking);
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
             //debugger
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);

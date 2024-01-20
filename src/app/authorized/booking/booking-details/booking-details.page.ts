@@ -66,7 +66,6 @@ export class BookingDetailsPage implements OnInit {
           this.discount = this.currentBooking?.billing?.coupanDiscunt + this.currentBooking?.billing.discount;
           else
           this.currentBooking?.billing.discount;
-        console.log("current booking........: ", this.currentBooking)
           if(booking?.jobOtp){
             this.jobOtp = [...booking.jobOtp];
           }

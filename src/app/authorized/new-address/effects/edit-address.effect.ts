@@ -24,7 +24,6 @@ export class EditAddressEffects {
     this.actions.pipe(
       ofType(editAddressStateActions.LOAD),
       mergeMap(() => {
-        console.log('AddressEffects');
         return this.addressService
           .loadStates()
           .then((data) =>
@@ -47,7 +46,6 @@ export class EditAddressEffects {
     this.actions.pipe(
       ofType(editAddressCitiesActions.LOAD),
       mergeMap((action) => {
-        console.log('AddressEffects load cities', action);
         return this.addressService
           .loadCities(action.stateId)
           .then((data) =>
@@ -70,7 +68,6 @@ export class EditAddressEffects {
     this.actions.pipe(
       ofType(editAddressAreasActions.LOAD),
       mergeMap((action) => {
-        console.log('AddressEffects');
         return this.addressService
           .loadAreas(action.stateId, action.cityId)
           .then((data) =>

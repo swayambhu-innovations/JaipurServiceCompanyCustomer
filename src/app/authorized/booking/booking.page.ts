@@ -21,9 +21,7 @@ export class BookingPage implements OnInit {
       reviews.docs.map((review) => {
         let aReview = review.data()
         aReview['date'] = new Date((aReview['date'])*1000).toDateString();
-        console.log(aReview['date'])
         this.customerReviews.push(aReview);
-        console.log(this.customerReviews);
       });
     });
   }

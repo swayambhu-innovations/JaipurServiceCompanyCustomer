@@ -29,11 +29,9 @@ export class ServicesPage implements OnInit {
         this.dataProvider.mainCategories
       );
       this.mainCatId = params['mainCategoryId'];
-      //  console.log(params['mainCategoryId'],mainCategories)
       this.matchingMainCategory = mainCategories.find(
         (mainCategory) => mainCategory.id == this.mainCatId
       );
-     // console.log(params['subCategoryId'],this.matchingMainCategory)
       if (!this.matchingMainCategory) {
         this.router.navigate(['/authorized/home']);
         return;
@@ -44,18 +42,13 @@ export class ServicesPage implements OnInit {
           return subCategory.id == this.subCatId;
         }
       );
-      console.log("this.matchingSubCategory.......:",this.matchingSubCategory)
       if (!this.matchingSubCategory) {
-        console.log(this.matchingMainCategory + "subcategory");
-       // this.router.navigate(['/authorized/home']);
         return;
       }
       this.services = this.matchingSubCategory.services;
-      console.log(this.services);
     });
   }
 
   ngOnInit() {
-    //console.log("result services, ",this.services)
   }
 }
