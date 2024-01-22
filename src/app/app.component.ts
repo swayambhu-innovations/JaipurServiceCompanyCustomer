@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
 
   private registerIonicLifecycleEvents() {
     this.platform.pause.subscribe(() => {
-      App.exitApp();
+      //App.exitApp();
     });
   }
 
