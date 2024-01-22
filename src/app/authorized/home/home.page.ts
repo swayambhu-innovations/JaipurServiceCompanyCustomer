@@ -125,11 +125,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fetchAddress(){
-    alert("fetchAddress");
+    this.addresses = this.addressService.addresses;
+    this.hasAddressFatched = true;
     this.addressService.fetchedAddresses.subscribe(async (address:Address[])=>{
-      alert("fetchAddress - "+this.addresses.length);
       this.addresses = address;
-      this.hasAddressFatched = true;
       this.addressService.addresses = this.addresses;
       this.setupCategories(this.addresses);
     });
@@ -140,7 +139,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     if(address.length > 0){
-      alert("setup categories");
        let currentAddress = address.find(addre=> addre.isDefault);
        if(currentAddress){
          const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
@@ -169,10 +167,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
 
   ionViewDidEnter(){
-    alert("ionViewDidEnter");
     this.hasAddressFatched = false;
     if(this.addresses.length > 0){
-      alert("has address");
       this.hasAddressFatched = true;
       this.setupCategories(this.addresses);
     }
