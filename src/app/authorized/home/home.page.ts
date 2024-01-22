@@ -126,9 +126,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   fetchAddress(){
     this.addresses = this.addressService.addresses;
-    this.hasAddressFatched = true;
+    if(this.addresses.length > 0){
+      this.hasAddressFatched = true;
+    }
     this.addressService.fetchedAddresses.subscribe(async (address:Address[])=>{
       this.addresses = address;
+      this.hasAddressFatched = true;
       this.addressService.addresses = this.addresses;
       this.setupCategories(this.addresses);
     });
