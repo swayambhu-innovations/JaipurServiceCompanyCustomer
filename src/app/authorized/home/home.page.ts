@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
-import { async } from 'rxjs';
+import { Subject, async, takeUntil } from 'rxjs';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { log } from 'console';
@@ -31,6 +31,7 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+  private unsubscribe$ = new Subject<void>();
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   todayDate: number = Date.now();
@@ -129,7 +130,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if(this.addresses.length > 0){
       this.hasAddressFatched = true;
     }
-    this.addressService.fetchedAddresses.subscribe(async (address:Address[])=>{
+    this.addressService.fetchedAddresses
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(async (address:Address[])=>{
       this.addresses = address;
       this.hasAddressFatched = true;
       this.addressService.addresses = this.addresses;
@@ -212,6 +215,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidLeave(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
     if (this.swiper) {
       this.swiper.destroy();
     }
@@ -225,7 +230,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     
   }
   ngOnDestroy() {
-    
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   fetchBanners() {
