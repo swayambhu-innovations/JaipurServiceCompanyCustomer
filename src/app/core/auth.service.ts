@@ -74,7 +74,7 @@ export class AuthService {
               this.router.navigate(['/authorized/profile']);
             }
             else{
-              this.router.navigate(['/authorized/select-address']);
+              this.router.navigate(['/authorized/new-address']);
             }
           });
           this.dataProvider.checkingAuth = false;

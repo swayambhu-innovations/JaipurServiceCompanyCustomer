@@ -69,11 +69,11 @@ export class ProfileService {
         photoUrl:response
       });
       
-      await loader.dismiss();
+      loader.dismiss();
       return response;
     } catch (error) {
       console.log("error File. final.......: ", JSON.stringify(error))
-      await loader.dismiss();
+      loader.dismiss();
       throw error;
     }
   }

@@ -48,8 +48,8 @@ export class ProfileInfoPage implements OnInit {
 
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
-    dateofbirth: ['', [Validators.required]],
-    gender: ['', [Validators.required]]
+    dateofbirth: [''],
+    gender: ['']
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -67,6 +67,7 @@ export class ProfileInfoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.dataProvider.isPageLoaded$.next("loaded");
     this.userData = this.dataProvider.currentUser?.userData;
     this.dataProvider.currentUser$.subscribe((response) => {
       this.userData = response?.userData ?? '';
@@ -123,7 +124,7 @@ export class ProfileInfoPage implements OnInit {
       date = this.userProfileForm.controls.dateofbirth.value.split('-');
       date = date[2] + '/' + date[1] + '/' + date[0];
     } else {
-      return;
+      date = "DD/MM/YYYY";
     }
     
     if (this.userProfileForm.controls.name.value == "") {
@@ -133,12 +134,12 @@ export class ProfileInfoPage implements OnInit {
     
     if (this.selectedGender === '') {
       this.isGenderSelected = false;
-      return;
+      //return;
     } else {
       this.isGenderSelected = true;
     }
     let finalData = {
-      gender: this.userProfileForm.controls.gender.value,
+      gender: this.userProfileForm.controls.gender.value?? '',
       dateofbirth: date,
       name: this.userProfileForm.controls.name.value
     }
@@ -146,8 +147,9 @@ export class ProfileInfoPage implements OnInit {
       message: 'Adding Customer Details.........',
     });
 
-    await loader.present();
+    loader.present();
     if (this.dataProvider?.currentUser?.user.uid === undefined) {
+      debugger
       this.profileService
         .addUsers(
           this.dataProvider.currentUser!.user.uid,
