@@ -98,12 +98,19 @@ export class NewAddressPage implements OnInit, CanActivate{
     
     this.showHeader = haveOldAddresses;
     this.addressService.action.subscribe(async action=>{
-     let loader = await this.loadingController.create({message:'Adding address...'});
-     this.store.dispatch(editAddressStateActions.LOAD());
-     this.states$ = this.store.select('editAddress', 'states');
-     this.cities$ = this.store.select('editAddress', 'cities');
-     this.areas$ = this.store.select('editAddress', 'areas');
-     
+      let loader;
+      if(this.isEdit){
+        loader = await this.loadingController.create({message:'Edit address...'});
+      }
+      else{
+        loader = await this.loadingController.create({message:'Adding address...'});
+      }
+      
+      this.store.dispatch(editAddressStateActions.LOAD());
+      this.states$ = this.store.select('editAddress', 'states');
+      this.cities$ = this.store.select('editAddress', 'cities');
+      this.areas$ = this.store.select('editAddress', 'areas');
+      
      if(action.isEdit){
        loader.present();
        this.isEdit = true;
@@ -125,6 +132,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.addressForm.controls.name.setValue(address.name);
         this.addressForm.controls.pincode.setValue(address.pincode);
         this.addressForm.controls.addressLine1.setValue(address.addressLine1);
+        this.markerSet = true;
         this.center = {lat:address['selectedArea']['geometry'].location.lat,lng:address['selectedArea']['geometry'].location.lng}
         this.currentPosition = {lat:address.selectedArea.latitude,lng:address.selectedArea.longitude};
         loader.dismiss();
@@ -207,6 +215,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.alertify.presentToast("Selected location point is outside the selected area...");
       }
       else{
+        
         this.markerSet = true;
         this.isValidMarker = true;
       }
@@ -278,7 +287,7 @@ export class NewAddressPage implements OnInit, CanActivate{
       this.alertify.presentToast("Please fill all the required fields...");
       return;
     }
-    let loader = await this.loadingController.create({message:'Adding address...'});
+    let loader = await this.loadingController.create({message:'Save address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
@@ -301,7 +310,9 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
     addressObject.city = city;
     addressObject.state = state;
-    
+    if(this.isEdit){
+      addressObject.isDefault = this.editData.isDefault;
+    }
     if(this.addressForm.valid){
       if(!this.markerSet){
         this.alertify.presentToast("Please select a valid marker on the map...");
@@ -311,7 +322,6 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.alertify.presentToast("Selected location point is outside the selected area...");
         return;
       }
-      
       if(this.isEdit){
        await loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
