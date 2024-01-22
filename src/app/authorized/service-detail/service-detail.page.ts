@@ -152,7 +152,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
 
   async bookNow(matchingMainCategoryId:string,matchingServiceId:string, variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});
-    await loader.present();
+    loader.present();
     let variant = this.matchingService?.variants.find(v=>v.id == variantId);
     await this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variantId,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
     loader.dismiss();

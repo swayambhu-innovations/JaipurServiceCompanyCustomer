@@ -144,7 +144,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   ngOnInit(): void {
-    
+    this.dataProvider.isPageLoaded$.next("loaded");
  
     // // get current location
     // this.areas$.subscribe(result=>{
@@ -323,7 +323,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         return;
       }
       if(this.isEdit){
-       await loader.present()
+      loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
          this.dataProvider.isFirstTime.next(true);
          this.isSubmitForm = false;
@@ -334,7 +334,7 @@ export class NewAddressPage implements OnInit, CanActivate{
        }).finally(()=>loader.dismiss())
 
       }else{
-        await loader.present();
+        loader.present();
         this.addressService.getAddresses(this.dataProvider.currentUser!.user!.uid).then((addresses) => {
           let haveOldAddresses = true;
           if(addresses.length == 0){
@@ -363,7 +363,7 @@ export class NewAddressPage implements OnInit, CanActivate{
           
         } 
       }else{
-        await loader.dismiss()
+        loader.dismiss()
       }
   }
 
