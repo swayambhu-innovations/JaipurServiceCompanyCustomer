@@ -18,19 +18,22 @@ export class AddressService {
   selectedAddres:Address;
   action:BehaviorSubject<any> = new BehaviorSubject<any>({isEdit:false})
   fetchedAddresses:Subject<Address[]> = new Subject<Address[]>();
+  
   constructor(private firestore:Firestore,private dataProvider:DataProviderService,private http: HttpClient,private router:Router, public cartService: CartService) {
     if(this.dataProvider.currentUser!.user.uid !== undefined){
-         
-         collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
-          this.getAddresses2(this.dataProvider.currentUser!.user.uid).then(result=>{
-            this.addresses = result.docs.map((address:any) => {
-              return { ...address.data(),id: address.id };
-            });
-            this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
-             this.fetchedAddresses.next(this.addresses);
-         });
-        });
+        this.setupAddress();
     }
+  }
+  setupAddress(){
+    collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'addresses')).subscribe((addresses:any)=>{
+      this.getAddresses2(this.dataProvider.currentUser!.user.uid).then(result=>{
+        this.addresses = result.docs.map((address:any) => {
+          return { ...address.data(),id: address.id };
+        });
+        this.selectedAddres =  this.addresses.filter(address=>address.isDefault)[0];
+        this.fetchedAddresses.next(this.addresses);
+     });
+    });
   }
 
   async getAddresses(userId:string){

@@ -86,8 +86,9 @@ export class HomeHeaderComponent  implements OnInit {
     if(userId !== "" && addressId !== ""){
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
-      this.addressService.clearCart(userId).then(() => {});
+      
       loader.dismiss();
+      this.addressService.clearCart(userId).then(() => {});
     }else{
       loader.dismiss();
     }

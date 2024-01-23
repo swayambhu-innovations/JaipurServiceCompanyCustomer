@@ -18,6 +18,7 @@ import { UserNotificationService } from '../common/user-notification.service';
 import { AddressService } from '../db_services/address.service';
 import { Address } from '../select-address/address.structure';
 import { CartService } from '../cart/cart.service';
+import { NavigationBackService } from 'src/app/navigation-back.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -76,6 +77,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   notifications:any[] = [];
   unreadNotifications:any[] = [];
   addresses:Address[] = [];
+  currentAddress: Address | undefined;
   constructor(
     private addressService: AddressService,
     private router: Router,
@@ -87,7 +89,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     public bookingService:BookingService,
     private loadingController: LoadingController,
     private _notificationService: UserNotificationService,
-    public _cartService : CartService
+    public _cartService : CartService,
+    private _navigationService: NavigationBackService
   ) {
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
@@ -132,57 +135,49 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.hasAddressFatched = true;
     }
     this.addressService.fetchedAddresses
-    .pipe(takeUntil(this.unsubscribe$))
+    .pipe(takeUntil(this._navigationService.isAddressSubscription$))
     .subscribe(async (address:Address[])=>{
       this.addresses = address;
-      this.hasAddressFatched = true;
+      this.hasAddressFatched = false;
       this.addressService.addresses = this.addresses;
       this.dataProvider.selectedAddress.next(this.addresses);
-      this.setupCategories(this.addresses);
+      let currentAddressTemp:any = this.addresses.find(addre=> addre.isDefault);
+      if(address.length > 0){
+        if(this.currentAddress?.id != currentAddressTemp.id){
+          this.currentAddress = currentAddressTemp;
+          this._cartService.selectedCatalogue = '';
+          this.setupCategories();
+        }
+      }
+      setTimeout(() => {
+        this.hasAddressFatched = true;
+      }, 0);
+      
     });
   }
 
-  async setupCategories(address){
-    if(this._cartService.selectedCatalogue){
-      return;
+  async setupCategories(){
+    if(this.currentAddress){
+      const areas: any[] = (await this.addressService.getAreaForCatalogue(this.currentAddress.stateId, this.currentAddress.cityId)).docs.map((area: any) => {
+        return { ...area.data(), id: area.id };
+      }).filter(area => area['geoProofingLocality'] === this.currentAddress?.geoProofingLocality && area.serviceCatalogue);
+      if (areas.length > 0) {
+        this.homeService.fetchData(areas[0].serviceCatalogue);
+      }
+      else{
+        this.isNotServiceableModalOpen = true;
+        this.dataProvider.mainCategoriesLoaded = true;
+        this.homeService.mainCategories.next([]);
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next("loaded");
+        },1000);
+      }
     }
-    if(address.length > 0){
-       let currentAddress = address.find(addre=> addre.isDefault);
-       if(currentAddress){
-         const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
-           return { ...area.data(), id: area.id };
-         }).filter(area => area['geoProofingLocality'] === currentAddress?.geoProofingLocality && area.serviceCatalogue);
-         if (areas.length > 0) {
-           this.homeService.fetchData(areas[0].serviceCatalogue);
-         }
-         else{
-            this.isNotServiceableModalOpen = true;
-            this.dataProvider.mainCategoriesLoaded = true;
-            this.homeService.mainCategories.next([]);
-            setTimeout(() => {
-              this.dataProvider.isPageLoaded$.next("loaded");
-            },1000);
-            
-         }
-       }else{
-         //this.fetchData(address[0].selectedArea.serviceCatalogue);
-       }
-       this._cartService.selectedCatalogue = address[0].selectedArea.serviceCatalogue;
-     }else{
-      
-     }
+    this._cartService.selectedCatalogue = this.addresses[0].selectedArea.serviceCatalogue;
   }
 
 
   ionViewDidEnter(){
-    this.hasAddressFatched = false;
-    if(this.addresses.length > 0){
-      this.hasAddressFatched = true;
-      this.setupCategories(this.addresses);
-    }
-    else{
-      this.fetchAddress();
-    }
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
         return { ...notification.data(),id: notification.id };
@@ -217,8 +212,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidLeave(){
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
     if (this.swiper) {
       this.swiper.destroy();
     }
@@ -232,8 +225,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     
   }
   ngOnDestroy() {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    
   }
 
   fetchBanners() {
