@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
@@ -12,7 +12,7 @@ import { LoadingController } from '@ionic/angular';
 })
 export class HomeHeaderComponent  implements OnInit {
   @Input() addressess:Address[];
-  
+  @ViewChild('addressModal') addressModal;
   showmodal: boolean = false;
   @Input() MAX_ADDRESS_LINE_LENGTH!:number;
   @Input() showUnreadNotification: boolean = false;
@@ -25,6 +25,7 @@ export class HomeHeaderComponent  implements OnInit {
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
   selectedAddress: Address | undefined;
+  initialBreakpointAddress:any = 0.25;
   constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService,
     private loadingController:LoadingController) {
   }
@@ -85,8 +86,9 @@ export class HomeHeaderComponent  implements OnInit {
     if(userId !== "" && addressId !== ""){
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
-      this.addressService.clearCart(userId).then(() => {});
+      
       loader.dismiss();
+      this.addressService.clearCart(userId).then(() => {});
     }else{
       loader.dismiss();
     }
@@ -94,8 +96,21 @@ export class HomeHeaderComponent  implements OnInit {
     this.showmodal = false;
     this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
+
   setopen(){
     this.addressLineTwoVisible = true;
+    if(this.addressess.length > 4){
+      this.initialBreakpointAddress = 0.9;
+    }
+    else if(this.addressess.length > 2){
+      this.initialBreakpointAddress = 0.5;
+    }
+    else if(this.addressess.length > 1){
+      this.initialBreakpointAddress = 0.4;
+    }
+    else{
+      this.initialBreakpointAddress = 0.25;
+    }
     this.showmodal = true;
   }
 

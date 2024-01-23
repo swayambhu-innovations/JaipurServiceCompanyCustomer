@@ -38,7 +38,10 @@ export class AppComponent implements OnInit {
     });
     Network.addListener('networkStatusChange', status => {
       if(!status.connected){
-        this.router.navigate(['/no-internet']);
+        this._navigationBack.destroyAddressSubscription();
+        setTimeout(() => {
+          this.router.navigate(['/no-internet']);
+        }, 100);
       }
     });
 

@@ -72,9 +72,9 @@ export class SelectAddressPage implements OnInit {
       });
     }
     if(userId !== "" && addressId !== ""){
+      loader.dismiss();
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
-      loader.dismiss();
       this.addressService.clearCart(userId).then(() => {});
       
     }else{
