@@ -127,6 +127,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   fetchAddress(){
     this.addresses = this.addressService.addresses;
+    this.dataProvider.selectedAddress.next(this.addresses);
     if(this.addresses.length > 0){
       this.hasAddressFatched = true;
     }
@@ -136,6 +137,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.addresses = address;
       this.hasAddressFatched = true;
       this.addressService.addresses = this.addresses;
+      this.dataProvider.selectedAddress.next(this.addresses);
       this.setupCategories(this.addresses);
     });
   }
