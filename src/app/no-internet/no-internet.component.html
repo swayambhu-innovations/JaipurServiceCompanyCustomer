@@ -1,7 +1,7 @@
 <div>
 
   <ion-modal #modal
-     class="my-class" [canDismiss]="canDismiss">
+     class="my-class" (willDismiss)="onWillDismiss($event)">
       <ng-template>
         <ion-content class="ion-padding">
 
@@ -32,4 +32,3 @@
         </ion-content>
       </ng-template>
   </ion-modal>
-</div>
