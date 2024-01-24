@@ -109,6 +109,9 @@ export class CartPage implements OnInit {
           this.selectedCoupan = coupan;
           this.appliedCoupanDiscount();
         }
+        else if(this.selectedBooking!['appliedCoupon'] && !coupan){
+          this.removeCoupan();
+        }
     });
     modal.present()
   }
