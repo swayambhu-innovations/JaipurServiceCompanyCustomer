@@ -1,7 +1,7 @@
 <div>
 
-  <ion-modal 
-     class="my-class" [isOpen]="showmodal">
+  <ion-modal #modal
+     class="my-class" [canDismiss]="canDismiss">
       <ng-template>
         <ion-content class="ion-padding">
 
