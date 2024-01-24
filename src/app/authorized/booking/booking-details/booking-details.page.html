@@ -233,7 +233,7 @@
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
           <span>Payment Details</span>
-          <button (click)="downloadInvoice(currentBooking)">
+          <button (click)="downloadPdf()">
             <img src="../../../../assets/download.svg" alt="">
           </button>
         </div>

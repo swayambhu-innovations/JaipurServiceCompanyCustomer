@@ -10,6 +10,7 @@ import { NavigationBackService } from '../navigation-back.service';
 export class NoInternetComponent  implements OnInit {
   isBackOnline: boolean = false;
   checkStatus:boolean = true;
+  showmodal: boolean = true;
   constructor(private router: Router,private _navigationService: NavigationBackService) {
   }
 
@@ -18,13 +19,15 @@ export class NoInternetComponent  implements OnInit {
   }
   ionViewDidEnter(){
     this.checkStatus = true;
+    this.showmodal = true;
     Network.addListener('networkStatusChange', status => {
       if(status.connected && this.checkStatus){
         this.isBackOnline = true;
         this._navigationService.isAddressSubscription$ = true;
+        this.showmodal = false;
         setTimeout(() => {
           this.router.navigate(['unauthorized/login']);
-        },500);
+        },200);
       }
       else{
         this.isBackOnline = false;
