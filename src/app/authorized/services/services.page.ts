@@ -45,7 +45,12 @@ export class ServicesPage implements OnInit {
       if (!this.matchingSubCategory) {
         return;
       }
-      this.services = this.matchingSubCategory.services;
+      
+      const sortedSubCategory = this.matchingSubCategory.services.sort((a,b) => {
+        return a.variants[0].price - b.variants[0].price;
+      });
+
+      this.services = sortedSubCategory;
     });
   }
 

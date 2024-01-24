@@ -41,8 +41,20 @@ export class HomeService {
           this.isCatalogueLoaded = true;
           const mainCategoryArray = await this.getMainCategories(serviceCatalogueId);
           const activeMainCategories = mainCategoryArray.filter(item => item.enabled);
+          const activeMainCategoriesSorted = activeMainCategories.map((category) => {
+            category.subCategories.map((subcategory) => {
+              subcategory.services.map((service) => {
+                const variantsMatching = service?.variants.sort((a,b) => b.price - a.price);
+                service.variants = variantsMatching;
+                return service;
+              });
+              return subcategory;
+            });
+            return category;
+          });
+
           this.dataProvider.mainCategoriesLoaded = true;
-          await this.dataProvider.mainCategories.next(activeMainCategories);
+          await this.dataProvider.mainCategories.next(activeMainCategoriesSorted);
         }
   }
   async getMainCategories(serviceCatalogueId:string) {
