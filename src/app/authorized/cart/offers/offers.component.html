@@ -22,22 +22,25 @@
     </ion-item>
   </div>
   <div *ngFor="let service Of  this.booking?.services">
-    <h2 class="heading-name" style="margin-left: 20px;">{{service.name}}</h2>
+    <h2 *ngIf="hasApplicableDiscounts" class="heading-name" style="margin-left: 20px;">{{service.name}}</h2>
     <ng-container *ngFor="let discount of service.discountsApplicable">
-      <div class="coupon-card">
-        <div class="coupon-content">
-          <div class="coupon-img">
-              <img src="../../../assets/images/discount-shape.png" alt="">
+      <ng-container *ngIf="(discount.type == 'flat' && discount?.value <= subTotal) || (discount.type != 'flat')">
+        <div class="coupon-card">
+          <div class="coupon-content">
+            <div class="coupon-img">
+                <img src="../../../assets/images/discount-shape.png" alt="">
+            </div>
+            <div class="coupon-text">
+              <ion-text class="card-name-text">{{ discount.type == 'flat' || discount.type == "fixed"?discount.value + " "+ discount.type  : discount.value +  ' %'}} off on {{discount.name}}</ion-text>
+              <ion-text class="min-order-text">Min. Order: ₹{{discount.minimumRequiredAmount}}</ion-text>
+              <ion-text class="discount-text">SAVE ₹{{discount?.value}} ON THIS ORDER</ion-text>
+            </div>
           </div>
-          <div class="coupon-text">
-            <ion-text class="card-name-text">{{ discount.type == 'flat' || discount.type == "fixed"?discount.value + " "+ discount.type  : discount.value +  ' %'}} off on {{discount.name}}</ion-text>
-            <ion-text class="min-order-text">Min. Order: ₹{{discount.minimumRequiredAmount}}</ion-text>
-            <ion-text class="discount-text">SAVE ₹{{discount?.value}} ON THIS ORDER</ion-text>
-          </div>
+          <p (click)="onApplyClick(this.booking?.id,discount)" class="apply-button" id="{{discount.code}}" >Apply</p>
+          <p (click)="onRemoveClick(this.booking?.id,discount)" class="remove-button none" id="{{discount.id}}" >remove</p>
         </div>
-        <p (click)="onApplyClick(this.booking?.id,discount)" class="apply-button" id="{{discount.code}}" >Apply</p>
-        <p (click)="onRemoveClick(this.booking?.id,discount)" class="remove-button none" id="{{discount.id}}" >remove</p>
-      </div>
+      </ng-container>
+      
     </ng-container>
   </div>
   <button style="margin-top: 20px;" class="select-address-button" (click)="modalController.dismiss(selectedCoupan)">Done</button>

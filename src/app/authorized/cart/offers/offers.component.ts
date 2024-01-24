@@ -14,15 +14,20 @@ export class OffersComponent  implements OnInit {
   applicableDiscounts;
   searchValue:string = "";
   selectedCoupan:any;
-  coupons:any[]=[
-   
-  ];
+  hasApplicableDiscounts:boolean = false;
+  coupons:any[]=[];
+  subTotal:any;
   constructor(public modalController:ModalController,public cartService:CartService,) {
    }
 
   ngOnInit() {
     this.booking?.services.forEach((service)=>{
       this.coupons = [...this.coupons,...service.discounts];
+      service.discountsApplicable?.map((discount) => {
+        if((discount.type == 'flat' && discount?.value <= this.subTotal) || (discount.type != 'flat')){
+          this.hasApplicableDiscounts = true;
+        }
+      });
     });
   }
   onApplyClick(bookingId:any,discount:any){

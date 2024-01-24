@@ -94,7 +94,8 @@ export class CartPage implements OnInit {
       component:OffersComponent,
       componentProps:{
         booking:this.selectedBooking,
-        applicableDiscounts: this.cartService.applicableDiscounts
+        applicableDiscounts: this.cartService.applicableDiscounts,
+        subTotal: this.selectedBooking?.billing?.subTotal
       }
     });
     modal.onDidDismiss()
@@ -138,9 +139,17 @@ export class CartPage implements OnInit {
   getOfferCount(){
     let count =0;
     this.selectedBooking?.services.forEach(services=>{
-      count += services.discounts.length;
+      services.discountsApplicable?.map((discount) => {
+        if(this.selectedBooking?.billing?.subTotal){
+          if(
+            (discount.type == 'flat' && (discount?.value <= this.selectedBooking?.billing?.subTotal ?? 0)) ||
+            (discount.type != 'flat') 
+          ){
+            count++;
+          }
+        }
+      });
     });
-    
     return count;
   }
   services: Service[] = [];

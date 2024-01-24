@@ -44,7 +44,7 @@ export class HomeService {
           const activeMainCategoriesSorted = activeMainCategories.map((category) => {
             category.subCategories.map((subcategory) => {
               subcategory.services.map((service) => {
-                const variantsMatching = service?.variants.sort((a,b) => b.price - a.price);
+                const variantsMatching = service?.variants.sort((b,a) => b.price - a.price);
                 service.variants = variantsMatching;
                 return service;
               });
