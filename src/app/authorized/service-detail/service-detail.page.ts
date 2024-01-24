@@ -14,7 +14,6 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   @ViewChild('videoContainer', { static: false, read: ElementRef }) videoElement:ElementRef;
   @ViewChild('swiperContainerServiceDetail') swiperContainerServiceDetail!: ElementRef;
   @ViewChild('modal3') modal;
-
   particularBooking:any;
 
   matchingService:Service|undefined;
@@ -87,6 +86,11 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
 
   ionBreakpointDidChange(event){
     this.isAddToCart = !this.isAddToCart;
+    document.getElementById("variant-modal-container")?.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'auto' 
+    });
   }
 
   ViewCart(modal:any){
@@ -225,7 +229,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
 import { Pipe, PipeTransform } from '@angular/core';
 import { Service, SubCategory, Category } from '../../core/types/category.structure';
 import { CartService } from '../cart/cart.service';
-import { LoadingController } from '@ionic/angular';
+import { IonContent, LoadingController } from '@ionic/angular';
 
 @Pipe({
   name: 'removeExtraBr'
