@@ -162,28 +162,45 @@
     (ionBreakpointDidChange)="ionBreakpointDidChange($event)"
     [tappable] = "true"
     (ionBackdropTap)="ionBackdropTap(modal3)"
-    id="modal3" class="my-class" [isOpen]="showmodal" trigger="open-modal" [keyboardClose]="false" [backdrop]="true"
+    id="modal3" class="my-class service-detail-modal" [isOpen]="showmodal" trigger="open-modal" [keyboardClose]="false" [backdrop]="true"
       [initialBreakpoint]="0.09" [breakpoints]="[0.10, 0.10, 0.5]"
       [backdropBreakpoint]="backdropValue">
       <ng-template>
-        <ion-content class="ion-padding">
-          
-          <div class=" variants_modal" style="align-items: center;" *ngIf="showVariant">
-            <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == false}">
-              <div class="col-6 details" >
-                <h3>{{matchingService?.variants?.length}} Variants Available</h3>
-                <p>Starting from {{startPrice | currency:'INR'}}</p>
+        <div class="">
+          <div id="variant-modal-container" class="variant-modal-container" [ngClass]="{'collapsed-container': !isAddToCart}">
+            <div class=" variants_modal" style="align-items: center;" *ngIf="showVariant">
+              <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == false}">
+                <div class="col-6 details" >
+                  <h3>{{matchingService?.variants?.length}} Variants Available</h3>
+                  <p>Starting from {{startPrice | currency:'INR'}}</p>
+                </div>
+                <div class="col-6 see-all-variants" style="text-align: end;">
+                  <p>
+                    <ion-button class="service-common-button w-100" color="dark" (click)="showAllVariants(modal3)">
+                      See All Variants
+                    </ion-button>
+                  </p>
+                </div>
               </div>
-              <div class="col-6 see-all-variants" style="text-align: end;">
-                <p>
-                  <ion-button class="service-common-button w-100" color="dark" (click)="showAllVariants(modal3)">
-                    See All Variants
-                  </ion-button>
-                </p>
+              <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
+                <div class="col-6 cart-details">
+                  <h3 class="">
+                    {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) |
+                    currency:'INR'}} <p>{{
+                      this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
+                      }} items</p>
+                  </h3>
+                </div>
+                <div class="col-6 see-all-variants" style="text-align: end;">
+                  <p class="view-cart">
+                    <ion-button class="service-common-button w-100" color="dark" (click)="ViewCart(modal3)">
+                      View Cart
+                    </ion-button>
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="row services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
-              <div class="col-6 cart-details">
+              
+              <!-- <div class="col-6 cart-details services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
                 <h3 class="">
                   {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) |
                   currency:'INR'}} <p>{{
@@ -192,85 +209,70 @@
                 </h3>
               </div>
               <div class="col-6 see-all-variants" style="text-align: end;">
-                <p class="view-cart">
-                  <ion-button class="service-common-button w-100" color="dark" (click)="ViewCart(modal3)">
-                    View Cart
-                  </ion-button>
-                </p>
-              </div>
+                  <p [ngClass]="{'services-button' : isAddToCart == false}" class="services-button-view">
+                    <ion-button class="service-common-button" color="dark" (click)="showAllVariants(modal3)">
+                      See All Variants
+                    </ion-button>
+                  </p>
+                  <p [ngClass]="{'services-button' : isAddToCart == true}" class="view-cart services-button-view">
+                    <ion-button class="service-common-button" color="dark" (click)="ViewCart(modal3)">
+                      View Cart
+                    </ion-button>
+                  </p>
+              </div> -->
             </div>
-            
-            <!-- <div class="col-6 cart-details services-button-view" [ngClass]="{'services-button' : isAddToCart == true}">
-              <h3 class="">
-                {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id) |
-                currency:'INR'}} <p>{{
-                  this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
-                  }} items</p>
-              </h3>
+            <div class="coupon">
+              <img src="../../../assets/couponTag.svg" alt="">
+              <p>Apply Coupons to save upto 70%!</p>
             </div>
-            <div class="col-6 see-all-variants" style="text-align: end;">
-                <p [ngClass]="{'services-button' : isAddToCart == false}" class="services-button-view">
-                  <ion-button class="service-common-button" color="dark" (click)="showAllVariants(modal3)">
-                    See All Variants
-                  </ion-button>
-                </p>
-                <p [ngClass]="{'services-button' : isAddToCart == true}" class="view-cart services-button-view">
-                  <ion-button class="service-common-button" color="dark" (click)="ViewCart(modal3)">
-                    View Cart
-                  </ion-button>
-                </p>
-            </div> -->
-          </div>
-          <div class="coupon">
-            <img src="../../../assets/couponTag.svg" alt="">
-            <p>Apply Coupons to save upto 70%!</p>
-          </div>
-          <ion-content [scrollEvents]="true" style="height: 36%;">
-            <ion-list class="variants">
-              <ion-item lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
-                <div class="" style="    width: -webkit-fill-available;">
-                  <div class="row detail">
-                    <p class="col-8 name">{{variant.name}}</p>
-                    <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
-                  </div>
-                  <div class="cart-button">
-                    <div class="remove-pading1" no-lines id="{{variant.id}}"
-                      [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
-
-                      <div class="addremove-div">
-                        <button fill="outline" class="remove" color="dark"
-                          (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
-                        <input class="input-div" type="number" id="input{{variant.id}}" text-center
-                          [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
-                          min="1" max="5">
-                        <button fill="outline" class="add" color="dark"
-                          (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
-                      </div>
-                      <div class="remove-div">
-                        <button fill="outline" class="remove-item"
-                          (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
-                          color="danger">Remove item
-                        </button>
-                      </div>
+            <div>
+              <ion-list class="variants">
+                <ion-item lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
+                  <div class="" style="    width: -webkit-fill-available;">
+                    <div class="row detail">
+                      <p class="col-8 name">{{variant.name}}</p>
+                      <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                     </div>
-                    <ion-item class="remove-pading" lines="none" class="{{variant.id}}"
-                      *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
-                      <div class="row addCartdiv" style="width: -webkit-fill-available;">
-                        <div class="col-6">
-                          <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)"
-                            color="dark">Add To Cart</button>
+                    <div class="cart-button">
+                      <div class="remove-pading1" no-lines id="{{variant.id}}"
+                        [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
+
+                        <div class="addremove-div">
+                          <button fill="outline" class="remove" color="dark"
+                            (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
+                          <input class="input-div" type="number" id="input{{variant.id}}" text-center
+                            [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
+                            min="1" max="5">
+                          <button fill="outline" class="add" color="dark"
+                            (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
                         </div>
-                        <div class="col-6" style="text-align: end;">
-                          <button class="book-buttons" color="dark"
-                            (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                        <div class="remove-div">
+                          <button fill="outline" class="remove-item"
+                            (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                            color="danger">Remove item
+                          </button>
                         </div>
                       </div>
-                    </ion-item>
+                      <ion-item class="remove-pading" lines="none" class="{{variant.id}}"
+                        *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
+                        <div class="row addCartdiv" style="width: -webkit-fill-available;">
+                          <div class="col-6">
+                            <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)"
+                              color="dark">Add To Cart</button>
+                          </div>
+                          <div class="col-6" style="text-align: end;">
+                            <button class="book-buttons" color="dark"
+                              (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                          </div>
+                        </div>
+                      </ion-item>
+                    </div>
                   </div>
-                </div>
-              </ion-item>
-            </ion-list>
-          </ion-content>
+                </ion-item>
+              </ion-list>
+            </div>
+          </div>
+          
 
 
 
@@ -311,7 +313,7 @@
               </div>
             </div>
           </div> -->
-        </ion-content>
+        </div>
       </ng-template>
     </ion-modal>
   </div>
