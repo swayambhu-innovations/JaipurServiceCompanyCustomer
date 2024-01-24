@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
-      if(this.currentUrl == '/authorized/home'){
+      if(this.currentUrl == '/authorized/home' || this.currentUrl == '/no-internets'){
         if(this.platform.is('cordova') || this.platform.is('mobile')){
           App.exitApp();
         }
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     });
     Network.addListener('networkStatusChange', status => {
       if(!status.connected){
-        this._navigationBack.destroyAddressSubscription();
+        this._navigationBack.isAddressSubscription$ = false;
         setTimeout(() => {
           this.router.navigate(['/no-internet']);
         }, 100);

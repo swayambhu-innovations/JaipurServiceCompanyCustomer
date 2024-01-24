@@ -21,7 +21,7 @@ export class NoInternetComponent  implements OnInit {
     Network.addListener('networkStatusChange', status => {
       if(status.connected && this.checkStatus){
         this.isBackOnline = true;
-        this._navigationService.invokeAddressSubscription();
+        this._navigationService.isAddressSubscription$ = true;
         setTimeout(() => {
           this.router.navigate(['unauthorized/login']);
         },500);

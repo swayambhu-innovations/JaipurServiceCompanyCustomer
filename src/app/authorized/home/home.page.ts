@@ -114,6 +114,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this._navigationService.isAddressSubscription$ = true;
     this.fetchBanners();
     this.recentActivity();
     this.fetchMainCategoryIcon(); // added by ronak
@@ -135,8 +136,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.hasAddressFatched = true;
     }
     this.addressService.fetchedAddresses
-    .pipe(takeUntil(this._navigationService.isAddressSubscription$))
     .subscribe(async (address:Address[])=>{
+      if(!this._navigationService.isAddressSubscription$){
+        return;
+      }
       this.addresses = address;
       this.hasAddressFatched = false;
       this.addressService.addresses = this.addresses;
