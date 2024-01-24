@@ -23,11 +23,8 @@ export class AppComponent implements OnInit {
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
-      alert("current url - "+this.currentUrl);
       if(this.currentUrl == '/authorized/home' || this.currentUrl == '/no-internet'){
-        alert("inside");
         if(this.platform.is('cordova') || this.platform.is('mobile')){
-          alert("exit");
           App.exitApp();
         }
       }
