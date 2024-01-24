@@ -326,10 +326,10 @@ export class CartService {
   }
 
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
-    const loader = await this.loadingController.create({message:'Please wait...'});
-    loader.present();
-    let cart = await getDoc(doc(this.firestore,'users',userId,'cart',bookingId));
-    let data:Booking = cart.data() as unknown as Booking;
+    let cart = this.cart.find((bookingItem) => {
+      return bookingItem.id = bookingId;
+    });
+    let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
     if (serviceIndex != -1){
       let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
@@ -340,11 +340,8 @@ export class CartService {
         } as any;
       }
     }
-    await setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
-    this.updateCart();
-    setTimeout(() => {
-      loader.dismiss();
-    }, 1000);
+    this.calculateBilling(data);
+    setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
