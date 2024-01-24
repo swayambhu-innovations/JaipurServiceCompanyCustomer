@@ -95,7 +95,8 @@ export class CartPage implements OnInit {
       componentProps:{
         booking:this.selectedBooking,
         applicableDiscounts: this.cartService.applicableDiscounts,
-        subTotal: this.selectedBooking?.billing?.subTotal
+        subTotal: this.selectedBooking?.billing?.subTotal,
+        appliedCoupon : this.selectedBooking!['appliedCoupon']
       }
     });
     modal.onDidDismiss()

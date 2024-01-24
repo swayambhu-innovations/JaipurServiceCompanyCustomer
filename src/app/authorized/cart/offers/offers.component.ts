@@ -17,6 +17,7 @@ export class OffersComponent  implements OnInit {
   hasApplicableDiscounts:boolean = false;
   coupons:any[]=[];
   subTotal:any;
+  appliedCoupon: any;
   constructor(public modalController:ModalController,public cartService:CartService,) {
    }
 
@@ -30,22 +31,21 @@ export class OffersComponent  implements OnInit {
       });
     });
   }
+
   onApplyClick(bookingId:any,discount:any){
-    $(".apply-button").show();
-    $(".remove-button").hide();
-    $("#"+discount.code).hide();
-    $("#"+discount.id).show();
-    this.selectedCoupan = discount;
+    this.appliedCoupon = discount;
     this.cartService.applyCoupon(bookingId,discount);
   }
+
+  getIsApplied(discount){
+    return this.appliedCoupon? this.appliedCoupon.id == discount.id : false;
+  }
+
   onRemoveClick(bookingId:any, coupan:any){
-    $(".apply-button").show();
-    $(".remove-button").hide();
-    $("#"+coupan.code).show();
-    $("#"+coupan.id).hide();
-    this.selectedCoupan = undefined;
+    this.appliedCoupon = undefined;
     this.cartService.removeCoupon(bookingId);
   }
+
   searchcoupons(){
     let coopen = this.coupons.filter(coupon=> coupon.code == this.searchValue) || undefined;
     this.selectedCoupan = coopen[0];
