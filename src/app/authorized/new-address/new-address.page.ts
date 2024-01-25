@@ -134,7 +134,8 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.addressForm.controls.addressLine1.setValue(address.addressLine1);
         this.markerSet = true;
         this.center = {lat:address['selectedArea']['geometry'].location.lat,lng:address['selectedArea']['geometry'].location.lng}
-        this.currentPosition = {lat:address.selectedArea.latitude,lng:address.selectedArea.longitude};
+        this.currentPosition = {lat:address.latitude,lng:address.longitude};
+        this.isValidMarker = true;
         loader.dismiss();
      }else{
        this.isEdit = false;
@@ -293,8 +294,8 @@ export class NewAddressPage implements OnInit, CanActivate{
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
     const latLong = {
-      latitude : this.center.lat,
-      longitude : this.center.lng
+      latitude : this.currentPosition?.lat ?? this.center.lat,
+      longitude : this.currentPosition?.lng ?? this.center.lng
     }
 
     let selectedArea:any = this.addressForm.get("selectedArea")?.value;

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
-      <ion-button (click)="modalController.dismiss()">
+      <ion-button (click)="onDismissModal()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -43,5 +43,5 @@
       
     </ng-container>
   </div>
-  <button style="margin-top: 20px;" class="select-address-button" (click)="modalController.dismiss(appliedCoupon)">Done</button>
+  <button style="margin-top: 20px;" class="select-address-button" (click)="onDismissModal()">Done</button>
 </ion-content>
