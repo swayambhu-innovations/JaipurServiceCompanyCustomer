@@ -1,5 +1,5 @@
 <app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false" [showBackButton]="showHeader"></app-header-with-back>
-<ion-content>
+<ion-content #content>
   <form [formGroup]="addressForm">
     <div class="input">
       <input type="text" formControlName="name" placeholder="Address Name" />

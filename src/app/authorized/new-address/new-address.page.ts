@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, filter, firstValueFrom } from 'rxjs';
@@ -29,6 +29,7 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
   styleUrls: ['./new-address.page.scss'],
 })
 export class NewAddressPage implements OnInit, CanActivate{
+  @ViewChild('content', { static: true }) content: any;
   areaOptions: any;
   isValidMarker : boolean = false;
   selectedState:any;
@@ -80,7 +81,9 @@ export class NewAddressPage implements OnInit, CanActivate{
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     throw new Error('Method not implemented.');
   }
-  
+  ionViewDidEnter(){
+    this.scrollToTop();
+  }
   async ionViewWillEnter(){
     this.isValidMarker = false;
     this.addressForm.reset();
@@ -235,6 +238,12 @@ export class NewAddressPage implements OnInit, CanActivate{
       //   });
         
       // });
+    }
+  }
+
+  scrollToTop() {
+    if (this.content && this.content.scrollToTop) {
+      this.content.scrollToTop();
     }
   }
 
