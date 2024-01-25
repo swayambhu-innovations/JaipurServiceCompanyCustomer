@@ -18,6 +18,7 @@ export class OffersComponent  implements OnInit {
   coupons:any[]=[];
   subTotal:any;
   appliedCoupon: any;
+  isRemoved: string = "";
   constructor(public modalController:ModalController,public cartService:CartService,) {
    }
 
@@ -32,8 +33,17 @@ export class OffersComponent  implements OnInit {
     });
   }
 
+  onDismissModal(){
+    const data = {
+      appliedCoupon: this.appliedCoupon,
+      isRemoved: this.isRemoved
+    }
+    this.modalController.dismiss(data);
+  }
+
   onApplyClick(bookingId:any,discount:any){
     this.appliedCoupon = discount;
+    this.isRemoved = "no";
     this.cartService.applyCoupon(bookingId,discount);
   }
 
@@ -44,6 +54,7 @@ export class OffersComponent  implements OnInit {
   onRemoveClick(bookingId:any, coupan:any){
     this.appliedCoupon = undefined;
     this.cartService.removeCoupon(bookingId);
+    this.isRemoved = "yes";
   }
 
   searchcoupons(){

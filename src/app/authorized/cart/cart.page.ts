@@ -101,16 +101,18 @@ export class CartPage implements OnInit {
     });
     modal.onDidDismiss()
       .then((data) => {
-        const coupan = data['data']; 
-        if(coupan){
+        const callbackData = data['data'];
+        const coupan = callbackData['appliedCoupon'];
+        const isRemoved = callbackData['isRemoved'];
+        if(isRemoved && !coupan){
+          this.removeCoupan();
+        }
+        else if(coupan){
           this.isOpenPopu = true;
           modal2.setCurrentBreakpoint(0.3);
           modal2.present();
           this.selectedCoupan = coupan;
           this.appliedCoupanDiscount();
-        }
-        else if(this.selectedBooking!['appliedCoupon'] && !coupan){
-          this.removeCoupan();
         }
     });
     modal.present()
