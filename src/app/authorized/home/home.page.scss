@@ -322,7 +322,9 @@ homepage.scss .serviceCategory {
   padding: 0px;
 }
 //recent activity
-
+.swiper-pagination1{
+  bottom: 1px;
+}
 .recent-container {
   padding-top: 20px;
   ion-grid {
@@ -453,6 +455,11 @@ homepage.scss .serviceCategory {
       margin: 0;
     }
   }
+}
+.recent-container.no-booking{
+  height: 0px;
+  padding: 0px;
+  overflow: hidden;
 }
 
 .services {
