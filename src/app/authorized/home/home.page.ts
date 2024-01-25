@@ -2,12 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
-import { Subject, async, takeUntil } from 'rxjs';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { log } from 'console';
+import { HttpClient } from '@angular/common/http';
 import { ProfileService } from '../db_services/profile.service';
-import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
@@ -32,7 +29,6 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
-  private unsubscribe$ = new Subject<void>();
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   todayDate: number = Date.now();
@@ -101,16 +97,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this._notificationService.unreadNotifications = this.unreadNotifications;
     });
     this.utils = Utils.stageMaster;
-    bookingService.bookingsSubject.subscribe(  bookings=> {
-     this.upcomingBookings = bookings.filter((item) =>{
-      if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
-        return false;
-      }
-      else{
-        return true;
-      }
-     }); 
-    })
+    
   }
 
   async ngOnInit() {
@@ -198,20 +185,31 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         delay : 2000
       }
     });
-    if(this.upcomingBookings.length > 0){
-      this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        pagination: {
-          el: '.swiper-pagination1',
-          clickable: true,
-        },
-        centeredSlides: true,
-        autoplay:{
-          delay : 2000
-        }
-      });
-     }
+    this.bookingService.bookingsSubject.subscribe(  bookings=> {
+      this.upcomingBookings = bookings.filter((item) =>{
+       if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
+         return false;
+       }
+       else{
+         return true;
+       }
+      }); 
+      if(this.upcomingBookings.length > 0){
+        this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          pagination: {
+            el: '.swiper-pagination1',
+            clickable: true,
+          },
+          centeredSlides: true,
+          autoplay:{
+            delay : 2000
+          }
+        });
+      }
+     })
+    
   }
 
   ionViewDidLeave(){
