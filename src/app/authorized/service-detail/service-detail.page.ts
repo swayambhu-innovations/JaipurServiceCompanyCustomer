@@ -55,22 +55,23 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
       },
     ]
   } 
+  isCategoryItemsLoaded: boolean = false;
   constructor(public dataProvider:DataProviderService,private activatedRoute:ActivatedRoute,private router:Router,
     private paymentService:PaymentService, public cartService:CartService, private loadingController: LoadingController
     , private activeRoute:ActivatedRoute) {
     
    
   }
- async ngOnInit() {
+
+  async ngOnInit() {
     
   }
 
 
   ngAfterViewInit() {
     
-    
-    
   }
+
   ngOnDestroy() {
     if (this.swiper) {
       this.swiper.destroy();
@@ -89,7 +90,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   }
 
   ViewCart(modal:any){
-    this.modal.setCurrentBreakpoint(0.3);
+    //this.modal.setCurrentBreakpoint(0.3);
     this.router.navigate(['/authorized/cart/all/all']);
   }
 
@@ -117,6 +118,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
       if(this.matchingService?.variants && this.matchingService?.variants.length >0){
         this.startPrice = this.matchingService?.variants[0].price;
       }
+      this.isCategoryItemsLoaded = true;
     });
   }
 
@@ -125,7 +127,7 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
     this.cartService.cartSubject.subscribe(cartDetils=>{
       this.cartDetils = cartDetils;
     })
-    this.modal.present();
+    //this.modal.present();
 
     this.swiper = new Swiper(this.swiperContainerServiceDetail.nativeElement, {
       slidesPerView: 1,

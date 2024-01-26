@@ -162,6 +162,19 @@ ion-content {
         }
       }
     }
+    .no-slot-available{
+      padding: 0px;
+      margin-top: 10px;
+      button{
+        height: 52px;
+        border-radius: 6px;
+        border: 1px solid #d7d7d7;
+        background: #fff;
+        font-weight: 500;
+        padding: 0px 13px;
+        color: red;
+      }
+    }
   }
 
   .button {
