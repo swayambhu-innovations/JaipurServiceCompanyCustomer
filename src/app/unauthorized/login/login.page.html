@@ -16,11 +16,15 @@
       <input type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
     </div>
     <div id="recaptcha-container"></div>
-    <div style="display: flex;padding: 18px;">
-      <ion-checkbox [(ngModel)]="terms"> </ion-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="https://jaipurservicecompany.com/refundpricingpolicy.html" target="_blank" rel="noopener noreferrer">Refund And Pricing Policy</a>
+    <div style="display: flex;padding: 18px;    align-items: flex-start;">
+      <input type="checkbox" [(ngModel)]="terms" style="    zoom: 2;" >&nbsp;&nbsp;&nbsp;&nbsp;
+      <p style="text-align: left;"> I agree to the
+        <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="https://jaipurservicecompany.com/refundpricingpolicy.html" target="_blank" rel="noopener noreferrer">Refund And Pricing</a>
+        Policy
+      </p>
+     
     </div>
     
     <ion-button [disabled]="(phoneNumber.length < 10) || terms == false ? true : false" class="signup" color="dark"
