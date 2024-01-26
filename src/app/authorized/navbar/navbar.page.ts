@@ -16,7 +16,7 @@ export class NavbarPage implements OnInit {
     ){}
     ngOnInit(){
         this.dataProvider.currentUser$.subscribe((user) => {
-            this.hasProfileSaved = user?.userData.name ? true : false;
+            this.hasProfileSaved = user?.userData?.name ? true : false;
         })
     }
     close(url:any) {

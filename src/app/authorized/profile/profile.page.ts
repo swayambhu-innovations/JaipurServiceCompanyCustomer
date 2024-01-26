@@ -48,7 +48,10 @@ export class ProfilePage implements OnInit {
   logout() {
     this._navigationService.isAddressSubscription$ = false;
     signOut(getAuth())
-    .then(() => this.closeModal())
+    .then(() => {
+      this.closeModal();
+      window.location.reload();
+    })
     .catch((error: any) => console.log(error))
     
   }
