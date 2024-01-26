@@ -128,7 +128,9 @@ export class AuthService {
       userData:newUserData
     }
     loader.dismiss();
-    this.alertify.presentToast("Welcome, "+user.displayName+" 😄");
+    if(user && user.displayName){
+      this.alertify.presentToast("Welcome, "+user.displayName+" 😄");
+    }
     return
   }
 }
