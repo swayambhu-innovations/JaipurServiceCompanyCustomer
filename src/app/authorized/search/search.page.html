@@ -3,7 +3,7 @@
   <button id="search" routerLink="../search">
     <!-- <p>Search what you need</p> -->
     <input type="search" #searchInput (input)="searchInputSubject.next(searchInput.value)"
-      placeholder="Search what you need" name="" id="">
+      placeholder="Search what you need" [(ngModel)]="inputSearchVar" name="" id="">
     <span>
       <!-- <ion-icon name="search-outline"></ion-icon> -->
       <img src="assets/ui_icons/search.svg" alt="">
