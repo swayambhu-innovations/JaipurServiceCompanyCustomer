@@ -63,7 +63,7 @@ export class BookingDetailsPage implements OnInit {
           this.currentBooking = booking;
           this.createPDF(this.currentBooking);
           if(this.currentBooking?.billing?.coupanDiscunt)
-          this.discount = this.currentBooking?.billing?.coupanDiscunt + this.currentBooking?.billing.discount;
+          this.discount = (+this.currentBooking?.billing?.coupanDiscunt) + (+this.currentBooking?.billing.discount);
           else
           this.currentBooking?.billing.discount;
           if(booking?.jobOtp){
@@ -177,6 +177,7 @@ export class BookingDetailsPage implements OnInit {
 
     downloadPdf(){
         try{
+          console.log(this.platform.is('cordova'),this.platform.is('mobile'));
             if(this.platform.is('cordova') || this.platform.is('mobile')){
                 this.pdfObj.getBuffer((buffer:any) => {
                     var blob = new Blob([buffer],{type : 'application/pdf'});

@@ -269,7 +269,7 @@
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Total</div>
             <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.subTotal || 0) -
-              (currentBooking?.billing?.discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+              (discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
           </div>
         </div>
         <!-- Banner -->

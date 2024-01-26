@@ -114,6 +114,33 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.fetchAddress();
+    this.bookingService.bookingsSubject.subscribe(  bookings=> {
+      this.upcomingBookings = bookings.filter((item) =>{
+       if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
+         return false;
+       }
+       else{
+         return true;
+       }
+      }); 
+      if(this.upcomingBookings.length > 0){
+        if (this.swiper1) {
+          this.swiper1.destroy();
+        }
+        this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          pagination: {
+            el: '.swiper-pagination1',
+            clickable: true,
+          },
+          centeredSlides: true,
+          autoplay:{
+            delay : 2000
+          }
+        });
+      }
+     })
   }
 
   fetchAddress(){
@@ -185,30 +212,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         delay : 2000
       }
     });
-    this.bookingService.bookingsSubject.subscribe(  bookings=> {
-      this.upcomingBookings = bookings.filter((item) =>{
-       if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
-         return false;
-       }
-       else{
-         return true;
-       }
-      }); 
-      if(this.upcomingBookings.length > 0){
-        this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
-          slidesPerView: 1,
-          spaceBetween: 20,
-          pagination: {
-            el: '.swiper-pagination1',
-            clickable: true,
-          },
-          centeredSlides: true,
-          autoplay:{
-            delay : 2000
-          }
-        });
-      }
-     })
     
   }
 
@@ -216,9 +219,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (this.swiper) {
       this.swiper.destroy();
     }
-    if (this.swiper1) {
-      this.swiper1.destroy();
-    }
+    // if (this.swiper1) {
+    //   this.swiper1.destroy();
+    // }
   }
 
 
