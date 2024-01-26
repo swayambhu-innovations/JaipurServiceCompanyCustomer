@@ -23,34 +23,36 @@
       <div class="banner-container">
         <div #swiperContainer1 class="swiper-container">
           <div class="swiper-wrapper recent-container-details">
-            <div class="swiper-slide" *ngFor="let data of upcomingBookings">
-              <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
-                <ion-row class="row-1">
-                  <ion-col>
-                    <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
-                    <p>{{data.billing.grandTotal | currency:'INR'}}</p>
-                  </ion-col>
-                  <ion-col class="row-1-col-2">
-                    <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
-                  </ion-col>
-                </ion-row>
-                <ion-row class="row-2">
-                  <ion-col class="row-2-col-1">
-                    <span>Serviced By</span>
-                    <h3>{{data.assignedAgent ? data.agentData.name : 'NA'}}</h3>
-                  </ion-col>
-                  <ion-col class="row-2-col-1">
-                    <span>Time</span>
-                    <h3>{{tConvert(data.timeData.start)}} to </h3>
-                    <h3>{{tConvert(data.timeData.end)}}</h3>
-                  </ion-col>
-                  <ion-col>
-                    <span>{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span>
-                    <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-            </div>
+            <ng-container *ngIf="upcomingBookings.length > 0">
+              <div class="swiper-slide" *ngFor="let data of upcomingBookings">
+                <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
+                  <ion-row class="row-1">
+                    <ion-col>
+                      <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
+                      <p>{{data.billing.grandTotal | currency:'INR'}}</p>
+                    </ion-col>
+                    <ion-col class="row-1-col-2">
+                      <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="row-2">
+                    <ion-col class="row-2-col-1">
+                      <span>Serviced By</span>
+                      <h3>{{data.assignedAgent ? data.agentData.name : 'NA'}}</h3>
+                    </ion-col>
+                    <ion-col class="row-2-col-1">
+                      <span>Time</span>
+                      <h3>{{tConvert(data.timeData.start)}} to </h3>
+                      <h3>{{tConvert(data.timeData.end)}}</h3>
+                    </ion-col>
+                    <ion-col>
+                      <span>{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span>
+                      <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ng-container>
           </div>
           <div class="swiper-pagination swiper-pagination1"></div>
         </div>    
