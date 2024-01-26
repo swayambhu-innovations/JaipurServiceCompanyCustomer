@@ -24,8 +24,6 @@ export class RateComponent implements OnInit {
   
   
   ngOnInit(): void {
-    console.log(this.stars);
-    console.log(this.selectedValue);
     this.emitter();
   }
   
@@ -34,7 +32,6 @@ export class RateComponent implements OnInit {
     this.isMouseover = false;
     this.selectedValue = star;
     this.data = this.selectedValue;
-    console.log(this.data);
     this.emitter();
   }
   
@@ -42,7 +39,6 @@ export class RateComponent implements OnInit {
   addClass(star: number) {
     if (this.isMouseover) {
       this.selectedValue = star;
-      console.log(this.selectedValue);
       this.emitter();
     }
   }
@@ -51,7 +47,6 @@ export class RateComponent implements OnInit {
   removeClass() {
     if (this.isMouseover) {
       this.selectedValue = 0;
-      console.log(this.selectedValue);
       this.emitter();
     }
   }

@@ -2,12 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { Router } from '@angular/router';
 import { HomeService } from './home.service';
 import { FileService } from '../db_services/file.service';
-import { async } from 'rxjs';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { log } from 'console';
+import { HttpClient } from '@angular/common/http';
 import { ProfileService } from '../db_services/profile.service';
-import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { BookingService } from '../booking/booking.service';
 import { LoadingController } from '@ionic/angular';
@@ -15,6 +12,10 @@ import Utils from '../common/util';
 import Swiper from 'swiper';
 import * as moment from 'moment';
 import { UserNotificationService } from '../common/user-notification.service';
+import { AddressService } from '../db_services/address.service';
+import { Address } from '../select-address/address.structure';
+import { CartService } from '../cart/cart.service';
+import { NavigationBackService } from 'src/app/navigation-back.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -31,10 +32,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   todayDate: number = Date.now();
-  isLoaded : boolean = false;
   isNotServiceableModalOpen: boolean = false;
   utils: any;
-
+  hasAddressFatched:boolean = false;
   promotionalBanners: bannerConfig[] = [
     {
       image: 'assets/banners/dealSlide1.svg',
@@ -72,7 +72,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   upcomingBookings:any[] = [];
   notifications:any[] = [];
   unreadNotifications:any[] = [];
+  addresses:Address[] = [];
+  currentAddress: Address | undefined;
   constructor(
+    private addressService: AddressService,
     private router: Router,
     private profileService: ProfileService,
     private dataProvider: DataProviderService,
@@ -82,6 +85,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     public bookingService:BookingService,
     private loadingController: LoadingController,
     private _notificationService: UserNotificationService,
+    public _cartService : CartService,
+    private _navigationService: NavigationBackService
   ) {
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
@@ -92,34 +97,76 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this._notificationService.unreadNotifications = this.unreadNotifications;
     });
     this.utils = Utils.stageMaster;
-    bookingService.bookingsSubject.subscribe(  bookings=> {
-     this.upcomingBookings = bookings.filter((item) =>{
-      if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
-        return false;
-      }
-      else{
-        return true;
-      }
-     }); 
-    })
+    
   }
 
   async ngOnInit() {
-    let loader = await this.loadingController.create({message:'Please wait...'});
-    loader.present();
+    this._navigationService.isAddressSubscription$ = true;
     this.fetchBanners();
     this.recentActivity();
-    this.fetchMainCategory(); // added by ronak
     this.fetchMainCategoryIcon(); // added by ronak
     this.dataProvider.mainCategories.subscribe(categories => {
-      this.isLoaded = true;
       this.categories = categories;
-      if(this.homeService.isCatalogueLoaded == true && this.categories.length == 0){
-        this.isNotServiceableModalOpen = true;
+      if(this.dataProvider.mainCategoriesLoaded){
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next("loaded");
+        },1000);
       }
     });
-    loader.dismiss();
+    this.fetchAddress();
   }
+
+  fetchAddress(){
+    this.addresses = this.addressService.addresses;
+    this.dataProvider.selectedAddress.next(this.addresses);
+    if(this.addresses.length > 0){
+      this.hasAddressFatched = true;
+    }
+    this.addressService.fetchedAddresses
+    .subscribe(async (address:Address[])=>{
+      if(!this._navigationService.isAddressSubscription$){
+        return;
+      }
+      this.addresses = address;
+      this.hasAddressFatched = false;
+      this.addressService.addresses = this.addresses;
+      this.dataProvider.selectedAddress.next(this.addresses);
+      let currentAddressTemp:any = this.addresses.find(addre=> addre.isDefault);
+      if(address.length > 0){
+        if(this.currentAddress?.id != currentAddressTemp.id){
+          this.currentAddress = currentAddressTemp;
+          this._cartService.selectedCatalogue = '';
+          this.setupCategories();
+        }
+      }
+      setTimeout(() => {
+        this.hasAddressFatched = true;
+      }, 0);
+      
+    });
+  }
+
+  async setupCategories(){
+    if(this.currentAddress){
+      const areas: any[] = (await this.addressService.getAreaForCatalogue(this.currentAddress.stateId, this.currentAddress.cityId)).docs.map((area: any) => {
+        return { ...area.data(), id: area.id };
+      }).filter(area => area['geoProofingLocality'] === this.currentAddress?.geoProofingLocality && area.serviceCatalogue);
+      if (areas.length > 0) {
+        this.homeService.fetchData(areas[0].serviceCatalogue);
+      }
+      else{
+        this.isNotServiceableModalOpen = true;
+        this.dataProvider.mainCategoriesLoaded = true;
+        this.homeService.mainCategories.next([]);
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next("loaded");
+        },1000);
+      }
+    }
+    this._cartService.selectedCatalogue = this.addresses[0].selectedArea.serviceCatalogue;
+  }
+
+
   ionViewDidEnter(){
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
@@ -138,20 +185,31 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         delay : 2000
       }
     });
-    if(this.upcomingBookings.length > 0){
-      this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        pagination: {
-          el: '.swiper-pagination1',
-          clickable: true,
-        },
-        centeredSlides: true,
-        autoplay:{
-          delay : 2000
-        }
-      });
-     }
+    this.bookingService.bookingsSubject.subscribe(  bookings=> {
+      this.upcomingBookings = bookings.filter((item) =>{
+       if(item.stage == 'expired' || item.stage == 'completed' || item.stage == 'discarded' || item.stage == 'cancelled'){
+         return false;
+       }
+       else{
+         return true;
+       }
+      }); 
+      if(this.upcomingBookings.length > 0){
+        this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+          slidesPerView: 1,
+          spaceBetween: 20,
+          pagination: {
+            el: '.swiper-pagination1',
+            clickable: true,
+          },
+          centeredSlides: true,
+          autoplay:{
+            delay : 2000
+          }
+        });
+      }
+     })
+    
   }
 
   ionViewDidLeave(){
@@ -178,15 +236,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
       this.getImage(this.banners[0].img);
     });
-  }
-  // added by ronak
-  async fetchMainCategory() {
-    // await this.homeService.getCategory().then((name) => {
-    //   this.categories = name.docs.map((doc) => {
-    //     this.categories = [...this.categories];
-    //     return doc.data()
-    //   });
-    // })
   }
 
   isFutureDate(date: Date|undefined) {
@@ -330,16 +379,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       path: `${CASHE_FOLDER}/${imageName}`,
     })
       .then(async (readFile) => {
-        //console.log("Local File",imageName, readFile);
         if (readFile.data === '') {
           let file = await this.saveImage(url, imageName);
-          // console.log("server file")
           return `data:image/${fileType};base64,${file}`;
         } else return `data:image/${fileType};base64,${readFile.data}`;
       })
       .catch(async (e) => {
-        // wirte a file
-        //console.log("e........: ", e)
         let file = await this.saveImage(url, imageName);
         Filesystem.readFile({
           directory: Directory.Cache,
@@ -349,33 +394,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         });
       })
       .finally(() => {
-        // console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
       });
   }
 
   async saveImage(url: string, path) {
-    //debugger
-    // this.http.get(url).subscribe({
-    //   next:(rspose)=>{
-    //     console.log("response: ",response)
-    //   },
-    //   error:(error)=>{
-    //     console.log("eer.........:",error)
-    //   }
-
-    // })
-    // let xhr = new XMLHttpRequest();
-    // xhr.responseType = 'blob';
-    // xhr.onload = (event) => {
-    //   console.log("xhr.response: ",xhr.response)
-    //   const blob = xhr.response;
-    //   console.log("blob...........: ",blob)
-    // };
-    // xhr.open('GET', url,true);
-    // xhr.setRequestHeader("Origin",location.origin);
-    // xhr.setRequestHeader("mode",'no-cors');
-    // xhr.send();
-
     const response: any = await fetch(url, {
       headers: new Headers({
         Origin: location.origin,
@@ -383,13 +405,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       mode: 'no-cors',
     })
       .then((response) => {
-        // console.log("response....... ",response.body)
       })
       .catch((error) => {
         console.log('errror.....', error);
       });
-    // convert to a Blob
-    // debugger
     let blob = await response.body?.blob();
     const convertBlobToBase64 = (blob: Blob) =>
       new Promise((resolve, reject) => {
@@ -398,12 +417,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         reader.onload = () => {
           resolve(reader.result);
         };
-        //console.log("blob...........: ",blob)
         reader.readAsDataURL(blob);
       });
-    // convert to base64 data, which the Filesystem plugin requires
     const base64Data = (await convertBlobToBase64(blob)) as string;
-    // console.log("Saving.................");
 
     const savedFile = await Filesystem.writeFile({
       path: `${CASHE_FOLDER}/${path}`,

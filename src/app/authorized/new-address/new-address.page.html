@@ -1,5 +1,5 @@
 <app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false" [showBackButton]="showHeader"></app-header-with-back>
-<ion-content>
+<ion-content #content>
   <form [formGroup]="addressForm">
     <div class="input">
       <input type="text" formControlName="name" placeholder="Address Name" />
@@ -8,7 +8,7 @@
       <ion-select
         formControlName="state"
         aria-label="state"
-        interface="action-sheet"
+        interface="popover"
         toggleIcon="chevron-down"
         justify="space-between"
         placeholder="State"
@@ -25,7 +25,7 @@
       <ion-select
         formControlName="city"
         aria-label="city"
-        interface="action-sheet"
+        interface="popover"
         toggleIcon="chevron-down"
         justify="space-between"
         placeholder="City"
@@ -40,6 +40,14 @@
     <div class="input">
       <input type="number" formControlName="pincode" placeholder="Pin Code" />
     </div>
+    <div *ngIf="isSubmitForm && (addressForm?.get('pincode')?.invalid && (addressForm?.get('pincode')?.dirty || addressForm?.get('pincode')?.touched))">
+      <div *ngIf="addressForm?.get('pincode')?.errors?.required">
+        <ion-text color="danger">PIN code is required.</ion-text>
+      </div>
+      <div *ngIf="addressForm?.get('pincode')?.errors?.pattern">
+        <ion-text color="danger">Invalid PIN code format.</ion-text>
+      </div>
+    </div>
     <div class="input">
       <input
         type="text"
@@ -51,7 +59,7 @@
       <ion-select
         formControlName="selectedArea"
         aria-label="area"
-        interface="action-sheet"
+        interface="popover"
         toggleIcon="chevron-down"
         justify="space-between"
         placeholder="Area"

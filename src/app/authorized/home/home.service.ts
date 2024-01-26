@@ -29,51 +29,32 @@ export class HomeService {
     private dataProvider: DataProviderService,
     private addressService: AddressService,
     private router:Router,
-    private loadingController: LoadingController,
-    public _cartService : CartService
+    private loadingController: LoadingController
   ) {
-    this.mainCategories = this.dataProvider.mainCategories;
-      this.dataProvider.selectedAddress.subscribe(async (address:any)=>{
-        if(address.length > 0){
-         // console.log("address...........: ",address)
-          let currentAddress = address.find(addre=> addre.isDefault);
-          if(currentAddress){
-            const areas: any[] = (await this.addressService.getAreaForCatalogue(currentAddress.stateId, currentAddress.cityId)).docs.map((area: any) => {
-              return { ...area.data(), id: area.id };
-            }).filter(area => area['geoProofingLocality'] === currentAddress.geoProofingLocality && area.serviceCatalogue);
-            if (areas.length > 0) {
-              this.fetchData(areas[0].serviceCatalogue);
-            }
-            else{
-              this.isCatalogueLoaded = true;
-              this.mainCategories.next([]);
-            }
-          }else{
-            //this.fetchData(address[0].selectedArea.serviceCatalogue);
-          }
-          this._cartService.selectedCatalogue = address[0].selectedArea.serviceCatalogue;
-        }else{
-              //this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true} });
-              // this.router.navigate(['authorized/new-address',{isfistTime: true}],);
-            }
-      });
-    this.refetchCategories.pipe(debounceTime(200)).subscribe(() => {
-    
-    });
+
   }
  
   async fetchData(serviceCatalogueId:string) {
       let serverCatDb=doc(this.firestore, 'service-catalogue',serviceCatalogueId);
       const docSnap = await getDoc(serverCatDb);
         if (docSnap.exists()) {
-          const loader = await this.loadingController.create({message:'Please wait...'});
-          loader.present();
           this.isCatalogueLoaded = true;
           const mainCategoryArray = await this.getMainCategories(serviceCatalogueId);
           const activeMainCategories = mainCategoryArray.filter(item => item.enabled);
-          await this.mainCategories.next(activeMainCategories);
-          
-          loader.dismiss();
+          const activeMainCategoriesSorted = activeMainCategories.map((category) => {
+            category.subCategories.map((subcategory) => {
+              subcategory.services.map((service) => {
+                const variantsMatching = service?.variants.sort((b,a) => b.price - a.price);
+                service.variants = variantsMatching;
+                return service;
+              });
+              return subcategory;
+            });
+            return category;
+          });
+
+          this.dataProvider.mainCategoriesLoaded = true;
+          await this.dataProvider.mainCategories.next(activeMainCategoriesSorted);
         }
   }
   async getMainCategories(serviceCatalogueId:string) {

@@ -7,6 +7,7 @@ import { AlertsAndNotificationsService } from '../alerts-and-notifications.servi
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../authorized/db_services/profile.service';
+import { Network } from '@capacitor/network';
 
 @Injectable({
   providedIn: 'root'
@@ -25,24 +26,28 @@ export class AuthService {
     this.auth.onAuthStateChanged((user)=>{
         if(user){
           this.dataProvider.loggedIn = true;
-          this.getUserData(user.uid).subscribe((userData)=>{
+          this.getUserData(user.uid).subscribe(async (userData)=>{
             this.dataProvider.currentUser = {
               user:user,
               userData:userData
             }
-            console.log("userData.....:",userData);
             this.dataProvider.currentUser$.next({
               user:user,
               userData:userData
             });
-            if(!userData || !userData.name){
-                this.router.navigate(['/authorized/profile/profile-info']);
+            const status = await Network.getStatus();
+            if(!status.connected){
+              this.router.navigate(['/no-internet']);
+            }
+            else if(!userData || !userData.name){
+              this.router.navigate(['/authorized/profile/profile-info']);
             }else{
               if(!this.isProfileUpdated){
                 this.router.navigate(['../../authorized/home']);
               }
             }
             this.dataProvider.checkingAuth = false;
+            
           });
         } else {
           this.dataProvider.loggedIn = false;
@@ -69,7 +74,7 @@ export class AuthService {
               this.router.navigate(['/authorized/profile']);
             }
             else{
-              this.router.navigate(['/authorized/select-address']);
+              this.router.navigate(['/authorized/new-address']);
             }
           });
           this.dataProvider.checkingAuth = false;

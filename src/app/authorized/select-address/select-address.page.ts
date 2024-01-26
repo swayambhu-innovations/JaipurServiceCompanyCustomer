@@ -31,7 +31,6 @@ export class SelectAddressPage implements OnInit {
 
   setValue(event: any) {
     this.dataProvider.currentBooking!.address = event.detail.value;
-    console.log(event.detail.value);
   }
   deleteAddress(address: Address) {
     if (address.isDefault) {
@@ -73,9 +72,9 @@ export class SelectAddressPage implements OnInit {
       });
     }
     if(userId !== "" && addressId !== ""){
+      loader.dismiss();
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
-      loader.dismiss();
       this.addressService.clearCart(userId).then(() => {});
       
     }else{

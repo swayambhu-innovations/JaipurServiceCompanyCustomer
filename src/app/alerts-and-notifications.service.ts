@@ -144,7 +144,6 @@ const errorResolver:any = {
 })
 export class AlertsAndNotificationsService {
   testFunction() {
-    console.log('testFunction');
   }
   toastAudio = new Audio();
   toastErrorAudio = new Audio();
@@ -172,7 +171,6 @@ export class AlertsAndNotificationsService {
     if (!duration) {
       duration = 3000;
     }
-    console.log(message);
     var preDefinedMessage:string|undefined = this.getErrorMessage(message)
     if (preDefinedMessage){
       message = preDefinedMessage
@@ -222,7 +220,6 @@ export class AlertsAndNotificationsService {
     });
     await alert.present();
     const { role } = await alert.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
     return role;
   }
 

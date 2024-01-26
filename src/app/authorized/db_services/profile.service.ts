@@ -21,14 +21,13 @@ export class ProfileService {
       this.fetchedprofileDetailses.next(this.profileDetailses);
     })
   }
- async getUsers(){console.log("this.dataProvider.currentUser!.user.uid: ",this.dataProvider.currentUser!.user.uid)
+ async getUsers(){
     return await Promise.all(
       (
         await getDocs(
           collection(this.firestore , 'users', this.dataProvider.currentUser!.user.uid)
         )
       ).docs.map(async (user) => {
-        console.log("user data from server........:",user.id )
         return {
             name : user.data().name,
             gender: user.data().gender,
@@ -70,11 +69,11 @@ export class ProfileService {
         photoUrl:response
       });
       
-      await loader.dismiss();
+      loader.dismiss();
       return response;
     } catch (error) {
       console.log("error File. final.......: ", JSON.stringify(error))
-      await loader.dismiss();
+      loader.dismiss();
       throw error;
     }
   }

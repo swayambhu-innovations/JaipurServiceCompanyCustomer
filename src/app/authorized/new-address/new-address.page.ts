@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, filter, firstValueFrom } from 'rxjs';
@@ -29,18 +29,20 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
   styleUrls: ['./new-address.page.scss'],
 })
 export class NewAddressPage implements OnInit, CanActivate{
+  @ViewChild('content', { static: true }) content: any;
   areaOptions: any;
   isValidMarker : boolean = false;
   selectedState:any;
   showHeader:boolean = true;
   private areaSearchText$ = new Subject<string>();
+  isSubmitForm:boolean = false;
   addressForm = this.fb.group({
     name: ['', Validators.required],
     addressLine1: ['', Validators.required],
     selectedArea: ['', Validators.required],
     city: ['', Validators.required],
     state: ['', Validators.required],
-    pincode: ['', Validators.required]
+    pincode: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]]
   });
   markerSet: boolean = false;
   
@@ -79,10 +81,13 @@ export class NewAddressPage implements OnInit, CanActivate{
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     throw new Error('Method not implemented.');
   }
-  
+  ionViewDidEnter(){
+    this.scrollToTop();
+  }
   async ionViewWillEnter(){
     this.isValidMarker = false;
     this.addressForm.reset();
+    this.isSubmitForm = false;
     const navigation = this.router.getCurrentNavigation();
     let haveOldAddresses = true;
     
@@ -96,12 +101,19 @@ export class NewAddressPage implements OnInit, CanActivate{
     
     this.showHeader = haveOldAddresses;
     this.addressService.action.subscribe(async action=>{
-     let loader = await this.loadingController.create({message:'Adding address...'});
-     this.store.dispatch(editAddressStateActions.LOAD());
-     this.states$ = this.store.select('editAddress', 'states');
-     this.cities$ = this.store.select('editAddress', 'cities');
-     this.areas$ = this.store.select('editAddress', 'areas');
-     
+      let loader;
+      if(this.isEdit){
+        loader = await this.loadingController.create({message:'Edit address...'});
+      }
+      else{
+        loader = await this.loadingController.create({message:'Adding address...'});
+      }
+      
+      this.store.dispatch(editAddressStateActions.LOAD());
+      this.states$ = this.store.select('editAddress', 'states');
+      this.cities$ = this.store.select('editAddress', 'cities');
+      this.areas$ = this.store.select('editAddress', 'areas');
+      
      if(action.isEdit){
        loader.present();
        this.isEdit = true;
@@ -123,8 +135,10 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.addressForm.controls.name.setValue(address.name);
         this.addressForm.controls.pincode.setValue(address.pincode);
         this.addressForm.controls.addressLine1.setValue(address.addressLine1);
+        this.markerSet = true;
         this.center = {lat:address['selectedArea']['geometry'].location.lat,lng:address['selectedArea']['geometry'].location.lng}
-        this.currentPosition = {lat:address.selectedArea.latitude,lng:address.selectedArea.longitude};
+        this.currentPosition = {lat:address.latitude,lng:address.longitude};
+        this.isValidMarker = true;
         loader.dismiss();
      }else{
        this.isEdit = false;
@@ -134,7 +148,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   ngOnInit(): void {
-    
+    this.dataProvider.isPageLoaded$.next("loaded");
  
     // // get current location
     // this.areas$.subscribe(result=>{
@@ -205,6 +219,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.alertify.presentToast("Selected location point is outside the selected area...");
       }
       else{
+        
         this.markerSet = true;
         this.isValidMarker = true;
       }
@@ -223,6 +238,12 @@ export class NewAddressPage implements OnInit, CanActivate{
       //   });
         
       // });
+    }
+  }
+
+  scrollToTop() {
+    if (this.content && this.content.scrollToTop) {
+      this.content.scrollToTop();
     }
   }
 
@@ -247,7 +268,6 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
 
   newPosition(event: any) {
-    //console.log("event.latLng.toJSON(): ",event.latLng.toJSON())
     this.currentPosition = event.latLng.toJSON();
   }
 
@@ -272,18 +292,19 @@ export class NewAddressPage implements OnInit, CanActivate{
   // }
 
   async submit(){
+    this.isSubmitForm = true;
     if(!this.addressForm.valid){
       this.alertify.presentToast("Please fill all the required fields...");
       return;
     }
-    let loader = await this.loadingController.create({message:'Adding address...'});
+    let loader = await this.loadingController.create({message:'Save address...'});
     const state = this.addressForm.get("state")?.getRawValue().state;
     const stateId = this.addressForm.get("state")?.getRawValue().id;
     const city = this.addressForm.get("city")?.getRawValue().name;
     const cityId = this.addressForm.get("city")?.getRawValue().id;
     const latLong = {
-      latitude : this.center.lat,
-      longitude : this.center.lng
+      latitude : this.currentPosition?.lat ?? this.center.lat,
+      longitude : this.currentPosition?.lng ?? this.center.lng
     }
 
     let selectedArea:any = this.addressForm.get("selectedArea")?.value;
@@ -299,7 +320,9 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
     addressObject.city = city;
     addressObject.state = state;
-    
+    if(this.isEdit){
+      addressObject.isDefault = this.editData.isDefault;
+    }
     if(this.addressForm.valid){
       if(!this.markerSet){
         this.alertify.presentToast("Please select a valid marker on the map...");
@@ -309,19 +332,19 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.alertify.presentToast("Selected location point is outside the selected area...");
         return;
       }
-      
       if(this.isEdit){
-       await loader.present()
+      loader.present()
        this.addressService.editAddress(this.dataProvider.currentUser!.user!.uid,this.editData.id, addressObject).then(()=>{
          this.dataProvider.isFirstTime.next(true);
-         this.addressForm.reset()
+         this.isSubmitForm = false;
+         this.addressForm.reset();
          this.router.navigate(['/authorized/home'])
        }).catch(err=>{
          console.log(err)
        }).finally(()=>loader.dismiss())
 
       }else{
-        await loader.present();
+        loader.present();
         this.addressService.getAddresses(this.dataProvider.currentUser!.user!.uid).then((addresses) => {
           let haveOldAddresses = true;
           if(addresses.length == 0){
@@ -350,7 +373,7 @@ export class NewAddressPage implements OnInit, CanActivate{
           
         } 
       }else{
-        await loader.dismiss()
+        loader.dismiss()
       }
   }
 

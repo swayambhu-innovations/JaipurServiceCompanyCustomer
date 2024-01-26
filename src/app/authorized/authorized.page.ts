@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataProviderService } from '../core/data-provider.service';
 
 @Component({
   selector: 'app-authorized',
@@ -6,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./authorized.page.scss'],
 })
 export class AuthorizedPage implements OnInit {
-
-  constructor() { }
+  isPageLoaded: string = "";
+  constructor(private dataProvider: DataProviderService) {
+    this.dataProvider.isPageLoaded$.subscribe((isPageLoaded) =>{
+      if(isPageLoaded == "loaded"){
+        this.isPageLoaded = isPageLoaded;
+      }
+    })
+  }
 
   ngOnInit() {
     

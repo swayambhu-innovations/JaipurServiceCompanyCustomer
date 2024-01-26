@@ -5,6 +5,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 
 import { getAuth, deleteUser, Auth, signOut } from '@angular/fire/auth';
 import { error } from 'console';
+import { NavigationBackService } from 'src/app/navigation-back.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,13 +19,13 @@ export class ProfilePage implements OnInit {
     private modalCtrl: ModalController,
     public navCtrl: NavController,
     public dataProvider:DataProviderService,
+    public _navigationService : NavigationBackService
     
   ) {
    // this.router.navigate(['authorized/profile/profile-info']);
   }
 
   ngOnInit() {
-    console.log(this.dataProvider.currentUser);
   }
   
   close(url:any) {
@@ -45,6 +46,7 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/signout']);
   }
   logout() {
+    this._navigationService.isAddressSubscription$ = false;
     signOut(getAuth())
     .then(() => this.closeModal())
     .catch((error: any) => console.log(error))

@@ -14,37 +14,51 @@ export class OffersComponent  implements OnInit {
   applicableDiscounts;
   searchValue:string = "";
   selectedCoupan:any;
-  coupons:any[]=[
-   
-  ];
+  hasApplicableDiscounts:boolean = false;
+  coupons:any[]=[];
+  subTotal:any;
+  appliedCoupon: any;
+  isRemoved: string = "";
   constructor(public modalController:ModalController,public cartService:CartService,) {
    }
 
   ngOnInit() {
     this.booking?.services.forEach((service)=>{
       this.coupons = [...this.coupons,...service.discounts];
+      service.discountsApplicable?.map((discount) => {
+        if((discount.type == 'flat' && discount?.value <= this.subTotal) || (discount.type != 'flat')){
+          this.hasApplicableDiscounts = true;
+        }
+      });
     });
   }
+
+  onDismissModal(){
+    const data = {
+      appliedCoupon: this.appliedCoupon,
+      isRemoved: this.isRemoved
+    }
+    this.modalController.dismiss(data);
+  }
+
   onApplyClick(bookingId:any,discount:any){
-    $(".apply-button").show();
-    $(".remove-button").hide();
-    $("#"+discount.code).hide();
-    $("#"+discount.id).show();
-    this.selectedCoupan = discount;
+    this.appliedCoupon = discount;
+    this.isRemoved = "no";
     this.cartService.applyCoupon(bookingId,discount);
   }
-  onRemoveClick(bookingId:any, coupan:any){
-    $(".apply-button").show();
-    $(".remove-button").hide();
-    $("#"+coupan.code).show();
-    $("#"+coupan.id).hide();
-    this.selectedCoupan = undefined;
-    this.cartService.removeCoupon(bookingId);
+
+  getIsApplied(discount){
+    return this.appliedCoupon? this.appliedCoupon.id == discount.id : false;
   }
+
+  onRemoveClick(bookingId:any, coupan:any){
+    this.appliedCoupon = undefined;
+    this.cartService.removeCoupon(bookingId);
+    this.isRemoved = "yes";
+  }
+
   searchcoupons(){
-    console.log("searchValue.......:",this.searchValue)
     let coopen = this.coupons.filter(coupon=> coupon.code == this.searchValue) || undefined;
-    console.log("co.........: ", coopen)
     this.selectedCoupan = coopen[0];
   }
 }

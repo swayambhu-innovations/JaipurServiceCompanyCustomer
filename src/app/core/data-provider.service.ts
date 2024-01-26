@@ -11,6 +11,7 @@ import { Address } from '../authorized/select-address/address.structure';
 export class DataProviderService {
   isFirstTime:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   mainCategories:BehaviorSubject<Category[]>=new BehaviorSubject<Category[]>([]);
+  mainCategoriesLoaded:boolean = false;
   loggedIn:boolean=false;
   userMobile:string= '';
   selectedAddress:BehaviorSubject<Address[]>=new BehaviorSubject<Address[]>([]);
@@ -22,7 +23,7 @@ export class DataProviderService {
     userData:any;
   }|undefined;
   currentUser$:BehaviorSubject<any> = new BehaviorSubject<any>('');
+  isPageLoaded$:BehaviorSubject<string> = new BehaviorSubject<string>("");
   constructor() {
-    console.log("data provider works");
    }
 }

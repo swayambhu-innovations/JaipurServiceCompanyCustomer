@@ -7,6 +7,7 @@ import { NavigationBackService } from './navigation-back.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { App } from '@capacitor/app';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
-      if(this.currentUrl == '/authorized/home'){
+      if(this.currentUrl == '/authorized/home' || this.currentUrl == '/no-internet'){
         if(this.platform.is('cordova') || this.platform.is('mobile')){
           App.exitApp();
         }
@@ -34,6 +35,24 @@ export class AppComponent implements OnInit {
       }
       
       
+    });
+    Network.addListener('networkStatusChange', status => {
+      if(!status.connected){
+        this._navigationBack.isAddressSubscription$ = false;
+        setTimeout(() => {
+          this.router.navigate(['/no-internet']);
+        }, 100);
+      }
+    });
+
+    this.platform.ready().then(() => {
+      this.registerIonicLifecycleEvents();
+    });
+  }
+
+  private registerIonicLifecycleEvents() {
+    this.platform.pause.subscribe(() => {
+      //App.exitApp();
     });
   }
 
@@ -54,7 +73,6 @@ export class AppComponent implements OnInit {
     directory:Directory.Cache,
     path:"CASHED_IMG"
   }).then(list=>{
-    console.log("list........:",list)
   }).catch(async e =>{
     await  Filesystem.mkdir({
       directory:Directory.Cache,

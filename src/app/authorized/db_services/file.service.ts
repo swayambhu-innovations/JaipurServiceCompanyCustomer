@@ -25,19 +25,15 @@ export class FileService {
     if(fileType?.includes('?')){
       fileType = fileType.split("?")[0];
     }
-    debugger
    await Filesystem.readFile({
       directory:Directory.Cache,
       path:`${CASHE_FOLDER}/${imageName}`,
       encoding: Encoding.UTF8,
     }).then(readFile=>{
-      debugger
-      console.log("e........: ", readFile)
-      console.log("Local File", readFile);
       return `data:image/${fileType};base64,${readFile.data}`;
     }).catch(async e =>{
       // wirte a file
-      console.log("e........: ", e)
+     
       await this.saveImage(url, imageName);
       await Filesystem.readFile({
         directory:Directory.Cache,
@@ -46,12 +42,10 @@ export class FileService {
         return `data:image/${fileType};base64,${readFile.data}`;
       })
     }).finally(()=>{
-      console.log("CASHE_FOLDER........: ", CASHE_FOLDER)
     });
   }
 
  async saveImage(url:string, path){
-  debugger
     const response = await fetch(url);
   // convert to a Blob
     const blob = await response.blob();

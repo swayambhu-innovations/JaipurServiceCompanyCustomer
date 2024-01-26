@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'unauthorized',
     loadChildren: () => import('./unauthorized/unauthorized.module').then( m => m.UnauthorizedPageModule)
+  },
+  {
+    path: 'no-internet',
+    loadChildren: () => import('./no-internet/no-internet.module').then( m => m.NoInternetPageModule)
   }
 ];
 

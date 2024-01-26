@@ -1,3 +1,14 @@
 <ion-router-outlet></ion-router-outlet>
 <app-navbar></app-navbar>
+<div *ngIf="!isPageLoaded" class="loading-container">
+    <div class="loading-container-inner">
+        <div class="image">
+            <img src="assets/images/relax.svg" alt="">
+        </div>
+        <div class="text">
+            Sit back, relax, and let the app work its magic.
+        </div>
+        
+    </div>
+</div>
 

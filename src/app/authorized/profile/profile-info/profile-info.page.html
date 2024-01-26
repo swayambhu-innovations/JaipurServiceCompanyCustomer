@@ -49,13 +49,13 @@
           formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
           placeholder="date of birth" style="margin-top: 18px;"></ion-input>
 
-        <div
+        <!-- <div
           *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
           style="margin-top: -8px;padding-bottom: 9px;">
-          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'yyyy-MM-dd' || this.userProfileForm.get('dateofbirth')?.value == ''">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'YYYY-MM-DD' || this.userProfileForm.get('dateofbirth')?.value == ''">
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
-        </div>
+        </div> -->
         <ion-input fill="outline"
           label="Gender" 
           label-placement="floating" readonly 
@@ -64,11 +64,11 @@
           (click)="openGenderPicker()">
           <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true"></ion-icon>
         </ion-input>
-        <div *ngIf="this.userProfileForm.get('gender')?.touched && this.userProfileForm.get('gender')?.invalid || isSubmitForm" style="padding: 8px 0px;">
+        <!-- <div *ngIf="this.userProfileForm.get('gender')?.touched && this.userProfileForm.get('gender')?.invalid || isSubmitForm" style="padding: 8px 0px;">
           <div class="" *ngIf="this.userProfileForm.get('gender')?.value == ''">
             <ion-text color="danger">Gender is required.</ion-text>
           </div>
-        </div>
+        </div> -->
       </div>
     </form>
     <!-- Cancel and Save buttons -->

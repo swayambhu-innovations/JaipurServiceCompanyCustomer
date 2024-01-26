@@ -85,7 +85,6 @@ export class AllCategoriesPage implements OnInit {
         this.categories = [...this.categories];
         return doc.data()
       });
-      console.log("this is categories list ", this.categories);
     })
   }
   fetchMainCategoryIcon() {
@@ -95,7 +94,6 @@ export class AllCategoriesPage implements OnInit {
         return doc.data()
         
       });
-      console.log("this is icon list ", this.icon);
     })
   }
 }

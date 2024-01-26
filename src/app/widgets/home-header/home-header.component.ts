@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
@@ -11,6 +11,8 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./home-header.component.scss'],
 })
 export class HomeHeaderComponent  implements OnInit {
+  @Input() addressess:Address[];
+  @ViewChild('addressModal') addressModal;
   showmodal: boolean = false;
   @Input() MAX_ADDRESS_LINE_LENGTH!:number;
   @Input() showUnreadNotification: boolean = false;
@@ -19,10 +21,11 @@ export class HomeHeaderComponent  implements OnInit {
   // main address line one is the input address line provided by the database where as the address line 1 and 2 are calculated by the client side depending upn the address character length
   addressLineOne:string = ''
   addressLineTwo:string = ''
-  addressess:Address[] = [];
   // this toggle is used to show the address line 2
   addressLineTwoVisible:boolean = false;
   insertAddressAccordionButton:boolean = false;
+  selectedAddress: Address | undefined;
+  initialBreakpointAddress:any = 0.25;
   constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService,
     private loadingController:LoadingController) {
   }
@@ -31,28 +34,28 @@ export class HomeHeaderComponent  implements OnInit {
    }
  
   ngOnInit() {
-    this.addressService.fetchedAddresses.subscribe((address:Address[])=>{
-      if(address.length > 0){
-        this.addressess = address;
-        let currentAddress = address.filter(add=>add.isDefault);
-       // console.log("ngOnInit home header....: ",address[0])
-        this.dataProvider.selectedAddress.next(address);
-        if(currentAddress.length> 0){
-          this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
-        }else
-        this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
-       // console.log(this.mainAddressLine);
-        this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
-        if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
-          this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
-          this.addressLineTwo = this.mainAddressLine.slice(this.MAX_ADDRESS_LINE_LENGTH,this.mainAddressLine.length);
-          this.insertAddressAccordionButton = true;
-        }
+    this.selectedAddress = this.addressess.find(item => item.isDefault);
+    this.setupAddress(this.addressess);
+  }
+
+  setupAddress(address){
+    if(address.length > 0){
+      let currentAddress = address.filter(add=>add.isDefault);
+      
+      if(currentAddress.length> 0){
+        this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
+      }else
+      this.mainAddressLine = address[0].addressLine1 + ', ' + address[0].cityName + ', ' + address[0].pincode;
+      this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
+      if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
+        this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
+        this.addressLineTwo = this.mainAddressLine.slice(this.MAX_ADDRESS_LINE_LENGTH,this.mainAddressLine.length);
+        this.insertAddressAccordionButton = true;
       }
-      else{
-        this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true,isEdit:true} });
-      }
-    })
+    }
+    else{
+      this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true,isEdit:true} });
+    }
     this.MAX_ADDRESS_LINE_LENGTH = this.MAX_ADDRESS_LINE_LENGTH - 3
     if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
       this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
@@ -71,7 +74,6 @@ export class HomeHeaderComponent  implements OnInit {
       
       ass.map(res=>{
         let address_ = res.data();
-        console.log(address_);
         if(address.name === address_.name){
           addressId = res.id;
         }
@@ -84,8 +86,9 @@ export class HomeHeaderComponent  implements OnInit {
     if(userId !== "" && addressId !== ""){
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId,address);
-      this.addressService.clearCart(userId).then(() => {});
+      
       loader.dismiss();
+      this.addressService.clearCart(userId).then(() => {});
     }else{
       loader.dismiss();
     }
@@ -93,8 +96,21 @@ export class HomeHeaderComponent  implements OnInit {
     this.showmodal = false;
     this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
+
   setopen(){
     this.addressLineTwoVisible = true;
+    if(this.addressess.length > 4){
+      this.initialBreakpointAddress = 0.9;
+    }
+    else if(this.addressess.length > 2){
+      this.initialBreakpointAddress = 0.5;
+    }
+    else if(this.addressess.length > 1){
+      this.initialBreakpointAddress = 0.4;
+    }
+    else{
+      this.initialBreakpointAddress = 0.25;
+    }
     this.showmodal = true;
   }
 

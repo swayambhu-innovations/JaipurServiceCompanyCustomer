@@ -41,11 +41,11 @@ export class CartPopuPage implements OnInit {
   ) {
     
     this.activatedRoute.params.subscribe(params => {
-      console.log(params);
+      
     })
   }
   ngOnInit(): void {
-    console.log(this.matchingService);
+   
   }
 
   showAllVariants(modal:any){
@@ -57,9 +57,7 @@ export class CartPopuPage implements OnInit {
   this.showModal = false;
   this.modal.setCurrentBreakpoint(0.3);
   $("#modal3").hide();
-  console.log("this. modal........: ",this.showModal)
     this.router.navigate(['/authorized/cart/all/all']);
-    //modal.dismiss();
   }
   addToCart(variant:any){
     $("#input"+variant.id).val(1);
