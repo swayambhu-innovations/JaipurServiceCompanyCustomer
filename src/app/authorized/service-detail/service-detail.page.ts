@@ -97,7 +97,6 @@ export class ServiceDetailPage implements OnInit , AfterViewInit, OnDestroy {
   ionViewWillLeave() {
     this.isAddToCart = false;
     this.showmodal = false;
-    this.modal.dismiss();
   }
 
   ionViewWillEnter(){
