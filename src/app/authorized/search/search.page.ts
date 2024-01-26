@@ -31,7 +31,6 @@ export class SearchPage implements OnInit {
  
   constructor(private dataProvider:DataProviderService, private route:Router) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      console.log("term: ",term);
       this.results = [];
       if(term.length > 2){
         this.results = this.fuseSearchInstance.search(term).map((result)=>{
@@ -94,7 +93,6 @@ export class SearchPage implements OnInit {
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
         mainCategory.forEach((mainCategory)=>{
           mainCatId = mainCategory.id;
-          console.log(mainCategory);
           let subCat = mainCategory.subCategories.filter((subCategory:SubCategory)=>{
             let serviceFind =   subCategory.services.filter(serviced=> serviced.id === service.id);
             return serviceFind.length > 0 ? true: false;
