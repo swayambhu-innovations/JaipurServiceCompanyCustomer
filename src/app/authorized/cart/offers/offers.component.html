@@ -35,6 +35,9 @@
                 <ion-text class="card-name-text">{{ discount.type == 'flat' || discount.type == "fixed"?discount.value + " "+ discount.type  : discount.value +  ' %'}} off on {{discount.name}}</ion-text>
                 <ion-text class="min-order-text">Min. Order: ₹{{discount.minimumRequiredAmount}}</ion-text>
                 <ion-text class="discount-text">SAVE {{discount.type == 'flat' ? (discount?.value | currency:'INR') : (discount?.value * subTotal / 100) | currency:'INR' }} ON THIS ORDER</ion-text>
+                <ion-text class="minimum-required" *ngIf="discount.minimumRequiredAmount && discount.minimumRequiredAmount > subTotal">
+                  Add ₹{{discount?.minimumRequiredAmount - subTotal}} more to get ₹{{discount?.value}} OFF
+                </ion-text>
               </div>
               
             </div>
@@ -42,9 +45,9 @@
             <p *ngIf="getIsApplied(discount)" (click)="onRemoveClick(this.booking?.id,discount)" class="remove-button" id="{{discount.id}}" >remove</p>
           </div>
           
-          <div class="minimum-required" *ngIf="discount.minimumRequiredAmount && discount.minimumRequiredAmount > subTotal">
+          <!-- <div class="minimum-required" *ngIf="discount.minimumRequiredAmount && discount.minimumRequiredAmount > subTotal">
             Add ₹{{discount?.minimumRequiredAmount - subTotal}} more to get ₹{{discount?.value}} OFF
-          </div>
+          </div> -->
         </div>
       </ng-container>
       
