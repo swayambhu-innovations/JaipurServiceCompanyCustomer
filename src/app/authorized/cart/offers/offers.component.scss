@@ -50,57 +50,70 @@ ion-back-button,ion-icon,ion-title{
     display: flex;
     justify-content: space-between;
     margin: 16px;
-    .coupon-content{
+    flex-wrap: wrap;
+    .coupon-card-offer{
+        flex: 0 0 100%;
         display: flex;
-        
-        .coupon-img{
-            width: 48px;
-            height: 48px;
+        justify-content: space-between;
+        .coupon-content{
             display: flex;
-            flex: start;
-            align-items: center;
-            justify-content: space-between; 
-            justify-content: center;
-            align-items: center;
-            background-color: #F5F5F5;
-            border-radius: 50%;
-            margin-right: 12px;
-    }
-    .coupon-text{
-        display: flex;
-        flex-direction: column;
-        line-height: 20px;
-        // margin: 12px;
-        .card-name-text{
-            font-size: 13px;
-            font-weight: 600;
-            color: #181F29;
-            font-family: 'Lato', sans-serif;
+            
+            .coupon-img{
+                width: 48px;
+                height: 48px;
+                display: flex;
+                flex: start;
+                align-items: center;
+                justify-content: space-between; 
+                justify-content: center;
+                align-items: center;
+                background-color: #F5F5F5;
+                border-radius: 50%;
+                margin-right: 12px;
         }
-        .min-order-text{
+        .coupon-text{
+            display: flex;
+            flex-direction: column;
+            line-height: 20px;
+            // margin: 12px;
+            .card-name-text{
+                font-size: 13px;
+                font-weight: 600;
+                color: #181F29;
+                font-family: 'Lato', sans-serif;
+            }
+            .min-order-text{
+                font-size: 12px;
+                font-weight: 500;
+                color: #666666;
+                font-family: 'Lato', sans-serif;
+            }
+            .discount-text{
+                font-size: 10px;
+                font-weight: 500;
+                color: #579540;
+                font-family: 'Lato', sans-serif;
+                // line-height: 10px;
+            }
+        }
+        .apply-button{
             font-size: 12px;
-            font-weight: 500;
-            color: #666666;
+            font-weight: 700;
+            color: #1A1D1F;
             font-family: 'Lato', sans-serif;
+            width: 100%;
+            flex: end;
+            // margin-right: 16px;
+            flex: end;
         }
-        .discount-text{
-            font-size: 10px;
-            font-weight: 500;
-            color: #579540;
-            font-family: 'Lato', sans-serif;
-            // line-height: 10px;
         }
     }
-    .apply-button{
-        font-size: 12px;
-        font-weight: 700;
-        color: #1A1D1F;
-        font-family: 'Lato', sans-serif;
-        width: 100%;
-        flex: end;
-        // margin-right: 16px;
-        flex: end;
-    }
+    
+    .minimum-required{
+        flex: 0 0 100%;
+        padding: 0px 10px;
+        color: #579540;
+        font-weight: bold;
     }
 }
 .select-address-button, .got-it-button {

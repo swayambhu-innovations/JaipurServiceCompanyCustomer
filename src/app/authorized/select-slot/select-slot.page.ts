@@ -85,6 +85,7 @@ export class SelectSlotPage implements OnInit {
     'Late Evening',
     'Night',
   ];
+  activeSlotCount:number = 0;
 
   constructor(
     private firestore: Firestore,
@@ -158,6 +159,7 @@ export class SelectSlotPage implements OnInit {
       this.slotsArray = this.slots.sort((a: any, b: any) =>
         a.index > b.index ? 1 : -1
       );
+      this.getActiveSlotsCount();
     });
   }
 
@@ -187,6 +189,7 @@ export class SelectSlotPage implements OnInit {
     );
     this.selectedSlot = slot;
     this.preferredAgentTime(this.startTime, this.endTime);
+    this.getActiveSlotsCount();
   }
 
   getApplicableSlots(items:any){
@@ -202,6 +205,24 @@ export class SelectSlotPage implements OnInit {
     else{
       return !(calcul >= 0);
     }
+  }
+
+  getActiveSlotsCount(){
+    let slotsCount = 0;
+    if(this.slotsArray.length > 0){
+      this.slotsArray.map((item) => {
+        if(!this.getApplicableSlots(item)){
+          slotsCount++;
+        }
+      });
+      this.activeSlotCount = slotsCount;
+    }
+  }
+
+  onSelectDate(btn){
+    this.selectedDate = btn;
+    this.clearSlot();
+    this.getActiveSlotsCount();
   }
 
 
