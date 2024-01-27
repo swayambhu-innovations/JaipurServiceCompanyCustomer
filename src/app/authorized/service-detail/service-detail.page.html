@@ -125,11 +125,11 @@
                 <div class="list"  *ngIf="des.type =='list'">
                   <div class="description"  *ngFor="let item Of des?.data?.items">
                     <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
-                    <strong>{{item}}</strong>
+                    <strong [innerHTML]="item"></strong>
                   </div>
                 </div>
                 <div class="description" *ngIf="des.type =='paragraph'">
-                  <strong>{{des.data.text}}</strong>
+                  <strong [innerHTML]="des.data.text"></strong>
                 </div>
               </div>
             </div>

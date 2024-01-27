@@ -31,6 +31,7 @@ interface bannerConfig {
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
+  @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
@@ -42,6 +43,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   icon: any[] = []; // added by ronak
   swiper!: Swiper;
   swiper1!: Swiper;
+  swiper2!: Swiper;
   upcomingBookings:any[] = [];
   notifications:any[] = [];
   unreadNotifications:any[] = [];
@@ -81,7 +83,24 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
                 this.homeService.getTopBanner().then((topBan)=>{
                   this.topBanner = topBan.docs.map((item)=>{
                     return {...item.data() , id:item.id}
-                  }).filter((item)=>item?.['show'])
+                  }).filter((item)=>item?.['show']);
+                  if(this.topBanner.length > 0){
+                    if (this.swiper2) {
+                      this.swiper2.destroy();
+                    }
+                    this.swiper2 = new Swiper(this.swiperContainer2.nativeElement, {
+                      slidesPerView: 1,
+                      spaceBetween: 20,
+                      pagination: {
+                        el: '.swiper-pagination2',
+                        clickable: true,
+                      },
+                      centeredSlides: true,
+                      autoplay:{
+                        delay : 2000
+                      }
+                    });
+                  }
                 })
               }
             });
@@ -91,7 +110,24 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
                 this.homeService.getMiddleBanner().then((middleBan)=>{
                   this.middleBanner = middleBan.docs.map((item)=>{
                     return {...item.data() , id:item.id}
-                  }).filter((item)=>item?.['show'])
+                  }).filter((item)=>item?.['show']);
+                  if(this.middleBanner.length > 0){
+                    if (this.swiper) {
+                      this.swiper.destroy();
+                    }
+                    this.swiper = new Swiper(this.swiperContainer.nativeElement, {
+                      slidesPerView: 1,
+                      spaceBetween: 20,
+                      pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                      },
+                      centeredSlides: true,
+                      autoplay:{
+                        delay : 2000
+                      }
+                    });
+                  }
                 })
               }
             });
@@ -205,27 +241,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
       this.unreadNotifications = this.notifications.filter((notification:any) => { return  !notification.read});
     });
-    this.swiper = new Swiper(this.swiperContainer.nativeElement, {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      autoplay:{
-        delay : 2000
-      }
-    });
-    
   }
 
   ionViewDidLeave(){
-    if (this.swiper) {
-      this.swiper.destroy();
-    }
-    // if (this.swiper1) {
-    //   this.swiper1.destroy();
-    // }
+    
   }
 
 
