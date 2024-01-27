@@ -16,12 +16,13 @@
       <input type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
     </div>
     <div id="recaptcha-container"></div>
-    <div style="display: flex;padding: 18px;    align-items: flex-start;">
-      <input type="checkbox" [(ngModel)]="terms" style="    zoom: 2;" >&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="agree-container">
+      <input type="checkbox" id="terms-agree" [(ngModel)]="terms" style="zoom: 2;" >&nbsp;&nbsp;&nbsp;&nbsp;
+      <label class="input-label" for="terms-agree"></label>
       <p style="text-align: left;"> I agree to the
-        <a href="https://jaipurservicecompany.com/terms.html" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Privacy</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="https://jaipurservicecompany.com/refundpricingpolicy.html" target="_blank" rel="noopener noreferrer">Refund And Pricing</a>
+        <a href="https://jaipurservicecompany.com/terms.html" target="_blank" rel="noopener noreferrer">Terms & Conditions,</a>&nbsp;&nbsp;
+        <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Privacy,</a>&nbsp;&nbsp;
+        <a href="https://jaipurservicecompany.com/refundpricingpolicy.html" target="_blank" rel="noopener noreferrer">Refund & Pricing</a>
         Policy
       </p>
      
