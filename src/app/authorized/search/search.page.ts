@@ -27,10 +27,10 @@ export class SearchPage implements OnInit {
   results:searchResult[] = [];
   resultsFetched:boolean = false;
   historyTerms:string[] = [];
+  inputSearchVar:string = "";
  
   constructor(private dataProvider:DataProviderService, private route:Router) {
     this.searchInputSubject.pipe(debounceTime(600)).subscribe((term:string)=>{
-      console.log("term: ",term);
       this.results = [];
       if(term.length > 2){
         this.results = this.fuseSearchInstance.search(term).map((result)=>{
@@ -93,14 +93,20 @@ export class SearchPage implements OnInit {
     this.dataProvider.mainCategories.subscribe((mainCategory)=>{
         mainCategory.forEach((mainCategory)=>{
           mainCatId = mainCategory.id;
-        let subCat = mainCategory.subCategories.filter((subCategory:SubCategory)=>{
+          let subCat = mainCategory.subCategories.filter((subCategory:SubCategory)=>{
             let serviceFind =   subCategory.services.filter(serviced=> serviced.id === service.id);
             return serviceFind.length > 0 ? true: false;
           });
-          subCatId = subCat[0].id;
+          if(subCat.length > 0){
+            subCatId = subCat[0].id;
+          }
         });
-      });
-      this.route.navigate(['/authorized/service-detail/'+mainCatId+'/'+subCatId+'/'+service.id]);
+        if(mainCatId && subCatId){
+          this.route.navigate(['/authorized/service-detail/'+mainCatId+'/'+subCatId+'/'+service.id]);
+        }
+        
+    });
+      
   }
   getFromHistory():string[]{
     let data = JSON.parse(localStorage.getItem('searchedTerms') || '{}');
@@ -119,6 +125,8 @@ export class SearchPage implements OnInit {
   }
 
   clearHistory(){
+    this.results = [];
+    this.inputSearchVar = "";
     localStorage.setItem('searchedTerms',JSON.stringify({terms:[]}))
     this.historyTerms = this.getFromHistory();
   }

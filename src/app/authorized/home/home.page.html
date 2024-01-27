@@ -8,15 +8,15 @@
         <img src="assets/ui_icons/search.svg" alt="" />
       </span>
     </button>
-    <div class="banner-container">
-      <swiper-container [loop]="true" [autoplay]="{delay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
-        <swiper-slide *ngFor="let items of promotionalBanners">
-          <a href="{{items.url}}">
-            <img src="{{items.image}}" alt="">
-          </a>
-        </swiper-slide>
-      </swiper-container>
-    </div>
+      <div class="banner-container" [hidden]="!bannerObject.showBanner || !bannerObject.showTop">
+        <swiper-container [loop]="true" [autoplay]="{delay : 2000}" [spaceBetween]="20" [pagination]="{clickable: true}">
+          <swiper-slide *ngFor="let items of topBanner">
+            <a href="{{items?.redirectUrl}}">
+              <img src="{{items?.imageUrl}}" alt="">
+            </a>
+          </swiper-slide>
+        </swiper-container>
+      </div>
 
     <div class="recent-container" [ngClass]="{'no-booking': !(bookingService.bookingsSubject && upcomingBookings.length > 0) }">
       <ion-label class="label">Upcoming Bookings</ion-label>
@@ -28,7 +28,11 @@
                 <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
                   <ion-row class="row-1">
                     <ion-col>
-                      <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
+                      <ion-label class="row-1label">
+                        <div class="label-text-ellipsis">
+                          {{data.subCategory.name}}
+                        </div>
+                      </ion-label>
                       <p>{{data.billing.grandTotal | currency:'INR'}}</p>
                     </ion-col>
                     <ion-col class="row-1-col-2">
@@ -138,16 +142,16 @@
       </div>
     </ng-container>
 
-    <div class="banner-container">
-      <div #swiperContainer class="swiper-container">
-        <div class="swiper-wrapper">
-          <div *ngFor="let items of banners" class="swiper-slide">
-            <img style="width: 100%" src="{{items.img}}" alt="">
+      <div class="banner-container" [hidden]="!bannerObject.showBanner || !bannerObject.showMiddle">
+        <div #swiperContainer class="swiper-container">
+          <div class="swiper-wrapper">
+            <div *ngFor="let items of middleBanner" class="swiper-slide">
+              <img style="width: 100%" src="{{items?.imageUrl}}" alt="">
+            </div>
           </div>
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>    
-    </div>
+          <div class="swiper-pagination"></div>
+        </div>    
+      </div>
 
     <div class="client-section">
       <ion-label class="label">Clients that Trust Us!</ion-label>

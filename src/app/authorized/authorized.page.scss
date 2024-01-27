@@ -11,12 +11,16 @@
     background-color: white;
     .loading-container-inner{
         padding: 20px;
+        position: relative;
         .image{
-            width: 50%;
+            width: 100%;
             margin: 0 auto;
         }
         .text{
+            position: absolute;
+            bottom: 40px;
             text-align: center;
+            font-size: 18px;
         }
     }
 }
