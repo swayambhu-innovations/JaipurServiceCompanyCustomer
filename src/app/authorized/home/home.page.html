@@ -28,7 +28,11 @@
                 <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
                   <ion-row class="row-1">
                     <ion-col>
-                      <ion-label class="row-1label">{{data.subCategory.name}}</ion-label>
+                      <ion-label class="row-1label">
+                        <div class="label-text-ellipsis">
+                          {{data.subCategory.name}}
+                        </div>
+                      </ion-label>
                       <p>{{data.billing.grandTotal | currency:'INR'}}</p>
                     </ion-col>
                     <ion-col class="row-1-col-2">
