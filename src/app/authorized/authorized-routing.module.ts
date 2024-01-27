@@ -110,6 +110,11 @@ const routes: Routes = [
         canActivate:[AuthGuard]
       },
       {
+        path: 'faq',
+        loadChildren: () => import('./faq/faq.module').then( m => m.FaqModule),
+        canActivate:[AuthGuard]
+      },
+      {
         path: 'reschedule',
         loadChildren: () => import('./reschedule/reschedule.module').then( m => m.ReschedulePageModule),
         canActivate:[AuthGuard]

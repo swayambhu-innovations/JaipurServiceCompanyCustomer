@@ -35,33 +35,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   isNotServiceableModalOpen: boolean = false;
   utils: any;
   hasAddressFatched:boolean = false;
-  promotionalBanners: bannerConfig[] = [
-    {
-      image: 'assets/banners/dealSlide1.svg',
-      url: 'https://www.google.com',
-    },
-    {
-      image: 'assets/banners/dealSlide1.svg',
-      url: 'https://www.google.com',
-    },
-    {
-      image: 'assets/banners/dealSlide1.svg',
-      url: 'https://www.google.com',
-    },
-    {
-      image: 'assets/banners/dealSlide1.svg',
-      url: 'https://www.google.com',
-    },
-    {
-      image: 'assets/banners/dealSlide1.svg',
-      url: 'https://www.google.com',
-    },
-  ];
-
-  // stageClasses = {
-  //   pending: "red",
-  //   complete:
-  // }
 
   banners: any[] = [];
   recentActivityData: any[] = [];
@@ -74,6 +47,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   unreadNotifications:any[] = [];
   addresses:Address[] = [];
   currentAddress: Address | undefined;
+  bannerObject = {
+    showBanner : false,
+    showMiddle : false,
+    showTop : false,
+  }
+  topBanner : any[]=[];
+  middleBanner : any[]=[];
   constructor(
     private addressService: AddressService,
     private router: Router,
@@ -92,6 +72,31 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this.notifications = notificationRequest.docs.map((notification:any) => {
         return { ...notification.data(),id: notification.id };
       });
+      this.homeService.showMobileBanner().then((show)=>{
+        this.bannerObject.showBanner = show.data()?.['show']
+        if(this.bannerObject.showBanner) {
+            this.homeService.showMobileTop().then((top)=>{
+              this.bannerObject.showTop=top.data()?.['show']
+              if(this.bannerObject.showTop) {
+                this.homeService.getTopBanner().then((topBan)=>{
+                  this.topBanner = topBan.docs.map((item)=>{
+                    return {...item.data() , id:item.id}
+                  }).filter((item)=>item?.['show'])
+                })
+              }
+            });
+            this.homeService.showMobileMiddle().then((middle)=>{
+              this.bannerObject.showMiddle=middle.data()?.['show']
+              if(this.bannerObject.showMiddle) {
+                this.homeService.getMiddleBanner().then((middleBan)=>{
+                  this.middleBanner = middleBan.docs.map((item)=>{
+                    return {...item.data() , id:item.id}
+                  }).filter((item)=>item?.['show'])
+                })
+              }
+            });
+        }
+      });
       this.unreadNotifications = this.notifications.filter((notification:any) => { return  !notification.read});
       this._notificationService.allNotifications.next(this.notifications);
       this._notificationService.unreadNotifications = this.unreadNotifications;
@@ -102,7 +107,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     this._navigationService.isAddressSubscription$ = true;
-    this.fetchBanners();
     this.recentActivity();
     this.fetchMainCategoryIcon(); // added by ronak
     this.dataProvider.mainCategories.subscribe(categories => {
@@ -227,15 +231,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
   ngOnDestroy() {
     
-  }
-
-  fetchBanners() {
-    this.homeService.getBanners().then((images) => {
-      this.banners = images.docs.map((doc) => {
-        return doc.data();
-      });
-      this.getImage(this.banners[0].img);
-    });
   }
 
   isFutureDate(date: Date|undefined) {

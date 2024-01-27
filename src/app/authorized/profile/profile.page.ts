@@ -6,6 +6,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 import { getAuth, deleteUser, Auth, signOut } from '@angular/fire/auth';
 import { error } from 'console';
 import { NavigationBackService } from 'src/app/navigation-back.service';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-profile',
@@ -14,18 +15,21 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
 })
 export class ProfilePage implements OnInit {
   [x: string]: any;
+  public isFaq:boolean=false;
   constructor(
     public router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
     public dataProvider:DataProviderService,
-    public _navigationService : NavigationBackService
+    public _navigationService : NavigationBackService,
+    public firestore : Firestore
     
   ) {
    // this.router.navigate(['authorized/profile/profile-info']);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.isFaq = (await getDoc(doc(this.firestore , 'customer-settings','faqs'))).data()?.['show'];
   }
   
   close(url:any) {
