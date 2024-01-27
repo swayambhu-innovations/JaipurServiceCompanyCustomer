@@ -18,3 +18,7 @@ export interface CreateOrder{
 	receipt: String,
 	notes: Object
   }
+  export interface CreateRefund{
+      amount: number,
+      payId: string
+    }

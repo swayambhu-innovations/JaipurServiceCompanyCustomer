@@ -311,8 +311,11 @@
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title">
           <span>Payment Details</span>
-          <p class="body" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']">{{ currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'Completed' : 'Failed' }}</p>
+          <p class="body" *ngIf="currentBooking?.isRefundInitiated == false && (currentBooking?.isPaid || currentBooking?.isPaylater == false)" [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']">{{ currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'Completed' : 'Failed' }}</p>
           <p class="body paylater" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater" >Pending</p>
+          <p class="body inProgressRefund" *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'pending'" >Refund In Progress</p>
+          <p class="body success" *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'processed'" >Refund Processed</p>
+          <p class="body faild" *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'failed'" >Refund Failed</p>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Payment Mode</div>
@@ -323,6 +326,14 @@
           <div class="payment-heading">Transaction ID</div>
           <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false" title="{{currentBooking?.payment?.id}}">{{currentBooking?.payment?.razorpay_payment_id}}</div>
           <div class="payment-value"  *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater" >{{currentBooking?.id}}</div>
+        </div>
+        <div class="payment-row" *ngIf="currentBooking?.isRefundInitiated">
+          <div class="payment-heading">Refund Transaction ID</div>
+          <div class="payment-value"  title="{{currentBooking?.refundInitiatedDetails?.id}}">{{currentBooking?.refundInitiatedDetails?.id}}</div>
+        </div>
+        <div class="payment-row" *ngIf="currentBooking?.isRefundInitiated">
+          <div class="payment-heading">Refund Status</div>
+          <div class=""  title="Your Refund has been initiated It will be processed before 3 Business Days">Your Refund has been initiated It will be processed before 3 Business Days</div>
         </div>
       </ion-card-header>
     </ion-card>
