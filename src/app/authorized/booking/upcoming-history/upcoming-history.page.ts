@@ -99,7 +99,6 @@ export class UpcomingHistoryPage implements OnInit {
 
   changeVisibility(visibility: 'upcoming'|'history') {
     this.visibilityMode = visibility;
-    console.log("boookings...........: ", this.bookings)
     this.filteredBookings = this.bookings.filter((booking) => {
       if (visibility === 'upcoming') {
         return this.isFutureDate(new Date(booking.timeSlot.date.seconds * 1000), booking.stage);

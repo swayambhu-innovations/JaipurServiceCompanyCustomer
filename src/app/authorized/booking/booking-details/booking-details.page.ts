@@ -90,13 +90,10 @@ export class BookingDetailsPage implements OnInit {
               this.assignedAgent =agentDetails;
             });
           }
-          let this_ = this;
-          console.log("this.currentBooking.constructor...........: ",this.currentBooking)
           if(this.currentBooking && this.currentBooking?.isPaid){
             if(this.currentBooking?.isRefundInitiated){
               this.paymentService.getRefundDetailsById(this.currentBooking?.refundInitiatedDetails.payment_id,this.currentBooking?.refundInitiatedDetails.id).subscribe({
                 next:(response)=>{
-                  console.log("response.........:",response)
                   this.refundDetails = response;
                 },
                 error(err) {
@@ -159,7 +156,6 @@ export class BookingDetailsPage implements OnInit {
       let this_ = this;
       this.paymentService.createRefund(payload).subscribe({
         next:(response)=>{
-          console.log("respose...........: ",response)
           if(this.currentBooking){
             if(this.currentBooking){
               let payload = {...this.CancelForm.value,'isRefundInitiated':true,refundInitiatedDetails:response}
@@ -167,7 +163,6 @@ export class BookingDetailsPage implements OnInit {
               this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
             }
            this.isModalOpenCancellation = false;
-           console.log("final this.currentBooking ..: ",this_.currentBooking)
           }
         },
         error(err) {
@@ -179,7 +174,6 @@ export class BookingDetailsPage implements OnInit {
               this_.userNotificationService.addAgentNotification(this_.currentBooking.currentUser.userId, this_.userNotificationService.message.bookingRejected);
             }
             this_.isModalOpenCancellation = false;
-            console.log("final this.currentBooking err..: ",this_.currentBooking)
           }
         },
       })
