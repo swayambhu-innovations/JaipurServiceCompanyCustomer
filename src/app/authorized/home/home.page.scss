@@ -461,6 +461,12 @@ homepage.scss .serviceCategory {
   padding: 0px;
   overflow: hidden;
 }
+.label-text-ellipsis{
+  width: 200px;
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
 
 .services {
   .services-cont {
