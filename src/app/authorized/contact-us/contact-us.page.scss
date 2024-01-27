@@ -3,9 +3,11 @@
   box-sizing: border-box;
   font-family: lato;
 }
-
+.email-main-container{
+  margin-bottom: 50px !important;
+}
 .edit-contact {
-  padding: 2px 10px 10px;
+  padding: 20px 10px 10px;
   header {
     margin-bottom: 2rem;
   }
@@ -52,6 +54,12 @@
     }
   }
 }
+.text-ellipsis{
+  width: 100%;
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
 
 .border {
   padding: 5px;
@@ -65,7 +73,12 @@
 .social-media {
   display: flex;
   justify-content: space-evenly;
-
+  min-height: 335px;
+  background: url("../../../assets/icon/contactUs/contactusFooter.png");
+  background-size: contain;
+  width: 100%;
+  background-position: 0px 100px;
+  background-repeat: no-repeat;
   .youtube {
     position: relative;
 
