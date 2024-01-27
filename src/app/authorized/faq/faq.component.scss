@@ -1,0 +1,100 @@
+* {
+    box-sizing: border-box;
+}
+
+ion-col {
+    padding: 0;
+}
+
+.main-container {
+    --background: #F0F0F0;
+}
+
+.wrapper-container {
+    box-shadow:  0px 1px 4px 0px rgba(0, 0, 0, 0.10);
+    background-color: rgb(254, 254, 254);
+    margin-top: 10px;
+  }
+
+.answer {
+    color: #7E8083;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+ion-grid {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+
+    ion-item {
+        --padding-end: 0px;
+        --inner-padding-end: 0px;
+        --padding-start: 0px;
+        --inner-padding-start: 0px;
+    }
+
+    .label {
+        .head {
+            color: #181F29;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+
+    .content {
+        .actions {
+            display: flex;
+            justify-content: end;
+        }
+    }
+
+    .content-container {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        border-bottom: 1px solid #e0e8f8;
+
+        .text {
+            color: var(--Text1, #505e86);
+            font-size: 13px;
+            font-weight: 400;
+            text-wrap: wrap;
+            position: relative;
+        }
+
+        .type-select {
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .action {
+            text-align: right;
+
+            .edit-button {
+                img {
+                    margin-left: 9px;
+                    margin-right: 9px;
+                }
+            }
+        }
+    }
+
+    .disabled-row {
+        color: var(--Text3, #9fa7b2);
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    ion-row {
+        color: var(--Text1, #505e86);
+        font-size: 13px;
+        font-weight: 400;
+        background-color: transparent;
+        filter: drop-shadow(0px 4px 10px rgba(53, 122, 248, 0.1));
+        backdrop-filter: blur(25px);
+
+        ion-col {
+            text-wrap: wrap;
+        }
+    }
+}
