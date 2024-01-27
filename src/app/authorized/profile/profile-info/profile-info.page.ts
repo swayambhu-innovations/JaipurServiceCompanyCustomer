@@ -48,7 +48,7 @@ export class ProfileInfoPage implements OnInit {
 
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
-    dateofbirth: [''],
+    // dateofbirth: [''],
     gender: ['']
     // agentGender: new FormControl('', Validators.required)
   });
@@ -79,16 +79,16 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        if(this.userData.dateofbirth){
-          const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
-          this.userProfileForm.controls.dateofbirth.setValue(momentDate)
-        }
-        else{
-          this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
-        }
+        // if(this.userData.dateofbirth){
+        //   const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
+        //   this.userProfileForm.controls.dateofbirth.setValue(momentDate)
+        // }
+        // else{
+        //   this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
+        // }
       }
       else{
-        this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
+        // this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
       }
     });
   }
@@ -120,12 +120,12 @@ export class ProfileInfoPage implements OnInit {
   async nextFunction() {
     let date = "";
     this.isSubmitForm = true;
-    if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
-      date = this.userProfileForm.controls.dateofbirth.value.split('-');
-      date = date[2] + '/' + date[1] + '/' + date[0];
-    } else {
-      date = "DD/MM/YYYY";
-    }
+    // if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
+    //   date = this.userProfileForm.controls.dateofbirth.value.split('-');
+    //   date = date[2] + '/' + date[1] + '/' + date[0];
+    // } else {
+    //   date = "DD/MM/YYYY";
+    // }
     
     if (this.userProfileForm.controls.name.value == "") {
       return;
@@ -140,7 +140,7 @@ export class ProfileInfoPage implements OnInit {
     }
     let finalData = {
       gender: this.userProfileForm.controls.gender.value?? '',
-      dateofbirth: date,
+      // dateofbirth: date,
       name: this.userProfileForm.controls.name.value
     }
     let loader = await this.loadingController.create({
