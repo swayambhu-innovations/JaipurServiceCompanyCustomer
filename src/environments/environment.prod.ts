@@ -16,6 +16,8 @@ export const environment = {
     createSubscription: 'https://us-central1-jaipurservicecompany.cloudfunctions.net/createSubscription',
     verifySubscription:'https://us-central1-jaipurservicecompany.cloudfunctions.net/verifySubscription',
     checkSubscriptionStatus:'https://us-central1-jaipurservicecompany.cloudfunctions.net/checkSubscriptionStatus',
+    createRefund:'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/createRefund',
+    getRefundDetails:'https://us-central1-jaipurservicecompany-demo.cloudfunctions.net/getRefundDetails',
   },
   RAZORPAY_KEY_ID: 'rzp_live_bcGiIPGrH5iZE4',
   RAZORPAY_DOMAIN:'https://api.razorpay.com/v1/',
