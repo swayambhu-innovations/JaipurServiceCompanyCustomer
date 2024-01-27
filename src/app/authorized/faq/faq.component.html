@@ -1,0 +1,30 @@
+<app-header-with-back [title]="'Help & FAQ'" [showNotificationIcon]="false"></app-header-with-back>
+<ion-content class="main-container">
+    <div class="wrapper-container first" *ngFor="let question of getQuestions">
+        <ion-grid>
+          <ion-accordion-group
+            style="background-color: transparent"
+            [multiple]="true"
+          >
+            <ion-accordion value="first">
+              <ion-item slot="header">
+                <ion-label class="label">
+                  <ion-row
+                    class="ion-justify-content-between ion-align-items-center"
+                  >
+                    <ion-col size="11" class="head">{{question.question}}</ion-col>
+                  </ion-row>
+                </ion-label>
+              </ion-item>
+              <div slot="content" class="content">
+                <ion-row
+                  class="disabled-row ion-justify-content-between ion-align-items-center"
+                >
+                  <ion-col class="answer">{{question.answer}}</ion-col>
+                </ion-row>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-grid>
+      </div>
+</ion-content>

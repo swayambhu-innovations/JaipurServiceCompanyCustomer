@@ -65,6 +65,14 @@
         <p>Invite Friend</p>
       </div>
     </ion-button>
+    <ng-container *ngIf="isFaq">
+      <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../faq">
+        <div class="w-100 d-flex align-items-center">
+          <img style="padding:auto;" class="icons" src="../../assets/help-outline.svg" alt="" />
+          <p>Help & FAQ</p>
+        </div>
+      </ion-button>
+    </ng-container>
     <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../contact-us">
       <div class="w-100 d-flex align-items-center">
         <img style="padding:auto;" class="icons" src="../../assets/Call(1).svg" alt="" />
