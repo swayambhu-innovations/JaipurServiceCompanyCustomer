@@ -71,7 +71,7 @@
           </div>  
         </div>
       </ng-container>
-      <div class="grand-total-price" *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal">Total amount to be paid {{this.dataProvider.currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
+      <div class="grand-total-price" *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal">Total amount - {{this.dataProvider.currentBooking?.billing?.grandTotal | currency:'INR'}}</div>
     </div>
 
     <div class="third-section">
