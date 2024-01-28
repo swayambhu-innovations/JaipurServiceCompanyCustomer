@@ -87,6 +87,7 @@ export class BookingService {
     if (data) {
       obj = {...obj, ...data}
     }
+    console.log("final object..........: ", obj)
     return updateDoc(doc(this.firestore, 'users', userId, 'bookings', bookingId), obj);
   }
 }

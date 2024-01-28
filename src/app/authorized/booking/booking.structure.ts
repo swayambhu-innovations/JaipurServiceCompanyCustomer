@@ -8,6 +8,8 @@ export interface  Booking {
   id: string;
   agentData?: any;
   timeData?: any;
+  isRefundInitiated?:boolean;
+  refundInitiatedDetails?:any;
   subCategory: {
     id: string;
     name: string;

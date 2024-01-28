@@ -173,8 +173,14 @@ export class PaymentService {
   createOrder(orderDetails: CreateOrder) {
     return this.https.post(environment.cloudFunctions.createOrder ,orderDetails,this.httpOptions);
   }
+  createRefund(refundDetails: CreateRefund) {
+    return this.https.post(environment.cloudFunctions.createRefund ,refundDetails,this.httpOptions);
+  }
   geteOrderById(orderId: string) {
     return this.https.get(environment.cloudFunctions.getOrderById +orderId);
+  }
+  getRefundDetailsById(payId: string,refundId:string) {
+    return this.https.get(environment.cloudFunctions.getRefundDetails +"?payId=" +payId+'&refundId='+refundId);
   }
 
   async payWithRazorpay(order:any,booking:any,result:any){
@@ -210,7 +216,7 @@ export class PaymentService {
 
 import { AlertsAndNotificationsService } from './alerts-and-notifications.service';
 import { DataProviderService } from './core/data-provider.service';
-import { CreateOrder } from './authorized/models/payment.structure';
+import { CreateOrder, CreateRefund } from './authorized/models/payment.structure';
 import { LoadingController } from '@ionic/angular';
 
 export interface paymentDetail extends booking {

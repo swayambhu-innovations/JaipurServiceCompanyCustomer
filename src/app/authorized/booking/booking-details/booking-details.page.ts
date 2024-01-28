@@ -14,6 +14,8 @@ import {File} from "@awesome-cordova-plugins/file";
 import { FileOpener } from '@awesome-cordova-plugins/file-opener';
 import { Platform } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
+import { PaymentService } from 'src/app/payment.service';
+import { CreateRefund } from '../../models/payment.structure';
 
 var pdfMakeX = require('pdfmake/build/pdfmake.js');
 var pdfFontsX = require('pdfmake/build/vfs_fonts.js');
@@ -36,6 +38,7 @@ export class BookingDetailsPage implements OnInit {
   isModalOpenCancellation:boolean = false;
   duration: string;
   mrp: string;
+  refundDetails:any;
   discount: number =0;
   discountedPrice: string;
   rate: string;
@@ -52,7 +55,8 @@ export class BookingDetailsPage implements OnInit {
     private fb: FormBuilder,
     private userNotificationService:UserNotificationService,
     private dataProvider:DataProviderService,
-    private platform: Platform
+    private platform: Platform,
+    private paymentService:PaymentService
     ) {
        this.utils = Utils.stageMaster;
     this.activatedRoute.params.subscribe(async params=>{
@@ -86,6 +90,18 @@ export class BookingDetailsPage implements OnInit {
               this.assignedAgent =agentDetails;
             });
           }
+          if(this.currentBooking && this.currentBooking?.isPaid){
+            if(this.currentBooking?.isRefundInitiated){
+              this.paymentService.getRefundDetailsById(this.currentBooking?.refundInitiatedDetails.payment_id,this.currentBooking?.refundInitiatedDetails.id).subscribe({
+                next:(response)=>{
+                  this.refundDetails = response;
+                },
+                error(err) {
+                 console.error("err.............: ",err)
+                },
+              });
+            }
+          }
           loader.dismiss();
         });
       } else {
@@ -101,6 +117,7 @@ export class BookingDetailsPage implements OnInit {
     this.discountedPrice = '₹2600';
     this.rate = 'Rate This Services';
     this.rate = 'You Rated';
+    
   }
   ngOnInit(): void {
     
@@ -115,7 +132,7 @@ export class BookingDetailsPage implements OnInit {
       cancelReason: ['', Validators.required],
       cancelReasonText: ['']
     });
-
+      
   }
 
   RADIO_LIST = [
@@ -125,13 +142,50 @@ export class BookingDetailsPage implements OnInit {
     { name: 'Booking address is incorrect', value: '103BE', checked: false },
    
   ];
+  ionViewWillEnter(){
+   
+  }
 
   cancelSubmit() {
-    if(this.currentBooking){
-      this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this.CancelForm.value);
-      this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
+    console.log("this.currentBooking: ",this.currentBooking)
+    if(this.currentBooking && this.currentBooking?.isPaid){
+      let payload:CreateRefund = {
+        payId: this.currentBooking.payment.razorpay_payment_id,
+        amount:this.currentBooking.payment.amount
+      }
+      let this_ = this;
+      this.paymentService.createRefund(payload).subscribe({
+        next:(response)=>{
+          if(this.currentBooking){
+            if(this.currentBooking){
+              let payload = {...this.CancelForm.value,'isRefundInitiated':true,refundInitiatedDetails:response}
+              this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, payload);
+              this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
+            }
+           this.isModalOpenCancellation = false;
+          }
+        },
+        error(err) {
+          console.log("err...........: ",err)
+          if(this_.currentBooking){
+            if(this_.currentBooking){
+              let payload = {...this_.CancelForm.value,'isRefundInitiated':true,refundInitiatedDetails:err}
+              this_.bookingService.updateBooking(this_.currentBooking.currentUser.userId, this_.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this_.CancelForm.value);
+              this_.userNotificationService.addAgentNotification(this_.currentBooking.currentUser.userId, this_.userNotificationService.message.bookingRejected);
+            }
+            this_.isModalOpenCancellation = false;
+          }
+        },
+      })
+    }else{
+      if(this.currentBooking){
+        this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this.CancelForm.value);
+        this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
+      }
+     this.isModalOpenCancellation = false;
     }
-    this.isModalOpenCancellation = false;
+    
+    
   }
 
   rescheduleSubmit(){
