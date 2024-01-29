@@ -76,7 +76,17 @@
         Please click on map to select your location.
       </ion-card-content>
     </ion-card>
-    <google-map
+    <ion-card style="margin: 0px;" (click)="getLocation(false)">
+      <ion-card-content class="current-location">
+        <div class="location-icon">
+          <img src="assets/icons/location.svg">
+          <div> Use Current location</div>
+        </div>        
+       
+      </ion-card-content>
+    </ion-card>
+    <div class="google-map-container">
+      <google-map
       height="400px"
       width="100%"
       [center]="center"
@@ -90,7 +100,10 @@
         [position]="currentPosition"
         (mapDragend)="newPosition($event)"
       ></map-marker>
+      <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*1000" [options]="mapOptionsCircle" (circleClick)="moveMap($event)" fillColor="green" />
     </google-map>
+    </div>
+    
     <ion-button expand="block" color="dark" (click)="submit()">
       Save Address
     </ion-button>

@@ -98,20 +98,8 @@ export class HomeHeaderComponent  implements OnInit {
   }
 
   setopen(){
-    this.addressLineTwoVisible = true;
-    if(this.addressess.length > 4){
-      this.initialBreakpointAddress = 0.9;
-    }
-    else if(this.addressess.length > 2){
-      this.initialBreakpointAddress = 0.5;
-    }
-    else if(this.addressess.length > 1){
-      this.initialBreakpointAddress = 0.4;
-    }
-    else{
-      this.initialBreakpointAddress = 0.25;
-    }
-    this.showmodal = true;
+    //this.addressLineTwoVisible = true;
+    this.router.navigate(['/authorized/select-address']);
   }
 
   onWillDismiss(event){
