@@ -1,6 +1,6 @@
 <app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
 
-<ion-content *ngIf="!selectedBooking && cart?.length > 1">
+<ion-content *ngIf="!selectedBooking">
 
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
