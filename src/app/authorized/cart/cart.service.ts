@@ -118,6 +118,7 @@ export class CartService {
                 description:variant.description,
                 jobAcceptanceCharge:variant.jobAcceptanceCharge,
                 jobDuration:variant.jobDuration,
+                actualJobDuration : variant.actualJobDuration ?? 0,
                 mainCategoryId:mainCategory.id,
                 name:variant.name,
                 price:variant.price,
@@ -149,6 +150,7 @@ export class CartService {
                   description:variant.description,
                   jobAcceptanceCharge:variant.jobAcceptanceCharge,
                   jobDuration:variant.jobDuration,
+                  actualJobDuration : variant.actualJobDuration ?? 0,
                   mainCategoryId:mainCategory.id,
                   name:variant.name,
                   price:variant.price,
@@ -214,6 +216,7 @@ export class CartService {
                 description:variant.description,
                 jobAcceptanceCharge:variant.jobAcceptanceCharge,
                 jobDuration:variant.jobDuration,
+                actualJobDuration : variant.actualJobDuration ?? 0,
                 mainCategoryId:mainCategory.id,
                 name:variant.name,
                 price:variant.price,
@@ -391,6 +394,10 @@ export class CartService {
     setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
+  onRemoveCoupon(userId,bookingId,data){
+    setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+  }
+
   async getCart(userId:string){
     let cart = await getDocs(collection(this.firestore,'users',userId,'cart'));
     let data:Booking[] = [];
@@ -428,6 +435,7 @@ export class CartService {
   calculateBilling(booking:Booking){
     let totalJobAcceptanceCharge = 0;
     let totalJobTime = 0;
+    let totalActualJobTime = 0;
     booking.billing.coupanDiscunt = 0;
     
 
@@ -497,6 +505,7 @@ export class CartService {
           totalJobAcceptanceCharge += variant.jobAcceptanceCharge;
           // we will now calculate the total job time
           totalJobTime += (+variant.jobDuration);
+          totalActualJobTime += (+variant.actualJobDuration);
         })
       }
       // we will now calculate the billing for the booking
@@ -533,10 +542,19 @@ export class CartService {
         booking.billing.coupanDiscunt =  parseFloat(((booking.appliedCoupon.value*booking.billing.grandTotal)/100).toFixed(2));
         booking.billing.grandTotal = booking.billing.grandTotal -booking.billing.coupanDiscunt;
       }
+
+      let fixedCharges = 0;
+      this.fixedCharges?.map((charge) => {
+          fixedCharges+= (+(charge.amount))
+      });
+      booking.billing.grandTotal+= fixedCharges;
+
+
     // we will now calculate the grand total
    
-    booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
-    booking.billing.totalJobTime = totalJobTime;
+      booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
+      booking.billing.totalJobTime = totalJobTime;
+      booking.billing.totalActualJobTime = totalActualJobTime;
     }
     
     return booking;
@@ -618,7 +636,8 @@ export class CartService {
   removeCoupon(bookingId:string){
     this.cart.map((bookingItem) =>{
       if(bookingItem.id == bookingId){
-        bookingItem.appliedCoupon = undefined;
+        //bookingItem.appliedCoupon = undefined;
+        delete bookingItem.appliedCoupon;
       }
     })
   }

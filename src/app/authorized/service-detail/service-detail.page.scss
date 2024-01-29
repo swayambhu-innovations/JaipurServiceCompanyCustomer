@@ -90,11 +90,19 @@
         font-weight: 700;
         margin: auto;
       }
+      .variant-name{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre;
+      }
       .price {
         font-size: 18px;
         font-weight: 700;
         color: green;
         text-align: end;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
       }
     }
     .buttons {

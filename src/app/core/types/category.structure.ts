@@ -39,6 +39,7 @@ export interface Service {
     description: string;
     jobDuration: number;
     jobAcceptanceCharge: number;
+    actualJobDuration?: any;
   }[];
   color: string;
 }

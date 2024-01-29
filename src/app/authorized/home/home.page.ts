@@ -395,7 +395,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (fileType?.includes('?')) {
       fileType = fileType.split('?')[0];
     }
-    //debugger
     Filesystem.readFile({
       directory: Directory.Cache,
       path: `${CASHE_FOLDER}/${imageName}`,
