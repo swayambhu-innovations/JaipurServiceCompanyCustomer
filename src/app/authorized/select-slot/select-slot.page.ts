@@ -105,8 +105,12 @@ export class SelectSlotPage implements OnInit {
     this.generateSlots();
     this.totalSlots();
   }
+
   ionViewDidEnter(){
-    this.clearSlot();
+    const isRetry = history.state.isRetry;
+    if(!isRetry){
+      this.clearSlot();
+    }
     let booking = this.dataProvider.currentBooking;
     if(booking?.isUpdateSlot && booking.timeSlot){
       //this.selectedDate = booking.timeSlot.date.toDate();

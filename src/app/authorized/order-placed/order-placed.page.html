@@ -124,7 +124,7 @@
     <div class="temp" *ngIf="this.dataProvider.currentBooking?.isPaylater == false || this.dataProvider.currentBooking?.payment?.status == 'faild'">
       <div class="bottom1">
         <button class="payafter" routerLink="../rating">Back To Home</button>
-        <button class="paynow" routerLink="../select-slot" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false"> Retry Payment</button>
+        <button class="paynow" (click)="onSelectRetryPayment()" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false"> Retry Payment</button>
       </div>
     </div>
 
