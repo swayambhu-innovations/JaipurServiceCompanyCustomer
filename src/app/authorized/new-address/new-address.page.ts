@@ -142,12 +142,25 @@ export class NewAddressPage implements OnInit, CanActivate{
         this.center = {lat:address['selectedArea']['geometry'].location.lat,lng:address['selectedArea']['geometry'].location.lng}
         this.currentPosition = {lat:address.latitude,lng:address.longitude};
         this.isValidMarker = true;
+        this.setCircleInMap();
         loader.dismiss();
      }else{
        this.isEdit = false;
+       this.isGoogleMapReady = false;
        this.getLocation();
      }
     })
+  }
+  setCircleInMap(){
+    this.isGoogleMapReady = false;
+    this.mapOptionsCircle = {
+      fillColor: 'rgba(0, 255, 0, 0.5)', // Fill color with alpha (transparency)
+      clickable: true,
+      strokeColor: 'rgba(0, 255, 0, 0.9)'
+    };
+    setTimeout(() =>{
+      this.isGoogleMapReady = true;
+    },10);
   }
 
   ngOnInit(): void {
@@ -385,15 +398,7 @@ export class NewAddressPage implements OnInit, CanActivate{
       lat: $event.detail.value.latitude,
       lng: $event.detail.value.longitude,
     };
-    this.isGoogleMapReady = false;
-    this.mapOptionsCircle = {
-      fillColor: 'rgba(0, 255, 0, 0.5)', // Fill color with alpha (transparency)
-      clickable: true,
-      strokeColor: 'rgba(0, 255, 0, 0.9)'
-    };
-    setTimeout(() =>{
-      this.isGoogleMapReady = true;
-    },10);
+    this.setCircleInMap();
   }
 
 }
