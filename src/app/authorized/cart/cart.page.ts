@@ -144,7 +144,7 @@ export class CartPage implements OnInit {
     this.cartService.calculateBilling(this.selectedBooking!);
     this.cartService.onRemoveCoupon(userId,bookingId,this.selectedBooking);
   }
-  
+
   appliedCoupanDiscount(){
     //this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
     this.cartService.calculateBilling(this.selectedBooking!);
@@ -237,7 +237,6 @@ export class CartPage implements OnInit {
       if(this.mainCategoryId != 'all'){
         this.setCurrentBooking();
       }
-
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
