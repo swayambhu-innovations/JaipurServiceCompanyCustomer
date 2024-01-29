@@ -138,7 +138,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       this._notificationService.unreadNotifications = this.unreadNotifications;
     });
     this.utils = Utils.stageMaster;
-    
+    this._cartService.getFixedCharges().then((fixedCharges) => {
+      const cartFixedCharges = fixedCharges.docs.map((discount:any) => {
+        return { ...discount.data(),id: discount.id };
+      });
+      this._cartService.fixedCharges = cartFixedCharges;
+    });
   }
 
   async ngOnInit() {

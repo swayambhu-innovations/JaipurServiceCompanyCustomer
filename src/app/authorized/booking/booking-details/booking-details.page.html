@@ -263,14 +263,18 @@
         </div>
         <div class="payment-row mb-20">
           <div class="payment-heading">Discounted Price</div>
-          <div class="payment-value">{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+          <div class="payment-value">{{(currentBooking?.billing?.subTotal || 0) -
+            (discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+        </div>
+        <div class="payment-row" *ngFor="let charge of currentBooking?.billing?.fixedCharges">
+          <div class="payment-heading">{{charge.name}}</div>
+          <div class="payment-value">{{charge.amount | currency:'INR'}}</div>
         </div>
         <!-- Total Price -->
         <div style="border-top: 2px dashed #d7d7d7">
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Total</div>
-            <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.subTotal || 0) -
-              (discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+            <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.grandTotal) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
           </div>
         </div>
         <!-- Banner -->

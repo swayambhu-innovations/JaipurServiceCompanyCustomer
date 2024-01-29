@@ -243,6 +243,10 @@
         <p class="left-title">Discounted Price</p>
         <p class="right-sub">{{((selectedBooking.billing.subTotal-selectedBooking.billing.discount)-( selectedBooking.billing?.coupanDiscunt || 0) )| currency:'INR'}}</p>
       </div>
+      <div class="breakup-item" *ngFor="let charge of selectedBooking?.billing?.fixedCharges">
+        <p class="left-title">{{charge.name}}</p>
+        <p class="right-sub">{{charge.amount | currency:'INR'}}</p>
+      </div>
     </div>
     <hr class="dotted-line" />
     <div class="breakup-item">
