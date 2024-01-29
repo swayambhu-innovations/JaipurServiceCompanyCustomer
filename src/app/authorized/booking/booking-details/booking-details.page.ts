@@ -434,13 +434,16 @@ export class BookingDetailsPage implements OnInit {
           alignment: 'center'
           
       }];
-      this.currentBooking?.billing.fixedCharges.map((item:any) =>{
-        const serviceContent = [
-            {text: item.name},
-            {text: 'INR '+item.amount}
-        ];
-        afterData[1].table?.body.push(serviceContent);
-      });
+      if(this.currentBooking?.billing?.fixedCharges){
+        this.currentBooking?.billing.fixedCharges.map((item:any) =>{
+          const serviceContent = [
+              {text: item.name},
+              {text: 'INR '+item.amount}
+          ];
+          afterData[1].table?.body.push(serviceContent);
+        });
+      }
+      
       const grandTotalAmount =  [
         {text: 'Total amount:'},
         {text: 'INR '+this.currentBooking?.billing.grandTotal}
