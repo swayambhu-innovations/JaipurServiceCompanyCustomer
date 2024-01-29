@@ -36,6 +36,7 @@ export interface  Booking {
     totalJobTime: number;
     totalJobAcceptanceCharge: number;
     fixedCharges?: any;
+    totalActualJobTime?:any;
   };
   createdAt: Timestamp;
   completedAt?: Timestamp;
@@ -81,6 +82,7 @@ export interface SelectedService {
 
 
 export interface SelectedVariant {
+  actualJobDuration?: any;
   quantity: number;
   // variant variables
   price: number;

@@ -79,7 +79,7 @@
             <p class="card-title">{{variant.name}}</p>
             <div class="card-image">
               <img
-                (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,service!.serviceId,variant.variantId,selectedBooking.id!)"
+                (click)="onDeleteItemFromCart(service,variant)"
                 class="delete-button"
                 src="../../../assets/images/Delete 2.svg"
                 alt=""
@@ -88,7 +88,7 @@
           </div>
           <div class="card-right-mid">
             <p class="card-subtitle">
-              • {{variant.jobDuration}} Min
+              • {{variant.actualJobDuration}} Min
             </p>
             <span class="spacer"></span>
             <div class="rating">
@@ -115,7 +115,7 @@
               </span>
             </p>
             <div class="stock">
-              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
+              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="onDecrementCartQuantity(service,variant); variant.quantity = variant.quantity - 1">
                 <ng-container *ngIf = "variant.quantity <=1 else clickable">
                   <img src="../../../assets/remove.svg" alt="">
                 </ng-container>
@@ -157,7 +157,7 @@
     </div>
   </ng-container>
   <!-- When coupon is applied -->
-  <ng-container *ngIf="this.isOpenPopu">
+  <ng-container>
     <div class="applied-coupon" 
     *ngIf="(selectedBooking.billing?.coupanDiscunt || 0) > 0">
       <div class="text">
@@ -173,7 +173,7 @@
         <img src="../../../assets/images/tick-circle.png" alt="" />
         <p class="applied-text">Applied!</p>
       </div>
-      <div class="remove-coupon" (click)="removeCoupan()">
+      <div class="remove-coupon" (click)="onRemoveCoupon()">
         <ion-icon  name="close"></ion-icon>
       </div>
     </div>

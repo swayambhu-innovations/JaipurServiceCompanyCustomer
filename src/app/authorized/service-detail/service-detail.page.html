@@ -70,8 +70,11 @@
           <div lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
             <div class="" style="    width: -webkit-fill-available;">
               <div class="row detail">
-                <p class="col-8 name">{{variant.name}}</p>
-                <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
+                <div class="col-8 name variant-name">
+                  <p></p>{{variant.name}}
+                  <p *ngIf="variant.actualJobDuration">({{variant.actualJobDuration}} min)</p>
+                </div>
+                <p class="col-4 price"> {{variant.price | currency:'INR'}}</p>
               </div>
               <div class="cart-button">
                 <div class="remove-pading1" no-lines id="{{variant.id}}"
