@@ -245,7 +245,7 @@ export class BookingDetailsPage implements OnInit {
             }
         }
         catch(err){
-
+      
         }
     }
 
@@ -409,11 +409,7 @@ export class BookingDetailsPage implements OnInit {
             [
                 {text: 'Tax Rate:'},
                 {text: 'INR '+this.currentBooking?.billing.tax},
-            ],
-            [
-                {text: 'Total amount:'},
-                {text: 'INR '+this.currentBooking?.billing.grandTotal}
-            ],
+            ]
           ]
         }
       },
@@ -438,6 +434,18 @@ export class BookingDetailsPage implements OnInit {
           alignment: 'center'
           
       }];
+      this.currentBooking?.billing.fixedCharges.map((item:any) =>{
+        const serviceContent = [
+            {text: item.name},
+            {text: 'INR '+item.amount}
+        ];
+        afterData[1].table?.body.push(serviceContent);
+      });
+      const grandTotalAmount =  [
+        {text: 'Total amount:'},
+        {text: 'INR '+this.currentBooking?.billing.grandTotal}
+      ];
+      afterData[1].table?.body.push(grandTotalAmount);
       dd.content = [...dd.content,...afterData];
       return dd;
     }

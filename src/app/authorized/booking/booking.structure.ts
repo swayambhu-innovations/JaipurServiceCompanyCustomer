@@ -35,6 +35,7 @@ export interface  Booking {
     subTotal: number;
     totalJobTime: number;
     totalJobAcceptanceCharge: number;
+    fixedCharges?: any;
   };
   createdAt: Timestamp;
   completedAt?: Timestamp;

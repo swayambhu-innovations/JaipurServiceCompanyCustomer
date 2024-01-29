@@ -42,6 +42,7 @@ export class CartPage implements OnInit {
   // coupons array
   isOpenPopu:boolean = false;
   discounts:any[] = [];
+  fixedCharges:any = [];
   cart:any;
   cartLoaded:boolean = false;
   mainCategoryId:string = '';
@@ -125,10 +126,24 @@ export class CartPage implements OnInit {
     }
   }
 
-  ionViewDidEnter(){
+  async ionViewDidEnter(){
     this.pageLeaved = false;
     if(this.cartService.cart.length === 1){
+      if(this.selectedBooking){
+        this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+        this.cartService.fixedCharges.map((charge) => {
+          if(this.selectedBooking){
+            this.selectedBooking.billing.grandTotal+= (+(charge.amount));
+          }
+        });
+      }
       this.selectedBooking = this.cartService.cart[0];
+      this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+      this.cartService.fixedCharges.map((charge) => {
+        if(this.selectedBooking){
+          this.selectedBooking.billing.grandTotal+= (+(charge.amount))
+        }
+      });
     }else{
       this.selectedBooking = undefined;
     }
@@ -218,6 +233,12 @@ export class CartPage implements OnInit {
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
           this.selectedBooking = foundBooking;
+          this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+          this.cartService.fixedCharges.map((charge) => {
+            if(this.selectedBooking){
+              this.selectedBooking.billing.grandTotal+= (+(charge.amount))
+            }
+          });
         }else{
           this.selectedBooking = undefined;
         }
@@ -236,6 +257,15 @@ export class CartPage implements OnInit {
       const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
       return serviceFind && booking.mainCategory.id == this.mainCategoryId
     });
+    if(this.selectedBooking){
+      this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+      this.cartService.fixedCharges.map((charge) => {
+        if(this.selectedBooking){
+          this.selectedBooking.billing.grandTotal+= (+(charge.amount));
+        }
+      });
+    }
+    
   }
 
   async onSelectBooking(booking){
@@ -257,6 +287,14 @@ export class CartPage implements OnInit {
         this.isRecommended = true;
       }
     });
+    if(this.selectedBooking){
+      this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+      this.cartService.fixedCharges.map((charge) => {
+        if(this.selectedBooking){
+          this.selectedBooking.billing.grandTotal+= (+(charge.amount));
+        }
+      });
+    }
   }
 
   onClickRecommendedServices(service){

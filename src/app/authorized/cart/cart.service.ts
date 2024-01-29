@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category, Service, SubCategory } from '../../core/types/category.structure';
-import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDoc, getDocs, increment, setDoc } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDoc, getDocs, increment, query, setDoc } from '@angular/fire/firestore';
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, forkJoin } from 'rxjs';
@@ -17,6 +17,7 @@ export class CartService {
   userCurrentAddress:any = {};
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
+  fixedCharges: any;
   constructor(
     private firestore:Firestore,
     private dataProvider:DataProviderService,
@@ -632,6 +633,12 @@ export class CartService {
   
   getTaxes(){
     return getDocs(collectionGroup(this.firestore,'taxes'));
+  }
+
+  getFixedCharges() {
+    return getDocs(
+      query(collection(this.firestore, 'customer-settings','fixed-charges', 'charges'))
+    );
   }
 
 }
