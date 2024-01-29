@@ -12,6 +12,25 @@
 .formdiv{
   margin-top: 10px;
 }
+.google-map-container{
+  height: 400px;
+  width: 100%;
+}
+.current-location{
+  background-color: white;
+  color: #dd4909;
+  padding-left: 0px;
+  font-weight: bold;
+  .location-icon{
+    display: flex;
+    align-items: center;
+    img{
+      width: 20px;
+      margin-right: 10px;
+    }
+  }
+}
+
 ion-card {
     --background: #f2ebf5;
     --color: #5e0080;

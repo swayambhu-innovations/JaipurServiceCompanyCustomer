@@ -39,8 +39,14 @@ ion-content {
   margin-top: 7px;
   padding-top: 7px;
   position: relative;
-  swiper-container {
+  .swiper-container {
     width: 100%;
+    a{
+      display: block;
+      img{
+        width: 100%;
+      }
+    }
   }
 
   swiper-slide {

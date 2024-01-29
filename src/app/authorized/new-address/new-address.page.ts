@@ -65,6 +65,9 @@ export class NewAddressPage implements OnInit, CanActivate{
   areaDetails:any;
   editData:any;
   isEdit:boolean = false;
+  mapOptionsCircle: any = null;
+  circleRadius: number = 3;
+  isGoogleMapReady:boolean = false;
   constructor(
     private fb : FormBuilder,
     private store: Store<{ editAddress: SignupState }>,
@@ -149,7 +152,6 @@ export class NewAddressPage implements OnInit, CanActivate{
 
   ngOnInit(): void {
     this.dataProvider.isPageLoaded$.next("loaded");
- 
     // // get current location
     // this.areas$.subscribe(result=>{
     // });
@@ -181,17 +183,24 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
   }
 
-  getLocation() {
+  getLocation(setCenter:boolean = true) {
     if(this.platform.is('capacitor')){
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
         this.currentPosition = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+        if(setCenter){
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+        }
+        else{
+          
+        }
+        this.setPointerOutside();
+        
       })
     } else {
       
@@ -200,10 +209,16 @@ export class NewAddressPage implements OnInit, CanActivate{
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+        if(setCenter){
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+        }
+        else{
+          
+        }
+        this.setPointerOutside();
       },(error)=>{
         setTimeout(() => this.getLocation(),500)
       });
@@ -211,39 +226,26 @@ export class NewAddressPage implements OnInit, CanActivate{
   }
   moveMap(event: google.maps.MapMouseEvent) {
     if (event.latLng != null) {
-      //this.center = event.latLng.toJSON();
       this.currentPosition = event.latLng.toJSON();
-      const distanceInKm = this.getDistanceInKM(this.center.lat,this.center.lng,this.currentPosition?.lat,this.currentPosition?.lng);
-      if(distanceInKm > 3){
-        this.isValidMarker = false;
-        this.alertify.presentToast("Selected location point is outside the selected area...");
-      }
-      else{
-        
-        this.markerSet = true;
-        this.isValidMarker = true;
-      }
-      // this.addressService.getAreaDetail(this.center.lat,this.center.lng).subscribe((searchedAddressResult:any) => {
-      //   const searchedAddress = searchedAddressResult.results[0];
-      //   searchedAddress.address_components.map((addressComponent:any)=>{
-      //     const geoProofingLocality = addressComponent.types.find((type:any) => type.indexOf("sublocality") > -1);
-      //     if(geoProofingLocality){
-      //       const geoProfing = addressComponent.long_name;
-      //       const tempSelectedArea:any = this.addressForm.get("selectedArea")?.value;
-            
-      //       if(tempSelectedArea && tempSelectedArea.geoProofingLocality){
-              
-      //       }
-      //     }
-      //   });
-        
-      // });
+      this.setPointerOutside();
     }
   }
 
   scrollToTop() {
     if (this.content && this.content.scrollToTop) {
       this.content.scrollToTop();
+    }
+  }
+
+  setPointerOutside(){
+    const distanceInKm = this.getDistanceInKM(this.center.lat,this.center.lng,this.currentPosition?.lat,this.currentPosition?.lng);
+    if(distanceInKm > this.circleRadius){
+      this.isValidMarker = false;
+      this.alertify.presentToast("Selected location point is outside the selected area...");
+    }
+    else{
+      this.markerSet = true;
+      this.isValidMarker = true;
     }
   }
 
@@ -383,6 +385,15 @@ export class NewAddressPage implements OnInit, CanActivate{
       lat: $event.detail.value.latitude,
       lng: $event.detail.value.longitude,
     };
+    this.isGoogleMapReady = false;
+    this.mapOptionsCircle = {
+      fillColor: 'rgba(0, 255, 0, 0.5)', // Fill color with alpha (transparency)
+      clickable: true,
+      strokeColor: 'rgba(0, 255, 0, 0.9)'
+    };
+    setTimeout(() =>{
+      this.isGoogleMapReady = true;
+    },10);
   }
 
 }
