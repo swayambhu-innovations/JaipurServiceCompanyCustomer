@@ -35,7 +35,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
-  hasAddressFatched:boolean = false;
 
   banners: any[] = [];
   recentActivityData: any[] = [];
@@ -191,16 +190,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   fetchAddress(){
     this.addresses = this.addressService.addresses;
     this.dataProvider.selectedAddress.next(this.addresses);
-    if(this.addresses.length > 0){
-      this.hasAddressFatched = true;
-    }
     this.addressService.fetchedAddresses
     .subscribe(async (address:Address[])=>{
       if(!this._navigationService.isAddressSubscription$){
         return;
-      }
+      }      
       this.addresses = address;
-      this.hasAddressFatched = false;
       this.addressService.addresses = this.addresses;
       this.dataProvider.selectedAddress.next(this.addresses);
       let currentAddressTemp:any = this.addresses.find(addre=> addre.isDefault);
@@ -211,9 +206,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           this.setupCategories();
         }
       }
-      setTimeout(() => {
-        this.hasAddressFatched = true;
-      }, 0);
       
     });
   }
@@ -249,7 +241,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidLeave(){
-    
   }
 
 
