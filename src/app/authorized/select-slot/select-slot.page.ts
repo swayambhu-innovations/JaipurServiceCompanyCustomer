@@ -240,12 +240,6 @@ export class SelectSlotPage implements OnInit {
      });
      
     let duration =  mins + " Mins";
-    // if(mins > 1){
-    //   duration = mins + " Hours"
-    // }
-    // else{
-    //   duration = mins + " Hour"
-    // }
     return duration;
   }
 
