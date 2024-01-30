@@ -20,5 +20,6 @@ export interface CreateOrder{
   }
   export interface CreateRefund{
       amount: number,
-      payId: string
+      payId: string,
+      jobStartTime:number
     }
