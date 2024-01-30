@@ -19,7 +19,7 @@ export class ReferAfriendPage implements OnInit {
   }
 
   shareLink(){
-    this.socialSharing.share('Check out this link', 'Subject', undefined, 'https://play.google.com/store/apps/details?id=com.shreeva.jaipurservicecompanycustomer')
+    this.socialSharing.share('Please try out Jaipur Service Company app for all types of house maintenance services.', 'Subject', undefined, 'https://play.google.com/store/apps/details?id=com.shreeva.jaipurservicecompanycustomer')
     .then(() => {
       
     })

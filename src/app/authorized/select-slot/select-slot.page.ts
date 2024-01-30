@@ -105,8 +105,12 @@ export class SelectSlotPage implements OnInit {
     this.generateSlots();
     this.totalSlots();
   }
+
   ionViewDidEnter(){
-    this.clearSlot();
+    const isRetry = history.state.isRetry;
+    if(!isRetry){
+      this.clearSlot();
+    }
     let booking = this.dataProvider.currentBooking;
     if(booking?.isUpdateSlot && booking.timeSlot){
       //this.selectedDate = booking.timeSlot.date.toDate();
@@ -225,6 +229,20 @@ export class SelectSlotPage implements OnInit {
     this.getActiveSlotsCount();
   }
 
+  get totalTimeNeeded() {
+    let mins= 0;
+    this.dataProvider.currentBooking?.services.forEach(service=>{
+        service.variants.forEach(variant=>{
+          if(variant.actualJobDuration){
+            mins += (variant.actualJobDuration * variant.quantity) ;
+          }
+        })
+     });
+     
+    let duration =  mins + " Mins";
+    return duration;
+  }
+
 
   preferredAgentTime(start: any, end: any){
     this.agentArrivalArray = [];
@@ -308,7 +326,6 @@ export class SelectSlotPage implements OnInit {
           this.dataProvider.currentBooking!.payment = paymentResponse;
           this.dataProvider.currentBooking!.isPaid = true;
           this.bookingService.addBooking(this.dataProvider.currentBooking!, this.dataProvider.currentUser!.user!.uid).then(async ()=>{
-            //debugger
             await this.cartService.deleteBooking(this.dataProvider.currentUser!.user.uid,this.dataProvider.currentBooking!.id!);
             await this.cartService.updateCart();
             loader2.dismiss();

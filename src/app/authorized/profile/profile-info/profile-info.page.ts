@@ -149,7 +149,6 @@ export class ProfileInfoPage implements OnInit {
 
     loader.present();
     if (this.dataProvider?.currentUser?.user.uid === undefined) {
-      debugger
       this.profileService
         .addUsers(
           this.dataProvider.currentUser!.user.uid,

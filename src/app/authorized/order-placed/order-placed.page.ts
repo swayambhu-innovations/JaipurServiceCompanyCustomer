@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
@@ -16,9 +17,13 @@ export class OrderPlacedPage implements OnInit {
   slotStartTime:Date|undefined;
   slotEndTime:Date|undefined;
 
-  constructor(public dataProvider:DataProviderService) { 
+  constructor(public dataProvider:DataProviderService,private router: Router) { 
     this.slotStartTime = dataProvider.currentBooking?.timeSlot?.time?.startTime?.toDate();
     this.slotEndTime = dataProvider.currentBooking?.timeSlot?.time?.endTime?.toDate();
+  }
+
+  onSelectRetryPayment(){
+    this.router.navigateByUrl('/authorized/select-slot', {state: { isRetry: true} });
   }
 
   ngOnInit() {

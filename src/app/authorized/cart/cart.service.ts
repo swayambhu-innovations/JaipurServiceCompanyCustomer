@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category, Service, SubCategory } from '../../core/types/category.structure';
-import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDoc, getDocs, increment, setDoc } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, collectionData, collectionGroup, deleteDoc, doc, getDoc, getDocs, increment, query, setDoc } from '@angular/fire/firestore';
 import { Booking, natureTax } from '../booking/booking.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, forkJoin } from 'rxjs';
@@ -17,6 +17,7 @@ export class CartService {
   userCurrentAddress:any = {};
   taxes:any[] = [];
   cartSubject:Subject<Booking[]> = new Subject<Booking[]>();
+  fixedCharges: any;
   constructor(
     private firestore:Firestore,
     private dataProvider:DataProviderService,
@@ -117,6 +118,7 @@ export class CartService {
                 description:variant.description,
                 jobAcceptanceCharge:variant.jobAcceptanceCharge,
                 jobDuration:variant.jobDuration,
+                actualJobDuration : variant.actualJobDuration ?? 0,
                 mainCategoryId:mainCategory.id,
                 name:variant.name,
                 price:variant.price,
@@ -148,6 +150,7 @@ export class CartService {
                   description:variant.description,
                   jobAcceptanceCharge:variant.jobAcceptanceCharge,
                   jobDuration:variant.jobDuration,
+                  actualJobDuration : variant.actualJobDuration ?? 0,
                   mainCategoryId:mainCategory.id,
                   name:variant.name,
                   price:variant.price,
@@ -213,6 +216,7 @@ export class CartService {
                 description:variant.description,
                 jobAcceptanceCharge:variant.jobAcceptanceCharge,
                 jobDuration:variant.jobDuration,
+                actualJobDuration : variant.actualJobDuration ?? 0,
                 mainCategoryId:mainCategory.id,
                 name:variant.name,
                 price:variant.price,
@@ -271,9 +275,9 @@ export class CartService {
     if (serviceIndex != -1 && data.services[serviceIndex].variants.length === 1){
       data.services.splice(serviceIndex,1);
     }
-     serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
+    serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
     if (serviceIndex != -1 && data.services[serviceIndex].variants.length >1){
-    let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+      let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
       if(variantIndex != -1){
         data.services[serviceIndex].variants.splice(variantIndex,1);
       }
@@ -308,7 +312,7 @@ export class CartService {
 
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -327,7 +331,7 @@ export class CartService {
 
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
@@ -346,7 +350,7 @@ export class CartService {
 
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -363,13 +367,13 @@ export class CartService {
         }
       }
     }
-    this.updateCart();
+    this.calculateBilling(data);
     setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
@@ -387,6 +391,10 @@ export class CartService {
       }
     }
     this.calculateBilling(data);
+    setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
+  }
+
+  onRemoveCoupon(userId,bookingId,data){
     setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
@@ -427,6 +435,7 @@ export class CartService {
   calculateBilling(booking:Booking){
     let totalJobAcceptanceCharge = 0;
     let totalJobTime = 0;
+    let totalActualJobTime = 0;
     booking.billing.coupanDiscunt = 0;
     
 
@@ -496,6 +505,7 @@ export class CartService {
           totalJobAcceptanceCharge += variant.jobAcceptanceCharge;
           // we will now calculate the total job time
           totalJobTime += (+variant.jobDuration);
+          totalActualJobTime += (+variant.actualJobDuration);
         })
       }
       // we will now calculate the billing for the booking
@@ -532,10 +542,19 @@ export class CartService {
         booking.billing.coupanDiscunt =  parseFloat(((booking.appliedCoupon.value*booking.billing.grandTotal)/100).toFixed(2));
         booking.billing.grandTotal = booking.billing.grandTotal -booking.billing.coupanDiscunt;
       }
+
+      let fixedCharges = 0;
+      this.fixedCharges?.map((charge) => {
+          fixedCharges+= (+(charge.amount))
+      });
+      booking.billing.grandTotal+= fixedCharges;
+
+
     // we will now calculate the grand total
    
-    booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
-    booking.billing.totalJobTime = totalJobTime;
+      booking.billing.totalJobAcceptanceCharge = totalJobAcceptanceCharge;
+      booking.billing.totalJobTime = totalJobTime;
+      booking.billing.totalActualJobTime = totalActualJobTime;
     }
     
     return booking;
@@ -617,7 +636,8 @@ export class CartService {
   removeCoupon(bookingId:string){
     this.cart.map((bookingItem) =>{
       if(bookingItem.id == bookingId){
-        bookingItem.appliedCoupon = undefined;
+        //bookingItem.appliedCoupon = undefined;
+        delete bookingItem.appliedCoupon;
       }
     })
   }
@@ -632,6 +652,12 @@ export class CartService {
   
   getTaxes(){
     return getDocs(collectionGroup(this.firestore,'taxes'));
+  }
+
+  getFixedCharges() {
+    return getDocs(
+      query(collection(this.firestore, 'customer-settings','fixed-charges', 'charges'))
+    );
   }
 
 }

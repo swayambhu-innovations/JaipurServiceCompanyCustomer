@@ -1,6 +1,6 @@
 <app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
 
-<ion-content *ngIf="!selectedBooking && cart?.length > 1">
+<ion-content *ngIf="!selectedBooking && cart.length > 0">
 
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
@@ -79,7 +79,7 @@
             <p class="card-title">{{variant.name}}</p>
             <div class="card-image">
               <img
-                (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,service!.serviceId,variant.variantId,selectedBooking.id!)"
+                (click)="onDeleteItemFromCart(service,variant)"
                 class="delete-button"
                 src="../../../assets/images/Delete 2.svg"
                 alt=""
@@ -88,7 +88,7 @@
           </div>
           <div class="card-right-mid">
             <p class="card-subtitle">
-              • {{variant.jobDuration}} Min
+              • {{variant.actualJobDuration}} Min
             </p>
             <span class="spacer"></span>
             <div class="rating">
@@ -115,7 +115,7 @@
               </span>
             </p>
             <div class="stock">
-              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="this.cartService.decrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity - 1">
+              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="onDecrementCartQuantity(service,variant); variant.quantity = variant.quantity - 1">
                 <ng-container *ngIf = "variant.quantity <=1 else clickable">
                   <img src="../../../assets/remove.svg" alt="">
                 </ng-container>
@@ -125,7 +125,7 @@
                 
               </button>
               <p class="item-count">{{variant.quantity}}</p>
-              <button class="add-btn" fill="solid" (click)="this.cartService.incrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
+              <button class="add-btn" fill="solid" (click)="onIncrementCartQuantity(service,variant); variant.quantity = variant.quantity + 1">
                 <img src="../../../assets/add.svg" alt="">
               </button>
             </div>
@@ -157,7 +157,7 @@
     </div>
   </ng-container>
   <!-- When coupon is applied -->
-  <ng-container *ngIf="this.isOpenPopu">
+  <ng-container>
     <div class="applied-coupon" 
     *ngIf="(selectedBooking.billing?.coupanDiscunt || 0) > 0">
       <div class="text">
@@ -173,7 +173,7 @@
         <img src="../../../assets/images/tick-circle.png" alt="" />
         <p class="applied-text">Applied!</p>
       </div>
-      <div class="remove-coupon" (click)="removeCoupan()">
+      <div class="remove-coupon" (click)="onRemoveCoupon()">
         <ion-icon  name="close"></ion-icon>
       </div>
     </div>
@@ -208,7 +208,7 @@
 
   <!-- payment detail section -->
   <div class="payment-details">
-    <div class="breakup-item">
+    <div class="breakup-item total-duration-container">
       <p class="left-title">Total Duration <img src="assets/Vectorduration.png" alt=""></p>
       <p class="right-sub">
         {{totalTimeNeeded}} 
@@ -242,6 +242,10 @@
       <div class="breakup-item">
         <p class="left-title">Discounted Price</p>
         <p class="right-sub">{{((selectedBooking.billing.subTotal-selectedBooking.billing.discount)-( selectedBooking.billing?.coupanDiscunt || 0) )| currency:'INR'}}</p>
+      </div>
+      <div class="breakup-item" *ngFor="let charge of selectedBooking?.billing?.fixedCharges">
+        <p class="left-title">{{charge.name}}</p>
+        <p class="right-sub">{{charge.amount | currency:'INR'}}</p>
       </div>
     </div>
     <hr class="dotted-line" />

@@ -39,8 +39,14 @@ ion-content {
   margin-top: 7px;
   padding-top: 7px;
   position: relative;
-  swiper-container {
+  .swiper-container {
     width: 100%;
+    a{
+      display: block;
+      img{
+        width: 100%;
+      }
+    }
   }
 
   swiper-slide {
@@ -372,6 +378,7 @@ homepage.scss .serviceCategory {
           color: rgba(235, 131, 60, 1);
         }
         .inProgress,
+        .workStarted,
         .jobAccepted {
           background: rgba(255, 197, 84, 0.25);
           color: rgba(255, 169, 0, 1);

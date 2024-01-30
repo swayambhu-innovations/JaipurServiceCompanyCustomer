@@ -8,6 +8,7 @@
       <h2>Address: {{dataProvider.currentBooking?.address?.addressLine1}}</h2>
       <p>Phone no.: {{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
       <p>City: {{dataProvider.currentBooking?.address?.city}}</p>
+      <p>State: {{dataProvider.currentBooking?.address?.state}}</p>
       <p>Pincode: {{dataProvider.currentBooking?.address?.pincode}}</p>
     </div>
   </div>
@@ -16,7 +17,7 @@
   <div class="row-2">
     <div class="top">
       <h2>When should the professional arrive?</h2>
-      <p>Your service will take approx. 2hr and 20 mins</p>
+      <p>Your service will take approx. {{totalTimeNeeded}}</p>
       <div class="first-btns">
         <button *ngFor="let btn of dates" (click)="onSelectDate(btn)" [ngClass]="{active:selectedDate==btn}">
           {{btn | date:'dd'}}<br>{{btn | date:'E'}}

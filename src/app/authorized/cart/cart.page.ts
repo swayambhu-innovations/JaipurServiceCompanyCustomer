@@ -42,6 +42,7 @@ export class CartPage implements OnInit {
   // coupons array
   isOpenPopu:boolean = false;
   discounts:any[] = [];
+  fixedCharges:any = [];
   cart:any;
   cartLoaded:boolean = false;
   mainCategoryId:string = '';
@@ -105,7 +106,7 @@ export class CartPage implements OnInit {
         const coupan = callbackData['appliedCoupon'];
         const isRemoved = callbackData['isRemoved'];
         if(isRemoved && !coupan){
-          this.removeCoupan();
+          this.removeCoupan(this.dataProvider.currentUser?.user!.uid!,this.selectedBooking?.id!);
         }
         else if(coupan){
           this.isOpenPopu = true;
@@ -125,19 +126,25 @@ export class CartPage implements OnInit {
     }
   }
 
-  ionViewDidEnter(){
+  async ionViewDidEnter(){
     this.pageLeaved = false;
     if(this.cartService.cart.length === 1){
       this.selectedBooking = this.cartService.cart[0];
+      this.addFixedCharges();
     }else{
       this.selectedBooking = undefined;
     }
   }
-
-  removeCoupan(){
-    this.selectedBooking!['appliedCoupon'] = undefined;
-    this.cartService.calculateBilling(this.selectedBooking!);
+  onRemoveCoupon(){
+    this.removeCoupan(this.dataProvider.currentUser?.user!.uid!,this.selectedBooking?.id!);
   }
+
+  removeCoupan(userId,bookingId){
+    delete this.selectedBooking!['appliedCoupon'];
+    this.cartService.calculateBilling(this.selectedBooking!);
+    this.cartService.onRemoveCoupon(userId,bookingId,this.selectedBooking);
+  }
+
   appliedCoupanDiscount(){
     //this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
     this.cartService.calculateBilling(this.selectedBooking!);
@@ -169,21 +176,43 @@ export class CartPage implements OnInit {
     }
     return result;
   }
+  
+  onIncrementCartQuantity(service,variant){
+
+    this.cartService.incrementFormQuantity(this.dataProvider.currentUser?.user!.uid!,service,variant.variantId,this.selectedBooking?.id!)
+  }
+
+  onDecrementCartQuantity(service,variant){
+    this.cartService.decrementFormQuantity(this.dataProvider.currentUser?.user!.uid!,service,variant.variantId,this.selectedBooking?.id!);
+    if(this.selectedBooking?.appliedCoupon?.minimumRequiredAmount && this.selectedBooking?.appliedCoupon?.minimumRequiredAmount > this.selectedBooking?.billing.subTotal){
+      this.removeCoupan(this.dataProvider.currentUser?.user!.uid!,this.selectedBooking?.id!);
+    }
+  }
+
+  onDeleteItemFromCart(service,variant){
+    this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,service!.serviceId,variant.variantId,this.selectedBooking?.id!);
+    if(this.selectedBooking?.appliedCoupon?.minimumRequiredAmount && this.selectedBooking?.appliedCoupon?.minimumRequiredAmount > this.selectedBooking?.billing.subTotal){
+      this.removeCoupan(this.dataProvider.currentUser?.user!.uid!,this.selectedBooking?.id!);
+    }
+  }
 
   get totalTimeNeeded() {
     let mins= 0;
      this.selectedBooking?.services.forEach(service=>{
         service.variants.forEach(variant=>{
-          mins += (variant.jobDuration * variant.quantity) ;
+          if(variant.actualJobDuration){
+            mins += (variant.actualJobDuration * variant.quantity) ;
+          }
         })
      });
-    let duration =  '';
-    if(mins > 1){
-      duration = mins + " Hours"
-    }
-    else{
-      duration = mins + " Hour"
-    }
+     
+    let duration =  mins + " Mins";
+    // if(mins > 1){
+    //   duration = mins + " Hours"
+    // }
+    // else{
+    //   duration = mins + " Hour"
+    // }
     return duration;
   }
 
@@ -213,7 +242,6 @@ export class CartPage implements OnInit {
       if(this.mainCategoryId != 'all'){
         this.setCurrentBooking();
       }
-
       if (this.selectedBooking?.id && bookings.length > 0){
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
@@ -236,6 +264,10 @@ export class CartPage implements OnInit {
       const serviceFind = booking.services.find((service) => service.serviceId == this.serviceId);
       return serviceFind && booking.mainCategory.id == this.mainCategoryId
     });
+    if(this.selectedBooking){
+      this.addFixedCharges();
+    }
+    
   }
 
   async onSelectBooking(booking){
@@ -257,10 +289,28 @@ export class CartPage implements OnInit {
         this.isRecommended = true;
       }
     });
+    if(this.selectedBooking){
+      this.addFixedCharges();
+    }
   }
 
   onClickRecommendedServices(service){
     this.router.navigate(['authorized','service-detail',this.selectedBooking?.mainCategory.id, this.selectedBooking?.subCategory.id,service.id]);
+  }
+
+  addFixedCharges(){
+    if(this.selectedBooking){
+      this.selectedBooking.billing['fixedCharges'] = this.cartService.fixedCharges;
+      const finalAmount = this.selectedBooking.billing.subTotal - this.selectedBooking.billing.discount - ( this.selectedBooking.billing?.coupanDiscunt || 0);
+      let fixedCharges = 0;
+      this.cartService.fixedCharges.map((charge) => {
+        if(this.selectedBooking){
+          fixedCharges+= (+(charge.amount))
+        }
+      });
+      this.selectedBooking.billing.grandTotal = finalAmount + fixedCharges;
+    }
+    
   }
   
 }
