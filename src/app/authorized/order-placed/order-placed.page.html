@@ -104,12 +104,12 @@
       </div>
       <div class="row-2">
         <section style="margin-left: 10px;">
-          <p class="head">{{this.dataProvider.currentBooking?.address?.name}}</p>
-          <p class="body">{{this.dataProvider.currentBooking?.address?.addressLine1}}</p>
-          <p class="body"><b>Locality:</b> {{this.dataProvider.currentBooking?.address?.locality}}</p>
-          <p class="body"><b>City:</b> {{this.dataProvider.currentBooking?.address?.cityName}}</p>
-          <p class="body"><b>State:</b> {{this.dataProvider.currentBooking?.address?.state}}</p>
-          <p class="body"><b>Pincode:</b> {{this.dataProvider.currentBooking?.address?.pincode}}</p>
+          <h2 class="mb-1">Name: {{dataProvider.currentBooking?.address?.name}}</h2>
+          <h2>Address: {{dataProvider.currentBooking?.address?.addressLine1}}</h2>
+          <p>Phone no.: {{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}</p>
+          <p>City: {{dataProvider.currentBooking?.address?.city}}</p>
+          <p>State: {{dataProvider.currentBooking?.address?.state}}</p>
+          <p>Pincode: {{dataProvider.currentBooking?.address?.pincode}}</p>
         </section>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
 
-<ion-content *ngIf="!selectedBooking">
+<ion-content *ngIf="!selectedBooking && cart.length > 0">
 
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
@@ -125,7 +125,7 @@
                 
               </button>
               <p class="item-count">{{variant.quantity}}</p>
-              <button class="add-btn" fill="solid" (click)="this.cartService.incrementFormQuantity(dataProvider.currentUser?.user!.uid!,service,variant.variantId,selectedBooking.id!); variant.quantity = variant.quantity + 1">
+              <button class="add-btn" fill="solid" (click)="onIncrementCartQuantity(service,variant); variant.quantity = variant.quantity + 1">
                 <img src="../../../assets/add.svg" alt="">
               </button>
             </div>
@@ -208,7 +208,7 @@
 
   <!-- payment detail section -->
   <div class="payment-details">
-    <div class="breakup-item">
+    <div class="breakup-item total-duration-container">
       <p class="left-title">Total Duration <img src="assets/Vectorduration.png" alt=""></p>
       <p class="right-sub">
         {{totalTimeNeeded}} 

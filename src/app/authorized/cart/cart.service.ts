@@ -275,9 +275,9 @@ export class CartService {
     if (serviceIndex != -1 && data.services[serviceIndex].variants.length === 1){
       data.services.splice(serviceIndex,1);
     }
-     serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
+    serviceIndex = data.services.findIndex(s=>s.serviceId == serviceId);
     if (serviceIndex != -1 && data.services[serviceIndex].variants.length >1){
-    let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
+      let variantIndex = data.services[serviceIndex].variants.findIndex(v=>v.variantId == variantId);
       if(variantIndex != -1){
         data.services[serviceIndex].variants.splice(variantIndex,1);
       }
@@ -312,7 +312,7 @@ export class CartService {
 
   async incrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -331,7 +331,7 @@ export class CartService {
 
   async incrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);
@@ -350,7 +350,7 @@ export class CartService {
 
   async decrementQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.id);
@@ -367,13 +367,13 @@ export class CartService {
         }
       }
     }
-    this.updateCart();
+    this.calculateBilling(data);
     setDoc(doc(this.firestore,'users',userId,'cart',bookingId),data);
   }
 
   async decrementFormQuantity(userId:string,service:any,variantId:string,bookingId:string){
     let cart = this.cart.find((bookingItem) => {
-      return bookingItem.id = bookingId;
+      return bookingItem.id == bookingId;
     });
     let data:any = cart;
     let serviceIndex = data.services.findIndex(s=>s.serviceId == service.serviceId);

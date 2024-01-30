@@ -184,7 +184,17 @@ ion-content {
 
 .payment-details {
   padding: 16px;
-
+  .total-duration-container{
+    margin-bottom: 15px;
+    p{
+      font-weight: bold;
+      font-size: 16px;
+      color: black;
+      img{
+        width: 16px;
+      }
+    }
+  }
   .coupon-box {
     display: flex;
     align-items: center;
