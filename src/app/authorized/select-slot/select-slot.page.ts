@@ -229,6 +229,26 @@ export class SelectSlotPage implements OnInit {
     this.getActiveSlotsCount();
   }
 
+  get totalTimeNeeded() {
+    let mins= 0;
+    this.dataProvider.currentBooking?.services.forEach(service=>{
+        service.variants.forEach(variant=>{
+          if(variant.actualJobDuration){
+            mins += (variant.actualJobDuration * variant.quantity) ;
+          }
+        })
+     });
+     
+    let duration =  mins + " Mins";
+    // if(mins > 1){
+    //   duration = mins + " Hours"
+    // }
+    // else{
+    //   duration = mins + " Hour"
+    // }
+    return duration;
+  }
+
 
   preferredAgentTime(start: any, end: any){
     this.agentArrivalArray = [];
