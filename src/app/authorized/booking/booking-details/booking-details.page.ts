@@ -73,7 +73,7 @@ export class BookingDetailsPage implements OnInit {
           if(booking?.jobOtp){
             this.jobOtp = [...booking.jobOtp];
           }
-          
+          console.log("this.currentBooking: ",this.currentBooking)
           if(this.currentBooking)
            this.picAvalable = this.currentBooking?.picsBefore.length > 0
           let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
@@ -151,7 +151,8 @@ export class BookingDetailsPage implements OnInit {
     if(this.currentBooking && this.currentBooking?.isPaid){
       let payload:CreateRefund = {
         payId: this.currentBooking.payment.razorpay_payment_id,
-        amount:this.currentBooking.payment.amount
+        amount:this.currentBooking.payment.amount,
+        jobStartTime:this.currentBooking?.createdAt.seconds
       }
       let this_ = this;
       this.paymentService.createRefund(payload).subscribe({
