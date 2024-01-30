@@ -122,7 +122,7 @@
       </ion-button>
     </div>
     <div class="temp" *ngIf="this.dataProvider.currentBooking?.isPaylater == false || this.dataProvider.currentBooking?.payment?.status == 'faild'">
-      <div class="bottom1">
+      <div class="bottom1" [ngClass]="{'single-button' : !(this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false)}">
         <button class="payafter" routerLink="../rating">Back To Home</button>
         <button class="paynow" (click)="onSelectRetryPayment()" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false"> Retry Payment</button>
       </div>

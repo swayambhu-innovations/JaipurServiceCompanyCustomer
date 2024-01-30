@@ -301,7 +301,7 @@ ion-content {
 
     .bottom1{
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       padding: 0 10px 9px;
     
       .payafter{
@@ -329,6 +329,9 @@ ion-content {
         background: var(--Primary, #1A1D1F);
         color: white;
       }
+    }
+    .bottom1.single-button{
+      justify-content: center;
     }
 }
 // .bottom1{
