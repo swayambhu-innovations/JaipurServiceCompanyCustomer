@@ -139,7 +139,7 @@
     </ng-container>
   </div>
   <!-- when coupon is not applied -->
-  <ng-container *ngIf="getOfferCount() >0">
+  <ng-container *ngIf="couponCount >0">
     <div (click)="onOffersClick(modal2)" class="apply-coupon">
       <div class="coupon-items">
         <img src="../../../assets/images/Ticket Discount.png" alt="" />
@@ -147,7 +147,7 @@
         <span class="apply-coupon-text">Apply Coupons</span>
       </div>
       <div class="coupon-items">
-        <span class="offer-count-text">{{getOfferCount()}} offers</span>
+        <span class="offer-count-text">{{couponCount}} offers</span>
         <span class="spacer"></span>
         <img
           src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"
