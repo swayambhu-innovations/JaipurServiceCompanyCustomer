@@ -44,6 +44,13 @@ export default class Utils {
         'textColor' : 'light-blue-color',
         'key' : 'otpVerificationPending'
       },
+      'workStarted' : {
+        'text' : 'Work Started',
+        'gradient' : 'yellow-gradient',
+        'color' : 'yellow-background',
+        'textColor' : 'yellow-color',
+        'key' : 'workStarted'
+      },
       'inProgress' : {
         'text' : 'In Progress',
         'gradient' : 'yellow-gradient',

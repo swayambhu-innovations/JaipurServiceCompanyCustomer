@@ -176,6 +176,11 @@ export class CartPage implements OnInit {
     }
     return result;
   }
+  
+  onIncrementCartQuantity(service,variant){
+
+    this.cartService.incrementFormQuantity(this.dataProvider.currentUser?.user!.uid!,service,variant.variantId,this.selectedBooking?.id!)
+  }
 
   onDecrementCartQuantity(service,variant){
     this.cartService.decrementFormQuantity(this.dataProvider.currentUser?.user!.uid!,service,variant.variantId,this.selectedBooking?.id!);
@@ -201,7 +206,7 @@ export class CartPage implements OnInit {
         })
      });
      
-    let duration =  mins + " Hours";
+    let duration =  mins + " Mins";
     // if(mins > 1){
     //   duration = mins + " Hours"
     // }
