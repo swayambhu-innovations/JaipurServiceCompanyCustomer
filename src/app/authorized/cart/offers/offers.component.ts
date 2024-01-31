@@ -19,8 +19,10 @@ export class OffersComponent  implements OnInit {
   subTotal:any;
   appliedCoupon: any;
   isRemoved: string = "";
+  discountList:any[] = [];
   constructor(public modalController:ModalController,public cartService:CartService,) {
-   }
+    
+  }
 
   ngOnInit() {
     this.booking?.services.forEach((service)=>{
@@ -28,6 +30,14 @@ export class OffersComponent  implements OnInit {
       service.discountsApplicable?.map((discount) => {
         if((discount.type == 'flat' && discount?.value <= this.subTotal) || (discount.type != 'flat')){
           this.hasApplicableDiscounts = true;
+        }
+      });
+    });
+    this.booking?.services.forEach((service)=>{
+      service.discountsApplicable?.map((discount) => {
+        const index = this.discountList.findIndex(item => item.id == discount.id);
+        if(index < 0){
+          this.discountList.push(discount);
         }
       });
     });

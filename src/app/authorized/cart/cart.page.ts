@@ -48,6 +48,7 @@ export class CartPage implements OnInit {
   mainCategoryId:string = '';
   serviceId:string = '';
   isRecommended: boolean = false;
+  couponCount:number = 0;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -130,6 +131,7 @@ export class CartPage implements OnInit {
     this.pageLeaved = false;
     if(this.cartService.cart.length === 1){
       this.selectedBooking = this.cartService.cart[0];
+      this.createOfferCount();
       this.addFixedCharges();
     }else{
       this.selectedBooking = undefined;
@@ -164,6 +166,27 @@ export class CartPage implements OnInit {
       });
     });
     return count;
+  }
+
+  createOfferCount(){
+    this.couponCount = 0;
+    const discountList:any[] = [];
+    this.selectedBooking?.services.forEach(services=>{
+      services.discountsApplicable?.map((discount) => {
+        if(this.selectedBooking?.billing?.subTotal){
+          if(
+            (discount.type == 'flat' && (discount?.value <= this.selectedBooking?.billing?.subTotal ?? 0)) ||
+            (discount.type != 'flat') 
+          ){
+            const index = discountList.findIndex(item => item.id == discount.id);
+            if(index < 0){
+              discountList.push(discount);
+            }
+          }
+        }
+      });
+    });
+    this.couponCount = discountList.length;
   }
   services: Service[] = [];
 
@@ -246,6 +269,7 @@ export class CartPage implements OnInit {
         let foundBooking = bookings.find((booking)=>booking.id===this.selectedBooking!.id);
         if (foundBooking){
           this.selectedBooking = foundBooking;
+          this.createOfferCount();
         }else{
           this.selectedBooking = undefined;
         }
@@ -265,6 +289,7 @@ export class CartPage implements OnInit {
       return serviceFind && booking.mainCategory.id == this.mainCategoryId
     });
     if(this.selectedBooking){
+      this.createOfferCount();
       this.addFixedCharges();
     }
     
@@ -272,6 +297,7 @@ export class CartPage implements OnInit {
 
   async onSelectBooking(booking){
     this.selectedBooking = booking;
+    this.createOfferCount();
     this.recommendedServices = [];
     this.isRecommended = false;
     const servicesList = await this.cartService.getServices(this.cartService.selectedCatalogue, this.selectedBooking?.mainCategory.id ?? '', this.selectedBooking?.subCategory.id ?? '');

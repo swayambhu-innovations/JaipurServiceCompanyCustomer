@@ -21,9 +21,9 @@
       <ion-text slot="end" class="coupon-button" (click)="searchcoupons()">Apply</ion-text>
     </ion-item>
   </div>
-  <div *ngFor="let service Of  this.booking?.services">
-    <h2 *ngIf="hasApplicableDiscounts" class="heading-name" style="margin-left: 20px;">{{service.name}}</h2>
-    <ng-container *ngFor="let discount of service.discountsApplicable">
+  <!-- <div *ngFor="let service Of  this.booking?.services"> -->
+    <!-- <h2 *ngIf="hasApplicableDiscounts" class="heading-name" style="margin-left: 20px;">{{service.name}}</h2> -->
+    <ng-container *ngFor="let discount of discountList">
       <ng-container *ngIf="(discount.type == 'flat' && discount?.value <= subTotal) || (discount.type != 'flat')">
         <div class="coupon-card">
           <div class="coupon-card-offer">
@@ -52,6 +52,6 @@
       </ng-container>
       
     </ng-container>
-  </div>
+  <!-- </div> -->
   <button style="margin-top: 20px;" class="select-address-button" (click)="onDismissModal()">Done</button>
 </ion-content>
