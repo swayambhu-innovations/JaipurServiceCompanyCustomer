@@ -29,6 +29,7 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('content', { static: true }) content: any;
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
@@ -187,6 +188,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
      })
   }
 
+  scrollToTop() {
+    if (this.content && this.content.scrollToTop) {
+      this.content.scrollToTop();
+    }
+  }
+
   fetchAddress(){
     this.addresses = this.addressService.addresses;
     this.dataProvider.selectedAddress.next(this.addresses);
@@ -232,6 +239,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
 
   ionViewDidEnter(){
+    this.scrollToTop();
     this._notificationService.getCurrentUserNotification().then((notificationRequest) => {
       this.notifications = notificationRequest.docs.map((notification:any) => {
         return { ...notification.data(),id: notification.id };
