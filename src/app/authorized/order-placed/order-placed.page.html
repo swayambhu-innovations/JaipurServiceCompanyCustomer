@@ -113,18 +113,18 @@
         </section>
       </div>
     </div>
-    <div class="footer" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
-      <ion-button routerLink="../rating" expand="block" color="dark">
+    <div class="" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
+      <ion-button routerLink="../rating" expand="block" color="dark" *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.isPaid">
         Back To Home
       </ion-button>
-      <ion-button routerLink="../rating" expand="block" color="dark" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false">
+      <!-- <ion-button routerLink="../rating" expand="block" color="dark"    *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false">
         Retry Payment
-      </ion-button>
+      </ion-button> -->
     </div>
     <div class="temp" *ngIf="this.dataProvider.currentBooking?.isPaylater == false || this.dataProvider.currentBooking?.payment?.status == 'faild'">
-      <div class="bottom1">
-        <button class="payafter" routerLink="../rating">Back To Home</button>
-        <button class="paynow" (click)="onSelectRetryPayment()" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false"> Retry Payment</button>
+      <div class="bottom1" *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false">
+       <button class="payafter" routerLink="../rating" >Back To Home</button> 
+        <button class="paynow" (click)="onSelectRetryPayment()"> Retry Payment</button>
       </div>
     </div>
 

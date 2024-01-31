@@ -146,15 +146,19 @@ export class BookingDetailsPage implements OnInit {
    
   }
 
-  cancelSubmit() {
+ async cancelSubmit() {
     console.log("this.currentBooking: ",this.currentBooking)
-    if(this.currentBooking && this.currentBooking?.isPaid){
+    if(this.currentBooking && this.currentBooking?.isPaid && this.currentBooking.timeSlot){
       let payload:CreateRefund = {
         payId: this.currentBooking.payment.razorpay_payment_id,
         amount:this.currentBooking.payment.amount,
-        jobStartTime:this.currentBooking?.createdAt.seconds
+        jobStartTime:this.currentBooking.timeSlot.date.seconds 
       }
       let this_ = this;
+      let loader = await this.loadingController.create({
+        message: 'Please wait...',
+      });
+      loader.present();
       this.paymentService.createRefund(payload).subscribe({
         next:(response)=>{
           if(this.currentBooking){
@@ -164,9 +168,11 @@ export class BookingDetailsPage implements OnInit {
               this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
             }
            this.isModalOpenCancellation = false;
+           loader.dismiss()
           }
         },
         error(err) {
+          loader.dismiss()
           console.log("err...........: ",err)
           if(this_.currentBooking){
             if(this_.currentBooking){
@@ -183,6 +189,7 @@ export class BookingDetailsPage implements OnInit {
         this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this.CancelForm.value);
         this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
       }
+      
      this.isModalOpenCancellation = false;
     }
     
