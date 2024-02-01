@@ -259,6 +259,20 @@ export class SelectSlotPage implements OnInit {
   }
 
   setTimeSlot(){
+    const selectedSlotDate = new Date(this.selectedDate || "");
+    this.selectedStartTime = new Date(
+      selectedSlotDate.getFullYear(),
+      selectedSlotDate.getMonth(),
+      selectedSlotDate.getDate(),
+      this.selectedSlot["start"]
+    );
+
+    this.selectedEndTime = new Date(
+      selectedSlotDate.getFullYear(),
+      selectedSlotDate.getMonth(),
+      selectedSlotDate.getDate(),
+      this.selectedSlot["end"]
+    );
     this.dataProvider.currentBooking!.timeSlot = {
       date: Timestamp.fromDate(this.selectedDate!),
       agentArrivalTime: Timestamp.fromDate(this.selectedEndTime!),
