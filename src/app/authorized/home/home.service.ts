@@ -37,6 +37,7 @@ export class HomeService {
 
   async fetchData(serviceCatalogueId: string) {
     let serverCatDb = doc(this.firestore, 'service-catalogue', serviceCatalogueId);
+    this.dataProvider.selectedCatalog = serviceCatalogueId;
     const docSnap = await getDoc(serverCatDb);
     if (docSnap.exists()) {
       this.isCatalogueLoaded = true;
