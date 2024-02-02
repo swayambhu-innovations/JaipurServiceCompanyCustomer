@@ -53,12 +53,14 @@
             <p>4.5 <span>(87)</span></p>
           </div>
         </div>
+        <!--  -->
         <div class="call-button" *ngIf="(jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0) && (currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
           <button>
             <a href="tel:{{assignedAgent.phoneNumber}}">
               <img class="call" src="../../../assets/Call.svg" alt="" />
             </a>
           </button>
+           <p style="    margin-right: 5px;">{{assignedAgent.phoneNumber}}</p>
         </div>
         <div class="call-text" *ngIf="jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0 ">
           <p>Phone No. will be visible 30 min prior to booking</p>

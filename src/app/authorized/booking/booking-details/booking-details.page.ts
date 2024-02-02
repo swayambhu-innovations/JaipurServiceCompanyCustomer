@@ -212,6 +212,8 @@ export class BookingDetailsPage implements OnInit {
         this.currentBooking.stage = 'allotmentPending';
       }
     }
+    if(this.currentBooking)
+    this.currentBooking['isReschule']= true;
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
   }

@@ -395,4 +395,14 @@ export class SelectSlotPage implements OnInit {
     //   }
    
   }
+  async rescheduleBooking(){
+    let loader = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    loader.present();
+    this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+      this.router.navigate(['/authorized/order-placed']);
+      loader.dismiss();
+    });
+   }
 }

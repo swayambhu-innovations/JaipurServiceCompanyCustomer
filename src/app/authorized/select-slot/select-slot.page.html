@@ -91,12 +91,17 @@
 
 
     <div class="temp" >
-      <div class="bottom1">
+      <div class="bottom1" *ngIf="dataProvider.currentBooking?.isReschule == false">
         <button class="payafter" [ngClass]="{active: (selectedDate && selectedTimeState)}"  [disabled]="!(selectedDate && selectedTimeState)" (click)="createBookingWithoutPay()">
           Pay After Job
         </button>
         <button class="paynow" [ngClass]="{active: (selectedDate && selectedTimeState)}"   [disabled]="!(selectedDate && selectedTimeState)" (click)="createBooking()">
           Pay Now
+        </button>
+      </div>
+      <div class="bottom1" *ngIf="dataProvider.currentBooking?.isReschule">
+        <button class="reschedule" [ngClass]="{active: (selectedDate && selectedTimeState)}"   [disabled]="!(selectedDate && selectedTimeState)" (click)="rescheduleBooking()">
+         Reschedule
         </button>
       </div>
     </div>

@@ -11,6 +11,7 @@ export interface  Booking {
   isRefundInitiated?:boolean;
   refundInitiatedDetails?:any;
   rating?:any;
+  isReschule?:boolean | false;
   subCategory: {
     id: string;
     name: string;
