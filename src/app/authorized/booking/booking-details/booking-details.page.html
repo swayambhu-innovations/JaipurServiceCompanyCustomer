@@ -368,8 +368,8 @@
                 <h3 class="head">{{service.name}}</h3>
                 <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
               </div>
-    
-              <div class="rating" id="open-modal-rate" expand="block" (click)="isModalOpenRate=true">
+              <!-- (click)="isModalOpenRate=true" -->
+              <div class="rating" id="open-modal-rate" expand="block" >
                 <p style="margin-right: 10px">You Rated</p>
                 <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
                 <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
@@ -449,29 +449,28 @@
                 alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
               <small style="color: #579540">Thank you for your rating!</small>
               <div class="col rating-star">
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star"></i>
-                <i class="bi bi-star"></i>
+                <i class="bi bi-star" (click)="userRating(1)"></i>
+                <i class="bi bi-star" (click)="userRating(2)"></i>
+                <i class="bi bi-star" (click)="userRating(3)"></i>
+                <i class="bi bi-star" (click)="userRating(4)"></i>
+                <i class="bi bi-star" (click)="userRating(5)"></i>
               </div>
               <br />
-              <form>
+              <form [formGroup]="userRatingForm">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Review Title" />
-
-                  <textarea class="form-control" placeholder="Service Review" rows="3"></textarea>
+                  <input type="text" class="form-control" placeholder="Review Title" formControlName="reviewTitle" 
+                      [ngClass]="{'is-invalid':(ratingSumitted && userRatingForm.controls.reviewTitle.errors)}" />
+                  <!-- <div *ngIf="ratingSumitted && userRatingForm.controls.reviewTitle.errors" class="text-danger">
+                    <div *ngIf="userRatingForm.controls.reviewTitle.errors.required">
+                      Review Title is Required
+                    </div>
+                  </div> -->
+                  <textarea class="form-control" placeholder="Service Review" rows="3" formControlName="serviceReview"></textarea>
                 </div>
                 <div class="container mt-4 bottom-buttons">
-                  <button  type="button" class="skipbtn">
-                    Skip
-                  </button>
-
+                  <button  type="button" class="skipbtn"> Skip</button>
                   <!-- <span class="example-spacer"></span> -->
-
-                  <button type="button" class="submitbtn">
-                    Submit
-                  </button>
+                  <button type="button" class="submitbtn" (click)="sendRating()" >Submit</button>
                 </div>
               </form>
             </div>

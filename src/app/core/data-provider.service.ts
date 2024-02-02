@@ -13,6 +13,7 @@ export class DataProviderService {
   mainCategories:BehaviorSubject<Category[]>=new BehaviorSubject<Category[]>([]);
   mainCategoriesLoaded:boolean = false;
   loggedIn:boolean=false;
+  selectedCatalog:string = '';
   userMobile:string= '';
   selectedAddress:BehaviorSubject<Address[]>=new BehaviorSubject<Address[]>([]);
   checkingAuth:boolean=true;
