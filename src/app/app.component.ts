@@ -8,6 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
+import { LocationService } from './authorized/new-address/services/location.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,10 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     public _navigationBack : NavigationBackService,
+    private locationService:LocationService,
     private router: Router) {
+      
+    this.locationService.initLocation();
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();

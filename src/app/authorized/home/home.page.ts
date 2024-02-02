@@ -37,13 +37,13 @@ interface bannerConfig {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('content', { static: true }) content: any;
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
-  hasAddressFatched: boolean = false;
 
   banners: any[] = [];
   recentActivityData: any[] = [];
@@ -232,19 +232,21 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  scrollToTop() {
+    if (this.content && this.content.scrollToTop) {
+      this.content.scrollToTop();
+    }
+  }
+
   fetchAddress() {
     this.addresses = this.addressService.addresses;
     this.dataProvider.selectedAddress.next(this.addresses);
-    if (this.addresses.length > 0) {
-      this.hasAddressFatched = true;
-    }
     this.addressService.fetchedAddresses.subscribe(
       async (address: Address[]) => {
         if (!this._navigationService.isAddressSubscription$) {
           return;
         }
         this.addresses = address;
-        this.hasAddressFatched = false;
         this.addressService.addresses = this.addresses;
         this.dataProvider.selectedAddress.next(this.addresses);
         let currentAddressTemp: any = this.addresses.find(
@@ -257,9 +259,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
             this.setupCategories();
           }
         }
-        setTimeout(() => {
-          this.hasAddressFatched = true;
-        }, 0);
       }
     );
   }
@@ -296,6 +295,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ionViewDidEnter() {
+    this.scrollToTop();
     this._notificationService
       .getCurrentUserNotification()
       .then((notificationRequest) => {

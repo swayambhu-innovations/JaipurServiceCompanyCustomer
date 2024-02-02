@@ -50,6 +50,9 @@ export class NoInternetComponent  implements OnInit {
         this.canDismiss = false;
       }
     });
+    App.addListener('appRestoredResult', data => {
+      this.router.navigate(['unauthorized/login']);
+    });
   }
 
   ionViewDidLeave(){
