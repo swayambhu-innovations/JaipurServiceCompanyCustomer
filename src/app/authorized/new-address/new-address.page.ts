@@ -196,8 +196,10 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
   }
 
-  getLocation(setCenter:boolean = true) {
+  async getLocation(setCenter:boolean = true) {
     if(this.platform.is('capacitor')){
+      let loader = await this.loadingController.create({message:'Getting location...'});
+      loader.present();
       firstValueFrom(this.locationService.currentLocation).then((position)=>{
         this.currentPosition = {
           lat: position.coords.latitude,
@@ -212,11 +214,13 @@ export class NewAddressPage implements OnInit, CanActivate{
         else{
           
         }
+        loader.present();
         this.setPointerOutside();
         
       })
     } else {
-      
+      let loader = await this.loadingController.create({message:'Getting location...'});
+      loader.present();
       navigator.geolocation.getCurrentPosition((position) => {
         this.currentPosition = {
           lat: position.coords.latitude,
@@ -231,6 +235,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         else{
           
         }
+        loader.dismiss();
         this.setPointerOutside();
       },(error)=>{
         setTimeout(() => this.getLocation(),500)
