@@ -255,7 +255,7 @@ export class NewAddressPage implements OnInit, CanActivate{
     }
   }
 
-  async setPointerOutside(){
+  setPointerOutside(){
     const distanceInKm = this.getDistanceInKM(this.center.lat,this.center.lng,this.currentPosition?.lat,this.currentPosition?.lng);
     if(distanceInKm > this.circleRadius){
       this.isValidMarker = false;
