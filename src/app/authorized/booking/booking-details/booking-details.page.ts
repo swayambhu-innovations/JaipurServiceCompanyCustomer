@@ -483,46 +483,51 @@ export class BookingDetailsPage implements OnInit {
       }
     }
     async sendRating(){
-      console.log("user Rated.......: ",this.userRated,this.currentBooking?.services);
       this.ratingSumitted = true;
-      console.log("user Form Data: ........: ",this.userRatingForm.value,this.userRatingForm);
       if(!this.userRatingForm.valid){
         return;
       }
       let SelectedService:any;
      
       this.dataProvider.mainCategories.subscribe(mainCat=>{
-        console.log("mainCat.......: ",mainCat);
         mainCat.forEach(subCate=>{
           if(this.currentBooking){
             if(subCate.id == this.currentBooking.mainCategory.id){
               let selectedSubCate = subCate.subCategories.filter(cat=>this.currentBooking && cat.id ===this.currentBooking.subCategory.id)
               if(selectedSubCate.length >0 ){
-                SelectedService = selectedSubCate[0].services.filter(service=>this.currentBooking && service.id === this.currentBooking.services[0].serviceId);
+                SelectedService = selectedSubCate[0].services.filter(service=>this.currentBooking && service.id === this.currentBooking.services[this.index].serviceId);
               }
             }
           }
         });
       })
-      console.log("Selected Service........: ",SelectedService)
       let formData = this.userRatingForm.value;
       formData['rating'] = this.userRated;
       formData['userName'] = this.dataProvider.currentUser?.userData.name;
       formData['userId'] = this.dataProvider.currentUser?.user.uid;
       formData['createAt'] = Timestamp.fromDate(new Date())
-      
-      if(this.currentBooking?.services[0] && this.dataProvider.currentUser){
-        this.currentBooking.services[0]['rating'] = formData;
-        console.log("final booking Details..........: ", this.currentBooking)
+      //debugger
+      if(this.currentBooking?.services[this.index] && this.dataProvider.currentUser){
+        this.currentBooking.services[this.index]['rating'] = formData;
         if(SelectedService[0].rating){
           SelectedService[0].rating.push(formData)
         }else{
           SelectedService[0]['rating'] = [formData];
         }
-        console.log("SelectedService........: ", this.dataProvider.selectedCatalog,SelectedService[0]);
-        await this.bookingService.updateBookingSlot(this.dataProvider.currentUser.user.uid,this.currentBooking.id,this.currentBooking);
-        await this.bookingService.updateServiceRating(this.dataProvider.selectedCatalog,this.currentBooking.mainCategory.id,this.currentBooking.subCategory.id, this.currentBooking.services[0].serviceId,SelectedService[0]);
+        let sum = 0;
+        SelectedService[0].rating.forEach((acc) => sum = sum + acc.rating );
+        let avrg = (sum/SelectedService[0].rating.length).toFixed(1);
+        
+        SelectedService[0]['averageRating'] = avrg + "  ("+SelectedService[0].rating.length+")"
+         await this.bookingService.updateBookingSlot(this.dataProvider.currentUser.user.uid,this.currentBooking.id,this.currentBooking);
+         await this.bookingService.updateServiceRating(this.dataProvider.selectedCatalog,this.currentBooking.mainCategory.id,this.currentBooking.subCategory.id, this.currentBooking.services[0].serviceId,SelectedService[0]);
+        this.isModalOpenRate = false;
       }
       
+    }
+    index:any = 0;
+    rateService(service:any){
+      this.isModalOpenRate=true;
+      this.index = this.currentBooking?.services.findIndex(x => x.serviceId === service.serviceId);
     }
 }

@@ -31,6 +31,7 @@ export interface Service {
   taxes: any[];
   tags:string[];
   taxType:string;
+  rating?:any;
   discounts: any[];
   variants: {
     id:string;
@@ -42,4 +43,5 @@ export interface Service {
     actualJobDuration?: any;
   }[];
   color: string;
+  averageRating?:string;
 }

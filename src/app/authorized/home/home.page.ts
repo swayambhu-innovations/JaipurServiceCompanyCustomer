@@ -378,7 +378,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     'Swift',
     'Kotlin',
   ];
-
   Cleaning = [
     {
       label: 'Kitchen Cleaning',

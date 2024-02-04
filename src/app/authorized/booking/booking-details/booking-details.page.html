@@ -371,13 +371,19 @@
                 <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
               </div>
               <!-- (click)="isModalOpenRate=true" -->
-              <div class="rating" id="open-modal-rate" expand="block" >
-                <p style="margin-right: 10px">You Rated</p>
-                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-                <span><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+              <div class="rating" id="open-modal-rate" expand="block"  (click)="rateService(service)" *ngIf="!service?.rating">
+                <p style="margin-right: 10px" *ngIf="!service?.rating">Please Rate</p>
+                <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
+                <span ><img src="../../../assets/star-outlined.svg" alt="" /></span>
                 <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
                 <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+              </div>
+              <div class="rating" id="open-modal-rate" expand="block"  *ngIf="service?.rating">
+                <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
+                <span *ngFor="let item of [].constructor(service?.rating.rating); let i = index "><img src="../../../assets/carbon_star-filled.svg" alt="" /></span>
+                <span *ngFor="let item of [].constructor(5-service?.rating.rating); let i = index "><img src="../../../assets/star-outlined.svg" alt="" /></span>
               </div>
             </div>
             <div class="price">

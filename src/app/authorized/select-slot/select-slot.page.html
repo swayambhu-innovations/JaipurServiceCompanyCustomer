@@ -91,7 +91,7 @@
 
 
     <div class="temp" >
-      <div class="bottom1" *ngIf="dataProvider.currentBooking?.isReschule == false">
+      <div class="bottom1" *ngIf="!dataProvider.currentBooking?.isReschule || dataProvider.currentBooking?.isReschule == false">
         <button class="payafter" [ngClass]="{active: (selectedDate && selectedTimeState)}"  [disabled]="!(selectedDate && selectedTimeState)" (click)="createBookingWithoutPay()">
           Pay After Job
         </button>

@@ -106,9 +106,11 @@ export class HomeService {
           allowReviews: service.data()['allowReviews'],
           taxes: service.data()['taxes'],
           tags: service.data()['tags'],
+          rating:service.data()['rating'],
           taxType: service.data()['taxType'],
           discounts: service.data()['discounts'],
           variants: service.data()['variants'],
+          averageRating:service.data()['averageRating'],
         };
       })
     );
