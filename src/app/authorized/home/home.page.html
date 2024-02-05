@@ -41,7 +41,7 @@
                       <p>{{data.billing.grandTotal | currency:'INR'}}</p>
                     </ion-col>
                     <ion-col class="row-1-col-2">
-                      <p class="body {{data?.stage}}">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
+                      <p class="body {{data?.stage}}" style="height: 38px;display: flex;align-items: center;">{{ utils[data?.stage || 'allotmentPending'].text }}</p>
                     </ion-col>
                   </ion-row>
                   <ion-row class="row-2">

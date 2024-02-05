@@ -530,4 +530,7 @@ export class BookingDetailsPage implements OnInit {
       this.isModalOpenRate=true;
       this.index = this.currentBooking?.services.findIndex(x => x.serviceId === service.serviceId);
     }
+    SkipRating(){
+      this.isModalOpenRate=false;
+    }
 }
