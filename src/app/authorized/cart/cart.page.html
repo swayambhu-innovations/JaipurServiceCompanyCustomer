@@ -1,17 +1,22 @@
-<app-header-with-back [title]="'cart'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back
+  [title]="'cart'"
+  [showNotificationIcon]="true"
+></app-header-with-back>
 
-<ion-content *ngIf="!selectedBooking && cart.length > 0">
-
+<ion-content *ngIf="!selectedBooking && cart.length > 0 && !deviceNo">
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
-      <img [src]="booking.subCategory.image" alt="">
+      <img [src]="booking.subCategory.image" alt="" />
       <div class="categories">
         <div class="main">
           <p>{{booking.subCategory.name}}</p>
         </div>
         <div class="sub">
           <p>{{booking?.services?.length}} Services</p>
-          <span>{{booking.billing.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</span>
+          <span
+            >{{booking.billing.grandTotal | currency:'INR' : 'symbol' :
+            '1.0-0'}}</span
+          >
         </div>
       </div>
     </div>
@@ -21,15 +26,16 @@
     <div class="items">
       <ng-container *ngFor="let item of booking.services">
         <ul>
-          <li *ngFor="let variant of item.variants">{{variant.name}} X <span>{{variant.quantity}}</span></li>
+          <li *ngFor="let variant of item.variants">
+            {{variant.name}} X <span>{{variant.quantity}}</span>
+          </li>
         </ul>
       </ng-container>
     </div>
-    <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
+    <ion-button color="dark" (click)="onSelectBooking(booking);"
+      >Checkout</ion-button
+    >
   </div>
-
-
-
 
   <!-- <h3 class="header">You have {{cart.length}} bookings.</h3> -->
   <!-- <div class="orderCard" *ngFor="let booking of cart">
@@ -57,15 +63,14 @@
     </ol>
     <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
   </div> -->
-
-
-
 </ion-content>
 
 <ion-content class="page-body" *ngIf="selectedBooking">
   <div>
     <!-- <div *ngFor="let num of numbersArray"> -->
-    <ng-container *ngFor="let service of selectedBooking?.services;let i = index;">
+    <ng-container
+      *ngFor="let service of selectedBooking?.services;let i = index;"
+    >
       <hr class="divider" />
       <!-- <p class="serviceTitle">{{service.name}}</p> -->
       <div class="order-card" *ngFor="let variant of service?.variants">
@@ -87,9 +92,7 @@
             </div>
           </div>
           <div class="card-right-mid">
-            <p class="card-subtitle">
-              • {{variant.actualJobDuration}} Min
-            </p>
+            <p class="card-subtitle">• {{variant.actualJobDuration}} Min</p>
             <span class="spacer"></span>
             <div class="rating">
               <img
@@ -99,9 +102,7 @@
               />
               <p class="rating-text">
                 {{5}}
-                <span class="rating-user"
-                  >({{14}})</span
-                >
+                <span class="rating-user">({{14}})</span>
               </p>
             </div>
           </div>
@@ -111,22 +112,31 @@
                 {{variant.billing.discountedPrice | currency:'INR'}}
               </span> -->
               <span class="original-price">
-                {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}
+                {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' :
+                '1.0-0'}}
               </span>
             </p>
             <div class="stock">
-              <button fill="clear" class="background-none" [disabled]="variant.quantity <=1" (click)="onDecrementCartQuantity(service,variant); variant.quantity = variant.quantity - 1">
-                <ng-container *ngIf = "variant.quantity <=1 else clickable">
-                  <img src="../../../assets/remove.svg" alt="">
+              <button
+                fill="clear"
+                class="background-none"
+                [disabled]="variant.quantity <=1"
+                (click)="onDecrementCartQuantity(service,variant); variant.quantity = variant.quantity - 1"
+              >
+                <ng-container *ngIf="variant.quantity <=1 else clickable">
+                  <img src="../../../assets/remove.svg" alt="" />
                 </ng-container>
                 <ng-template #clickable>
-                  <img src="../../../assets/remove1.svg" alt="">
+                  <img src="../../../assets/remove1.svg" alt="" />
                 </ng-template>
-                
               </button>
               <p class="item-count">{{variant.quantity}}</p>
-              <button class="add-btn" fill="solid" (click)="onIncrementCartQuantity(service,variant); variant.quantity = variant.quantity + 1">
-                <img src="../../../assets/add.svg" alt="">
+              <button
+                class="add-btn"
+                fill="solid"
+                (click)="onIncrementCartQuantity(service,variant); variant.quantity = variant.quantity + 1"
+              >
+                <img src="../../../assets/add.svg" alt="" />
               </button>
             </div>
           </div>
@@ -158,10 +168,14 @@
   </ng-container>
   <!-- When coupon is applied -->
   <ng-container>
-    <div class="applied-coupon" 
-    *ngIf="(selectedBooking.billing?.coupanDiscunt || 0) > 0">
+    <div
+      class="applied-coupon"
+      *ngIf="(selectedBooking.billing?.coupanDiscunt || 0) > 0"
+    >
       <div class="text">
-        <p class="saved-rs">Saved ₹{{selectedBooking.billing?.coupanDiscunt||0}}</p>
+        <p class="saved-rs">
+          Saved ₹{{selectedBooking.billing?.coupanDiscunt||0}}
+        </p>
         <p class="coupon-applied-successfuly">Coupon applied successfully!</p>
       </div>
       <div class="line-style">
@@ -174,7 +188,7 @@
         <p class="applied-text">Applied!</p>
       </div>
       <div class="remove-coupon" (click)="onRemoveCoupon()">
-        <ion-icon  name="close"></ion-icon>
+        <ion-icon name="close"></ion-icon>
       </div>
     </div>
     <!-- <ion-button (click)="setOpen(true)">Open</ion-button> -->
@@ -209,41 +223,58 @@
   <!-- payment detail section -->
   <div class="payment-details">
     <div class="breakup-item total-duration-container">
-      <p class="left-title">Total Duration <img src="assets/Vectorduration.png" alt=""></p>
-      <p class="right-sub">
-        {{totalTimeNeeded}} 
+      <p class="left-title">
+        Total Duration <img src="assets/Vectorduration.png" alt="" />
       </p>
+      <p class="right-sub">{{totalTimeNeeded}}</p>
     </div>
-    
+
     <h6 class="payment-detials-text">Payment Details</h6>
 
     <div class="items">
       <ng-container *ngFor="let item of selectedBooking.services">
-          <div class="row1" *ngFor="let variant of item.variants">
-            <p class="col1">{{variant.name }} X <span >{{ variant.quantity}}</span></p>
-            <p style="color: black;">{{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}</p>
-          </div>
+        <div class="row1" *ngFor="let variant of item.variants">
+          <p class="col1">
+            {{variant.name }} X <span>{{ variant.quantity}}</span>
+          </p>
+          <p style="color: black">
+            {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' :
+            '1.0-0'}}
+          </p>
+        </div>
       </ng-container>
     </div>
 
     <div class="breakup">
       <div class="breakup-item">
         <p class="left-title">Total (MRP)</p>
-        <p class="right-sub">{{selectedBooking.billing.subTotal | currency:'INR'}}</p>
+        <p class="right-sub">
+          {{selectedBooking.billing.subTotal | currency:'INR'}}
+        </p>
       </div>
       <div class="breakup-item">
         <p class="left-title">Item Discount</p>
-        <p class="right-sub discount-off">-{{selectedBooking.billing.discount | currency:'INR'}}</p>
+        <p class="right-sub discount-off">
+          -{{selectedBooking.billing.discount | currency:'INR'}}
+        </p>
       </div>
       <div class="breakup-item">
         <p class="left-title">Coupon Discount</p>
-        <p class="right-sub discount-off">-{{selectedBooking.billing?.coupanDiscunt | currency:'INR'}}</p>
+        <p class="right-sub discount-off">
+          -{{selectedBooking.billing?.coupanDiscunt | currency:'INR'}}
+        </p>
       </div>
       <div class="breakup-item">
         <p class="left-title">Discounted Price</p>
-        <p class="right-sub">{{((selectedBooking.billing.subTotal-selectedBooking.billing.discount)-( selectedBooking.billing?.coupanDiscunt || 0) )| currency:'INR'}}</p>
+        <p class="right-sub">
+          {{((selectedBooking.billing.subTotal-selectedBooking.billing.discount)-(
+          selectedBooking.billing?.coupanDiscunt || 0) )| currency:'INR'}}
+        </p>
       </div>
-      <div class="breakup-item" *ngFor="let charge of selectedBooking?.billing?.fixedCharges">
+      <div
+        class="breakup-item"
+        *ngFor="let charge of selectedBooking?.billing?.fixedCharges"
+      >
         <p class="left-title">{{charge.name}}</p>
         <p class="right-sub">{{charge.amount | currency:'INR'}}</p>
       </div>
@@ -251,17 +282,21 @@
     <hr class="dotted-line" />
     <div class="breakup-item">
       <p class="total-text">Total</p>
-      <p class="total-text">{{selectedBooking.billing.grandTotal | currency:'INR'}}</p>
+      <p class="total-text">
+        {{selectedBooking.billing.grandTotal | currency:'INR'}}
+      </p>
     </div>
     <div class="coupon-box" *ngIf="isCouponActive">
-      <img src="../../../assets/couponTag.svg" alt="">
+      <img src="../../../assets/couponTag.svg" alt="" />
       <p>Apply Coupons to save upto 70%!</p>
     </div>
   </div>
 
   <div class="offer-bar" *ngIf="selectedBooking.billing.discount">
     <img class="tag-image" src="../../../assets/images/tag.png" alt="" />
-    <p class="tag-text">Yay! You have saved {{selectedBooking.billing.discount}} on final bill</p>
+    <p class="tag-text">
+      Yay! You have saved {{selectedBooking.billing.discount}} on final bill
+    </p>
   </div>
 
   <div class="recommended-container" *ngIf="isRecommended">
@@ -269,21 +304,31 @@
     <div class="recommended-items-box-parent">
       <ng-container *ngFor="let item of recommendedServices">
         <div class="recommended-items-box" *ngIf="item?.image[0]">
-          <img [src]="item?.image[0]" alt="" (click)="onClickRecommendedServices(item)">
+          <img
+            [src]="item?.image[0]"
+            alt=""
+            (click)="onClickRecommendedServices(item)"
+          />
           <div class="text">
             <div class="item">{{item.name}}</div>
           </div>
         </div>
       </ng-container>
     </div>
-    
   </div>
   <!-- <span  style="height: 32px; color: aqua;" ></span> -->
-  <button class="select-address-button" (click)="this.dataProvider.currentBooking = selectedBooking; temp()">
+  <button
+    class="select-address-button"
+    (click)="this.dataProvider.currentBooking = selectedBooking; temp()"
+  >
     Next
   </button>
 </ion-content>
-<ion-content class="noItems" *ngIf="!selectedBooking && cart?.length == 0 && cartLoaded">
+
+<ion-content
+  class="noItems"
+  *ngIf="!selectedBooking && cart?.length == 0 && cartLoaded && !deviceNo"
+>
   <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
   <span class="text-content">
     <p class="cart-empty-text">Your cart is empty</p>
@@ -292,27 +337,39 @@
     </p>
   </span>
 </ion-content>
-  <ion-modal #modal2 trigger="open-modal"
-    [isOpen]="isOpenPopu"
-    [keyboardClose]="false"
-    [showBackdrop]="false"
-   [initialBreakpoint]="0.3" 
-   [breakpoints]="[0.3, 0.3, 0.3,0.3]">
-    <ng-template>
-      <ion-content>
-        <div class="row" style="    margin: 30px 10px;">
-          <div class="col-9">
-            <h6>Yay! You will receive up to ₹{{ selectedCoupan.type == 'flat' || selectedCoupan.type == "fixed"?selectedCoupan.value + " "+ selectedCoupan.type  : selectedCoupan.value +  ' %'}} cashback on this order</h6>
-          </div>
-          <div class="col-3">
-            <img src="assets/discount-shapecoupan.png" alt="">
-          </div>
-          <div class="col-9">
-            <p class="par-info">‘{{selectedCoupan.code}}’ - applied succesfully</p>
-          </div>
+<ion-modal
+  #modal2
+  trigger="open-modal"
+  [isOpen]="isOpenPopu"
+  [keyboardClose]="false"
+  [showBackdrop]="false"
+  [initialBreakpoint]="0.3"
+  [breakpoints]="[0.3, 0.3, 0.3,0.3]"
+>
+  <ng-template>
+    <ion-content>
+      <div class="row" style="margin: 30px 10px">
+        <div class="col-9">
+          <h6>
+            Yay! You will receive up to ₹{{ selectedCoupan.type == 'flat' ||
+            selectedCoupan.type == "fixed"?selectedCoupan.value + " "+
+            selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
+            order
+          </h6>
         </div>
-        <button class="select-address-button" (click)="modal2.dismiss()">Okay, Got it</button>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+        <div class="col-3">
+          <img src="assets/discount-shapecoupan.png" alt="" />
+        </div>
+        <div class="col-9">
+          <p class="par-info">
+            ‘{{selectedCoupan.code}}’ - applied succesfully
+          </p>
+        </div>
+      </div>
+      <button class="select-address-button" (click)="modal2.dismiss()">
+        Okay, Got it
+      </button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>

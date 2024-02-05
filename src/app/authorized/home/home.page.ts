@@ -23,7 +23,7 @@ import { AddressService } from '../db_services/address.service';
 import { Address } from '../select-address/address.structure';
 import { CartService } from '../cart/cart.service';
 import { NavigationBackService } from 'src/app/navigation-back.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { ModalService } from '../modal.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -64,7 +64,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   };
   topBanner: any[] = [];
   middleBanner: any[] = [];
-  deviceInfo: any;
+  public deviceNo: number; // store 0 for mobile, 1 for tablet, 2 for desktop
   constructor(
     private addressService: AddressService,
     private router: Router,
@@ -78,7 +78,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private _notificationService: UserNotificationService,
     public _cartService: CartService,
     private _navigationService: NavigationBackService,
-    private deviceService: DeviceDetectorService
+    private modalService: ModalService
   ) {
     this._notificationService
       .getCurrentUserNotification()
@@ -173,17 +173,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
       this._cartService.fixedCharges = cartFixedCharges;
     });
-    this.epicFunction();
-  }
-
-  epicFunction() {
-    this.deviceInfo = this.deviceService.getDeviceInfo();
-    const isMobile = this.deviceService.isMobile();
-    const isTablet = this.deviceService.isTablet();
-    const isDesktopDevice = this.deviceService.isDesktop();
-    isMobile && console.log('Mobile Screen');
-    isTablet && console.log('Tablet Screen');
-    isDesktopDevice && console.log('Desktop Screen');
+    this.deviceNo = this.modalService.checkDeviceInfo(); // validating device screen size
   }
 
   async ngOnInit() {
