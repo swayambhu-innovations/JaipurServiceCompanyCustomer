@@ -12,6 +12,8 @@ import { LoadingController } from '@ionic/angular';
 })
 export class HomeHeaderComponent  implements OnInit {
   addressess:Address[] = [];
+  width:any;
+
   @ViewChild('addressModal') addressModal;
   showmodal: boolean = false;
   @Input() MAX_ADDRESS_LINE_LENGTH!:number;
@@ -38,9 +40,14 @@ export class HomeHeaderComponent  implements OnInit {
   notification(){
   this.router.navigate(['authorized/notification']);
   }
+
+  navigateTOSearch(){
+    this.router.navigate(['authorized/search']);
+  }
  
   ngOnInit() {
-    
+    this.width = window.innerWidth;
+    console.log(this.width);
   }
 
   setupAddress(address){

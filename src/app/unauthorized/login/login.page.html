@@ -1,12 +1,14 @@
 <div class="main" style="height: 100%; background-color: white;">
-  <section class="header">
-    <img src="assets/images/logo.png" alt="">
-    <p>Jaipur Service Company</p>
-  </section>
-
-  <section class="body">
-    <img src="assets/images/login.png" alt="">
-  </section>
+  <div class="img-div">
+    <section class="header">
+      <img src="assets/images/logo.png" alt="">
+      <p>Jaipur Service Company</p>
+    </section>
+  
+    <section class="body">
+      <img src="assets/images/login.png" alt="">
+    </section>
+  </div>
 
   <section class="login" *ngIf="!this.dataProvider.checkingAuth && !this.dataProvider.loggedIn">
     <h3>Welcome Back</h3>

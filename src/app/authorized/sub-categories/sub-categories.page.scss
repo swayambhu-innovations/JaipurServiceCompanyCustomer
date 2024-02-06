@@ -27,6 +27,7 @@ ion-title {
       width: 96%;
       height: 135px;
       border-radius: 14px;
+      object-fit: cover;
     }
 
     h4 {
@@ -42,3 +43,27 @@ ion-title {
     }
   }
 }
+
+ion-modal{
+  --width: 76%;
+  --border-radius: 12px;
+  --height: 76%;
+  .subcategory-container{
+    grid-template-columns: 30% 30% 30%;
+    width: 75%;
+    margin: 0 auto;
+  }
+  .leftArrow{
+    cursor: pointer;
+  }
+
+  .cross-div{
+    margin-right: 29px;
+    cursor: pointer;
+    img{
+      width: 22px;
+      object-fit: cover;
+    }
+  }
+}
+

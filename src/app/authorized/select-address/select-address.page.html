@@ -1,8 +1,10 @@
-<app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'" [showNotificationIcon]="false"></app-header-with-back>
-<!-- [showNotificationIcon]="addressService.addresses.length > 0" -->
-<div class="container">
-  <div class="row">
-    <ion-toolbar slot="end">
+<ng-container *ngIf="mobileView">
+  <app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'"
+    [showNotificationIcon]="false"></app-header-with-back>
+  <!-- [showNotificationIcon]="addressService.addresses.length > 0" -->
+  <div class="container">
+    <div class="row">
+      <ion-toolbar slot="end">
 
         <div class="new-add-button">
           <button (click)="newAddress()">
@@ -10,85 +12,135 @@
             <img src="../../../assets/add-button.svg" alt="">
           </button>
         </div>
-        
-        
-    </ion-toolbar>
+
+
+      </ion-toolbar>
+    </div>
   </div>
-</div>
-<ion-content [fullscreen]="true">
-  <!-- <div class="container" id="container"> -->
+  <ion-content [fullscreen]="true">
+    <!-- <div class="container" id="container"> -->
     <!-- <ion-header collapse="condense"> -->
-      <!-- <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button default-href="#"></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="secondary">
-          <ion-button>
-            <ion-icon name="notifications-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar> -->
-      <!-- <ion-toolbar>
-        <h2 slot="start">Select Address</h2>
-        <ion-buttons slot="secondary">
-          <ion-button shape="round"
-            >Add New <ion-icon name="add-circle-outline"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar> -->
+    <!-- <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-back-button default-href="#"></ion-back-button>
+          </ion-buttons>
+          <ion-buttons slot="secondary">
+            <ion-button>
+              <ion-icon name="notifications-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar> -->
+    <!-- <ion-toolbar>
+          <h2 slot="start">Select Address</h2>
+          <ion-buttons slot="secondary">
+            <ion-button shape="round"
+              >Add New <ion-icon name="add-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar> -->
     <!-- </ion-header> -->
     <!-- <ion-radio-group (ionChange)="setValue($event)">
-      <div class="row" *ngFor="let address of addressService.addresses">
-        <div class="col">
-          <div class="card mt-4">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-7">
-                    <ion-radio [value]="address" labelPlacement="end" color="medium">
-                      <h5 class="card-title"><b>{{address.name}}</b></h5>
-                      <p class="card-text">{{address.cityName}}</p>
-                      <p class="card-text">{{address.stateName  }}</p>
-                      <p class="card-text">{{address.pincode}}</p>
-                    </ion-radio>
-                </div>
-                <div class="col-5">
-                  <ion-button fill="clear">
-                    <ion-icon color="medium" name="create-outline"></ion-icon>
-                  </ion-button>
-                  <ion-button fill="clear">
-                    <ion-icon color="medium" name="trash-outline"></ion-icon>
-                  </ion-button>
+        <div class="row" *ngFor="let address of addressService.addresses">
+          <div class="col">
+            <div class="card mt-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-7">
+                      <ion-radio [value]="address" labelPlacement="end" color="medium">
+                        <h5 class="card-title"><b>{{address.name}}</b></h5>
+                        <p class="card-text">{{address.cityName}}</p>
+                        <p class="card-text">{{address.stateName  }}</p>
+                        <p class="card-text">{{address.pincode}}</p>
+                      </ion-radio>
+                  </div>
+                  <div class="col-5">
+                    <ion-button fill="clear">
+                      <ion-icon color="medium" name="create-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button fill="clear">
+                      <ion-icon color="medium" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </ion-radio-group> -->
+      </ion-radio-group> -->
 
 
-    
-  <!-- </div> -->
 
-  <div class="main-container">
-    <div class="address-det-div">
-      <div class="address-box" *ngFor="let address of addressService.addresses">
-        <div class="add-cont" >
-          <div class="input-div">
-            <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
-            <!-- <input  type="radio" > -->
-          </div>
-          <div class="address-details">
-            <h2>{{address.name}}</h2>
-            <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
-            <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
-          </div>
-          <div class="edit-delete-address">
-            <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
-            <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
+    <!-- </div> -->
+
+    <div class="main-container">
+      <div class="address-det-div">
+        <div class="address-box" *ngFor="let address of addressService.addresses">
+          <div class="add-cont">
+            <div class="input-div">
+              <input type="radio" name="defaultChange" [checked]="address.isDefault" (change)="changeAddress(address)">
+              <!-- <input  type="radio" > -->
+            </div>
+            <div class="address-details">
+              <h2>{{address.name}}</h2>
+              <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+              <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
+            </div>
+            <div class="edit-delete-address">
+              <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
+              <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</ion-content>
+  </ion-content>
+</ng-container>
+
+
+
+<ion-modal [backdropDismiss]="false" [isOpen]="isModalOpen">
+  <ng-template>
+    <app-header-with-back  [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'"
+      [showNotificationIcon]="false"></app-header-with-back>
+    <!-- [showNotificationIcon]="addressService.addresses.length > 0" -->
+    <div class="container">
+      <div class="row">
+        <ion-toolbar slot="end">
+
+          <div class="new-add-button">
+            <button (click)="newAddress()">
+              <span>Add New</span>
+              <img src="../../../assets/add-button.svg" alt="">
+            </button>
+          </div>
+
+
+        </ion-toolbar>
+      </div>
+    </div>
+    <ion-content [fullscreen]="true">
+      <div class="main-container">
+        <div class="address-det-div">
+          <div class="address-box" *ngFor="let address of addressService.addresses">
+            <div class="add-cont">
+              <div class="input-div">
+                <input type="radio" name="defaultChange" [checked]="address.isDefault"
+                  (change)="changeAddress(address)">
+                <!-- <input  type="radio" > -->
+              </div>
+              <div class="address-details">
+                <h2>{{address.name}}</h2>
+                <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+                <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
+              </div>
+              <div class="edit-delete-address">
+                <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
+                <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

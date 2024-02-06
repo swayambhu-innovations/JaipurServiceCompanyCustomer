@@ -1,27 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- <div class="jc-logo">
+      <img style="width: 47px; height: 47px;" src="../../../assets/images/logo.png" alt="">
+      <span>Jaipur Service Company</span>
+    </div> -->
+    
     <ion-buttons slot="start">
-      <ion-button>
-        <img src="assets/ui_icons/mapmarker.svg" alt="">
-      </ion-button>
+
+      <div class="jsc-logo">
+        <img src="../../../assets/images/logo.png" alt="">
+        <span>Jaipur Service Company</span>
+      </div>
+
+      <div class="location-det">
+        <ion-button>
+          <img src="assets/ui_icons/mapmarker.svg" alt="">
+        </ion-button>
+        <ion-text (click)="setopen()">
+          <h4 *ngIf="addressess.length > 0">{{(selectedAddress)?.name}}</h4>
+          <p>
+            {{addressLineOne}}
+            <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
+              ...
+            </ng-container>
+            <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton"
+              name="caret-down-outline"></ion-icon>
+            <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton"
+              name="caret-up-outline"></ion-icon>
+          </p>
+        </ion-text>
+      </div>
     </ion-buttons>
-    <ion-text (click)="setopen()">
-      <h4 *ngIf="addressess.length > 0">{{(selectedAddress)?.name}}</h4>
-      <p>
-        {{addressLineOne}}
-        <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
-          ...
-        </ng-container>
-        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton"
-          name="caret-down-outline"></ion-icon>
-        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton"
-          name="caret-up-outline"></ion-icon>
-      </p>
-    </ion-text>
-    <ion-buttons slot="end">
+
+    <button id="search" (click) = "navigateTOSearch()">
+      <p>Search what you need</p>
+      <span>
+        <img src="assets/ui_icons/search.svg" alt="" />
+      </span>
+    </button>
+    
+    <ion-buttons class="notification" slot="end">
       <ion-button (click)="notification()">
         <img *ngIf="!showUnreadNotification" src="assets/images/bell.svg" alt="">
-        <img *ngIf="showUnreadNotification" src="assets/ui_icons/notification.svg" alt="">
+        <img  *ngIf="showUnreadNotification" src="assets/ui_icons/notification.svg" alt="">
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -34,6 +55,7 @@
       <div class="main-container">
         <div class="address-head">
           <h2>Select Address</h2>
+          
           <div class="new-add-button">
             <button (click) = "navigate()">
               <span>Add New</span>

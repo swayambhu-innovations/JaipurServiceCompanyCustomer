@@ -41,9 +41,9 @@ ion-content {
   position: relative;
   .swiper-container {
     width: 100%;
-    a{
+    a {
       display: block;
-      img{
+      img {
         width: 100%;
       }
     }
@@ -79,7 +79,7 @@ ion-thumbnail {
   --size: 100px;
   --border-radius: 14px;
 }
-.no-catalogue-center-container{
+.no-catalogue-center-container {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
@@ -88,7 +88,7 @@ ion-thumbnail {
   transform: translateY(-50%);
   left: 0px;
   padding: 20px;
-  p{
+  p {
     text-align: center;
   }
 }
@@ -328,7 +328,7 @@ homepage.scss .serviceCategory {
   padding: 0px;
 }
 //recent activity
-.swiper-pagination1{
+.swiper-pagination1 {
   bottom: 1px;
 }
 .recent-container {
@@ -463,12 +463,12 @@ homepage.scss .serviceCategory {
     }
   }
 }
-.recent-container.no-booking{
+.recent-container.no-booking {
   height: 0px;
   padding: 0px;
   overflow: hidden;
 }
-.label-text-ellipsis{
+.label-text-ellipsis {
   width: 200px;
   overflow: hidden;
   white-space: pre;
@@ -478,15 +478,18 @@ homepage.scss .serviceCategory {
 .services {
   .services-cont {
     display: flex;
-    overflow: scroll;
+    // overflow: scroll;
+    justify-content: space-between;
+    gap: 10px;
 
     .service-det {
       .det {
         display: flex;
         justify-content: center;
         img {
-          width: 100px;
+          width: 100%;
           height: 100px;
+          object-fit: cover;
           border-radius: 16px;
         }
       }
@@ -515,7 +518,6 @@ homepage.scss .serviceCategory {
   animation-duration: 300ms;
   animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
-
 
 .marquee {
   width: 100%;
@@ -556,5 +558,147 @@ homepage.scss .serviceCategory {
   }
   100% {
     transform: translateX(82vw);
+  }
+}
+
+.footer-div{
+  display: none;
+}
+
+@media only screen and (min-width: 1024px) {
+  ion-content {
+    --background: linear-gradient(165deg, #f9cef4 0%, #246f99 100%);
+    #search {
+      display: none;
+    }
+  }
+
+  .all-categories-div {
+    width: 80%;
+    margin: 0 auto;
+    background: white;
+    padding: 0 34px;
+    border-radius: 12px;
+
+    ion-row{
+      justify-content: center;
+    }
+
+    .heading {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      hr {
+        width: 30%;
+        height: 3px;
+        background: #aaaaaa;
+      }
+      h4 {
+        margin: 1px 10px;
+        font-size: 27px;
+      }
+    }
+
+    .serviceCategoriesImages {
+      justify-content: center;
+      margin-top: 22px;
+      .category-det {
+        
+        a {
+          width: 148px;
+          height: 148px;
+          border-radius: 77px;
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          img {
+            width: 69;
+            height: 52px;
+          }
+        }
+
+        .seeAll-anchor {
+          width: 148px;
+          height: 148px;
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          border-radius: 36px;
+          .seeall-img {
+            width: 69px;
+            height: 71px;
+          }
+        }
+      }
+    }
+  }
+
+  .mainCategory-div {
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+    // background: white;
+    border-radius: 12px;
+    // padding: 10px;
+
+    .mainCategory {
+      background: white;
+      /* padding: 5px; */
+      border-radius: 12px;
+      padding: 10px 13px;
+    }
+  }
+
+  .client-section {
+    width: 80%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin-top: 14px;
+    ion-label {
+      font-size: 23px;
+    }
+    ion-col {
+      img {
+        height: 146px;
+        width: 369px;
+      }
+    }
+  }
+
+  .why-choose-us-section {
+    width: 80%;
+    margin: 13px auto;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    ion-label {
+      font-size: 23px;
+    }
+
+    .row1 {
+      display: flex;
+    }
+
+    .supportImg {
+      .Imgcontainer {
+        height: 121px;
+        width: 121px;
+        border-radius: 77px;
+        img {
+          height: 108px;
+          width: 78px;
+        }
+      }
+    }
+
+    ion-col {
+      img {
+        height: 121px;
+      }
+    }
+  }
+
+  .footer-div{
+    display: block;
   }
 }

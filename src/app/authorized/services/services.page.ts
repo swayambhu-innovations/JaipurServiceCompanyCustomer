@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataProviderService } from '../../core/data-provider.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -7,6 +7,7 @@ import {
   SubCategory,
   Category,
 } from '../../core/types/category.structure';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-services',
@@ -19,6 +20,13 @@ export class ServicesPage implements OnInit {
   subCatId = "";
   matchingSubCategory: SubCategory | undefined;
   matchingMainCategory: Category | undefined;
+
+  //modal
+  deviceInfo:any
+  isModalOpen:boolean = false;
+  mobileView: boolean = true;
+  @ViewChild(IonModal) modal: IonModal;
+
   constructor(
     private dataProvider: DataProviderService,
     private activatedRoute: ActivatedRoute,
@@ -55,5 +63,23 @@ export class ServicesPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  //modal
+  ionViewDidEnter(){
+    this.systeminfo();
+    console.log(this.dataProvider.deviceInfo);
+  }
+
+  ionViewDidLeave(){
+    this.isModalOpen = false;
+    this.modal.dismiss(null);
+  }
+
+   systeminfo(){
+    if(this.dataProvider.deviceInfo.deviceType === "desktop"){
+      this.isModalOpen = true;
+      this.mobileView = false;
+    }
   }
 }
