@@ -214,7 +214,7 @@ export class NewAddressPage implements OnInit, CanActivate{
         else{
           
         }
-        loader.present();
+        loader.dismiss();
         this.setPointerOutside();
         
       })
