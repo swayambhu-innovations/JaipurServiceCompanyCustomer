@@ -66,7 +66,7 @@ export class NewAddressPage implements OnInit, CanActivate{
   editData:any;
   isEdit:boolean = false;
   mapOptionsCircle: any = null;
-  circleRadius: number = 3;
+  circleRadius: number = 6;
   isGoogleMapReady:boolean = false;
   constructor(
     private fb : FormBuilder,
