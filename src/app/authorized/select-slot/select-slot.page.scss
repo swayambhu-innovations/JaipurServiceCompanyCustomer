@@ -235,12 +235,14 @@ ion-content {
     gap: 8px;
     border-radius: 12px;
     border: 1px solid #d7d7d7;
-    background: #fff;
+    background: #d0d0d0;
     flex-shrink: 0;
+    color: white;
   }
 
   .payafter.active{
-    border: 1px solid var(--primary, #181f29);
+    background: var(--Primary, #1a1d1f);
+    border: 1px solid #1a1d1f;
   }
 
   .paynow {
@@ -252,9 +254,8 @@ ion-content {
     gap: 8px;
     border-radius: 12px;
     border: 1px solid #d7d7d7;
-    background: #d0d0d0;
+    background: #fff;
     flex-shrink: 0;
-    color: white;
   }
   .reschedule{
     width: 100%;
@@ -274,7 +275,6 @@ ion-content {
     border: 1px solid #1a1d1f;
   }
   .paynow.active{
-    background: var(--Primary, #1a1d1f);
-    border: 1px solid #1a1d1f;
+    border: 1px solid var(--primary, #181f29);
   }
 }
