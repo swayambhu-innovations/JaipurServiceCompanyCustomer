@@ -3,7 +3,7 @@
   [showNotificationIcon]="true"
 ></app-header-with-back>
 
-<ion-content *ngIf="!selectedBooking && cart.length > 0 && !deviceNo">
+<ion-content *ngIf="!selectedBooking && cart.length > 0">
   <div class="orderCard" *ngFor="let booking of cart">
     <div class="detail">
       <img [src]="booking.subCategory.image" alt="" />
@@ -327,7 +327,7 @@
 
 <ion-content
   class="noItems"
-  *ngIf="!selectedBooking && cart?.length == 0 && cartLoaded && !deviceNo"
+  *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded"
 >
   <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
   <span class="text-content">
@@ -337,6 +337,7 @@
     </p>
   </span>
 </ion-content>
+
 <ion-modal
   #modal2
   trigger="open-modal"
@@ -351,8 +352,8 @@
       <div class="row" style="margin: 30px 10px">
         <div class="col-9">
           <h6>
-            Yay! You will receive up to ₹{{ selectedCoupan.type == 'flat' ||
-            selectedCoupan.type == "fixed"?selectedCoupan.value + " "+
+            Yay! You will receive up to ₹{{ selectedCoupan.type === 'flat' ||
+            selectedCoupan.type === "fixed"?selectedCoupan.value + " "+
             selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
             order
           </h6>

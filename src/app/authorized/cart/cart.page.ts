@@ -50,7 +50,7 @@ export class CartPage implements OnInit {
   serviceId: string = '';
   isRecommended: boolean = false;
   couponCount: number = 0;
-  public deviceNo: number; // store 0 for mobile, 1 for tablet, 2 for desktop
+  public deviceNo: number; // stores 0 for mobile, 1 for tablet, 2 for desktop
   constructor(
     private router: Router,
     private route: ActivatedRoute,
