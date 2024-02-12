@@ -35,8 +35,10 @@
 			<ion-row style="margin-top: -10px;">
 					<ion-col size="4">
 						<div class="rating">
-							<ion-icon name="star"></ion-icon>
-							<strong>4.5 (89)</strong>
+							<ion-icon name="star" *ngIf="result?.averageRating"></ion-icon>
+							<strong *ngIf="result?.averageRating">{{result?.averageRating}}</strong>
+							<span ><img src="../../../assets/star-outlined.svg" alt="" class="no-rating" *ngIf="!result?.averageRating"/></span>
+							<strong *ngIf="!result?.averageRating"> No Rating</strong>
 						</div>
 					</ion-col>
 					<ion-col size="8">

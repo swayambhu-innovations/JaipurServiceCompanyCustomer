@@ -123,6 +123,7 @@ export class AllCategoriesService {
           taxType:service.data()['taxType'],
           discounts: service.data()['discounts'],
           variants: service.data()['variants'],
+          averageRating:service.data()['averageRating'],
         };
       })
     );

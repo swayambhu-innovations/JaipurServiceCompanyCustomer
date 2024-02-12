@@ -112,6 +112,7 @@ export class SelectSlotPage implements OnInit {
       this.clearSlot();
     }
     let booking = this.dataProvider.currentBooking;
+    console.log("this.dataProvider.currentBooking............: ",this.dataProvider.currentBooking)
     if(booking?.isUpdateSlot && booking.timeSlot){
       //this.selectedDate = booking.timeSlot.date.toDate();
       this.selectedDate = undefined;
