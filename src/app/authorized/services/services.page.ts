@@ -60,6 +60,7 @@ export class ServicesPage implements OnInit {
 
       this.services = sortedSubCategory;
     });
+    
   }
 
   ngOnInit() {

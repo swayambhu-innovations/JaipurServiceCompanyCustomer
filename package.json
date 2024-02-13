@@ -36,6 +36,7 @@
     "@capacitor/network": "^5.0.6",
     "@capacitor/share": "^5.0.6",
     "@capacitor/status-bar": "^5.0.0",
+    "@ionic-native/core": "^5.36.0",
     "@ionic-native/social-sharing": "^5.36.0",
     "@ionic/angular": "^7.0.0",
     "@ionic/storage-angular": "^4.0.0",

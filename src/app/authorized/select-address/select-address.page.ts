@@ -88,17 +88,19 @@ export class SelectAddressPage implements OnInit {
     loader.present();
     if(this.dataProvider.currentUser?.user.uid){
       userId = this.dataProvider.currentUser?.user.uid;
-      let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
-      
-      ass.map(res=>{
-        let address_ = res.data();
-        if(address.name === address_.name){
-          addressId = res.id;
-        }
-        if(address_.isDefault){
-          address_.isDefault = false;
-          this.addressService.editAddress(userId, res.id,address_);
-        }
+      await this.addressService.getAddresses2(this.dataProvider.currentUser?.user.uid).then((addressRequest) => {
+        const addresses = addressRequest.docs.map((notification:any) => {
+          return { ...notification.data(),id: notification.id };
+        });
+        addresses.map(res=>{
+          if(address.id === res.id){
+            addressId = res.id;
+          }
+          if(res.isDefault){
+            res.isDefault = false;
+            this.addressService.editAddress(userId, res.id,res);
+          }
+        });
       });
     }
     if(userId !== "" && addressId !== ""){
@@ -106,7 +108,7 @@ export class SelectAddressPage implements OnInit {
       this.addressService.editAddress(userId, addressId,address);
       loader.dismiss();
       this.addressService.clearCart(userId).then(() => {});
-      
+
     }else{
       loader.dismiss();
     }

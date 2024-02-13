@@ -10,6 +10,8 @@ export interface  Booking {
   timeData?: any;
   isRefundInitiated?:boolean;
   refundInitiatedDetails?:any;
+  rating?:any;
+  isReschule?:boolean | false;
   subCategory: {
     id: string;
     name: string;
@@ -78,6 +80,7 @@ export interface SelectedService {
   variants: SelectedVariant[];
   color: string;
   taxType: string;
+  rating?:any;
 }
 
 

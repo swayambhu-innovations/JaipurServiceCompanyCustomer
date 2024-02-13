@@ -7,7 +7,8 @@ import { Subject } from 'rxjs';
 })
 export class LocationService {
   currentLocation:Subject<Position> = new Subject<Position>();
-  constructor(private platform:Platform) { }
+  constructor(private platform:Platform) {
+  }
 
   async initLocation(){
     if (this.platform.is('capacitor')) {
@@ -16,7 +17,7 @@ export class LocationService {
         permissionRequested = await Geolocation.requestPermissions({permissions:['coarseLocation','location']});
       }
       if (permissionRequested.location !== 'granted'){
-        throw new Error('Permission not granted for push notifications');
+        throw new Error('Permission not granted for location');
       };
       this.watchPosition();
     }

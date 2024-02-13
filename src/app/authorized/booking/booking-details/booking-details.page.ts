@@ -16,7 +16,8 @@ import { Platform } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 import { PaymentService } from 'src/app/payment.service';
 import { CreateRefund } from '../../models/payment.structure';
-
+import $ from 'jquery';
+import { Timestamp } from 'firebase/firestore';
 var pdfMakeX = require('pdfmake/build/pdfmake.js');
 var pdfFontsX = require('pdfmake/build/vfs_fonts.js');
 pdfMakeX.vfs = pdfFontsX.pdfMake.vfs;
@@ -42,6 +43,8 @@ export class BookingDetailsPage implements OnInit {
   discount: number =0;
   discountedPrice: string;
   rate: string;
+  ratingSumitted:boolean = false;
+  userRatingForm:FormGroup;
   jobOtp:any[]=[];
   picAvalable:boolean = false;
   currentBooking:Booking|undefined;
@@ -74,7 +77,7 @@ export class BookingDetailsPage implements OnInit {
             this.jobOtp = [...booking.jobOtp];
           }
           console.log("this.currentBooking: ",this.currentBooking)
-          if(this.currentBooking)
+          if(this.currentBooking && this.currentBooking?.picsBefore)
            this.picAvalable = this.currentBooking?.picsBefore.length > 0
           let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
           let currenttimeSlotInSec =( new Date().getTime()/1000);
@@ -132,7 +135,10 @@ export class BookingDetailsPage implements OnInit {
       cancelReason: ['', Validators.required],
       cancelReasonText: ['']
     });
-      
+    this.userRatingForm = this.fb.group({
+      reviewTitle: ['', Validators.required],
+      serviceReview: ['']
+    });
   }
 
   RADIO_LIST = [
@@ -146,15 +152,19 @@ export class BookingDetailsPage implements OnInit {
    
   }
 
-  cancelSubmit() {
-    console.log("this.currentBooking: ",this.currentBooking)
-    if(this.currentBooking && this.currentBooking?.isPaid){
+ async cancelSubmit() {
+    `console.log("this.currentBooking: ",this.currentBooking)`
+    if(this.currentBooking && this.currentBooking?.isPaid && this.currentBooking.timeSlot){
       let payload:CreateRefund = {
         payId: this.currentBooking.payment.razorpay_payment_id,
         amount:this.currentBooking.payment.amount,
-        jobStartTime:this.currentBooking?.createdAt.seconds
+        jobStartTime:this.currentBooking.timeSlot.date.seconds 
       }
       let this_ = this;
+      let loader = await this.loadingController.create({
+        message: 'Please wait...',
+      });
+      loader.present();
       this.paymentService.createRefund(payload).subscribe({
         next:(response)=>{
           if(this.currentBooking){
@@ -164,9 +174,11 @@ export class BookingDetailsPage implements OnInit {
               this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
             }
            this.isModalOpenCancellation = false;
+           loader.dismiss()
           }
         },
         error(err) {
+          loader.dismiss()
           console.log("err...........: ",err)
           if(this_.currentBooking){
             if(this_.currentBooking){
@@ -183,6 +195,7 @@ export class BookingDetailsPage implements OnInit {
         this.bookingService.updateBooking(this.currentBooking.currentUser.userId, this.currentBooking.id, Utils.stageMaster.discarded.key, undefined, this.CancelForm.value);
         this.userNotificationService.addAgentNotification(this.currentBooking.currentUser.userId, this.userNotificationService.message.bookingRejected);
       }
+      
      this.isModalOpenCancellation = false;
     }
     
@@ -199,6 +212,8 @@ export class BookingDetailsPage implements OnInit {
         this.currentBooking.stage = 'allotmentPending';
       }
     }
+    if(this.currentBooking)
+    this.currentBooking['isReschule']= true;
     this.dataProvider.currentBooking =this.currentBooking;
     this.router.navigate(['/authorized/select-slot']);
   }
@@ -452,5 +467,70 @@ export class BookingDetailsPage implements OnInit {
       afterData[1].table?.body.push(grandTotalAmount);
       dd.content = [...dd.content,...afterData];
       return dd;
+    }
+    userRated:number = 0;
+    userRating(rate:number){
+      this.userRated = rate;
+      for(let i =0 ; i<5; i++){
+        var getThis = $('.rating-star > i:eq('+i+')');
+        if(rate> i){
+          getThis.addClass("bi-star-fill");
+          getThis.removeClass("bi-star");
+        }else{
+          getThis.removeClass("bi-star-fill");
+          getThis.addClass("bi-star");
+        }
+      }
+    }
+    async sendRating(){
+      this.ratingSumitted = true;
+      if(!this.userRatingForm.valid){
+        return;
+      }
+      let SelectedService:any;
+     
+      this.dataProvider.mainCategories.subscribe(mainCat=>{
+        mainCat.forEach(subCate=>{
+          if(this.currentBooking){
+            if(subCate.id == this.currentBooking.mainCategory.id){
+              let selectedSubCate = subCate.subCategories.filter(cat=>this.currentBooking && cat.id ===this.currentBooking.subCategory.id)
+              if(selectedSubCate.length >0 ){
+                SelectedService = selectedSubCate[0].services.filter(service=>this.currentBooking && service.id === this.currentBooking.services[this.index].serviceId);
+              }
+            }
+          }
+        });
+      })
+      let formData = this.userRatingForm.value;
+      formData['rating'] = this.userRated;
+      formData['userName'] = this.dataProvider.currentUser?.userData.name;
+      formData['userId'] = this.dataProvider.currentUser?.user.uid;
+      formData['createAt'] = Timestamp.fromDate(new Date())
+      //debugger
+      if(this.currentBooking?.services[this.index] && this.dataProvider.currentUser){
+        this.currentBooking.services[this.index]['rating'] = formData;
+        if(SelectedService[0].rating){
+          SelectedService[0].rating.push(formData)
+        }else{
+          SelectedService[0]['rating'] = [formData];
+        }
+        let sum = 0;
+        SelectedService[0].rating.forEach((acc) => sum = sum + acc.rating );
+        let avrg = (sum/SelectedService[0].rating.length).toFixed(1);
+        
+        SelectedService[0]['averageRating'] = avrg + "  ("+SelectedService[0].rating.length+")"
+         await this.bookingService.updateBookingSlot(this.dataProvider.currentUser.user.uid,this.currentBooking.id,this.currentBooking);
+         await this.bookingService.updateServiceRating(this.dataProvider.selectedCatalog,this.currentBooking.mainCategory.id,this.currentBooking.subCategory.id, this.currentBooking.services[0].serviceId,SelectedService[0]);
+        this.isModalOpenRate = false;
+      }
+      
+    }
+    index:any = 0;
+    rateService(service:any){
+      this.isModalOpenRate=true;
+      this.index = this.currentBooking?.services.findIndex(x => x.serviceId === service.serviceId);
+    }
+    SkipRating(){
+      this.isModalOpenRate=false;
     }
 }

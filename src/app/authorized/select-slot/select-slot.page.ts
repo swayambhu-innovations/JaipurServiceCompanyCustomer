@@ -112,6 +112,7 @@ export class SelectSlotPage implements OnInit {
       this.clearSlot();
     }
     let booking = this.dataProvider.currentBooking;
+    console.log("this.dataProvider.currentBooking............: ",this.dataProvider.currentBooking)
     if(booking?.isUpdateSlot && booking.timeSlot){
       //this.selectedDate = booking.timeSlot.date.toDate();
       this.selectedDate = undefined;
@@ -259,6 +260,20 @@ export class SelectSlotPage implements OnInit {
   }
 
   setTimeSlot(){
+    const selectedSlotDate = new Date(this.selectedDate || "");
+    this.selectedStartTime = new Date(
+      selectedSlotDate.getFullYear(),
+      selectedSlotDate.getMonth(),
+      selectedSlotDate.getDate(),
+      this.selectedSlot["start"]
+    );
+
+    this.selectedEndTime = new Date(
+      selectedSlotDate.getFullYear(),
+      selectedSlotDate.getMonth(),
+      selectedSlotDate.getDate(),
+      this.selectedSlot["end"]
+    );
     this.dataProvider.currentBooking!.timeSlot = {
       date: Timestamp.fromDate(this.selectedDate!),
       agentArrivalTime: Timestamp.fromDate(this.selectedEndTime!),
@@ -381,4 +396,14 @@ export class SelectSlotPage implements OnInit {
     //   }
    
   }
+  async rescheduleBooking(){
+    let loader = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    loader.present();
+    this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+      this.router.navigate(['/authorized/order-placed']);
+      loader.dismiss();
+    });
+   }
 }
