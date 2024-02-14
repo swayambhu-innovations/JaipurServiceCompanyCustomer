@@ -4,95 +4,129 @@ import { AddressService } from '../../authorized/db_services/address.service';
 import { Address } from 'src/app/authorized/select-address/address.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { LoadingController } from '@ionic/angular';
+// import { MatDialog } from '@angular/material/dialog';
+import { ModalController } from '@ionic/angular';
+import { CartPage } from 'src/app/authorized/cart/cart.page';
 
 @Component({
   selector: 'app-home-header',
   templateUrl: './home-header.component.html',
   styleUrls: ['./home-header.component.scss'],
 })
-export class HomeHeaderComponent  implements OnInit {
-  addressess:Address[] = [];
-  width:any;
+export class HomeHeaderComponent implements OnInit {
+  addressess: Address[] = [];
+  width: any;
 
   @ViewChild('addressModal') addressModal;
   showmodal: boolean = false;
-  @Input() MAX_ADDRESS_LINE_LENGTH!:number;
+  @Input() MAX_ADDRESS_LINE_LENGTH!: number;
   @Input() showUnreadNotification: boolean = false;
   // addressLine:string = "Nehru Rd, Vile Parle East, Mumbai"
-  mainAddressLine:string = '';
+  mainAddressLine: string = '';
   // main address line one is the input address line provided by the database where as the address line 1 and 2 are calculated by the client side depending upn the address character length
-  addressLineOne:string = ''
-  addressLineTwo:string = ''
+  addressLineOne: string = '';
+  addressLineTwo: string = '';
   // this toggle is used to show the address line 2
-  addressLineTwoVisible:boolean = false;
-  insertAddressAccordionButton:boolean = false;
+  addressLineTwoVisible: boolean = false;
+  insertAddressAccordionButton: boolean = false;
   selectedAddress: Address | undefined;
-  initialBreakpointAddress:any = 0.25;
-  constructor( private router:Router, public addressService:AddressService, public dataProvider:DataProviderService,
-    private loadingController:LoadingController) {
-      this.addressService.fetchedAddresses
-    .subscribe(async (address:Address[])=>{
-      this.addressess = address;
-      this.setupAddress(address);
+  initialBreakpointAddress: any = 0.25;
+  constructor(
+    private router: Router,
+    // public dialog: MatDialog,
+    private modalController: ModalController,
+    public addressService: AddressService,
+    public dataProvider: DataProviderService,
+    private loadingController: LoadingController
+  ) {
+    this.addressService.fetchedAddresses.subscribe(
+      async (address: Address[]) => {
+        this.addressess = address;
+        this.setupAddress(address);
+      }
+    );
+  }
+
+  notification() {
+    this.router.navigate(['authorized/notification']);
+  }
+
+  async cart() {
+    const modal = await this.modalController.create({
+      component: CartPage,
     });
+
+    return await modal.present();
   }
 
-  notification(){
-  this.router.navigate(['authorized/notification']);
-  }
-
-  navigateTOSearch(){
+  navigateTOSearch() {
     this.router.navigate(['authorized/search']);
   }
- 
+
   ngOnInit() {
     this.width = window.innerWidth;
     console.log(this.width);
   }
 
-  setupAddress(address){
-    if(address.length > 0){
-      let currentAddress = address.filter(add=>add.isDefault);
+  setupAddress(address) {
+    if (address.length > 0) {
+      let currentAddress = address.filter((add) => add.isDefault);
       this.selectedAddress = currentAddress[0];
-      this.mainAddressLine = currentAddress[0].addressLine1 + ', ' + currentAddress[0].cityName + ', ' + currentAddress[0].pincode;
+      this.mainAddressLine =
+        currentAddress[0].addressLine1 +
+        ', ' +
+        currentAddress[0].cityName +
+        ', ' +
+        currentAddress[0].pincode;
       this.addressLineOne = this.mainAddressLine;
       this.insertAddressAccordionButton = true;
-      if(this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH){
-        this.addressLineOne = this.mainAddressLine.slice(0,this.MAX_ADDRESS_LINE_LENGTH);
-        this.addressLineTwo = this.mainAddressLine.slice(this.MAX_ADDRESS_LINE_LENGTH,this.mainAddressLine.length);
+      if (this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH) {
+        this.addressLineOne = this.mainAddressLine.slice(
+          0,
+          this.MAX_ADDRESS_LINE_LENGTH
+        );
+        this.addressLineTwo = this.mainAddressLine.slice(
+          this.MAX_ADDRESS_LINE_LENGTH,
+          this.mainAddressLine.length
+        );
       }
+    } else {
+      this.router.navigateByUrl('authorized/new-address', {
+        state: { isfirstTime: true, isEdit: true },
+      });
     }
-    else{
-      this.router.navigateByUrl('authorized/new-address', { state: {isfirstTime: true,isEdit:true} });
-    }
-  } 
+  }
 
-  async changeAddress(address:Address){
-    let addressId = "";
-    let userId = "";
-    let loader = await this.loadingController.create({message:'Changing  Location...'});
-      loader.present();
-    if(this.dataProvider.currentUser?.user.uid){
+  async changeAddress(address: Address) {
+    let addressId = '';
+    let userId = '';
+    let loader = await this.loadingController.create({
+      message: 'Changing  Location...',
+    });
+    loader.present();
+    if (this.dataProvider.currentUser?.user.uid) {
       userId = this.dataProvider.currentUser?.user.uid;
-      let ass =  await this.addressService.getAddresses(this.dataProvider.currentUser?.user.uid);
-      
-      ass.map(res=>{
+      let ass = await this.addressService.getAddresses(
+        this.dataProvider.currentUser?.user.uid
+      );
+
+      ass.map((res) => {
         let address_ = res.data();
-        if(address.name === address_.name){
+        if (address.name === address_.name) {
           addressId = res.id;
         }
-        if(address_.isDefault){
+        if (address_.isDefault) {
           address_.isDefault = false;
-          this.addressService.editAddress(userId, res.id,address_);
+          this.addressService.editAddress(userId, res.id, address_);
         }
       });
     }
-    if(userId !== "" && addressId !== ""){
+    if (userId !== '' && addressId !== '') {
       address.isDefault = true;
-      this.addressService.editAddress(userId, addressId,address);
+      this.addressService.editAddress(userId, addressId, address);
       loader.dismiss();
       this.addressService.clearCart(userId).then(() => {});
-    }else{
+    } else {
       loader.dismiss();
     }
     this.addressLineTwoVisible = false;
@@ -100,46 +134,48 @@ export class HomeHeaderComponent  implements OnInit {
     this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
 
-  setopen(){
+  setopen() {
     //this.addressLineTwoVisible = true;
     this.router.navigate(['/authorized/select-address']);
   }
 
-  onWillDismiss(event){
+  onWillDismiss(event) {
     this.addressLineTwoVisible = false;
     this.showmodal = false;
     this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
-  
-  navigate(){
+
+  navigate() {
     setTimeout(() => {
       this.router.navigate(['/authorized/new-address']);
     }, 10);
     this.addressLineTwoVisible = false;
     this.showmodal = false;
     this.MAX_ADDRESS_LINE_LENGTH = 30;
-    this.addressService.action.next({isEdit:false});
+    this.addressService.action.next({ isEdit: false });
   }
 
-  deleteAddress(address:Address){
-    if(address.isDefault){
-      alert("Default Address cannot be Deleted!");
+  deleteAddress(address: Address) {
+    if (address.isDefault) {
+      alert('Default Address cannot be Deleted!');
       return;
     }
-    if(confirm("Are you sure you want to delete this address?")){
-      if(this.dataProvider.currentUser?.user.uid)
-      this.addressService.deleteAddress(this.dataProvider.currentUser?.user.uid,address.id);
+    if (confirm('Are you sure you want to delete this address?')) {
+      if (this.dataProvider.currentUser?.user.uid)
+        this.addressService.deleteAddress(
+          this.dataProvider.currentUser?.user.uid,
+          address.id
+        );
     }
   }
 
-  editAddress(address:Address){
+  editAddress(address: Address) {
     this.addressLineTwoVisible = false;
     this.showmodal = false;
     this.MAX_ADDRESS_LINE_LENGTH = 30;
-    this.addressService.action.next({isEdit:true,data:address});
+    this.addressService.action.next({ isEdit: true, data: address });
     setTimeout(() => {
       this.router.navigate(['/authorized/new-address']);
     }, 10);
-    
   }
 }
