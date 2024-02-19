@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Profile } from '../models/profile.structure';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Subject, of } from 'rxjs';
@@ -39,7 +39,7 @@ export class ProfileService {
   }
 
   addUsers(userId:string, profileDetails:any){
-    return addDoc(collection(this.firestore, 'users', userId), profileDetails);
+    return setDoc(doc(this.firestore, 'users', userId), profileDetails!);
   }
 
   deleteUsers(userId:string, profileId:string){
