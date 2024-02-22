@@ -187,7 +187,8 @@
 
       <section style="margin-left: 10px">
         <span class="head">Time</span><br />
-        <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span>
+        <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span><br/>
+        <span class="body">(Preferred Agent Arrival Time - {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date: "shortTime" }})</span>
       </section>
     </div>
   </div>
