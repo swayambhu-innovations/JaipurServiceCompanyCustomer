@@ -502,7 +502,7 @@ export class CartService {
           // we will now calculate the untaxed price
           variant.billing.untaxedPrice = variant.billing.originalPrice - variant.billing.tax;
           // we will now calculate the total job acceptance charge
-          totalJobAcceptanceCharge += variant.jobAcceptanceCharge;
+          totalJobAcceptanceCharge += ((+variant.jobAcceptanceCharge)*variant.quantity);
           // we will now calculate the total job time
           totalJobTime += (+variant.jobDuration);
           totalActualJobTime += (+variant.actualJobDuration);

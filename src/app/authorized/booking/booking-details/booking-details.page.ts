@@ -38,6 +38,7 @@ export class BookingDetailsPage implements OnInit {
   assignedAgent:any;
   isModalOpenCancellation:boolean = false;
   duration: string;
+  actualJobDuration: string;
   mrp: string;
   refundDetails:any;
   discount: number =0;
@@ -63,7 +64,7 @@ export class BookingDetailsPage implements OnInit {
     ) {
        this.utils = Utils.stageMaster;
     this.activatedRoute.params.subscribe(async params=>{
-      let duration = 0;
+      
       if (params['bookingId']){
         let loader = await this.loadingController.create({message:'Please wait...'});
         this.bookingService.getBooking(params['bookingId']).subscribe((booking:any)=>{
@@ -82,11 +83,18 @@ export class BookingDetailsPage implements OnInit {
           let timeSlotInSec =this.currentBooking?.timeSlot?.time.startTime.seconds || 0;
           let currenttimeSlotInSec =( new Date().getTime()/1000);
            this.jobTimeBeforMins = (timeSlotInSec - currenttimeSlotInSec)/60;
+           let duration = 0;
+           let actualDuration = 0; 
           this.currentBooking?.services.forEach(service=>{
             service.variants.forEach(variant=>{
+              console.log(service,variant,variant.actualJobDuration,variant.quantity);
+              actualDuration += (variant.actualJobDuration * variant.quantity)
               duration += variant.jobDuration * variant.quantity; 
             });
           });
+          const jobHours = Math.floor(actualDuration / 60);          
+          const jobMinutes = actualDuration % 60;
+          this.actualJobDuration = jobHours + ' Hour '+jobMinutes+" Minutes"
           this.duration =  duration + " Hour ";
           if(booking.assignedAgent){
             this.bookingService.getAgentDetails(booking.assignedAgent).subscribe((agentDetails:any)=>{
