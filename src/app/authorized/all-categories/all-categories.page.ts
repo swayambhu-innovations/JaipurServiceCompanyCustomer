@@ -10,6 +10,7 @@ import { log } from 'console';
 import { ProfileService } from '../db_services/profile.service';
 import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { AllCategoriesService } from './all-categories.service';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-all-categories',
@@ -17,9 +18,25 @@ import { AllCategoriesService } from './all-categories.service';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
-  constructor(private router: Router, private profileService: ProfileService, public allCategoriesService: AllCategoriesService, private imageService: FileService, private http: HttpClient) {}
+  constructor(private router: Router, 
+    private profileService: ProfileService, 
+    public allCategoriesService: AllCategoriesService, 
+    private imageService: FileService, 
+    private http: HttpClient,
+    private dataProvider: DataProviderService,) {}
  ngOninit(){
 
+ }
+
+ ionViewDidEnter(){
+  this.categories = [];
+  this.dataProvider.mainCategories.subscribe((categories) => {
+    this.categories = categories;
+  });
+ }
+
+ ionViewDidLeave(){
+  this.categories = [];
  }
    
   categories: any[] = []; // added by ronak
@@ -27,8 +44,8 @@ export class AllCategoriesPage implements OnInit {
   
   ngOnInit() {
     
-    this.fetchMainCategory();
-    this.fetchMainCategoryIcon();
+    // this.fetchMainCategory();
+    // this.fetchMainCategoryIcon();
 
   }
 
