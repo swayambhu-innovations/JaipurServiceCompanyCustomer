@@ -277,89 +277,134 @@ export class BookingDetailsPage implements OnInit {
       var dd:any = {
         content: [
           {
-              columns: [
-                  {
-                      text: 'Jaipur Service Company',
-                      width: '90%',
-                  },
-                  {
-                      text: 'Invoice',
-                      width: '30%',
-                  }
-              ],
-              style: 'header'
-              
+            text: 'Bill of supply',
+            width: '100%',
+            fontSize: 14,
+            alignment: 'center'
           },
           {
-              text: '\nGSTN: 09IXVPK0011F1ZE\n\n\n',
-              fontSize: 13
+              columns: [
+                
+                {
+                    text: 'Jaipur Service Company',
+                    width: '50%',
+                    fontSize: 18,
+                    alignment: 'left',
+                    bold: true,
+                },
+                {
+                    text: 'Invoice',
+                    width: '50%',
+                    fontSize: 18,
+                    alignment: 'right',
+                    bold: true,
+                }
+              ],
+              margin: [0, 20,0,0],
+          },
+          {
+              text: '\nGSTIN: 08AATFJ2364B1ZB\n\n\n',
+              fontSize: 12
           },
           {
               columns: [
                     {
                       text: [
                               {
-                                  text:'From:\n'
+                                  text:'From:\n\n'
                               },
                               {
                                   text:'Jaipur Service Company\n',
-                                  fontSize: 10
+                                  fontSize: 9
                               },
                               {
-                                  text:' Shop C-01,409/276-277,\n',
-                                  fontSize: 10
+                                  text:' Nagina Maszid Ke Piche, Near Police Thana,\n',
+                                  fontSize: 9
                               },
                               {
-                                  text:' Shakuntalam Apartment,\n',
-                                  fontSize: 10
+                                  text:'Amer Road, Noori Chowk, Amer,\n',
+                                  fontSize: 9
                               },
                               {
-                                  text:' Mutthiganj, Near Maya Press\n',
-                                  fontSize: 10
+                                  text:' Jaipur, Rajasthan,\n',
+                                  fontSize: 9
                               },
                               {
-                                  text:' 211003 - Prayagraj\n',
-                                  fontSize: 10
+                                  text:' Pincode - 302028, India\n',
+                                  fontSize: 9
                               },
                               {
-                                  text:' India\n',
-                                  fontSize: 10
-                              }
+                                text:' State of supply: 08-Rajasthan\n',
+                                fontSize: 9
+                              },
+                              {
+                                text:'Phone no.: 9928722238\n',
+                                fontSize: 9
+                              },
+                              {
+                                text:' Email: support@jaipurservicecompany.com\n',
+                                fontSize: 9
+                              },
                           ],
-                          width: '60%'
+                      width: '40%'
                           
+                    },
+                    {
+                      text: [
+                              {
+                                  text:'Bill To:\n\n'
+                              },
+                              {
+                                text: "Name: "+this.currentBooking?.address?.name+'\n',
+                                fontSize: 9
+                              },
+                              {
+                                  text: "Address: "+this.currentBooking?.address?.addressLine1+'\n',
+                                  fontSize: 10
+                              },
+                              {
+                                text: "City: "+this.currentBooking?.address?.cityName+'\n',
+                                fontSize: 9
+                              },
+                              {
+                                text: "State: "+this.currentBooking?.address?.stateName+'\n',
+                                fontSize: 9
+                              },
+                              {
+                                text: "Pincode: "+this.currentBooking?.address?.pincode+'\n',
+                                fontSize: 9
+                              },
+                          ],
+                      width: '30%',
+                      margin: [5, 0],  
                     },
                     {
                         text: [
                             {
-                                text: `Reference: #${this.currentBooking?.id}\n`
+                                text: `Order Id: #${this.currentBooking?.id}\n`,
+                                fontSize: 10
                             },
                             {
-                              text: new DatePipe('en-US').transform(this.currentBooking?.timeSlot?.date?.toDate(), 'dd-MMM-yyyy')
+                              text: "Order Date: "+new DatePipe('en-US').transform(this.currentBooking?.timeSlot?.date?.toDate(), 'dd-MMM-yyyy'),
+                              fontSize: 10
                             }
                         ],
-                        width: '44%',
-                        alignment: 'right'
+                        width: '30%',
+                        alignment: 'right',
+                        margin: [0, 5],
                     }
               ]
           },
           {
-              text: '\n\nProducts & Services',
-              fontSize: 16
+              text: '\n\nServices',
+              fontSize: 14
           },
-        ],
-        styles: {
-          header: {
-            fontSize: 22,
-            bold: true,
-            height:60,
-          }
-        }
+        ]
       };
       this.currentBooking?.services.map((item) =>{
         const headingName = {
             text: '\n'+item.name+'\n\n',
-            fontSize: 14
+            fontSize: 13
         };
         dd.content.push(headingName);
         const serviceContent:any = {
@@ -374,17 +419,20 @@ export class BookingDetailsPage implements OnInit {
                   {
                       text: 'Varient',
                       fillColor: '#181f29',
-                      color: 'white'
+                      color: 'white',
+                      fontSize: 12
                   },
                   {
                       text: 'Quantity',
                       fillColor: '#181f29',
-                      color: 'white'
+                      color: 'white',
+                      fontSize: 12
                   },
                   {
                       text: 'Price',
                       fillColor: '#181f29',
-                      color: 'white'
+                      color: 'white',
+                      fontSize: 12
                   }
               
               ]
@@ -395,15 +443,18 @@ export class BookingDetailsPage implements OnInit {
           const variantItem = [
             {
                 text: variant.name,
-                color: '#aca6a6'
+                color: '#aca6a6',
+                fontSize: 12
             },
             {
                 text: variant.quantity,
-                color: '#aca6a6'
+                color: '#aca6a6',
+                fontSize: 12
             },
             {
-                text: variant.price,
-                color: '#aca6a6'
+                text: "₹ "+variant.price,
+                color: '#aca6a6',
+                fontSize: 12
             }
           ];
           serviceContent.table.body.push(variantItem);
@@ -424,15 +475,11 @@ export class BookingDetailsPage implements OnInit {
           body: [
             [
                 {text: 'Subtotal:'},
-                {text: this.currentBooking?.billing.subTotal},
+                {text: "₹ "+this.currentBooking?.billing.subTotal},
             ],
             [
                 {text: 'Discount:'},
-                {text: 'INR '+this.currentBooking?.billing.discount},
-            ],
-            [
-                {text: 'Tax Rate:'},
-                {text: 'INR '+this.currentBooking?.billing.tax},
+                {text: "₹ "+this.currentBooking?.billing.discount},
             ]
           ]
         }
@@ -442,27 +489,34 @@ export class BookingDetailsPage implements OnInit {
           fontSize: 14
       },
       {
-          text: [
-                  'The mentioned billing is final and non-negotiable. This bill is auto generated  by system and does not require any',
-                  'signature. Please contact us if you have any query and we will be happy to help you.\n\n\n'
-              ]
+        ol: [
+          {
+            text: 'Registered under Composition Scheme',
+            fontSize: 10
+          },
+          {
+            text: 'The mentioned billing is final and non-negotiable. This bill is auto generated  by system and does not require anysignature. Please contact us if you have any query and we will be happy to help you.\n\n\n',
+            fontSize: 10
+          }
+        ]
+         
       },
       
       {
           text: 'Powered by Shreeva',
-          alignment: 'center'
-          
+          alignment: 'center',
+          fontSize: 10
       },
       {
           text: 'shreeva.com',
-          alignment: 'center'
-          
+          alignment: 'center',
+          fontSize: 10
       }];
       if(this.currentBooking?.billing?.fixedCharges){
         this.currentBooking?.billing.fixedCharges.map((item:any) =>{
           const serviceContent = [
               {text: item.name},
-              {text: 'INR '+item.amount}
+              {text: "₹ "+item.amount}
           ];
           afterData[1].table?.body.push(serviceContent);
         });
@@ -470,7 +524,7 @@ export class BookingDetailsPage implements OnInit {
       
       const grandTotalAmount =  [
         {text: 'Total amount:'},
-        {text: 'INR '+this.currentBooking?.billing.grandTotal}
+        {text: "₹ "+this.currentBooking?.billing.grandTotal}
       ];
       afterData[1].table?.body.push(grandTotalAmount);
       dd.content = [...dd.content,...afterData];
