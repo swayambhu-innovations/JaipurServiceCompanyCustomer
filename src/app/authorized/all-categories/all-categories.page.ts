@@ -20,13 +20,9 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 export class AllCategoriesPage implements OnInit {
   constructor(private router: Router, 
     private profileService: ProfileService, 
-    public allCategoriesService: AllCategoriesService, 
     private imageService: FileService, 
     private http: HttpClient,
     private dataProvider: DataProviderService,) {}
- ngOninit(){
-
- }
 
  ionViewDidEnter(){
   this.categories = [];
@@ -96,21 +92,21 @@ export class AllCategoriesPage implements OnInit {
       img: '/assets/Group 34260 (5).png',
     },
   ];
-  fetchMainCategory() {
-    this.allCategoriesService.getCategory().then((name) => {
-      this.categories = name.docs.map((doc) => {
-        this.categories = [...this.categories];
-        return doc.data()
-      });
-    })
-  }
-  fetchMainCategoryIcon() {
-    this.allCategoriesService.getCategory().then((icon) => {
-      this.icon = icon.docs.map((doc) => {
-        this.icon = [...this.icon];
-        return doc.data()
+  // fetchMainCategory() {
+  //   this.allCategoriesService.getCategory().then((name) => {
+  //     this.categories = name.docs.map((doc) => {
+  //       this.categories = [...this.categories];
+  //       return doc.data()
+  //     });
+  //   })
+  // }
+  // fetchMainCategoryIcon() {
+  //   this.allCategoriesService.getCategory().then((icon) => {
+  //     this.icon = icon.docs.map((doc) => {
+  //       this.icon = [...this.icon];
+  //       return doc.data()
         
-      });
-    })
-  }
+  //     });
+  //   })
+  // }
 }
