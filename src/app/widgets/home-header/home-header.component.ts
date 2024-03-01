@@ -31,6 +31,11 @@ export class HomeHeaderComponent implements OnInit {
   insertAddressAccordionButton: boolean = false;
   selectedAddress: Address | undefined;
   initialBreakpointAddress: any = 0.25;
+
+  deviceInfo: any;
+  isWebModalOpen: boolean = false;
+  mobileView: boolean = true;
+
   constructor(
     private router: Router,
     // public dialog: MatDialog,
@@ -66,6 +71,7 @@ export class HomeHeaderComponent implements OnInit {
   ngOnInit() {
     this.width = window.innerWidth;
     console.log(this.width);
+    this.systeminfo();
   }
 
   setupAddress(address) {
@@ -177,5 +183,12 @@ export class HomeHeaderComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate(['/authorized/new-address']);
     }, 10);
+  }
+
+  systeminfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.isWebModalOpen = true;
+      this.mobileView = false;
+    }
   }
 }

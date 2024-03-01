@@ -45,10 +45,10 @@
     </button>
 
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button *ngIf="isWebModalOpen">
         <img src="assets/ui_icons/profile.svg" alt="avatar" />
       </ion-button>
-      <ion-button (click)="cart()">
+      <ion-button (click)="cart()" *ngIf="isWebModalOpen">
         <img src="assets/ui_icons/shopping-cart.svg" alt="cart" />
       </ion-button>
       <ion-button (click)="notification()">

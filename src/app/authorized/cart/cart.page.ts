@@ -8,6 +8,8 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { OffersComponent } from './offers/offers.component';
 import { Coupon } from 'src/app/coupons.structure';
+import { SelectSlotPage } from '../select-slot/select-slot.page';
+import { SelectAddressPage } from '../select-address/select-address.page';
 // import { ActionSheetController } from '@ionic/angular';
 
 interface Service {
@@ -73,7 +75,14 @@ export class CartPage implements OnInit {
     this.router.navigate(['authorized/notification']);
   }
 
-  temp() {
+  async temp() {
+    const selectSlotModal = await this.modalController.create({
+      component: SelectSlotPage,
+    });
+    const selectAddressModal = await this.modalController.create({
+      component: SelectAddressPage,
+    });
+
     this.dataProvider.selectedAddress.subscribe((address) => {
       if (address.length > 0) {
         let currentAddress = address.filter((addre) => addre.isDefault);
@@ -86,10 +95,13 @@ export class CartPage implements OnInit {
       if (this.pageLeaved) {
         return;
       }
+
       if (this.dataProvider.currentBooking!.address) {
-        this.router.navigate(['/authorized/select-slot']);
+        if (this.isWebModalOpen) return selectSlotModal.present();
+        else this.router.navigate(['/authorized/select-slot']);
       } else {
-        this.router.navigate(['/authorized/select-address']);
+        if (this.isWebModalOpen) return selectAddressModal.present();
+        else this.router.navigate(['/authorized/select-address']);
       }
     });
   }
