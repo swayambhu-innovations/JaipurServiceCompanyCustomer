@@ -339,8 +339,9 @@ export class SelectSlotPage implements OnInit {
             this.dataProvider.currentBooking!.id!
           );
           await this.cartService.updateCart();
-          if (this.isWebModalOpen) return orderPlacedModal.present();
-          else this.router.navigate(['/authorized/order-placed']);
+          // if (this.isWebModalOpen) return orderPlacedModal.present();
+          // else
+          this.router.navigate(['/authorized/order-placed']);
         })
         .catch((error) => {
           console.log('errror............: ', error);
