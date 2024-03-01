@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Address } from './address.structure';
 import { LoadingController } from '@ionic/angular';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-select-address',
@@ -13,6 +14,12 @@ import { LoadingController } from '@ionic/angular';
 export class SelectAddressPage implements OnInit {
   temp: any = {};
   addressLineTwoVisible:boolean = false;
+
+  deviceinfo:any;
+  isModalOpen:boolean = false;
+  mobileView = true;
+  @ViewChild(IonModal) modal: IonModal;
+
   constructor(
     private router: Router,
     public addressService: AddressService,
@@ -26,6 +33,29 @@ export class SelectAddressPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ionViewDidEnter(){
+    this.systeminfo();
+    console.log(this.dataProvider.deviceInfo);
+  }
+
+  ionViewDidLeave(){
+    this.isModalOpen = false;
+    console.log(this.isModalOpen);
+    this.modal.dismiss();
+    console.log("select address modal dismiss");
+  }
+
+   systeminfo(){
+    if(this.dataProvider.deviceInfo.deviceType === "desktop"){
+      this.isModalOpen = true;
+      this.mobileView = false;
+    }
+    // if(this.dataProvider.deviceInfo.deviceType === "mobile"){
+      // this.mobileView = false;
+      // this.isModalOpen = false;
+    // }
+  }
 
   
 

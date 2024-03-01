@@ -6,7 +6,7 @@
   width: 90%;
 }
 
-ion-toolbar{
+ion-toolbar {
   position: fixed;
   top: 0px;
   width: 124px;
@@ -97,6 +97,33 @@ ion-button {
             cursor: pointer;
           }
         }
+      }
+    }
+  }
+}
+
+ion-modal {
+  --width: 76%;
+  --border-radius: 12px;
+  --height: 76%;
+
+  .container {
+    .row {
+      ion-toolbar {
+        padding-right: 10px;
+      }
+    }
+  }
+  .main-container {
+    width: 80%;
+    margin: 0 auto;
+
+    .edit-delete-address {
+      display: flex;
+      justify-content: flex-end;
+
+      img{
+        width: 19px;
       }
     }
   }

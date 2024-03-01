@@ -1,62 +1,125 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- <div class="jc-logo">
+      <img style="width: 47px; height: 47px;" src="../../../assets/images/logo.png" alt="">
+      <span>Jaipur Service Company</span>
+    </div> -->
+
     <ion-buttons slot="start">
-      <ion-button>
-        <img src="assets/ui_icons/mapmarker.svg" alt="">
-      </ion-button>
+      <div class="jsc-logo">
+        <img src="../../../assets/images/logo.png" alt="" />
+        <span>Jaipur Service Company</span>
+      </div>
+
+      <div class="location-det">
+        <ion-button>
+          <img src="assets/ui_icons/mapmarker.svg" alt="" />
+        </ion-button>
+        <ion-text (click)="setopen()">
+          <h4 *ngIf="addressess.length > 0">{{ selectedAddress?.name }}</h4>
+          <p>
+            {{ addressLineOne }}
+            <ng-container
+              *ngIf="!addressLineTwoVisible && insertAddressAccordionButton"
+            >
+              ...
+            </ng-container>
+            <ion-icon
+              *ngIf="!addressLineTwoVisible && insertAddressAccordionButton"
+              name="caret-down-outline"
+            ></ion-icon>
+            <ion-icon
+              *ngIf="addressLineTwoVisible && insertAddressAccordionButton"
+              name="caret-up-outline"
+            ></ion-icon>
+          </p>
+        </ion-text>
+      </div>
     </ion-buttons>
-    <ion-text (click)="setopen()">
-      <h4 *ngIf="addressess.length > 0">{{(selectedAddress)?.name}}</h4>
-      <p>
-        {{addressLineOne}}
-        <ng-container *ngIf="!addressLineTwoVisible && insertAddressAccordionButton">
-          ...
-        </ng-container>
-        <ion-icon *ngIf="!addressLineTwoVisible && insertAddressAccordionButton"
-          name="caret-down-outline"></ion-icon>
-        <ion-icon *ngIf="addressLineTwoVisible && insertAddressAccordionButton"
-          name="caret-up-outline"></ion-icon>
-      </p>
-    </ion-text>
+
+    <button id="search" (click)="navigateTOSearch()">
+      <p>Search what you need</p>
+      <span>
+        <img src="assets/ui_icons/search.svg" alt="" />
+      </span>
+    </button>
+
     <ion-buttons slot="end">
+      <ion-button *ngIf="isWebModalOpen">
+        <img src="assets/ui_icons/profile.svg" alt="avatar" />
+      </ion-button>
+      <ion-button (click)="cart()" *ngIf="isWebModalOpen">
+        <img src="assets/ui_icons/shopping-cart.svg" alt="cart" />
+      </ion-button>
       <ion-button (click)="notification()">
-        <img *ngIf="!showUnreadNotification" src="assets/images/bell.svg" alt="">
-        <img *ngIf="showUnreadNotification" src="assets/ui_icons/notification.svg" alt="">
+        <img
+          *ngIf="!showUnreadNotification"
+          src="assets/images/bell.svg"
+          alt=""
+        />
+        <img
+          *ngIf="showUnreadNotification"
+          src="assets/ui_icons/notification.svg"
+          alt=""
+        />
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)" [backdropBreakpoint]="0" [isOpen]="showmodal" [initialBreakpoint]="initialBreakpointAddress" [breakpoints]="[0,0.25,0.4, 0.5,0.9]">
+  <ion-modal
+    trigger="open-modal"
+    (willDismiss)="onWillDismiss($event)"
+    [backdropBreakpoint]="0"
+    [isOpen]="showmodal"
+    [initialBreakpoint]="initialBreakpointAddress"
+    [breakpoints]="[0, 0.25, 0.4, 0.5, 0.9]"
+  >
     <ng-template>
       <div class="main-container">
         <div class="address-head">
           <h2>Select Address</h2>
+
           <div class="new-add-button">
-            <button (click) = "navigate()">
+            <button (click)="navigate()">
               <span>Add New</span>
-              <img src="../../../assets/add-button.svg" alt="">
+              <img src="../../../assets/add-button.svg" alt="" />
             </button>
           </div>
         </div>
 
         <div class="temp-div">
-          <div class="address-det-div" *ngFor="let address Of addressess">
+          <div class="address-det-div" *ngFor="let address of addressess">
             <div class="address-box">
               <div class="add-cont">
                 <div class="input-div">
-                  <input type="radio" name="defaultChange" [checked]="address.isDefault"  (change)="changeAddress(address)">
+                  <input
+                    type="radio"
+                    name="defaultChange"
+                    [checked]="address.isDefault"
+                    (change)="changeAddress(address)"
+                  />
                 </div>
                 <div class="address-details">
-                  <h2>{{address.name}}</h2>
-                  <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
-                  <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
+                  <h2>{{ address.name }}</h2>
+                  <p>{{ dataProvider.currentUser?.userData.phoneNumber }}</p>
+                  <p>
+                    {{ address.addressLine1 }}, {{ address.city }},
+                    {{ address.state }}, {{ address.pincode }}
+                  </p>
                 </div>
                 <div class="edit-delete-address">
-                  <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
-                  <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
+                  <img
+                    src="../../../assets/edit-button.svg"
+                    alt=""
+                    (click)="editAddress(address)"
+                  />
+                  <img
+                    src="../../../assets/delete-button.svg"
+                    alt=""
+                    (click)="deleteAddress(address)"
+                  />
                 </div>
               </div>
             </div>

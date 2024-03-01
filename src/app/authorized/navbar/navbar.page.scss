@@ -1,9 +1,22 @@
-.footer{
-    display: flex;
-    justify-content: space-between;
+.footer {
+  display: flex;
+  justify-content: space-between;
 
-    .footer-ion-tab-button{
-        max-width: 90px !important;
-        padding: 6px 0px;
-    }
+  .footer-ion-tab-button {
+    max-width: 90px !important;
+    padding: 6px 0px;
+  }
 }
+
+// @media only screen and (min-width: 1024px) 
+@media only screen and (min-width: 1024px) {
+  ion-tabs {
+    .footer {
+      display: none;
+    }
+  }
+}
+
+// .deActive{
+//     display: none;
+// }

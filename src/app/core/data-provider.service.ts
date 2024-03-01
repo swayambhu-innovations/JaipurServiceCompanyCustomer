@@ -4,6 +4,7 @@ import { ConfirmationResult, User } from '@angular/fire/auth';
 import { Category } from './types/category.structure';
 import { Booking } from '../authorized/booking/booking.structure';
 import { Address } from '../authorized/select-address/address.structure';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class DataProviderService {
   }|undefined;
   currentUser$:BehaviorSubject<any> = new BehaviorSubject<any>('');
   isPageLoaded$:BehaviorSubject<string> = new BehaviorSubject<string>("");
-  constructor() {
+  deviceInfo:any;
+  constructor(
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
    }
 }

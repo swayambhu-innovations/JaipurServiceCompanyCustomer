@@ -10,6 +10,7 @@ import { DataProviderService } from "src/app/core/data-provider.service";
 
 export class NavbarPage implements OnInit {
     hasProfileSaved: boolean = false;
+    deviceinfo:any;
     constructor(
         public router : Router,
         public dataProvider: DataProviderService,
@@ -18,6 +19,8 @@ export class NavbarPage implements OnInit {
         this.dataProvider.currentUser$.subscribe((user) => {
             this.hasProfileSaved = user?.userData?.name ? true : false;
         })
+        this.deviceinfo = this.dataProvider.deviceInfo.deviceType;
+        console.log(this.deviceinfo);
     }
     close(url:any) {
         this.router.navigate([url]);

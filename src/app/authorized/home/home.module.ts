@@ -8,6 +8,9 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 import { WidgetsModule } from '../../widgets/widgets.module';
+import { FooterWebComponent } from '../footer-web/footer-web.component';
+
+
 
 
 
@@ -20,9 +23,10 @@ import { WidgetsModule } from '../../widgets/widgets.module';
     IonicModule,
     HomePageRoutingModule,
     WidgetsModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    
   ],
-  declarations: [HomePage, 
+  declarations: [HomePage, FooterWebComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
