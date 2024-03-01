@@ -92,8 +92,9 @@
           <img src="assets/icon/order-placed/clock.svg" alt="">
         </section>
         <section style="margin-left: 10px;">
-          <p>Time</p>
+          <p>Slot Time</p>
           <span class="head">{{slotStartTime | date:'h:mm' }} - {{ slotEndTime | date:'shortTime' }}</span><br>
+          <span class="head">(Preferred Agent Arrival Time - {{this.dataProvider.currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date: "shortTime" }})</span>
         </section>
       </div>
     </div>

@@ -87,43 +87,47 @@
     </div>
   </div>
 
-  <div class="all-categories-div">
+  <div>
     <hr class="horizontalRow" />
-    <div class="heading">
-      <hr />
-      <h4>Categories of Services</h4>
-      <hr />
-    </div>
-    <ion-row>
-      <ion-col
-        size="3"
-        class="serviceCategoriesImages"
-        *ngFor="let mainCategory of categories | slice:0:3"
-      >
-        <div class="category-det">
-          <a routerLink="../sub-Categories/{{mainCategory.id}}">
+    <h4>Categories of Services</h4>
+    <!-- <ion-row>
+        <ion-col size='3' class="serviceCategoriesImages" *ngFor="let mainCategory of categories | slice:0:3">
+          <div class="category-det">
+            <a routerLink="../sub-Categories/{{mainCategory.id}}">
+              <img src="{{mainCategory.icon}}" alt="">
+            </a>
+            <span>{{mainCategory.name}}</span>
+          </div>
+        </ion-col>
+        
+        
+        <ion-col class="serviceCategoriesImages" *ngIf="categories.length > 3? true: false">
+          <div class="category-det">
+            <a>
+              <img class="seeall-img" src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
+            </a>
+            <span>See All</span>
+          </div>
+        </ion-col>
+      </ion-row> -->
+    <div class="category-services-cont">
+      <div class="col-4 service-det" *ngFor="let mainCategory of categories">
+        <div class="det-container">
+          <div class="det" routerLink="../sub-Categories/{{mainCategory.id}}">
             <img src="{{mainCategory.icon}}" alt="" />
-          </a>
-          <span>{{mainCategory.name}}</span>
+          </div>
         </div>
-      </ion-col>
-      <ion-col
-        class="serviceCategoriesImages"
-        *ngIf="categories.length > 2? true: false"
-      >
-        <div class="category-det">
-          <a class="seeAll-anchor">
-            <img
-              class="seeall-img"
-              src="assets/images/SeeAll.png"
-              routerLink="../all-categories/"
-              alt=""
-            />
-          </a>
-          <span>See All</span>
+        <h3>{{mainCategory.name}}</h3>
+      </div>
+      <div class="col-4 service-det">
+        <div class="det-container">
+          <div class="det" routerLink="../all-categories/" alt="">
+            <img class="seeall-img" src="assets/images/SeeAll.png" />
+          </div>
         </div>
-      </ion-col>
-    </ion-row>
+        <h3>See All</h3>
+      </div>
+    </div>
     <hr class="horizontalRow" />
   </div>
 

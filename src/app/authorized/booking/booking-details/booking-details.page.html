@@ -187,7 +187,8 @@
 
       <section style="margin-left: 10px">
         <span class="head">Time</span><br />
-        <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span>
+        <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span><br/>
+        <span class="body">(Preferred Agent Arrival Time - {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date: "shortTime" }})</span>
       </section>
     </div>
   </div>
@@ -243,8 +244,13 @@
 
         <div class="payment-row">
           <div class="payment-heading">Total Duration</div>
-          <div class="payment-value">{{duration}}</div>
+          <!-- <div class="payment-value">{{duration}}</div> -->
+          <div class="payment-value">{{actualJobDuration}}</div>
         </div>
+        <!-- <div class="payment-row">
+          <div class="payment-heading">Slot Duration</div>
+          <div class="payment-value">{{duration}}</div>
+        </div> -->
 
         <div class="items">
           <ng-container *ngFor="let item of currentBooking?.services">

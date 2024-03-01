@@ -57,12 +57,25 @@ export class ServicesPage implements OnInit {
       const sortedSubCategory = this.matchingSubCategory.services.sort((a,b) => {
         return a.variants[0].price - b.variants[0].price;
       });
-
+      
       this.services = sortedSubCategory;
     });
     
   }
-
+  getJobDuration(jobDurationInMin){
+    if(jobDurationInMin <  60){
+      return jobDurationInMin+" Minutes"
+    }
+    else{
+      if(jobDurationInMin % 60 == 0){
+        return (jobDurationInMin / 60) + " Hours";
+      }
+      else{
+        return (jobDurationInMin / 60) +" Hours "+ (jobDurationInMin % 60 == 0) + " Minutes"
+      }
+     
+    }
+  }
   ngOnInit() {
   }
 

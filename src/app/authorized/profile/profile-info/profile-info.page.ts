@@ -148,7 +148,7 @@ export class ProfileInfoPage implements OnInit {
     });
 
     loader.present();
-    if (this.dataProvider?.currentUser?.user.uid === undefined) {
+    if (this.dataProvider?.currentUser?.user.uid === undefined || this.dataProvider.currentUser?.userData == undefined) {
       this.profileService
         .addUsers(
           this.dataProvider.currentUser!.user.uid,

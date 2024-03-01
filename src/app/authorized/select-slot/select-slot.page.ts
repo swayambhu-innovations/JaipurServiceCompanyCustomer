@@ -315,10 +315,14 @@ export class SelectSlotPage implements OnInit {
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
-    const orderPlacedModal = await this.modalController.create({
-      component: OrderPlacedPage,
-    });
     loader.present();
+    if (
+      this.dataProvider.currentBooking &&
+      this.dataProvider.currentBooking.timeSlot
+    ) {
+      this.dataProvider.currentBooking.timeSlot.agentArrivalTime =
+        Timestamp.fromDate(this.selectAgentArrivalTime!);
+    }
     let booking = this.dataProvider.currentBooking;
     if (booking && !booking?.isUpdateSlot) {
       booking.isPaid = false;
@@ -359,6 +363,14 @@ export class SelectSlotPage implements OnInit {
     }
   }
   async createBooking() {
+    if (
+      this.dataProvider.currentBooking &&
+      this.dataProvider.currentBooking.timeSlot
+    ) {
+      this.dataProvider.currentBooking.timeSlot.agentArrivalTime =
+        Timestamp.fromDate(this.selectAgentArrivalTime!);
+    }
+
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
