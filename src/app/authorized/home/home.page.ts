@@ -27,6 +27,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { SelectAddressPage } from '../select-address/select-address.page';
 import { SubCategoryPage } from '../sub-categories/sub-categories.page';
 import { AllCategoriesPage } from '../all-categories/all-categories.page';
+import { ServicesPage } from '../services/services.page';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -543,6 +544,19 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }
     else {
       this.router.navigate(['/authorized/all-categories']);
+    }
+  }
+
+  async openSubCategory(categoryId , itemsId) {
+    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+      const modal = await this.modalController.create({
+        component: ServicesPage,
+        componentProps: { subCategoryId:{categoryId:categoryId , itemsId : itemsId} }
+      });
+      return await modal.present();
+    }
+    else {
+      this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`])
     }
   }
 }
