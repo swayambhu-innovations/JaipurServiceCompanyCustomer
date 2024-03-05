@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProfileService } from '../db_services/profile.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { BookingService } from '../booking/booking.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import Utils from '../common/util';
 import Swiper from 'swiper';
 import * as moment from 'moment';
@@ -24,6 +24,9 @@ import { Address } from '../select-address/address.structure';
 import { CartService } from '../cart/cart.service';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { SelectAddressPage } from '../select-address/select-address.page';
+import { SubCategoryPage } from '../sub-categories/sub-categories.page';
+import { AllCategoriesPage } from '../all-categories/all-categories.page';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -78,7 +81,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private _notificationService: UserNotificationService,
     public _cartService: CartService,
     private _navigationService: NavigationBackService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private modalController: ModalController,
   ) {
     this._notificationService
       .getCurrentUserNotification()
@@ -277,7 +281,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         .filter(
           (area) =>
             area['geoProofingLocality'] ===
-              this.currentAddress?.geoProofingLocality && area.serviceCatalogue
+            this.currentAddress?.geoProofingLocality && area.serviceCatalogue
         );
       if (areas.length > 0) {
         this.homeService.fetchData(areas[0].serviceCatalogue);
@@ -312,10 +316,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ionViewDidLeave() {}
+  ionViewDidLeave() { }
 
-  ngAfterViewInit() {}
-  ngOnDestroy() {}
+  ngAfterViewInit() { }
+  ngOnDestroy() { }
 
   isFutureDate(date: Date | undefined) {
     if (!date) return false;
@@ -470,7 +474,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           return `data:image/${fileType};base64,${readFile.data}`;
         });
       })
-      .finally(() => {});
+      .finally(() => { });
   }
 
   async saveImage(url: string, path) {
@@ -480,7 +484,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       }),
       mode: 'no-cors',
     })
-      .then((response) => {})
+      .then((response) => { })
       .catch((error) => {
         console.log('errror.....', error);
       });
@@ -504,7 +508,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     return savedFile;
   }
 
-  onNotServiceableDismiss(event) {}
+  onNotServiceableDismiss(event) { }
 
   onGotItClick() {
     this.isNotServiceableModalOpen = false;
@@ -516,7 +520,33 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   tConvert(time) {
     return moment(time, 'HH:mm').format('hh:mm a');
   }
+
+  async showSubCategories(id) {
+    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+      const modal = await this.modalController.create({
+        component: SubCategoryPage,
+        componentProps: { categoryId: id }
+      });
+      return await modal.present();
+    }
+    else {
+      this.router.navigate([`/authorized/sub-Categories/${id}`]);
+    }
+  }
+
+  async allCategory() {
+    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+      const modal = await this.modalController.create({
+        component: AllCategoriesPage
+      });
+      return await modal.present();
+    }
+    else {
+      this.router.navigate(['/authorized/all-categories']);
+    }
+  }
 }
+
 
 export interface Banner {
   id?: string | null | undefined;

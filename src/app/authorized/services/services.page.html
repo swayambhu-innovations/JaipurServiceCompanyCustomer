@@ -123,12 +123,18 @@
   <!-- <app-cart-popu></eapp-cart-popu> -->
 </ng-container>
 
-<ion-modal [backdropDismiss]="false" [isOpen]="isModalOpen">
-  <ng-template>
-    <app-header-with-back
-      [title]="matchingSubCategory?.name?? ''"
-      [showNotificationIcon]="false"
-    ></app-header-with-back>
+<ng-container *ngIf="isModalOpen">
+    <ion-header class="desktop-header">
+      <ion-toolbar class="desktop-view-tab">
+        <ion-buttons slot="start" (click)="back()">
+          <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="">
+        </ion-buttons>
+        <ion-title>{{matchingMainCategory?.name}} Sub Categories</ion-title>
+        <ion-buttons class="cross-div" slot="end" (click)="back()">
+          <img src="../../../assets/icon/cross-23.svg" alt="">
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
     <!-- <app-header {{matchingSubCategory?.name}}></app-header> -->
     <!-- <ion-content [fullscreen]="true">
 	<img [src]="matchingSubCategory?.image" alt="">
@@ -235,5 +241,4 @@
       </ion-list>
     </ion-content>
     <!-- <app-cart-popu></eapp-cart-popu> -->
-  </ng-template>
-</ion-modal>
+</ng-container>

@@ -11,6 +11,8 @@ import { ProfileService } from '../db_services/profile.service';
 import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { AllCategoriesService } from './all-categories.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { ModalController } from '@ionic/angular';
+import { SubCategoryPage } from '../sub-categories/sub-categories.page';
 
 @Component({
   selector: 'app-all-categories',
@@ -18,22 +20,53 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
+  isMobileview:boolean=false;
+  isDesktopview:boolean=false;
   constructor(private router: Router, 
     private profileService: ProfileService, 
     private imageService: FileService, 
     private http: HttpClient,
-    private dataProvider: DataProviderService,) {}
+    private dataProvider: DataProviderService,
+    public viewController : ModalController,
+    private modalController: ModalController) {}
 
  ionViewDidEnter(){
   this.categories = [];
+  this.systeminfo();
   this.dataProvider.mainCategories.subscribe((categories) => {
     this.categories = categories;
   });
  }
 
+ systeminfo() {
+  if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    this.isDesktopview = true;
+    this.isMobileview = false;
+  }
+  if (this.dataProvider.deviceInfo.deviceType === "mobile") {
+    this.isDesktopview = false;
+    this.isMobileview = true;
+  }
+ }
+
+ async showSubCategories(id) {
+  if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    const modal = await this.modalController.create({
+      component: SubCategoryPage,
+      componentProps: { categoryId: id }
+    });
+    return await modal.present();
+  }
+}
+
  ionViewDidLeave(){
   this.categories = [];
+  this.isDesktopview = false;
  }
+
+ back() {
+  this.viewController.dismiss();
+}
    
   categories: any[] = []; // added by ronak
   icon: any[] = [];

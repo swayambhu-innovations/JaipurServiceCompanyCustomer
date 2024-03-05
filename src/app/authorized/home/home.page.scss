@@ -215,7 +215,7 @@ ion-thumbnail {
 }
 .category-services-cont{
   display: flex;
-  overflow: scroll;
+  overflow: auto;
   .service-det {
     .det-container{
       display: flex;
@@ -317,6 +317,7 @@ ion-thumbnail {
 homepage.scss .serviceCategory {
   text-decoration: none;
 }
+
 .horizontalRow {
   border: 1px solid lightsteelblue;
 }
@@ -613,8 +614,38 @@ homepage.scss .serviceCategory {
 @media only screen and (min-width: 1024px) {
   ion-content {
     --background: linear-gradient(165deg, #f9cef4 0%, #246f99 100%);
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --padding-bottom: 0px;
+
+    .banner-container {
+      width: 80% !important;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
     #search {
       display: none;
+    }
+    .categories-container {
+      background: white;
+      border-radius: 10px;
+      width: 80%;
+      margin: 0 auto;
+
+      h4 {
+        text-align: center;
+        margin: 30px 0px;
+        font-weight: 700;
+        font-size: 32px;
+      }
+
+      .category-services-cont {
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+      }
     }
   }
 
