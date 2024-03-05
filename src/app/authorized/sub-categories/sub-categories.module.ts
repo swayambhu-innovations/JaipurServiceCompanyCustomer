@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {NgModule} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavParams } from '@ionic/angular';
 import { SubCategoryPage } from './sub-categories.page';
 import { SubCategoryPageRoutingModule } from './sub-categories-routing.module';
 
@@ -10,7 +10,7 @@ import { SubCategoryPageRoutingModule } from './sub-categories-routing.module';
         FormsModule,
         CommonModule,
         IonicModule,
-        SubCategoryPageRoutingModule
+        SubCategoryPageRoutingModule,
     ],
     declarations: [SubCategoryPage]
 })

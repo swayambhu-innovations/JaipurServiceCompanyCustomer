@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AddressService } from '../db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 import { Address } from './address.structure';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular';
 
 @Component({
@@ -17,14 +17,15 @@ export class SelectAddressPage implements OnInit {
 
   deviceinfo:any;
   isModalOpen:boolean = false;
-  mobileView = true;
+  mobileView: boolean = false;
   @ViewChild(IonModal) modal: IonModal;
 
   constructor(
     private router: Router,
     public addressService: AddressService,
     public dataProvider: DataProviderService,
-    private loadingController:LoadingController
+    private loadingController:LoadingController,
+    private viewController:ModalController
   ) {}
 
   newAddress() {
@@ -36,14 +37,14 @@ export class SelectAddressPage implements OnInit {
 
   ionViewDidEnter(){
     this.systeminfo();
-    console.log(this.dataProvider.deviceInfo);
+  }
+
+  back() {
+    this.viewController.dismiss();
   }
 
   ionViewDidLeave(){
     this.isModalOpen = false;
-    console.log(this.isModalOpen);
-    this.modal.dismiss();
-    console.log("select address modal dismiss");
   }
 
    systeminfo(){
@@ -51,10 +52,10 @@ export class SelectAddressPage implements OnInit {
       this.isModalOpen = true;
       this.mobileView = false;
     }
-    // if(this.dataProvider.deviceInfo.deviceType === "mobile"){
-      // this.mobileView = false;
-      // this.isModalOpen = false;
-    // }
+    if(this.dataProvider.deviceInfo.deviceType === "mobile"){
+      this.mobileView = true;
+      this.isModalOpen = false;
+    }
   }
 
   

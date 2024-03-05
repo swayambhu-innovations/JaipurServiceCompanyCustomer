@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="categories-container">
     <hr class="horizontalRow" />
     <h4>Categories of Services</h4>
     <!-- <ion-row>
@@ -113,7 +113,7 @@
     <div class="category-services-cont">
       <div class="col-4 service-det" *ngFor="let mainCategory of categories">
         <div class="det-container">
-          <div class="det" routerLink="../sub-Categories/{{mainCategory.id}}">
+          <div class="det" (click)="showSubCategories(mainCategory.id)">
             <img src="{{mainCategory.icon}}" alt="" />
           </div>
         </div>
@@ -121,7 +121,7 @@
       </div>
       <div class="col-4 service-det">
         <div class="det-container">
-          <div class="det" routerLink="../all-categories/" alt="">
+          <div class="det" (click)="allCategory()" alt="">
             <img class="seeall-img" src="assets/images/SeeAll.png" />
           </div>
         </div>
@@ -141,8 +141,7 @@
               <h4>{{mainCategory.name}}</h4>
             </div>
             <div class="see-all-button">
-              <span routerLink="../sub-Categories/{{mainCategory.id}}"
-                >See All</span
+              <span (click)="showSubCategories(mainCategory.id)">See All</span
               >
               <img src="assets/icon/rightArrow/rightArrow.svg" />
             </div>

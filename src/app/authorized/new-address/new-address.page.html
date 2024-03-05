@@ -1,113 +1,87 @@
-<app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false" [showBackButton]="showHeader"></app-header-with-back>
-<ion-content #content>
-  <form [formGroup]="addressForm">
-    <div class="input">
-      <input type="text" formControlName="name" placeholder="Address Name" />
-    </div>
-    <div class="input">
-      <ion-select
-        formControlName="state"
-        aria-label="state"
-        interface="popover"
-        toggleIcon="chevron-down"
-        justify="space-between"
-        placeholder="State"
-        [compareWith]="compareStateFn"
-        (ionChange)="fetchCities($event)"
-        #selectedState
-      >
-        <ion-select-option [value]="state" *ngFor="let state of states$ | async"  
-          >{{state.state | titlecase}}</ion-select-option
-        >
-      </ion-select>
-    </div>
-    <div class="input">
-      <ion-select
-        formControlName="city"
-        aria-label="city"
-        interface="popover"
-        toggleIcon="chevron-down"
-        justify="space-between"
-        placeholder="City"
-        [compareWith]="compareCityFn"
-        (ionChange)="fetchAreas($event,selectedState.value.id)"
-      >
-        <ion-select-option [value]="city" *ngFor="let city of cities$ | async"
-          >{{city.name | titlecase}}</ion-select-option
-        >
-      </ion-select>
-    </div>
-    <div class="input">
-      <input type="number" formControlName="pincode" placeholder="Pin Code" />
-    </div>
-    <div *ngIf="isSubmitForm && (addressForm?.get('pincode')?.invalid && (addressForm?.get('pincode')?.dirty || addressForm?.get('pincode')?.touched))">
-      <div *ngIf="addressForm?.get('pincode')?.errors?.required">
-        <ion-text color="danger">PIN code is required.</ion-text>
+<ion-content #content class="address-container">
+  <div class="main-container">
+    <app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false"
+      [showBackButton]="showHeader"></app-header-with-back>
+    <div class="data-container">
+      <div class="left-container">
+        <img src="assets/images/add-address.png" alt="">
       </div>
-      <div *ngIf="addressForm?.get('pincode')?.errors?.pattern">
-        <ion-text color="danger">Invalid PIN code format.</ion-text>
+      <div class="right-container">
+        <form [formGroup]="addressForm">
+          <div class="input">
+            <input type="text" formControlName="name" placeholder="Address Name" />
+          </div>
+          <div class="input">
+            <ion-select formControlName="state" aria-label="state" interface="popover" toggleIcon="chevron-down"
+              justify="space-between" placeholder="State" [compareWith]="compareStateFn"
+              (ionChange)="fetchCities($event)" #selectedState>
+              <ion-select-option [value]="state" *ngFor="let state of states$ | async">{{state.state |
+                titlecase}}</ion-select-option>
+            </ion-select>
+          </div>
+          <div class="input">
+            <ion-select formControlName="city" aria-label="city" interface="popover" toggleIcon="chevron-down"
+              justify="space-between" placeholder="City" [compareWith]="compareCityFn"
+              (ionChange)="fetchAreas($event,selectedState.value.id)">
+              <ion-select-option [value]="city" *ngFor="let city of cities$ | async">{{city.name |
+                titlecase}}</ion-select-option>
+            </ion-select>
+          </div>
+          <div class="input">
+            <input type="number" formControlName="pincode" placeholder="Pin Code" />
+          </div>
+          <div
+            *ngIf="isSubmitForm && (addressForm?.get('pincode')?.invalid && (addressForm?.get('pincode')?.dirty || addressForm?.get('pincode')?.touched))">
+            <div *ngIf="addressForm?.get('pincode')?.errors?.required">
+              <ion-text color="danger">PIN code is required.</ion-text>
+            </div>
+            <div *ngIf="addressForm?.get('pincode')?.errors?.pattern">
+              <ion-text color="danger">Invalid PIN code format.</ion-text>
+            </div>
+          </div>
+          <div class="input">
+            <input type="text" formControlName="addressLine1" placeholder="House/Flat/Block/Building" />
+          </div>
+          <div class="input">
+            <ion-select formControlName="selectedArea" aria-label="area" interface="popover" toggleIcon="chevron-down"
+              justify="space-between" placeholder="Area" [compareWith]="compareAreaFn"
+              (ionChange)="onAreaChange($event)">
+              <ion-select-option [value]="area" *ngFor="let area of areas$ | async">
+                {{area.name}} | {{area.locality}}
+              </ion-select-option>
+            </ion-select>
+          </div>
+          <ion-card style="margin: 0px;">
+            <ion-card-content>
+              Please click on map to select your location.
+            </ion-card-content>
+          </ion-card>
+          <ion-card style="margin: 0px;" (click)="getLocation(false)">
+            <ion-card-content class="current-location">
+              <div class="location-icon">
+                <img src="assets/icons/location.svg">
+                <div> Use Current location</div>
+              </div>
+
+            </ion-card-content>
+          </ion-card>
+          <div class="google-map-container">
+            <google-map height="400px" width="100%" [center]="center" [zoom]="zoom" (mapClick)="moveMap($event)"
+              (mapMousemove)="move($event)">
+              <map-marker *ngIf="currentPosition" [options]="markerOptions" [position]="currentPosition"
+                (mapDragend)="newPosition($event)"></map-marker>
+              <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*1000"
+                [options]="mapOptionsCircle" (circleClick)="moveMap($event)" fillColor="green" />
+            </google-map>
+          </div>
+
+          <ion-button expand="block" color="dark" (click)="submit()">
+            Save Address
+          </ion-button>
+        </form>
       </div>
     </div>
-    <div class="input">
-      <input
-        type="text"
-        formControlName="addressLine1"
-        placeholder="House/Flat/Block/Building"
-      />
-    </div>
-    <div class="input">
-      <ion-select
-        formControlName="selectedArea"
-        aria-label="area"
-        interface="popover"
-        toggleIcon="chevron-down"
-        justify="space-between"
-        placeholder="Area"
-        [compareWith]="compareAreaFn"
-        (ionChange)="onAreaChange($event)"
-      >
-        <ion-select-option [value]="area" *ngFor="let area of areas$ | async">
-          {{area.name}} | {{area.locality}}
-        </ion-select-option>
-      </ion-select>
-    </div>
-    <ion-card style="margin: 0px;">
-      <ion-card-content>
-        Please click on map to select your location.
-      </ion-card-content>
-    </ion-card>
-    <ion-card style="margin: 0px;" (click)="getLocation(false)">
-      <ion-card-content class="current-location">
-        <div class="location-icon">
-          <img src="assets/icons/location.svg">
-          <div> Use Current location</div>
-        </div>        
-       
-      </ion-card-content>
-    </ion-card>
-    <div class="google-map-container">
-      <google-map
-      height="400px"
-      width="100%"
-      [center]="center"
-      [zoom]="zoom"
-      (mapClick)="moveMap($event)"
-      (mapMousemove)="move($event)"
-    >
-      <map-marker
-        *ngIf="currentPosition"
-        [options]="markerOptions"
-        [position]="currentPosition"
-        (mapDragend)="newPosition($event)"
-      ></map-marker>
-      <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*1000" [options]="mapOptionsCircle" (circleClick)="moveMap($event)" fillColor="green" />
-    </google-map>
-    </div>
-    
-    <ion-button expand="block" color="dark" (click)="submit()">
-      Save Address
-    </ion-button>
-  </form>
+  </div>
 </ion-content>
 
 <!-- <ion-content [fullscreen]="true">

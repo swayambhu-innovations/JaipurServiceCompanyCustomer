@@ -7,6 +7,7 @@ import { LoadingController } from '@ionic/angular';
 // import { MatDialog } from '@angular/material/dialog';
 import { ModalController } from '@ionic/angular';
 import { CartPage } from 'src/app/authorized/cart/cart.page';
+import { SelectAddressPage } from 'src/app/authorized/select-address/select-address.page';
 
 @Component({
   selector: 'app-home-header',
@@ -42,7 +43,7 @@ export class HomeHeaderComponent implements OnInit {
     private modalController: ModalController,
     public addressService: AddressService,
     public dataProvider: DataProviderService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
   ) {
     this.addressService.fetchedAddresses.subscribe(
       async (address: Address[]) => {
@@ -140,9 +141,17 @@ export class HomeHeaderComponent implements OnInit {
     this.MAX_ADDRESS_LINE_LENGTH = 30;
   }
 
-  setopen() {
+  async setopen() {
     //this.addressLineTwoVisible = true;
-    this.router.navigate(['/authorized/select-address']);
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+        const modal = await this.modalController.create({
+          component: SelectAddressPage,
+        });
+        return await modal.present();
+    }
+    else {
+      this.router.navigate(['/authorized/select-address']);
+    }
   }
 
   onWillDismiss(event) {

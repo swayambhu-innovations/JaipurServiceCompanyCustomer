@@ -8,7 +8,7 @@
 
         <div class="new-add-button">
           <button (click)="newAddress()">
-            <span>Add New</span>
+            <span>Add new</span>
             <img src="../../../assets/add-button.svg" alt="">
           </button>
         </div>
@@ -98,49 +98,39 @@
 
 
 
-<ion-modal [backdropDismiss]="false" [isOpen]="isModalOpen">
-  <ng-template>
-    <app-header-with-back  [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'"
-      [showNotificationIcon]="false"></app-header-with-back>
-    <!-- [showNotificationIcon]="addressService.addresses.length > 0" -->
-    <div class="container">
-      <div class="row">
-        <ion-toolbar slot="end">
-
-          <div class="new-add-button">
-            <button (click)="newAddress()">
-              <span>Add New</span>
-              <img src="../../../assets/add-button.svg" alt="">
-            </button>
-          </div>
-
-
-        </ion-toolbar>
-      </div>
-    </div>
-    <ion-content [fullscreen]="true">
-      <div class="main-container">
-        <div class="address-det-div">
-          <div class="address-box" *ngFor="let address of addressService.addresses">
-            <div class="add-cont">
-              <div class="input-div">
-                <input type="radio" name="defaultChange" [checked]="address.isDefault"
-                  (change)="changeAddress(address)">
-                <!-- <input  type="radio" > -->
-              </div>
-              <div class="address-details">
-                <h2>{{address.name}}</h2>
-                <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
-                <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
-              </div>
-              <div class="edit-delete-address">
-                <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
-                <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
-              </div>
+<ng-container *ngIf="isModalOpen">
+  <ion-header class="desktop-header">
+    <ion-toolbar class="desktop-view-tab">
+      <ion-buttons slot="start" (click)="back()">
+        <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="">
+      </ion-buttons>
+      <ion-title>Select Address</ion-title>
+      <ion-buttons class="cross-div" slot="end" (click)="back()">
+        <img src="../../../assets/icon/cross-23.svg" alt="">
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content [fullscreen]="true">
+    <div class="main-container">
+      <div class="address-det-div">
+        <div class="address-box" style="padding: 20px;" *ngFor="let address of addressService.addresses">
+          <div class="add-cont">
+            <div class="input-div">
+              <input type="radio" name="defaultChange" [checked]="address.isDefault" (change)="changeAddress(address)">
+              <!-- <input  type="radio" > -->
+            </div>
+            <div class="address-details">
+              <h2>{{address.name}}</h2>
+              <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
+              <p>{{address.addressLine1}}, {{address.city}}, {{address.state}}, {{address.pincode}}</p>
+            </div>
+            <div class="edit-delete-address" style="padding-left: 3rem;">
+              <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)">
+              <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)">
             </div>
           </div>
         </div>
       </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
+    </div>
+  </ion-content>
+</ng-container>
