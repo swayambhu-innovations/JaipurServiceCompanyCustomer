@@ -32,7 +32,7 @@
     class="recent-container"
     [ngClass]="{'no-booking': !(bookingService.bookingsSubject && upcomingBookings.length > 0) }"
   >
-    <ion-label class="label">Upcoming Bookings</ion-label>
+    <ion-label class="label">Upcoming Booking</ion-label>
     <div class="banner-container">
       <div #swiperContainer1 class="swiper-container">
         <div class="swiper-wrapper recent-container-details">
@@ -53,7 +53,7 @@
                   </ion-col>
                   <ion-col class="row-1-col-2">
                     <p
-                      class="body {{data?.stage}}"
+                      class="body allotment {{data?.stage}}"
                       style="height: 38px; display: flex; align-items: center"
                     >
                       {{ utils[data?.stage || 'allotmentPending'].text }}
@@ -111,15 +111,16 @@
         </ion-col>
       </ion-row> -->
     <div class="category-services-cont">
-      <ng-container></ng-container>
-      <div class="col-4 service-det" *ngFor="let mainCategory of categories">
-        <div class="det-container">
-          <div class="det" (click)="showSubCategories(mainCategory.id)">
-            <img src="{{mainCategory.icon}}" alt="" />
+      <ng-container *ngFor="let mainCategory of categories;index as index">
+        <div class="col-4 service-det" *ngIf="index<2">
+          <div class="det-container">
+            <div class="det" (click)="showSubCategories(mainCategory.id)">
+              <img src="{{mainCategory.icon}}" alt="" />
+            </div>
           </div>
+          <h3>{{mainCategory.name}}</h3>
         </div>
-        <h3>{{mainCategory.name}}</h3>
-      </div>
+      </ng-container>
       <div class="col-4 service-det">
         <div class="det-container">
           <div class="det" (click)="allCategory()" alt="">

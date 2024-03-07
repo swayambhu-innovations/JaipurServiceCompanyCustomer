@@ -79,7 +79,8 @@ export class SubCategoryPage implements OnInit {
     if (this.dataProvider.deviceInfo.deviceType === "desktop") {
       const modal = await this.modalController.create({
         component: ServicesPage,
-        componentProps: { subCategoryId:{categoryId:categoryId , itemsId : itemsId} }
+        componentProps: { subCategoryId:{categoryId:categoryId , itemsId : itemsId} },
+        cssClass:'modal-class'
       });
       return await modal.present();
     }

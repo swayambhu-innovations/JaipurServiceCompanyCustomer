@@ -44,3 +44,8 @@ ion-toolbar{
 ion-modal::part(backdrop) {
     --backdrop-opacity: .4;
 }
+
+ion-modal {
+    --width: 65%;
+    --height: 75%;
+}
