@@ -151,12 +151,12 @@
 	</div>
 </ion-content> -->
     <ion-content>
-      <ion-list>
-        <ion-item
+      <div class="ion-list">
+        <div
           *ngFor="let result of services"
           class="search-item"
           style="margin-bottom: 10px"
-          routerLink="../../../service-detail/{{mainCatId}}/{{subCatId}}/{{result.id}}"
+          (click)="openCartFunctionWithSubId(mainCatId , subCatId , result.id)"
         >
           <div class="item-img">
             <img
@@ -204,7 +204,7 @@
                         style="width: 6px"
                         name="ellipse-sharp"
                       ></ion-icon>
-                      <strong>{{des.data.items[0]}}</strong>
+                      <strong [innerHTML]="des.data.items[0]"></strong>
                     </div>
                   </div>
                   <div class="description" *ngIf="des.type =='paragraph'">
@@ -214,7 +214,7 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-        </ion-item>
+        </div>
         <!-- <div class="result" *ngFor="let result of results">
 	<img src="" alt="">
 	<div class="priceName">
@@ -238,7 +238,7 @@
             or search with another keyword.
           </p>
         </div>
-      </ion-list>
+      </div>
     </ion-content>
     <!-- <app-cart-popu></eapp-cart-popu> -->
 </ng-container>

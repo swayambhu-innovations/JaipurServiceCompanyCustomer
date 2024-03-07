@@ -127,3 +127,10 @@
 .ion-page {
   display: block !important;
 }
+
+@media only screen and (min-width: 1024px) {
+  .allCategory-div {
+      text-align: -webkit-center;
+      flex-wrap: wrap;
+  }
+}

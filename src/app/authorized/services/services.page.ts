@@ -8,6 +8,7 @@ import {
   Category,
 } from '../../core/types/category.structure';
 import { IonModal, ModalController } from '@ionic/angular';
+import { ServiceDetailPage } from '../service-detail/service-detail.page';
 
 @Component({
   selector: 'app-services',
@@ -33,7 +34,8 @@ export class ServicesPage implements OnInit {
     private dataProvider: DataProviderService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private viewController: ModalController
+    private viewController: ModalController,
+    private modalController: ModalController
   ) {
     // this.activatedRoute.params.subscribe(async (params) => {
     //   let mainCategories = await firstValueFrom(
@@ -101,7 +103,7 @@ export class ServicesPage implements OnInit {
       return a.variants[0].price - b.variants[0].price;
     });
     this.services = sortedSubCategory;
-  }
+}
 
 
   getJobDuration(jobDurationInMin) {
@@ -141,6 +143,19 @@ export class ServicesPage implements OnInit {
     else if (this.dataProvider.deviceInfo.deviceType === "mobile") {
       this.isModalOpen = false;
       this.mobileView = true;
+    }
+  }
+
+  async openCartFunctionWithSubId(mainCatId , subCatId , resultId) {
+    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+      const modal = await this.modalController.create({
+        component: ServiceDetailPage,
+        componentProps : {serviceDetail:{mainCatId : mainCatId , subCatId : subCatId , resultId : resultId}}
+      });
+      return await modal.present();
+    }
+    else {
+      this.router.navigate([`/authorized/service-detail/${mainCatId}/${subCatId}/${resultId}`]);
     }
   }
 }
