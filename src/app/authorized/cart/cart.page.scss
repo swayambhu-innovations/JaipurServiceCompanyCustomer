@@ -184,13 +184,13 @@ ion-content {
 
 .payment-details {
   padding: 16px;
-  .total-duration-container{
+  .total-duration-container {
     margin-bottom: 15px;
-    p{
+    p {
       font-weight: bold;
       font-size: 16px;
       color: black;
-      img{
+      img {
         width: 16px;
       }
     }
@@ -208,13 +208,13 @@ ion-content {
     }
   }
 
-  .items{
-    .row1{
+  .items {
+    .row1 {
       display: flex;
       justify-content: space-between;
       font-size: 13px;
       margin-bottom: 3px;
-      p{
+      p {
         color: #7e8083;
       }
     }
@@ -583,6 +583,11 @@ ion-content {
   }
 }
 ion-content.noItems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
   .empty-cart-img {
     margin: 40px;
     margin-top: 100px;

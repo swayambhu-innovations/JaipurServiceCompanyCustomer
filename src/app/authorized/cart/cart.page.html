@@ -1,7 +1,7 @@
 <ng-container *ngIf="mobileView">
   <app-header-with-back
     [title]="'cart'"
-    [showNotificationIcon]="true"
+    [showNotificationIcon]="mobileView ? true : false"
   ></app-header-with-back>
 
   <ion-content *ngIf="!selectedBooking && cart.length > 0">
@@ -667,7 +667,11 @@
     class="noItems"
     *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded"
   >
-    <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
+    <img
+      class="empty-cart-img"
+      src="../../../assets/images/amico.png"
+      alt="Nothing Found"
+    />
     <span class="text-content">
       <p class="cart-empty-text">Your cart is empty</p>
       <p class="bottom-text">

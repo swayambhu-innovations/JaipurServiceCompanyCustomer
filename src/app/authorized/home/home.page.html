@@ -10,6 +10,7 @@
       <img src="assets/ui_icons/search.svg" alt="" />
     </span>
   </button>
+
   <div
     class="banner-container"
     [hidden]="!bannerObject.showBanner || !bannerObject.showTop"
@@ -33,7 +34,8 @@
     [ngClass]="{'no-booking': !(bookingService.bookingsSubject && upcomingBookings.length > 0) }"
   >
     <ion-label class="label">Upcoming Booking</ion-label>
-    <div class="banner-container">
+
+    <div *ngIf="mobileView" class="banner-container">
       <div #swiperContainer1 class="swiper-container">
         <div class="swiper-wrapper recent-container-details">
           <ng-container *ngIf="upcomingBookings.length > 0">
@@ -84,6 +86,56 @@
         </div>
         <div class="swiper-pagination swiper-pagination1"></div>
       </div>
+    </div>
+
+    <div class="upcoming-slide" *ngIf="isWebModalOpen">
+      <ng-container *ngIf="upcomingBookings.length > 0">
+        <div
+          class="booking-card recent-container-details"
+          *ngFor="let data of upcomingBookings"
+        >
+          <ion-grid
+            width="100"
+            routerLink="../booking/booking-details/{{data.id}}"
+          >
+            <ion-row class="row-1">
+              <ion-col>
+                <ion-label class="row-1label">
+                  <div class="label-text-ellipsis">
+                    {{data.subCategory.name}}
+                  </div>
+                </ion-label>
+                <p>{{data.billing.grandTotal | currency:'INR'}}</p>
+              </ion-col>
+              <ion-col class="row-1-col-2">
+                <p
+                  class="body allotment {{data?.stage}}"
+                  style="height: 38px; display: flex; align-items: center"
+                >
+                  {{ utils[data?.stage || 'allotmentPending'].text }}
+                </p>
+              </ion-col>
+            </ion-row>
+            <ion-row class="row-2">
+              <ion-col class="row-2-col-1">
+                <span>Serviced By</span>
+                <h3>{{data.assignedAgent ? data.agentData.name : 'NA'}}</h3>
+              </ion-col>
+              <ion-col class="row-2-col-1">
+                <span>Time</span>
+                <h3>{{tConvert(data.timeData.start)}} to</h3>
+                <h3>{{tConvert(data.timeData.end)}}</h3>
+              </ion-col>
+              <ion-col>
+                <span
+                  >{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span
+                >
+                <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -143,8 +195,7 @@
               <h4>{{mainCategory.name}}</h4>
             </div>
             <div class="see-all-button">
-              <span (click)="showSubCategories(mainCategory.id)">See All</span
-              >
+              <span (click)="showSubCategories(mainCategory.id)">See All</span>
               <img src="assets/icon/rightArrow/rightArrow.svg" />
             </div>
           </div>

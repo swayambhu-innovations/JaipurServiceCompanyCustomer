@@ -45,7 +45,7 @@
     </button>
 
     <ion-buttons slot="end">
-      <ion-button *ngIf="isWebModalOpen">
+      <ion-button (click)="user()" *ngIf="isWebModalOpen">
         <img src="assets/ui_icons/profile.svg" alt="avatar" />
       </ion-button>
       <ion-button (click)="cart()" *ngIf="isWebModalOpen">

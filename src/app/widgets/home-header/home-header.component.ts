@@ -8,6 +8,7 @@ import { LoadingController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { CartPage } from 'src/app/authorized/cart/cart.page';
 import { SelectAddressPage } from 'src/app/authorized/select-address/select-address.page';
+import { ProfilePage } from 'src/app/authorized/profile/profile.page';
 
 @Component({
   selector: 'app-home-header',
@@ -43,7 +44,7 @@ export class HomeHeaderComponent implements OnInit {
     private modalController: ModalController,
     public addressService: AddressService,
     public dataProvider: DataProviderService,
-    private loadingController: LoadingController,
+    private loadingController: LoadingController
   ) {
     this.addressService.fetchedAddresses.subscribe(
       async (address: Address[]) => {
@@ -60,6 +61,14 @@ export class HomeHeaderComponent implements OnInit {
   async cart() {
     const modal = await this.modalController.create({
       component: CartPage,
+    });
+
+    return await modal.present();
+  }
+
+  async user() {
+    const modal = await this.modalController.create({
+      component: ProfilePage,
     });
 
     return await modal.present();
@@ -144,12 +153,11 @@ export class HomeHeaderComponent implements OnInit {
   async setopen() {
     //this.addressLineTwoVisible = true;
     if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-        const modal = await this.modalController.create({
-          component: SelectAddressPage,
-        });
-        return await modal.present();
-    }
-    else {
+      const modal = await this.modalController.create({
+        component: SelectAddressPage,
+      });
+      return await modal.present();
+    } else {
       this.router.navigate(['/authorized/select-address']);
     }
   }

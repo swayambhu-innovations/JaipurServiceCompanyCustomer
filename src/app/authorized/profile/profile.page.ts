@@ -15,25 +15,37 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 })
 export class ProfilePage implements OnInit {
   [x: string]: any;
-  public isFaq:boolean=false;
+  deviceInfo: any;
+  isWebModalOpen: boolean = false;
+  mobileView: boolean = true;
+  public isFaq: boolean = false;
   constructor(
     public router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
-    public dataProvider:DataProviderService,
-    public _navigationService : NavigationBackService,
-    public firestore : Firestore
-    
+    public dataProvider: DataProviderService,
+    public _navigationService: NavigationBackService,
+    public firestore: Firestore
   ) {
-   // this.router.navigate(['authorized/profile/profile-info']);
+    // this.router.navigate(['authorized/profile/profile-info']);
   }
 
   async ngOnInit() {
-    this.isFaq = (await getDoc(doc(this.firestore , 'customer-settings','faqs'))).data()?.['show'];
+    this.isFaq = (
+      await getDoc(doc(this.firestore, 'customer-settings', 'faqs'))
+    ).data()?.['show'];
+    this.systeminfo();
   }
-  
-  close(url:any) {
+
+  close(url: any) {
     this.router.navigate([url]);
+  }
+
+  systeminfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.isWebModalOpen = true;
+      this.mobileView = false;
+    }
   }
 
   job() {
@@ -52,12 +64,11 @@ export class ProfilePage implements OnInit {
   logout() {
     this._navigationService.isAddressSubscription$ = false;
     signOut(getAuth())
-    .then(() => {
-      this.closeModal();
-      window.location.reload();
-    })
-    .catch((error: any) => console.log(error))
-    
+      .then(() => {
+        this.closeModal();
+        window.location.reload();
+      })
+      .catch((error: any) => console.log(error));
   }
 
   closeModal() {

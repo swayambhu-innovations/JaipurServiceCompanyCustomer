@@ -49,6 +49,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   isNotServiceableModalOpen: boolean = false;
   utils: any;
 
+  deviceInfo: any;
+  isWebModalOpen: boolean = false;
+  mobileView: boolean = true;
+
   banners: any[] = [];
   recentActivityData: any[] = [];
   categories: any[] = []; // added by ronak
@@ -68,7 +72,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   };
   topBanner: any[] = [];
   middleBanner: any[] = [];
-  deviceInfo: any;
   constructor(
     private addressService: AddressService,
     private router: Router,
@@ -83,7 +86,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     public _cartService: CartService,
     private _navigationService: NavigationBackService,
     private deviceService: DeviceDetectorService,
-    private modalController: ModalController,
+    private modalController: ModalController
   ) {
     this._notificationService
       .getCurrentUserNotification()
@@ -195,6 +198,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this._navigationService.isAddressSubscription$ = true;
     this.recentActivity();
     this.fetchMainCategoryIcon(); // added by ronak
+    this.systeminfo();
     this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;
       if (this.dataProvider.mainCategoriesLoaded) {
@@ -282,7 +286,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         .filter(
           (area) =>
             area['geoProofingLocality'] ===
-            this.currentAddress?.geoProofingLocality && area.serviceCatalogue
+              this.currentAddress?.geoProofingLocality && area.serviceCatalogue
         );
       if (areas.length > 0) {
         this.homeService.fetchData(areas[0].serviceCatalogue);
@@ -317,10 +321,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ionViewDidLeave() { }
+  ionViewDidLeave() {}
 
-  ngAfterViewInit() { }
-  ngOnDestroy() { }
+  ngAfterViewInit() {}
+  ngOnDestroy() {}
 
   isFutureDate(date: Date | undefined) {
     if (!date) return false;
@@ -475,7 +479,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           return `data:image/${fileType};base64,${readFile.data}`;
         });
       })
-      .finally(() => { });
+      .finally(() => {});
   }
 
   async saveImage(url: string, path) {
@@ -485,7 +489,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       }),
       mode: 'no-cors',
     })
-      .then((response) => { })
+      .then((response) => {})
       .catch((error) => {
         console.log('errror.....', error);
       });
@@ -509,7 +513,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     return savedFile;
   }
 
-  onNotServiceableDismiss(event) { }
+  onNotServiceableDismiss(event) {}
 
   onGotItClick() {
     this.isNotServiceableModalOpen = false;
@@ -523,44 +527,49 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async showSubCategories(id) {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       const modal = await this.modalController.create({
         component: SubCategoryPage,
-        componentProps: { categoryId: id }
+        componentProps: { categoryId: id },
       });
       return await modal.present();
-    }
-    else {
+    } else {
       this.router.navigate([`/authorized/sub-Categories/${id}`]);
     }
   }
 
   async allCategory() {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       const modal = await this.modalController.create({
-        component: AllCategoriesPage
+        component: AllCategoriesPage,
       });
       return await modal.present();
-    }
-    else {
+    } else {
       this.router.navigate(['/authorized/all-categories']);
     }
   }
 
-  async openSubCategory(categoryId , itemsId) {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+  systeminfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.isWebModalOpen = true;
+      this.mobileView = false;
+    }
+  }
+
+  async openSubCategory(categoryId, itemsId) {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       const modal = await this.modalController.create({
         component: ServicesPage,
-        componentProps: { subCategoryId:{categoryId:categoryId , itemsId : itemsId} }
+        componentProps: {
+          subCategoryId: { categoryId: categoryId, itemsId: itemsId },
+        },
       });
       return await modal.present();
-    }
-    else {
-      this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`])
+    } else {
+      this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
     }
   }
 }
-
 
 export interface Banner {
   id?: string | null | undefined;

@@ -1,97 +1,208 @@
 <ion-content [fullscreen]="true">
+  <ion-modal
+    trigger="open-modal-logout"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+  >
+    <ng-template>
+      <ion-card-title class="logout-title">Logout</ion-card-title>
+
+      <ion-card-subtitle class="subtitle"
+        >Are you sure want to Logout ?</ion-card-subtitle
+      >
+      <div style="display: flex; margin: auto; padding: 20px">
+        <ion-button class="cancel-btn" fill="clear" (click)="closeModal()"
+          >Cancel</ion-button
+        >
+        <ion-button class="logout-btn" (click)="logout()" fill="clear"
+          >Yes , Logout
+        </ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Profile -->
   <ion-card>
-    <ion-modal trigger="open-modal-logout" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-      <ng-template>
-        <ion-card-title class="logout-title">Logout</ion-card-title>
+    <img
+      src="https://api.dicebear.com/6.x/initials/svg?seed"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
+    />
+    <img
+      src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+    />
 
-        <ion-card-subtitle class="subtitle">Are you sure want to Logout ?</ion-card-subtitle>
-        <div style="display: flex;margin: auto;padding: 20px;">
-          <ion-button class="cancel-btn" fill="clear" (click)="closeModal()">Cancel</ion-button>
-          <ion-button class="logout-btn" (click)="logout()" fill="clear">Yes , Logout
-          </ion-button>
-        </div>
-      </ng-template>
-    </ion-modal>
-
-    <!-- Profile -->
-    <img src="https://api.dicebear.com/6.x/initials/svg?seed" class="profile-pic"
-      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl == undefined" />
-    <img src="{{this.dataProvider.currentUser?.userData?.photoUrl}}" class="profile-pic"
-      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined" />
-
-    <h4 style="text-align: center; color: #fff">{{this.dataProvider.currentUser?.userData?.name}}</h4>
+    <h4 style="text-align: center; color: #fff">
+      {{this.dataProvider.currentUser?.userData?.name}}
+    </h4>
   </ion-card>
 
   <div class="nav">
     <!-- Navigating buttons -->
-    <ion-button expand="block" fill="clear" type="outline" class="side-buttons" routerLink="profile-info">
+    <ion-button
+      expand="block"
+      fill="clear"
+      type="outline"
+      class="side-buttons"
+      routerLink="profile-info"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding: auto;" class="icons" src="../../assets/User_2.svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/User_2.svg"
+          alt=""
+        />
         <p>Edit Profile</p>
       </div>
-
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../booking/upcoming-history">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      routerLink="../booking/upcoming-history"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding: auto;" class="icons" src="../../assets/Door to Door Delivery.svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/Door to Door Delivery.svg"
+          alt=""
+        />
         <p>My Bookings</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../select-address">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      routerLink="../select-address"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding: auto;" class="icons" src="../../assets/location.svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/location.svg"
+          alt=""
+        />
         <p>Address Book</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../notification">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      routerLink="../notification"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding: auto;" class="icons" src="../../assets/Group 1000002396.svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/Group 1000002396.svg"
+          alt=""
+        />
         <p>Notifications</p>
       </div>
     </ion-button>
 
-    <a style="text-decoration: none;" target="_blank" href="https://jaipurservicecompany.com">
+    <a
+      style="text-decoration: none"
+      target="_blank"
+      href="https://jaipurservicecompany.com"
+    >
       <ion-button expand="block" fill="clear" class="side-buttons">
         <div class="w-100 d-flex align-items-center">
-          <img style="padding:auto;" class="icons" src="../../assets/info-circle.svg" alt="" />
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/info-circle.svg"
+            alt=""
+          />
           <p>About</p>
         </div>
       </ion-button>
     </a>
 
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../refer-afriend">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      routerLink="../refer-afriend"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons" src="../../assets/profile-2user.svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/profile-2user.svg"
+          alt=""
+        />
         <p>Invite Friend</p>
       </div>
     </ion-button>
     <ng-container *ngIf="isFaq">
-      <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../faq">
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../faq"
+      >
         <div class="w-100 d-flex align-items-center">
-          <img style="padding:auto;" class="icons" src="../../assets/help-outline.svg" alt="" />
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/help-outline.svg"
+            alt=""
+          />
           <p>Help & FAQ</p>
         </div>
       </ion-button>
     </ng-container>
-    <ion-button expand="block" fill="clear" class="side-buttons" routerLink="../contact-us">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      routerLink="../contact-us"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons" src="../../assets/Call(1).svg" alt="" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/Call(1).svg"
+          alt=""
+        />
         <p>Contact Us</p>
       </div>
     </ion-button>
-    <ion-button expand="block" fill="clear" class="side-buttons" id="open-modal-logout">
+    <ion-button
+      expand="block"
+      fill="clear"
+      class="side-buttons"
+      id="open-modal-logout"
+    >
       <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons" src="../../assets/logout.svg" alt=""
-          style=" width: 25px; margin-left: 20px;" />
+        <img
+          style="padding: auto"
+          class="icons"
+          src="../../assets/logout.svg"
+          alt=""
+          style="width: 25px; margin-left: 20px"
+        />
         <p>Sign out</p>
       </div>
     </ion-button>
 
-    <a style="text-decoration: none;" href="https://shreeva.in/" target="_blank">
+    <a style="text-decoration: none" href="https://shreeva.in/" target="_blank">
       <ion-button expand="block" fill="clear" class="side-buttons">
         <div class="w-100 d-flex align-items-center shreeva">
           <!-- <a href="https://shreeva.in/" target="_blank"> -->
-          <img style="padding:auto;" class="icons" src="../../../assets/images/shreevaIcon.png" alt="" />
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../../assets/images/shreevaIcon.png"
+            alt=""
+          />
           <p>Powered By Shreeva</p>
           <!-- </a> -->
         </div>
@@ -105,7 +216,6 @@
         <p>Contact Us</p>
       </div>
     </ion-button> -->
-
 
     <!-- <ion-button class="side-buttons" id="open-modal"  fill="clear"  expand="block">
       <div class="w-100 d-flex align-items-center">
@@ -128,50 +238,197 @@
     </ion-modal> -->
   </div>
 
-  <!-- <ion-header> </ion-header> -->
+  <div class="profile-layout">
+    <div class="img-avatar">
+      <img
+        src="https://api.dicebear.com/6.x/initials/svg?seed"
+        class="profile-pic"
+        *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
+      />
+      <img
+        src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+        class="profile-pic"
+        *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+      />
+
+      <h4 style="text-align: center; color: #fff">
+        {{this.dataProvider.currentUser?.userData?.name}}
+      </h4>
+    </div>
+
+    <div class="nav-web">
+      <!-- Navigating buttons -->
+      <ion-button
+        expand="block"
+        fill="clear"
+        type="outline"
+        class="side-buttons"
+        routerLink="profile-info"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/User_2.svg"
+            alt=""
+          />
+          <p>Edit Profile</p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../booking/upcoming-history"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/Door to Door Delivery.svg"
+            alt=""
+          />
+          <p>My Bookings</p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../select-address"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/location.svg"
+            alt=""
+          />
+          <p>Address Book</p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../notification"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/Group 1000002396.svg"
+            alt=""
+          />
+          <p>Notifications</p>
+        </div>
+      </ion-button>
+
+      <a
+        style="text-decoration: none"
+        target="_blank"
+        href="https://jaipurservicecompany.com"
+      >
+        <ion-button expand="block" fill="clear" class="side-buttons">
+          <div class="w-100 d-flex align-items-center">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/info-circle.svg"
+              alt=""
+            />
+            <p>About</p>
+          </div>
+        </ion-button>
+      </a>
+
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../refer-afriend"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/profile-2user.svg"
+            alt=""
+          />
+          <p>Invite Friend</p>
+        </div>
+      </ion-button>
+      <ng-container *ngIf="isFaq">
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          routerLink="../faq"
+        >
+          <div class="w-100 d-flex align-items-center">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/help-outline.svg"
+              alt=""
+            />
+            <p>Help & FAQ</p>
+          </div>
+        </ion-button>
+      </ng-container>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        routerLink="../contact-us"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/Call(1).svg"
+            alt=""
+          />
+          <p>Contact Us</p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        id="open-modal-logout"
+      >
+        <div class="w-100 d-flex align-items-center">
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/logout.svg"
+            alt=""
+            style="width: 25px; margin-left: 20px"
+          />
+          <p>Sign out</p>
+        </div>
+      </ion-button>
+
+      <a
+        style="text-decoration: none"
+        href="https://shreeva.in/"
+        target="_blank"
+      >
+        <ion-button expand="block" fill="clear" class="side-buttons">
+          <div class="w-100 d-flex align-items-center shreeva">
+            <!-- <a href="https://shreeva.in/" target="_blank"> -->
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../../assets/images/shreevaIcon.png"
+              alt=""
+            />
+            <p>Powered By Shreeva</p>
+            <!-- </a> -->
+          </div>
+        </ion-button>
+      </a>
+    </div>
+  </div>
 </ion-content>
-<!-- <ion-footer style="height: 57px;">
-  <ion-tabs>
-    <ion-tab-bar slot="bottom,top" class="footer" >
-          <ion-tab-button (click)="close('/authorized/home')" class="footer-ion-tab-button" >
-            <ng-container *ngIf = "router.url == '/authorized/home' else home">
-              <img src="assets/icon/navbar/home.svg" alt="">
-            </ng-container >
-            <ng-template #home>
-              <img src="assets/icon/navbar/home1.svg" alt="">
-            </ng-template>
-            
-            <ion-label>Home</ion-label>
-          </ion-tab-button>
-          <ion-tab-button (click)="close('/authorized/booking/upcoming-history')"  class="footer-ion-tab-button">
-            <ng-container *ngIf = "router.url == '/authorized/booking/upcoming-history' else calender">
-              <img src="assets/icon/navbar/calendar1.svg" alt="">
-            </ng-container >
-            <ng-template #calender>
-              <img src="assets/icon/navbar/calendar.svg" alt="">
-            </ng-template>
-            
-            <ion-label>Bookings</ion-label>
-          </ion-tab-button>
-          <ion-tab-button (click)="close('/authorized/cart/all/all')" class="footer-ion-tab-button">
-            <ng-container *ngIf = "router.url == '/authorized/cart/all/all' else cart">
-              <img src="assets/icon/navbar/cart1.svg" alt="">
-            </ng-container >
-            <ng-template #cart>
-              <img src="assets/icon/navbar/cart.svg" alt="">
-            </ng-template>
-            <ion-label>Cart</ion-label>
-          </ion-tab-button>
-          <ion-tab-button (click)="close('/authorized/profile')" class="footer-ion-tab-button">
-            <ng-container *ngIf = "router.url == '/authorized/profile' else profile">
-              <img src="assets/icon/navbar/profile1.svg" alt="">
-            </ng-container >
-            <ng-template #profile>
-              <img src="assets/icon/navbar/profile.svg" alt="">
-            </ng-template>
-            <ion-label>Profile</ion-label>
-          </ion-tab-button>
-      </ion-tab-bar>
-  </ion-tabs>
-</ion-footer> -->
-<!-- <app-navbar></app-navbar> -->
