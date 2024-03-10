@@ -1,26 +1,4 @@
 <ion-content [fullscreen]="true">
-  <ion-modal
-    trigger="open-modal-logout"
-    [initialBreakpoint]="1"
-    [breakpoints]="[0, 1]"
-  >
-    <ng-template>
-      <ion-card-title class="logout-title">Logout</ion-card-title>
-
-      <ion-card-subtitle class="subtitle"
-        >Are you sure want to Logout ?</ion-card-subtitle
-      >
-      <div style="display: flex; margin: auto; padding: 20px">
-        <ion-button class="cancel-btn" fill="clear" (click)="closeModal()"
-          >Cancel</ion-button
-        >
-        <ion-button class="logout-btn" (click)="logout()" fill="clear"
-          >Yes , Logout
-        </ion-button>
-      </div>
-    </ng-template>
-  </ion-modal>
-
   <!-- Profile -->
   <ion-card>
     <img
@@ -238,22 +216,24 @@
     </ion-modal> -->
   </div>
 
-  <div class="profile-layout">
+  <div *ngIf="isWebModalOpen" class="profile-layout">
     <div class="img-avatar">
-      <img
-        src="https://api.dicebear.com/6.x/initials/svg?seed"
-        class="profile-pic"
-        *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
-      />
-      <img
-        src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
-        class="profile-pic"
-        *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
-      />
+      <div>
+        <img
+          src="https://api.dicebear.com/6.x/initials/svg?seed"
+          class="profile-pic"
+          *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
+        />
+        <img
+          src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+          class="profile-pic"
+          *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+        />
 
-      <h4 style="text-align: center; color: #fff">
-        {{this.dataProvider.currentUser?.userData?.name}}
-      </h4>
+        <h4 style="text-align: center; color: #fff">
+          {{this.dataProvider.currentUser?.userData?.name}}
+        </h4>
+      </div>
     </div>
 
     <div class="nav-web">
@@ -275,13 +255,17 @@
           <p>Edit Profile</p>
         </div>
       </ion-button>
+
       <ion-button
         expand="block"
         fill="clear"
         class="side-buttons"
-        routerLink="../booking/upcoming-history"
+        (click)="openUpcomingBooking"
       >
-        <div class="w-100 d-flex align-items-center">
+        <div
+          (click)="openUpcomingBooking"
+          class="w-100 d-flex align-items-center"
+        >
           <img
             style="padding: auto"
             class="icons"
@@ -431,4 +415,26 @@
       </a>
     </div>
   </div>
+
+  <ion-modal
+    trigger="open-modal-logout"
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 1]"
+  >
+    <ng-template>
+      <ion-card-title class="logout-title">Logout</ion-card-title>
+
+      <ion-card-subtitle class="subtitle"
+        >Are you sure want to Logout ?</ion-card-subtitle
+      >
+      <div style="display: flex; margin: auto; padding: 20px">
+        <ion-button class="cancel-btn" fill="clear" (click)="closeModal()"
+          >Cancel</ion-button
+        >
+        <ion-button class="logout-btn" (click)="logout()" fill="clear"
+          >Yes , Logout
+        </ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-content>

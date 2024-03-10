@@ -7,6 +7,7 @@ import { getAuth, deleteUser, Auth, signOut } from '@angular/fire/auth';
 import { error } from 'console';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { UpcomingHistoryPage } from '../booking/upcoming-history/upcoming-history.page';
 
 @Component({
   selector: 'app-profile',
@@ -46,6 +47,16 @@ export class ProfilePage implements OnInit {
       this.isWebModalOpen = true;
       this.mobileView = false;
     }
+  }
+
+  async openUpcomingBooking() {
+    const upcomingBooking = await this.modalController.create({
+      component: UpcomingHistoryPage,
+    });
+
+    console.log('upcoming history');
+
+    if (this.isWebModalOpen) return upcomingBooking.present();
   }
 
   job() {

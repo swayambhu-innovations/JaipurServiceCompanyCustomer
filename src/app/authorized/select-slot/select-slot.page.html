@@ -1,10 +1,9 @@
 <app-header-with-back
-  *ngIf="mobileView"
   [title]="name"
   [showNotificationIcon]="false"
 ></app-header-with-back>
 
-<ion-content>
+<ion-content id="mobile-view">
   <div class="row-1">
     <div class="left">
       <h2 class="mb-1">Name: {{dataProvider.currentBooking?.address?.name}}</h2>
@@ -151,3 +150,156 @@
     </div>
   </div>
 </ion-content>
+
+<div class="back-container" id="web-view">
+  <div class="main-container">
+    <div class="row-1">
+      <div class="left">
+        <h2 class="mb-1">
+          Name: {{dataProvider.currentBooking?.address?.name}}
+        </h2>
+        <h2>Address: {{dataProvider.currentBooking?.address?.addressLine1}}</h2>
+        <p>
+          Phone no.:
+          {{(this.dataProvider.currentUser?.user?.phoneNumber)?.substring(3,14)}}
+        </p>
+        <p>City: {{dataProvider.currentBooking?.address?.city}}</p>
+        <p>State: {{dataProvider.currentBooking?.address?.state}}</p>
+        <p>Pincode: {{dataProvider.currentBooking?.address?.pincode}}</p>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="top">
+        <h2>When should the professional arrive?</h2>
+        <p>Your service will take approx. {{totalTimeNeeded}}</p>
+        <div class="first-btns">
+          <button
+            *ngFor="let btn of dates"
+            (click)="onSelectDate(btn)"
+            [ngClass]="{active:selectedDate===btn}"
+          >
+            {{btn | date:'dd'}}<br />{{btn | date:'E'}}
+          </button>
+        </div>
+        <h2>Select Job Starting Slot</h2>
+        <div class="second-btns" *ngIf="(activeSlotCount > 0); else noSlots">
+          <button
+            *ngFor="let items of slotsArray"
+            (click)="startTime = items.start; endTime = items.end; setSlot(items)"
+            [ngClass]="{active:startTime===items.start}"
+            [disabled]="getApplicableSlots(items)"
+          >
+            <ng-container *ngIf="getApplicableSlots(items) else notdisabled">
+              <img src="{{slotsIcons[items.index-1].disabled}}" alt="" />
+              <div class="slot-det">
+                <p style="color: #d7d7d7">{{slotsStatus[items.index-1]}}</p>
+                <p style="color: #d7d7d7">
+                  {{items.start < 12 && items.end> 12 ? items.start + " AM " +
+                  '-' + (items.end - 12) + " PM " : (items.start > 12 &&
+                  items.end > 12 ? (items.start-12) + " PM " + ' - ' +
+                  (items.end-12) + " PM " : items.start + " AM " + ' - ' +
+                  items.end + " AM ")}}
+                </p>
+              </div>
+            </ng-container>
+
+            <ng-template #notdisabled>
+              <ng-container
+                *ngIf="(startTime === items.start) else notActiveIcon"
+              >
+                <img src="{{slotsIcons[items.index-1].light}}" alt="" />
+                <div class="slot-det light">
+                  <p>{{slotsStatus[items.index-1]}}</p>
+                  <p>
+                    {{items.start < 12 && items.end> 12 ? items.start + " AM " +
+                    '-' + (items.end - 12) + " PM " : (items.start > 12 &&
+                    items.end > 12 ? (items.start-12) + " PM " + ' - ' +
+                    (items.end-12) + " PM " : items.start + " AM " + ' - ' +
+                    items.end + " AM ")}}
+                  </p>
+                </div>
+              </ng-container>
+              <ng-template #notActiveIcon>
+                <img src="{{slotsIcons[items.index-1].dark}}" alt="" />
+                <div class="slot-det dark">
+                  <p>{{slotsStatus[items.index-1]}}</p>
+                  <p>
+                    {{items.start < 12 && items.end> 12 ? items.start + " AM " +
+                    '-' + (items.end - 12) + " PM " : (items.start > 12 &&
+                    items.end > 12 ? (items.start-12) + " PM " + ' - ' +
+                    (items.end-12) + " PM " : items.start + " AM " + ' - ' +
+                    items.end + " AM ")}}
+                  </p>
+                </div>
+              </ng-template>
+            </ng-template>
+          </button>
+        </div>
+        <ng-template #noSlots>
+          <div class="no-slot-available">
+            <button>No Slot is available</button>
+          </div>
+        </ng-template>
+
+        <h2 style="margin-top: 20px">Select Preferred Agent Arrival Time</h2>
+        <div class="third-btns">
+          <button
+            *ngFor="let btn of agentArrivalArray"
+            (click)="selectAgentArrivalTime = btn; setTimeSlot()"
+            [ngClass]="{active:selectAgentArrivalTime===btn}"
+          >
+            {{btn | date:'hh:mm'}} <br />
+            {{btn | date:'aaa'}}
+          </button>
+        </div>
+        <div class="box">
+          <img src="assets/icon/select-slot/card.svg" alt="" />
+          <p style="color: #5e0080">
+            Free cancellation till 3 hrs before the booked slot, post that ₹100
+            chargeable
+          </p>
+        </div>
+      </div>
+      <!-- <div class="bottom" (click)="createBooking()">
+      <ion-button [disabled]="!(selectedDate && selectedTimeState)" expand="block">
+        Book
+      </ion-button>
+    </div> -->
+
+      <div class="temp">
+        <div
+          class="bottom1"
+          *ngIf="!dataProvider.currentBooking?.isReschule || dataProvider.currentBooking?.isReschule === false"
+        >
+          <button
+            class="paynow"
+            [ngClass]="{active: (selectedDate && selectedTimeState)}"
+            [disabled]="!(selectedDate && selectedTimeState)"
+            (click)="createBooking()"
+          >
+            Pay Now
+          </button>
+          <button
+            class="payafter"
+            [ngClass]="{active: (selectedDate && selectedTimeState)}"
+            [disabled]="!(selectedDate && selectedTimeState)"
+            (click)="createBookingWithoutPay()"
+          >
+            Pay After Job
+          </button>
+        </div>
+        <div class="bottom1" *ngIf="dataProvider.currentBooking?.isReschule">
+          <button
+            class="reschedule"
+            [ngClass]="{active: (selectedDate && selectedTimeState)}"
+            [disabled]="!(selectedDate && selectedTimeState)"
+            (click)="rescheduleBooking()"
+          >
+            Reschedule
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

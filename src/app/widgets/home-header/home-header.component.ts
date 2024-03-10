@@ -33,6 +33,7 @@ export class HomeHeaderComponent implements OnInit {
   insertAddressAccordionButton: boolean = false;
   selectedAddress: Address | undefined;
   initialBreakpointAddress: any = 0.25;
+  cart: any;
 
   deviceInfo: any;
   isWebModalOpen: boolean = false;
@@ -58,20 +59,16 @@ export class HomeHeaderComponent implements OnInit {
     this.router.navigate(['authorized/notification']);
   }
 
-  async cart() {
-    const modal = await this.modalController.create({
-      component: CartPage,
-    });
-
-    return await modal.present();
+  async openCart() {
+    this.router.navigate(['authorized/cart/all/all']);
   }
 
   async user() {
-    const modal = await this.modalController.create({
+    const userModal = await this.modalController.create({
       component: ProfilePage,
     });
-
-    return await modal.present();
+    this.modalController.dismiss('cartModal');
+    return await userModal.present();
   }
 
   navigateTOSearch() {

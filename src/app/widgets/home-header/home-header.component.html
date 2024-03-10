@@ -48,8 +48,14 @@
       <ion-button (click)="user()" *ngIf="isWebModalOpen">
         <img src="assets/ui_icons/profile.svg" alt="avatar" />
       </ion-button>
-      <ion-button (click)="cart()" *ngIf="isWebModalOpen">
-        <img src="assets/ui_icons/shopping-cart.svg" alt="cart" />
+      <ion-button (click)="openCart()" *ngIf="isWebModalOpen">
+        <img
+          *ngIf="cart?.length === 0"
+          src="assets/icon/navbar/cart1.svg"
+          alt=""
+        />
+        <img src="assets/icon/navbar/cart.svg" alt="" />
+        <!-- <img *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded" src="assets/ui_icons/shopping-cart.svg" alt="cart" /> -->
       </ion-button>
       <ion-button (click)="notification()">
         <img
