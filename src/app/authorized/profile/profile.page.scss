@@ -192,3 +192,61 @@ ion-modal {
     padding: 6px 0px;
   }
 }
+
+@media only screen and (min-width: 1024px) {
+  ion-card,
+  .nav {
+    display: none;
+  }
+  .profile-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+
+    .img-avatar {
+      width: 50%;
+      height: 100%;
+      background-color: #181f29;
+      box-shadow: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .profile-pic {
+        margin-top: 0;
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    .nav-web {
+      width: 50%;
+      height: 100%;
+      display: list-item;
+
+      .side-buttons {
+        height: 50px;
+      }
+
+      .icons {
+        display: flex;
+      }
+
+      p {
+        display: flex;
+        color: var(--primary, #181f29);
+        font-feature-settings: "clig" off, "liga" off;
+        font-family: Lato;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px;
+        /* 114.286% */
+        text-transform: none;
+        margin-bottom: 0px;
+        margin-left: 10px;
+      }
+    }
+  }
+}

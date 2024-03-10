@@ -20,59 +20,53 @@ import { SubCategoryPage } from '../sub-categories/sub-categories.page';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
-  isMobileview:boolean=false;
-  isDesktopview:boolean=false;
-  constructor(private router: Router, 
-    private profileService: ProfileService, 
-    private imageService: FileService, 
+  isMobileview: boolean = false;
+  isDesktopview: boolean = false;
+  constructor(private router: Router,
+    private profileService: ProfileService,
+    private imageService: FileService,
     private http: HttpClient,
     private dataProvider: DataProviderService,
-    public viewController : ModalController,
-    private modalController: ModalController) {}
+    public viewController: ModalController,
+    private modalController: ModalController) { }
 
- ionViewDidEnter(){
-  this.categories = [];
-  this.systeminfo();
-  this.dataProvider.mainCategories.subscribe((categories) => {
-    this.categories = categories;
-  });
- }
-
- systeminfo() {
-  if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-    this.isDesktopview = true;
-    this.isMobileview = false;
-  }
-  if (this.dataProvider.deviceInfo.deviceType === "mobile") {
-    this.isDesktopview = false;
-    this.isMobileview = true;
-  }
- }
-
- async showSubCategories(id) {
-  if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-    const modal = await this.modalController.create({
-      component: SubCategoryPage,
-      componentProps: { categoryId: id }
+  ionViewDidEnter() {
+    this.categories = [];
+    this.systeminfo();
+    this.dataProvider.mainCategories.subscribe((categories) => {
+      this.categories = categories;
     });
-    return await modal.present();
   }
-}
 
- ionViewDidLeave(){
-  this.categories = [];
-  this.isDesktopview = false;
- }
+  systeminfo() {
+    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+      this.isDesktopview = true;
+      this.isMobileview = false;
+    }
+    if (this.dataProvider.deviceInfo.deviceType === "mobile") {
+      this.isDesktopview = false;
+      this.isMobileview = true;
+    }
+  }
 
- back() {
-  this.viewController.dismiss();
-}
-   
+  async showSubCategories(id: any) {
+    this.router.navigate([`/authorized/sub-Categories/${id}`]);
+  }
+
+  ionViewDidLeave() {
+    this.categories = [];
+    this.isDesktopview = false;
+  }
+
+  back() {
+    this.viewController.dismiss();
+  }
+
   categories: any[] = []; // added by ronak
   icon: any[] = [];
-  
+
   ngOnInit() {
-    
+
     // this.fetchMainCategory();
     // this.fetchMainCategoryIcon();
 
@@ -81,14 +75,14 @@ export class AllCategoriesPage implements OnInit {
   home() {
     this.router.navigate(['home']);
   }
-  cart(){
+  cart() {
     this.router.navigate(['cart'])
   }
 
-  booking(){
+  booking() {
     this.router.navigate(['booking'])
   }
-  
+
 
   AllCategories = [
     {
@@ -138,7 +132,7 @@ export class AllCategoriesPage implements OnInit {
   //     this.icon = icon.docs.map((doc) => {
   //       this.icon = [...this.icon];
   //       return doc.data()
-        
+
   //     });
   //   })
   // }

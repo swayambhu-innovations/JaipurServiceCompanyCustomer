@@ -1,35 +1,33 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content> -->
-
 <app-header-with-back [title]="'Refer A Friend'" [showNotificationIcon]="false"></app-header-with-back>
-<div class="container" id="container">
 
-  <img src="../../../assets/refertofriend.png" alt="Refer A Friend">
-  <div class="text-div">
-    <h2 style="margin-top: 15px;">Refer a Friend & Get upto</h2>
-    <h2>50% off</h2>
-  </div>
+<div id="mobile-view">
+  <div class="container" id="container">
 
-  <div class="refer-button">
-    <button (click) = "shareLink()">Refer A Friend</button>
+    <img src="../../../assets/refertofriend.png" alt="Refer A Friend">
+    <div class="text-div">
+      <h2 style="margin-top: 15px;">Refer a Friend & Get upto</h2>
+      <h2>50% off</h2>
+    </div>
+
+    <div class="refer-button">
+      <button (click)="shareLink">Refer A Friend</button>
+    </div>
+
   </div>
-  
+</div>
+
+<div class="back-container" id="web-view">
+  <div class="main-container container">
+
+    <img src="../../../assets/refertofriend.png" alt="Refer A Friend">
+    <div class="text-div">
+      <h2 style="margin-top: 15px;">Refer a Friend & Get upto</h2>
+      <h2>50% off</h2>
+    </div>
+
+    <div class="refer-button">
+      <button (click)="shareLink">Refer A Friend</button>
+    </div>
+
+  </div>
 </div>

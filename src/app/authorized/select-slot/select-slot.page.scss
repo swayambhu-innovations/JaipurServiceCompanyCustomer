@@ -3,7 +3,8 @@ p {
   margin: 0px;
 }
 
-ion-content {
+ion-content,
+.back-container {
   --background: #f7f7f7;
   font-family: Lato;
 
@@ -162,10 +163,10 @@ ion-content {
         }
       }
     }
-    .no-slot-available{
+    .no-slot-available {
       padding: 0px;
       margin-top: 10px;
-      button{
+      button {
         height: 52px;
         border-radius: 6px;
         border: 1px solid #d7d7d7;
@@ -240,7 +241,7 @@ ion-content {
     color: white;
   }
 
-  .payafter.active{
+  .payafter.active {
     background: var(--Primary, #1a1d1f);
     border: 1px solid #1a1d1f;
   }
@@ -257,7 +258,7 @@ ion-content {
     background: #fff;
     flex-shrink: 0;
   }
-  .reschedule{
+  .reschedule {
     width: 100%;
     display: flex;
     height: 45px;
@@ -270,11 +271,14 @@ ion-content {
     flex-shrink: 0;
     color: white;
   }
-  .reschedule.active{
+  .reschedule.active {
     background: var(--Primary, #1a1d1f);
     border: 1px solid #1a1d1f;
   }
-  .paynow.active{
+  .paynow.active {
     border: 1px solid var(--primary, #181f29);
   }
+}
+
+@media only screen and (min-width: 1024px) {
 }

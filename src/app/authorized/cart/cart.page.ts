@@ -97,11 +97,9 @@ export class CartPage implements OnInit {
       }
 
       if (this.dataProvider.currentBooking!.address) {
-        if (this.isWebModalOpen) return selectSlotModal.present();
-        else this.router.navigate(['/authorized/select-slot']);
+        this.router.navigate(['/authorized/select-slot']);
       } else {
-        if (this.isWebModalOpen) return selectAddressModal.present();
-        else this.router.navigate(['/authorized/select-address']);
+        this.router.navigate(['/authorized/select-address']);
       }
     });
   }

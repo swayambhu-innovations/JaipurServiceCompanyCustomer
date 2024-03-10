@@ -11,20 +11,23 @@
       display: flex;
 
       .jsc-div {
-        width: 24%;
+        width: 60%;
         display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
         padding-top: 14px;
         margin-right: 5px;
         img {
-          width: 39px;
-          height: 39px;
+          width: 50px;
+          height: 50px;
           border-radius: 12px;
         }
         span {
           display: block;
           color: #000;
           font-family: Roboto;
-          font-size: 16px;
+          font-size: 22px;
           font-style: normal;
           font-weight: 600;
           line-height: normal;
@@ -84,8 +87,22 @@
 
   .row2 {
     display: flex;
-    justify-content: center;
-    h1 {
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+
+    .sub-col1 {
+      display: flex;
+      justify-content: space-evenly;
+      align-content: center;
+      width: 50%;
+    }
+
+    .sub-col2 {
+      width: 50%;
+    }
+
+    span {
       font-size: 14px;
     }
   }

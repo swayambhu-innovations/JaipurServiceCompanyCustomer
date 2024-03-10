@@ -1,8 +1,9 @@
 <!-- Header -->
-<app-header-with-back [title]="'Bookings'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back id="mobile-view" [title]="'Bookings'" [showNotificationIcon]="true"></app-header-with-back>
+<app-header-with-back id="web-view" [title]="'Bookings'" [showNotificationIcon]="false"></app-header-with-back>
 
 <!-- Buttons -->
-<div class="main">
+<div id="mobile-view" class="main">
   <div class="container">
     <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}" (click)="changeVisibility('upcoming')">
       Current Bookings
@@ -87,7 +88,8 @@
                     {{details.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}},</p>
                   <h6>{{details.timeSlot?.date?.toDate() | date:'MMM d'}}</h6>
                 </div>
-                <div class="det">(Preferred Agent Arrival Time - {{details.timeSlot?.agentArrivalTime?.toDate() | date: "shortTime" }})</div>
+                <div class="det">(Preferred Agent Arrival Time - {{details.timeSlot?.agentArrivalTime?.toDate() | date:
+                  "shortTime" }})</div>
                 <span>Schedule</span>
               </div>
             </div>
@@ -107,84 +109,116 @@
       </div>
     </ng-template>
   </div>
+</div>
 
-  <!-- Details of Upcoming booking -->
-  <!-- <div *ngIf="showUpcomingSection" style="margin-top: 15px">
-    <div class="details-1" *ngFor="let details of data">
-      <div class="head">
-        <img style="padding-right: 5px;" [src]="details.img" alt="" />
-        <h6>{{details.title}}</h6>
-        <p>{{details.amount}}</p>
-      </div>
-      <div class="row">
-        <p>{{details.id}}</p>
-      </div>
-      <div class="body">
-        <div class="row-1">
-          <h6>{{details.status}}</h6>
-          <h4 *ngIf="details.confirm=='Pending'">{{details.confirm}}</h4>
-          <h5 *ngIf="details.confirm =='Confirmed'">{{details.confirm}}</h5>
-        </div>
-        <div class="row-2">
-          <img class="schedule-icon" [src]="details.scheduleicon" />
-          <h6>{{details.date}}</h6>
-        </div>
-        <div class="schedule">
-          <p>{{details.schedule}}</p>
-        </div>
-        <div class="row-3">
-          <img style="padding-right:5 px;" src="{{details.profile}}" alt="" />
-          <div class="title" style="float: left;flex-grow: 1;">
-            <h6>{{details.name}}</h6>
+<div class="back-container" id="web-view">
+  <div class="main-container">
+    <div class="container">
+      <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='upcoming'}" (click)="changeVisibility('upcoming')">
+        Current Bookings
+      </button>
+      <button [ngClass]="{'btn': true, 'clicked': visibilityMode=='history'}" (click)="changeVisibility('history')">
+        History
+      </button>
+    </div>
+
+
+    <div class="bookings">
+      <ng-container *ngIf="filteredBookings.length > 0; else noBookings">
+        <ng-container *ngFor="let details of filteredBookings">
+          <div class="details-1" routerLink="../booking-details/{{details.id}}"
+            *ngIf="visibilityMode == 'upcoming' ? isFutureDate(details.timeSlot?.date?.toDate(),details.stage) : isPastDate(details.timeSlot?.date?.toDate(),details.stage)">
+            <div class="head">
+              <div class="col-3 img-div">
+                <div class="img-circle-div">
+                  <img src="{{details.mainCategory?.icon}}" alt="">
+                </div>
+              </div>
+              <div class="col-6 booking-name">
+                <h6>{{details.services[0].name}}</h6>
+                <p>Booking ID:#{{details.id}}</p>
+              </div>
+              <div class="col-3 price">
+                <p>{{details.billing.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+              </div>
+            </div>
+
+            <div class="body">
+              <div class="row-1 status-div">
+                <span>Status</span>
+
+                <p class="body {{details?.stage}}">{{ utils[details?.stage || 'allotmentPending'].text }}</p>
+                <!-- <ng-container *ngIf="details.stage == 'allotmentPending'">
+                <div class="status-box allotmentpending">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'compelete'">
+                <div class="status compelete">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'progress'">
+                <div class="status progress">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'cancelled'">
+                <div class="status cancelled">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'expired'">
+                <div class="status expired">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'otpVerify'">
+                <div class="status otpverify">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="details.stage == 'acceptancePending'">
+                <div class="status acceptancepending">
+                  {{details.stage | titlecase}}
+                </div>
+              </ng-container> -->
+
+              </div>
+
+
+
+              <div class="row-2">
+                <div class="img-cal">
+                  <img class="schedule-icon" src="assets/Icon- Outline.svg" />
+                </div>
+                <div class="slot-det">
+                  <div class="det">
+                    <p>{{details.timeSlot?.time?.startTime?.toDate() | date:'h:mm'}} -
+                      {{details.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}},</p>
+                    <h6>{{details.timeSlot?.date?.toDate() | date:'MMM d'}}</h6>
+                  </div>
+                  <div class="det">(Preferred Agent Arrival Time - {{details.timeSlot?.agentArrivalTime?.toDate() |
+                    date:
+                    "shortTime" }})</div>
+                  <span>Schedule</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h5 class="call-button" *ngIf="details.call" routerLink="/booking/booking-details">
-            <img [src]="details.call" alt="" class="call-icon" />Call
-          </h5>
+        </ng-container>
+      </ng-container>
+      <ng-template #noBookings>
+        <div class="noItems">
+          <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
+          <span class="text-content">
+            <p class="cart-empty-text">You don't have any booking</p>
+            <p class="bottom-text">
+              Looks like you have not booked any services yet.
+            </p>
+          </span>
         </div>
-        <div class="subtitle">
-          <p>{{details.role}}</p>
-        </div>
-      </div>
+      </ng-template>
     </div>
-  </div> -->
-
-  <!-- Details of History -->
-  <!-- <div *ngIf="showHistorySection" style="margin-top: 15px; cursor: pointer">
-    <div class="details-1" *ngFor="let history of historyData">
-      <div class="head">
-        <img style="padding-right: 5px;" [src]="history.img" alt="" />
-        <h6>{{history.title}}</h6>
-        <p>{{history.amount}}</p>
-      </div>
-      <div class="row">
-        <p>{{history.id}}</p>
-      </div>
-      <div class="body">
-        <div class="row-1">
-          <h6>{{history.status}}</h6>
-
-          <h4
-            *ngIf="history.confirm=='Cancelled'"
-            style="color: #d3424a; background: #ffe1e3"
-          >
-            {{history.confirm}}
-          </h4>
-
-          <h5 *ngIf="history.confirm =='Completed'" style="margin-left: 230px">
-            {{history.confirm}}
-          </h5>
-        </div>
-        <div class="row-2">
-          <h6>Technician</h6>
-
-          <h5>{{history.name}}</h5>
-        </div>
-        <div class="row-2">
-          <h6>Schedule</h6>
-
-          <h5 style="margin-left: 62%">{{history.time}}</h5>
-        </div>
-      </div>
-    </div>
-  </div> -->
+  </div>
 </div>

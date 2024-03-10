@@ -8,6 +8,7 @@ import { LoadingController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { CartPage } from 'src/app/authorized/cart/cart.page';
 import { SelectAddressPage } from 'src/app/authorized/select-address/select-address.page';
+import { ProfilePage } from 'src/app/authorized/profile/profile.page';
 
 @Component({
   selector: 'app-home-header',
@@ -32,6 +33,7 @@ export class HomeHeaderComponent implements OnInit {
   insertAddressAccordionButton: boolean = false;
   selectedAddress: Address | undefined;
   initialBreakpointAddress: any = 0.25;
+  cart: any;
 
   deviceInfo: any;
   isWebModalOpen: boolean = false;
@@ -43,7 +45,7 @@ export class HomeHeaderComponent implements OnInit {
     private modalController: ModalController,
     public addressService: AddressService,
     public dataProvider: DataProviderService,
-    private loadingController: LoadingController,
+    private loadingController: LoadingController
   ) {
     this.addressService.fetchedAddresses.subscribe(
       async (address: Address[]) => {
@@ -57,12 +59,12 @@ export class HomeHeaderComponent implements OnInit {
     this.router.navigate(['authorized/notification']);
   }
 
-  async cart() {
-    const modal = await this.modalController.create({
-      component: CartPage,
-    });
+  async openCart() {
+    this.router.navigate(['authorized/cart/all/all']);
+  }
 
-    return await modal.present();
+  async user() {
+    this.router.navigate(['authorized/profile']);
   }
 
   navigateTOSearch() {
@@ -132,7 +134,7 @@ export class HomeHeaderComponent implements OnInit {
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId, address);
       loader.dismiss();
-      this.addressService.clearCart(userId).then(() => {});
+      this.addressService.clearCart(userId).then(() => { });
     } else {
       loader.dismiss();
     }
@@ -142,16 +144,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
-    //this.addressLineTwoVisible = true;
-    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-        const modal = await this.modalController.create({
-          component: SelectAddressPage,
-        });
-        return await modal.present();
-    }
-    else {
-      this.router.navigate(['/authorized/select-address']);
-    }
+    this.router.navigate(['/authorized/select-address']);
   }
 
   onWillDismiss(event) {

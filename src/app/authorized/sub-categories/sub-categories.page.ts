@@ -12,13 +12,14 @@ import { ServicesPage } from '../services/services.page';
   styleUrls: ['./sub-categories.page.scss'],
 })
 export class SubCategoryPage implements OnInit {
-  @Input("categoryId") categoryId;
+  @Input('categoryId') categoryId: any;
   matchingMainCategory: Category | undefined;
   subCategory: SubCategory[] = [];
-  mainCategoryId = "";
-  mainCategories:any;
+  mainCategoryId = '';
+  mainCategories: any;
+  title: string;
 
-  deviceInfo: any
+  deviceInfo: any;
   isModalOpen: boolean = false;
   mobileView: boolean = false;
   @ViewChild(IonModal) modal: IonModal;
@@ -28,31 +29,24 @@ export class SubCategoryPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public platform: Platform,
-    private viewController:ModalController,
-    private modalController:ModalController
+    private viewController: ModalController,
+    private modalController: ModalController
   ) {}
   async ngOnInit() {
-    await (async () => {
-      this.mainCategories = await firstValueFrom(
-        this.dataProvider.mainCategories
-      );
-    })()
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-      this.mainCategoryId = this.categoryId;
-    }
-    else {
-      this.activatedRoute.params.subscribe(params => {
-          this.mainCategoryId = params['mainCategoryId'];
-      });
-    }
-    this.matchingMainCategory = this.mainCategories.find(
-      (mainCategory) => mainCategory.id == this.mainCategoryId
-    );
+    this.activatedRoute.params.subscribe((params) => {
+      this.mainCategoryId = params['mainCategoryId'];
+    });
+
+    this.matchingMainCategory = (
+      await firstValueFrom(this.dataProvider.mainCategories)
+    ).find((mainCategory) => mainCategory.id == this.mainCategoryId);
+
     if (this.matchingMainCategory === undefined) {
       this.router.navigate(['/home']);
       return;
     }
     this.subCategory = this.matchingMainCategory.subCategories;
+    this.title = this.matchingMainCategory?.name + ' Sub Categories';
   }
 
   ionViewDidEnter() {
@@ -65,32 +59,17 @@ export class SubCategoryPage implements OnInit {
   }
 
   systeminfo() {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isModalOpen = true;
       this.mobileView = false;
     }
-    if (this.dataProvider.deviceInfo.deviceType === "mobile") {
+    if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
       this.isModalOpen = false;
       this.mobileView = true;
     }
   }
 
-  async subCategoryFun(categoryId,itemsId) {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-      const modal = await this.modalController.create({
-        component: ServicesPage,
-        componentProps: { subCategoryId:{categoryId:categoryId , itemsId : itemsId} },
-        cssClass:'modal-class'
-      });
-      return await modal.present();
-    }
-    else {
-      this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`])
-    }
-  }
-
-  back() {
-    this.viewController.dismiss();
+  async subCategoryFun(categoryId: any, itemsId: any) {
+    this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
-

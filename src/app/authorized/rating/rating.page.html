@@ -1,26 +1,56 @@
 <app-header1 [name]="name"></app-header1>
 
 <ion-content>
-  <div class="container">
+  <div id="mobile-view" class="container">
     <div class="center-container">
       <div class="top">
-        <img src="assets/icon/rating/logo.png" alt="">
+        <img src="assets/icon/rating/logo.png" alt="" />
       </div>
 
       <div class="middle">
         <p id="head">Rate Jaipur Clap App</p>
         <p id="body">Your feedback will help us to make improvements</p>
-        <app-rate (starEvent)="getStars($event)" [isSelected]="isSelected"></app-rate>
+        <app-rate
+          (starEvent)="getStars($event)"
+          [isSelected]="isSelected"
+        ></app-rate>
       </div>
 
-
       <div class="bottom">
-        <ion-button color="light" routerLink="../home">
-          No, Thanks
-        </ion-button>
+        <ion-button color="light" routerLink="../home"> No, Thanks </ion-button>
         <ion-button color="dark" routerLink="../home">
           Rate on Play Store
         </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <div id="web-view" class="back-container">
+    <div class="main-container">
+      <div class="container">
+        <div class="center-container">
+          <div class="top">
+            <img src="assets/icon/rating/logo.png" alt="" />
+          </div>
+
+          <div class="middle">
+            <p id="head">Rate Jaipur Clap App</p>
+            <p id="body">Your feedback will help us to make improvements</p>
+            <app-rate
+              (starEvent)="getStars($event)"
+              [isSelected]="isSelected"
+            ></app-rate>
+          </div>
+
+          <div class="bottom">
+            <ion-button color="light" routerLink="../home">
+              No, Thanks
+            </ion-button>
+            <ion-button color="dark" routerLink="../home">
+              Rate on Play Store
+            </ion-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

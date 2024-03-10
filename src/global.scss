@@ -16,7 +16,7 @@
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
-@import '@ionic/angular/css/display.css';
+@import "@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
@@ -24,28 +24,64 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
-ion-header{
-    box-shadow: none;
+ion-header {
+  box-shadow: none;
 }
-ion-toolbar{
-    box-shadow: none;
+ion-toolbar {
+  box-shadow: none;
 }
-*{
-    font-family: Lato !important;
+* {
+  font-family: Lato !important;
 }
-.modal-wrapper, .modal-shadow{
-	border-radius: 20px !important;
+.modal-wrapper,
+.modal-shadow {
+  border-radius: 20px !important;
 }
-:host(.modal-sheet) .modal-wrapper, :host(.modal-sheet) .modal-shadow{
-    border-radius: 20px !important;
+:host(.modal-sheet) .modal-wrapper,
+:host(.modal-sheet) .modal-shadow {
+  border-radius: 20px !important;
 }
 ion-modal::part(backdrop) {
-    --backdrop-opacity: .4;
+  --backdrop-opacity: 0.4;
 }
 
 ion-modal {
-    --width: 65%;
-    --height: 75%;
+  --width: 65%;
+  --height: 75%;
+}
+
+#web-view {
+  display: none;
+}
+
+@media only screen and (min-width: 1024px) {
+  #web-view {
+    display: block;
+  }
+
+  #mobile-view {
+    display: none;
+  }
+
+  .back-container {
+    background: linear-gradient(165deg, #f9cef4 0%, #246f99 100%);
+    padding-top: 5%;
+    padding-bottom: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .main-container {
+      width: 50%;
+      margin: 0 auto;
+      border-radius: 10px;
+      padding: 20px;
+      background: white;
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
 }

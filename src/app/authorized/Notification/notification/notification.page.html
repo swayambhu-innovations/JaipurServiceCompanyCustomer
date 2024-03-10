@@ -1,36 +1,28 @@
 <app-header-with-back [title]="'Notification'" [showNotificationIcon]="false"></app-header-with-back>
-<div class="container page-container">
+
+<div id="mobile-view" class="container page-container">
   <div class="d-flex justify-content-end">
     <div class="icon-container" (click)="openMenu()">
       <ion-icon name="ellipsis-vertical"></ion-icon>
     </div>
   </div>
-  
+
   <ng-container *ngIf="isLoaded && todayNotifications.length !== 0">
     <span>
       <h1>Today</h1>
     </span>
 
     <ion-item-sliding *ngFor="let item of todayNotifications" class="mb-2" #slidingItem1>
-      <ion-item-options
-        side="start"
-        expandable
-        class="ion-no-padding"
-        class="itemOptions"
-      >
+      <ion-item-options side="start" expandable class="ion-no-padding" class="itemOptions">
         <div class="delete-main">
           <div class="payment">
             <span (click)="onDeleteNotification(item.id,'today');slidingItem1.close()" id="open-toast{{item.id}}">
-              <img src="assets/delete-button.svg"/>
+              <img src="assets/delete-button.svg" />
             </span>
           </div>
         </div>
       </ion-item-options>
-      <ion-item
-        class="ion-item"
-        lines="none"
-        class="ion-no-padding"
-      >
+      <ion-item class="ion-item" lines="none" class="ion-no-padding">
         <div class="not-det booking-progress">
           <div class="col-1">
             <img src="../../../../assets/notification-icon/timer.svg" alt="">
@@ -41,15 +33,8 @@
           </div>
         </div>
       </ion-item>
-      <ion-toast
-        trigger="open-toast{{item.id}}"
-        [duration]="3000"
-        message="Delete"
-        class="custom-toast"
-        position="bottom"
-        positionAnchor="footer"
-        [buttons]="toastButtons"
-      ></ion-toast>
+      <ion-toast trigger="open-toast{{item.id}}" [duration]="3000" message="Delete" class="custom-toast"
+        position="bottom" positionAnchor="footer" [buttons]="toastButtons"></ion-toast>
     </ion-item-sliding>
   </ng-container>
 
@@ -59,25 +44,16 @@
     </span>
 
     <ion-item-sliding *ngFor="let item of olderNotifications" class="mb-2" #slidingItem2>
-      <ion-item-options
-        side="start"
-        expandable
-        class="ion-no-padding"
-        class="itemOptions"
-      >
+      <ion-item-options side="start" expandable class="ion-no-padding" class="itemOptions">
         <div class="delete-main">
           <div class="payment">
             <span (click)="onDeleteNotification(item.id,'older');slidingItem2.close()" id="open-toast{{item.id}}">
-              <img src="assets/delete-button.svg"/>
+              <img src="assets/delete-button.svg" />
             </span>
           </div>
         </div>
       </ion-item-options>
-      <ion-item
-        class="ion-item"
-        lines="none"
-        class="ion-no-padding"
-      >
+      <ion-item class="ion-item" lines="none" class="ion-no-padding">
         <div class="not-det booking-progress">
           <div class="col-1">
             <img src="../../../../assets/notification-icon/timer.svg" alt="">
@@ -88,15 +64,8 @@
           </div>
         </div>
       </ion-item>
-      <ion-toast
-        trigger="open-toast{{item.id}}"
-        [duration]="3000"
-        message="Delete"
-        class="custom-toast"
-        position="bottom"
-        positionAnchor="footer"
-        [buttons]="toastButtons"
-      ></ion-toast>
+      <ion-toast trigger="open-toast{{item.id}}" [duration]="3000" message="Delete" class="custom-toast"
+        position="bottom" positionAnchor="footer" [buttons]="toastButtons"></ion-toast>
     </ion-item-sliding>
   </ng-container>
   <ng-container *ngIf="">
@@ -112,15 +81,109 @@
   <ng-container *ngIf="isLoaded && olderNotifications?.length == 0 && todayNotifications?.length == 0">
     <div class="row text-center mt-4">
       <div class="col"><img src="assets/Frame 34605.png" alt="Notification"></div>
-    
-  
-    <div class="container mt-4">
-      <div class="row">
-        <div class="col">
-          <ion-button routerLink="../../authorized/home" expand="block" color="dark">
-            Back To Home
-          </ion-button>
+
+
+      <div class="container mt-4">
+        <div class="row">
+          <div class="col">
+            <ion-button routerLink="../../authorized/home" expand="block" color="dark">
+              Back To Home
+            </ion-button>
+          </div>
         </div>
       </div>
     </div>
+  </ng-container>
+</div>
+
+<div class="back-container" id="web-view">
+  <div class="main-container container page-container">
+    <ng-container *ngIf="isLoaded && todayNotifications.length !== 0">
+      <span>
+        <h1>Today</h1>
+      </span>
+
+      <ion-item-sliding *ngFor="let item of todayNotifications" class="mb-2" #slidingItem1>
+        <ion-item-options side="start" expandable class="ion-no-padding" class="itemOptions">
+          <div class="delete-main">
+            <div class="payment">
+              <span (click)="onDeleteNotification(item.id,'today');slidingItem1.close()" id="open-toast{{item.id}}">
+                <img src="assets/delete-button.svg" />
+              </span>
+            </div>
+          </div>
+        </ion-item-options>
+        <ion-item class="ion-item" lines="none" class="ion-no-padding">
+          <div class="not-det booking-progress">
+            <div class="col-1">
+              <img src="../../../../assets/notification-icon/timer.svg" alt="">
+            </div>
+            <div class="col-2">
+              <h1 [ngStyle]="{'color' : item.read ? '#7C7C7C': '#181F29' }">{{item.title}}</h1>
+              <p>{{item.body}}</p>
+            </div>
+          </div>
+        </ion-item>
+        <ion-toast trigger="open-toast{{item.id}}" [duration]="3000" message="Delete" class="custom-toast"
+          position="bottom" positionAnchor="footer" [buttons]="toastButtons"></ion-toast>
+      </ion-item-sliding>
+    </ng-container>
+
+    <ng-container *ngIf="isLoaded && olderNotifications.length !== 0">
+      <span>
+        <h1>Older</h1>
+      </span>
+
+      <ion-item-sliding *ngFor="let item of olderNotifications" class="mb-2" #slidingItem2>
+        <ion-item-options side="start" expandable class="ion-no-padding" class="itemOptions">
+          <div class="delete-main">
+            <div class="payment">
+              <span (click)="onDeleteNotification(item.id,'older');slidingItem2.close()" id="open-toast{{item.id}}">
+                <img src="assets/delete-button.svg" />
+              </span>
+            </div>
+          </div>
+        </ion-item-options>
+        <ion-item class="ion-item" lines="none" class="ion-no-padding">
+          <div class="not-det booking-progress">
+            <div class="col-1">
+              <img src="../../../../assets/notification-icon/timer.svg" alt="">
+            </div>
+            <div class="col-2">
+              <h1 [ngStyle]="{'color' : item.read ? '#7C7C7C': '#181F29' }">{{item.title}}</h1>
+              <p>{{item.body}}</p>
+            </div>
+          </div>
+        </ion-item>
+        <ion-toast trigger="open-toast{{item.id}}" [duration]="3000" message="Delete" class="custom-toast"
+          position="bottom" positionAnchor="footer" [buttons]="toastButtons"></ion-toast>
+      </ion-item-sliding>
+    </ng-container>
+    <ng-container *ngIf="">
+      <section class="card shimmer-effect" *ngFor="let i of [0,1,2,3,4]">
+        <div class="box shine"></div>
+        <div class="card-details">
+          <div class="div1 lines shine"></div>
+          <div class="div2 lines shine"></div>
+        </div>
+      </section>
+    </ng-container>
+
+    <ng-container *ngIf="isLoaded && olderNotifications?.length == 0 && todayNotifications?.length == 0">
+      <div class="row text-center mt-4">
+        <div class="col"><img src="assets/Frame 34605.png" alt="Notification"></div>
+
+
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col">
+              <ion-button routerLink="../../authorized/home" expand="block" color="dark">
+                Back To Home
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </div>

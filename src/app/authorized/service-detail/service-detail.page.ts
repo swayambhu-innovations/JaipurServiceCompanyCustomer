@@ -34,6 +34,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
   backdropValue: any = 0.1;
   swiper!: Swiper;
   mainCategories: any;
+  title: string;
   CustomerReview = {
     userCount: 80,
     average: "4/5",
@@ -61,7 +62,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
   isCategoryItemsLoaded: boolean = false;
   constructor(public dataProvider: DataProviderService, private activatedRoute: ActivatedRoute, private router: Router,
     private paymentService: PaymentService, public cartService: CartService, private loadingController: LoadingController
-    , private activeRoute: ActivatedRoute , private viewController : ModalController) {
+    , private activeRoute: ActivatedRoute, private viewController: ModalController) {
 
 
   }
@@ -92,8 +93,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     this.isAddToCart = !this.isAddToCart;
   }
 
-  ViewCart(modal: any) {
-    //this.modal.setCurrentBreakpoint(0.3);
+  ViewCart() {
     this.router.navigate(['/authorized/cart/all/all']);
   }
 
@@ -106,33 +106,29 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     await (async () => {
       this.mainCategories = await firstValueFrom(this.dataProvider.mainCategories);
     })();
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-      this.matchingMainCategory = this.serviceDetail['mainCatId'];
-      this.matchingSubCategory = this.serviceDetail['subCatId'];
-      this.matchingService = this.serviceDetail['resultId'];
-    }
-    else {
-      this.activatedRoute.params.subscribe(async (params) => {
-        this.matchingMainCategory = params['mainCategoryId'];
-        this.matchingSubCategory = params['subCategoryId'];
-        this.matchingService = params['serviceId'];
-      });
-    }
+
+    this.activatedRoute.params.subscribe(async (params) => {
+      this.matchingMainCategory = params['mainCategoryId'];
+      this.matchingSubCategory = params['subCategoryId'];
+      this.matchingService = params['serviceId'];
+    });
+
     this.matchingMainCategory = this.mainCategories.find((mainCategory) => mainCategory.id == this.matchingMainCategory)
-        if (!this.matchingMainCategory) {
-          this.router.navigate(['/home']);
-          return;
-        }
-        this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory) => subCategory.id == this.matchingSubCategory)
-        if (!this.matchingSubCategory) {
-          this.router.navigate(['/home']);
-          return;
-        }
-        this.matchingService = this.matchingSubCategory.services.find((service) => service.id == this.matchingService);
+    if (!this.matchingMainCategory) {
+      this.router.navigate(['/home']);
+      return;
+    }
+    this.matchingSubCategory = this.matchingMainCategory.subCategories.find((subCategory) => subCategory.id == this.matchingSubCategory)
+    if (!this.matchingSubCategory) {
+      this.router.navigate(['/home']);
+      return;
+    }
+    this.matchingService = this.matchingSubCategory.services.find((service) => service.id == this.matchingService);
     if (this.matchingService?.variants && this.matchingService?.variants.length > 0) {
       this.startPrice = this.matchingService?.variants[0].price;
     }
     this.isCategoryItemsLoaded = true;
+    this.title = this.matchingMainCategory?.name + ' Sub Categories';
   }
 
   ionViewDidEnter() {

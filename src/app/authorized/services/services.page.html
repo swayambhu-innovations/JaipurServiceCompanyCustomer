@@ -1,93 +1,52 @@
-<ng-container *ngIf="mobileView">
-  <app-header-with-back
-    [title]="matchingSubCategory?.name?? ''"
-    [showNotificationIcon]="false"
-  ></app-header-with-back>
-  <!-- <app-header {{matchingSubCategory?.name}}></app-header> -->
-  <!-- <ion-content [fullscreen]="true">
-	<img [src]="matchingSubCategory?.image" alt="">
-	<div class="services">
-		<div class="service" *ngFor="let service of services" routerLink="../../../service-detail/{{matchingMainCategory?.id}}/{{matchingSubCategory?.id}}/{{service?.id}}">
-			<img [src]="service.image[0]" alt="">
-			<div class="content">
-				<h3>{{service.name}}</h3>
-				<div class="price">
-					<span>{{service.variants[0]?.price | currency:'INR'}}</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</ion-content> -->
+<ng-container id="mobile-view">
+  <app-header-with-back [title]="matchingSubCategory?.name?? 'Sub Categories'"
+    [showNotificationIcon]="false"></app-header-with-back>
+
   <ion-content>
     <ion-list>
-      <ion-item
-        *ngFor="let result of services"
-        class="search-item"
-        style="margin-bottom: 10px"
-        routerLink="../../../service-detail/{{mainCatId}}/{{subCatId}}/{{result.id}}"
-      >
+      <ion-item *ngFor="let result of services" class="search-item" style="margin-bottom: 10px"
+        routerLink="../../../service-detail/{{mainCatId}}/{{subCatId}}/{{result.id}}">
         <div class="item-img">
-          <img
-            class="search-image"
-            [src]="result.image || 'https://placehold.co/70x70'"
-            alt=""
-          />
+          <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="" />
         </div>
         <ion-grid class="grird-margin-top">
           <ion-row class="service-price">
-            <ion-col class="service-name" size="8"
-              ><ion-label class="">{{result.name}}</ion-label></ion-col
-            >
+            <ion-col class="service-name" size="8"><ion-label class="">{{result.name}}</ion-label></ion-col>
             <ion-col size="4" class="col-price">
               <ion-label class="price">
-                {{result.variants![0]?.price | currency: 'INR' : 'symbol' :
+                {{result.variants![0].price | currency: 'INR' : 'symbol' :
                 '1.0-0'}}
-                <!-- <span>{{result.variants![0]?.price | currency: 'INR' : 'symbol' : '1.0-0'}}</span> -->
+                <!-- <span>{{result.variants![0].price | currency: 'INR' : 'symbol' : '1.0-0'}}</span> -->
               </ion-label>
             </ion-col>
           </ion-row>
           <ion-row style="margin-top: -10px">
             <ion-col size="4">
               <div class="rating">
-                <ion-icon name="star" *ngIf="result?.averageRating"></ion-icon>
-                <strong *ngIf="result?.averageRating"
-                  >{{result?.averageRating}}</strong
-                >
-                <span
-                  ><img
-                    src="../../../assets/star-outlined.svg"
-                    alt=""
-                    class="no-rating"
-                    *ngIf="!result?.averageRating"
-                /></span>
-                <strong *ngIf="!result?.averageRating"> No Rating</strong>
+                <ion-icon name="star" *ngIf="result.averageRating"></ion-icon>
+                <strong *ngIf="result.averageRating">{{result.averageRating}}</strong>
+                <span><img src="../../../assets/star-outlined.svg" alt="" class="no-rating"
+                    *ngIf="!result.averageRating" /></span>
+                <strong *ngIf="!result.averageRating"> No Rating</strong>
               </div>
             </ion-col>
             <ion-col size="8">
               <div class="rating">
                 <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
-                <strong
-                  >{{getJobDuration(result.variants![0]?.actualJobDuration)}}</strong
-                >
+                <strong>{{getJobDuration(result.variants![0].actualJobDuration)}}</strong>
               </div>
             </ion-col>
           </ion-row>
           <ion-row style="margin-left: 7px">
             <ion-col size="12">
-              <div
-                class="details"
-                *ngFor="let des of result.description.blocks"
-              >
-                <div class="list" *ngIf="des.type =='list'">
+              <div class="details" *ngFor="let des of result.description.blocks">
+                <div class="list" *ngIf="des.type ==='list'">
                   <div class="description">
-                    <ion-icon
-                      style="width: 6px"
-                      name="ellipse-sharp"
-                    ></ion-icon>
+                    <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
                     <strong>{{des.data.items[0]}}</strong>
                   </div>
                 </div>
-                <div class="description" *ngIf="des.type =='paragraph'">
+                <div class="description" *ngIf="des.type ==='paragraph'">
                   <strong>{{des.data.text}}</strong>
                 </div>
               </div>
@@ -123,122 +82,64 @@
   <!-- <app-cart-popu></eapp-cart-popu> -->
 </ng-container>
 
-<ng-container *ngIf="isModalOpen">
-    <ion-header class="desktop-header">
-      <ion-toolbar class="desktop-view-tab">
-        <ion-buttons slot="start" (click)="back()">
-          <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="">
-        </ion-buttons>
-        <ion-title>{{matchingMainCategory?.name}} Sub Categories</ion-title>
-        <ion-buttons class="cross-div" slot="end" (click)="back()">
-          <img src="../../../assets/icon/cross-23.svg" alt="">
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <!-- <app-header {{matchingSubCategory?.name}}></app-header> -->
-    <!-- <ion-content [fullscreen]="true">
-	<img [src]="matchingSubCategory?.image" alt="">
-	<div class="services">
-		<div class="service" *ngFor="let service of services" routerLink="../../../service-detail/{{matchingMainCategory?.id}}/{{matchingSubCategory?.id}}/{{service?.id}}">
-			<img [src]="service.image[0]" alt="">
-			<div class="content">
-				<h3>{{service.name}}</h3>
-				<div class="price">
-					<span>{{service.variants[0]?.price | currency:'INR'}}</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</ion-content> -->
-    <ion-content>
-      <div class="ion-list">
-        <div
-          *ngFor="let result of services"
-          class="search-item"
-          style="margin-bottom: 10px"
-          (click)="openCartFunctionWithSubId(mainCatId , subCatId , result.id)"
-        >
-          <div class="item-img">
-            <img
-              class="search-image"
-              [src]="result.image || 'https://placehold.co/70x70'"
-              alt=""
-            />
-          </div>
-          <ion-grid class="grird-margin-top">
-            <ion-row class="service-price">
-              <ion-col class="service-name" size="8"
-                ><ion-label class="">{{result.name}}</ion-label></ion-col
-              >
-              <ion-col size="4" class="col-price">
-                <ion-label class="price">
-                  {{result.variants![0]?.price | currency: 'INR' : 'symbol' :
-                  '1.0-0'}}
-                  <!-- <span>{{result.variants![0]?.price | currency: 'INR' : 'symbol' : '1.0-0'}}</span> -->
-                </ion-label>
-              </ion-col>
-            </ion-row>
-            <ion-row style="margin-top: -10px">
-              <ion-col size="4">
-                <div class="rating">
-                  <ion-icon name="star"></ion-icon>
-                  <strong>4.5 (89)</strong>
-                </div>
-              </ion-col>
-              <ion-col size="8">
-                <div class="rating">
-                  <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
-                  <strong>{{result.variants![0]?.jobDuration}} Hours</strong>
-                </div>
-              </ion-col>
-            </ion-row>
-            <ion-row style="margin-left: 7px">
-              <ion-col size="12">
-                <div
-                  class="details"
-                  *ngFor="let des of result.description.blocks"
-                >
-                  <div class="list" *ngIf="des.type =='list'">
-                    <div class="description">
-                      <ion-icon
-                        style="width: 6px"
-                        name="ellipse-sharp"
-                      ></ion-icon>
-                      <strong [innerHTML]="des.data.items[0]"></strong>
-                    </div>
-                  </div>
-                  <div class="description" *ngIf="des.type =='paragraph'">
-                    <strong>{{des.data.text}}</strong>
+<div id="web-view" class="back-container">
+  <div class="main-container">
+    <div class="ion-list">
+      <div *ngFor="let result of services" class="search-item" style="margin-bottom: 10px"
+        (click)="openCartFunctionWithSubId(mainCatId , subCatId , result.id)">
+        <div class="item-img">
+          <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="" />
+        </div>
+        <ion-grid class="grird-margin-top">
+          <ion-row class="service-price">
+            <ion-col class="service-name" size="8"><ion-label class="">{{result.name}}</ion-label></ion-col>
+            <ion-col size="4" class="col-price">
+              <ion-label class="price">
+                {{result.variants![0].price | currency: 'INR' : 'symbol' :
+                '1.0-0'}}
+                <!-- <span>{{result.variants![0].price | currency: 'INR' : 'symbol' : '1.0-0'}}</span> -->
+              </ion-label>
+            </ion-col>
+          </ion-row>
+          <ion-row style="margin-top: -10px">
+            <ion-col size="4">
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <strong>4.5 (89)</strong>
+              </div>
+            </ion-col>
+            <ion-col size="8">
+              <div class="rating">
+                <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
+                <strong>{{result.variants![0].jobDuration}} Hours</strong>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row style="margin-left: 7px">
+            <ion-col size="12">
+              <div class="details" *ngFor="let des of result.description.blocks">
+                <div class="list" *ngIf="des.type ==='list'">
+                  <div class="description">
+                    <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
+                    <strong [innerHTML]="des.data.items[0]"></strong>
                   </div>
                 </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </div>
-        <!-- <div class="result" *ngFor="let result of results">
-	<img src="" alt="">
-	<div class="priceName">
-	  <span>{{result.name}}</span>
-	  <strong class="price">{{result.price}}</strong>
-	</div>
-	<div class="ratingVariants">
-	  <span><ion-icon name="star"></ion-icon>4.8 (12)</span>
-	  <span>{{result.variants.length}} Variants</span>
-	</div>
-	<div class="ratingVariants">
-	  <span><ion-icon name="star"></ion-icon>4.8 (12)</span>
-	  <span>{{result.description}}</span>
-	</div>
-  </div> -->
-        <div class="notFound" *ngIf="services.length === 0">
-          <img src="assets/images/notFound.svg" alt="" />
-          <h3>Not Found</h3>
-          <p>
-            Sorry, the keyword you entered cannot be found, please check again
-            or search with another keyword.
-          </p>
-        </div>
+                <div class="description" *ngIf="des.type ==='paragraph'">
+                  <strong>{{des.data.text}}</strong>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
-    </ion-content>
-    <!-- <app-cart-popu></eapp-cart-popu> -->
-</ng-container>
+      <div class="notFound" *ngIf="services.length === 0">
+        <img src="assets/images/notFound.svg" alt="" />
+        <h3>Not Found</h3>
+        <p>
+          Sorry, the keyword you entered cannot be found, please check again
+          or search with another keyword.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

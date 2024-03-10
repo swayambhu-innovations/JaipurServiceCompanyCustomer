@@ -37,34 +37,6 @@ export class ServicesPage implements OnInit {
     private viewController: ModalController,
     private modalController: ModalController
   ) {
-    // this.activatedRoute.params.subscribe(async (params) => {
-    //   let mainCategories = await firstValueFrom(
-    //     this.dataProvider.mainCategories
-    //   );
-    //   this.mainCatId = params['mainCategoryId'];
-    //   this.matchingMainCategory = mainCategories.find(
-    //     (mainCategory) => mainCategory.id == this.mainCatId
-    //   );
-    //   if (!this.matchingMainCategory) {
-    //     this.router.navigate(['/authorized/home']);
-    //     return;
-    //   }
-    //   this.subCatId = params['subCategoryId'].trim()
-    //   this.matchingSubCategory = this.matchingMainCategory.subCategories.find(
-    //     (subCategory) => {
-    //       return subCategory.id == this.subCatId;
-    //     }
-    //   );
-    //   if (!this.matchingSubCategory) {
-    //     return;
-    //   }
-
-    //   const sortedSubCategory = this.matchingSubCategory.services.sort((a, b) => {
-    //     return a.variants[0].price - b.variants[0].price;
-    //   });
-
-    //   this.services = sortedSubCategory;
-    // });
   }
 
   async ngOnInit() {
@@ -72,19 +44,15 @@ export class ServicesPage implements OnInit {
       this.mainCategories = await firstValueFrom(
         this.dataProvider.mainCategories
       );
-    })()
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-      this.mainCatId = this.subCategoryId['categoryId'];
-      this.subCatId = this.subCategoryId['itemsId'].trim()
-    }
-    else {
-      this.activatedRoute.params.subscribe((params) => {
-        this.mainCatId = params['mainCategoryId'];
-        this.subCatId = params['subCategoryId'].trim()
-      })
-    }
+    })();
+
+    this.activatedRoute.params.subscribe((params) => {
+      this.mainCatId = params['mainCategoryId'];
+      this.subCatId = params['subCategoryId'].trim()
+    })
+
     this.matchingMainCategory = this.mainCategories.find(
-      (mainCategory) => mainCategory.id == this.mainCatId
+      (mainCategory: { id: string; }) => mainCategory.id == this.mainCatId
     );
     if (!this.matchingMainCategory) {
       this.router.navigate(['/authorized/home']);
@@ -103,7 +71,7 @@ export class ServicesPage implements OnInit {
       return a.variants[0].price - b.variants[0].price;
     });
     this.services = sortedSubCategory;
-}
+  }
 
 
   getJobDuration(jobDurationInMin) {
@@ -146,16 +114,7 @@ export class ServicesPage implements OnInit {
     }
   }
 
-  async openCartFunctionWithSubId(mainCatId , subCatId , resultId) {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
-      const modal = await this.modalController.create({
-        component: ServiceDetailPage,
-        componentProps : {serviceDetail:{mainCatId : mainCatId , subCatId : subCatId , resultId : resultId}}
-      });
-      return await modal.present();
-    }
-    else {
-      this.router.navigate([`/authorized/service-detail/${mainCatId}/${subCatId}/${resultId}`]);
-    }
+  async openCartFunctionWithSubId(mainCatId, subCatId, resultId) {
+    this.router.navigate([`/authorized/service-detail/${mainCatId}/${subCatId}/${resultId}`]);
   }
 }
