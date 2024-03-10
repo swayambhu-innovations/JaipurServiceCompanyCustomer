@@ -50,13 +50,7 @@ export class ProfilePage implements OnInit {
   }
 
   async openUpcomingBooking() {
-    const upcomingBooking = await this.modalController.create({
-      component: UpcomingHistoryPage,
-    });
-
-    console.log('upcoming history');
-
-    if (this.isWebModalOpen) return upcomingBooking.present();
+    this.router.navigate(['authorized/booking/upcoming-history']);
   }
 
   job() {

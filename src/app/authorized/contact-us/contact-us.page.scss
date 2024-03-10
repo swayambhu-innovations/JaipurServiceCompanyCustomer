@@ -3,11 +3,14 @@
   box-sizing: border-box;
   font-family: lato;
 }
-.email-main-container{
+
+.email-main-container {
   margin-bottom: 50px !important;
 }
+
 .edit-contact {
   padding: 20px 10px 10px;
+
   header {
     margin-bottom: 2rem;
   }
@@ -27,6 +30,7 @@
       width: 20px;
       height: 20px;
     }
+
     .img1 {
       img {
         width: 28px;
@@ -54,7 +58,8 @@
     }
   }
 }
-.text-ellipsis{
+
+.text-ellipsis {
   width: 100%;
   overflow: hidden;
   white-space: pre;
@@ -79,6 +84,7 @@
   width: 100%;
   background-position: 0px 100px;
   background-repeat: no-repeat;
+
   .youtube {
     position: relative;
 
@@ -96,10 +102,27 @@
   bottom: 0;
   width: 100%;
   height: 245px;
+
   img {
     width: 100%;
     bottom: 0;
     height: 100%;
     margin-left: -8px;
+  }
+}
+
+
+@media only screen and (min-width: 1024px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+      width: 50%;
+    }
+    .-contact{
+      width: 50%;
+    }
   }
 }

@@ -161,7 +161,6 @@ export class BookingDetailsPage implements OnInit {
   }
 
  async cancelSubmit() {
-    `console.log("this.currentBooking: ",this.currentBooking)`
     if(this.currentBooking && this.currentBooking?.isPaid && this.currentBooking.timeSlot){
       let payload:CreateRefund = {
         payId: this.currentBooking.payment.razorpay_payment_id,
