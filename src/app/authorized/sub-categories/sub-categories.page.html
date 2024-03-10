@@ -1,18 +1,11 @@
-<app-header-with-back
-  [title]="title"
-  [showNotificationIcon]="false"
-></app-header-with-back>
+<app-header-with-back [title]="title" [showNotificationIcon]="false"></app-header-with-back>
 
 <ng-container id="mobile-view">
   <ion-content class="mobile-view">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start" routerLink="../../home">
-          <img
-            class="leftArrow"
-            src="assets/icon/leftArrow/leftArrow.svg"
-            alt=""
-          />
+          <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="" />
         </ion-buttons>
         <ion-title>{{matchingMainCategory?.name}} Sub Categories</ion-title>
       </ion-toolbar>
@@ -20,11 +13,8 @@
 
     <ion-content [fullscreen]="true">
       <div class="subcategory-container">
-        <div
-          class="subcategory"
-          *ngFor="let items of subCategory"
-          routerLink="../../services/{{mainCategoryId}}/{{items?.id}}"
-        >
+        <div class="subcategory" *ngFor="let items of subCategory"
+          routerLink="../../services/{{mainCategoryId}}/{{items?.id}}">
           <img src="{{items.image}}" alt="" />
           <h4>{{items.name}}</h4>
         </div>
@@ -34,18 +24,10 @@
 </ng-container>
 
 <div id="web-view" class="back-container">
-  <div class="main-container">
-    <ion-content [fullscreen]="true">
-      <div class="subcategory-container">
-        <div
-          class="subcategory"
-          *ngFor="let items of subCategory"
-          (click)="subCategoryFun(mainCategoryId , items?.id)"
-        >
-          <img src="{{items.image}}" alt="" />
-          <h4>{{items.name}}</h4>
-        </div>
-      </div>
-    </ion-content>
+  <div class="main-container subcategory-container">
+    <div class="subcategory" *ngFor="let items of subCategory" (click)="subCategoryFun(mainCategoryId , items?.id)">
+      <img src="{{items.image}}" alt="" />
+      <h4>{{items.name}}</h4>
+    </div>
   </div>
 </div>

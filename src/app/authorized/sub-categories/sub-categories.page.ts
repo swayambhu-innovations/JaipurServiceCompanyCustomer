@@ -12,7 +12,7 @@ import { ServicesPage } from '../services/services.page';
   styleUrls: ['./sub-categories.page.scss'],
 })
 export class SubCategoryPage implements OnInit {
-  @Input('categoryId') categoryId;
+  @Input('categoryId') categoryId: any;
   matchingMainCategory: Category | undefined;
   subCategory: SubCategory[] = [];
   mainCategoryId = '';
@@ -69,7 +69,7 @@ export class SubCategoryPage implements OnInit {
     }
   }
 
-  async subCategoryFun(categoryId, itemsId) {
+  async subCategoryFun(categoryId: any, itemsId: any) {
     this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
