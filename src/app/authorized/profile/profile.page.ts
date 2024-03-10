@@ -19,6 +19,7 @@ export class ProfilePage implements OnInit {
   deviceInfo: any;
   isWebModalOpen: boolean = false;
   mobileView: boolean = true;
+  signoutUser:boolean=false;
   public isFaq: boolean = false;
   constructor(
     public router: Router,
