@@ -134,7 +134,7 @@ export class HomeHeaderComponent implements OnInit {
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId, address);
       loader.dismiss();
-      this.addressService.clearCart(userId).then(() => {});
+      this.addressService.clearCart(userId).then(() => { });
     } else {
       loader.dismiss();
     }
@@ -144,15 +144,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
-    //this.addressLineTwoVisible = true;
-    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-      const modal = await this.modalController.create({
-        component: SelectAddressPage,
-      });
-      return await modal.present();
-    } else {
-      this.router.navigate(['/authorized/select-address']);
-    }
+    this.router.navigate(['/authorized/select-address']);
   }
 
   onWillDismiss(event) {
