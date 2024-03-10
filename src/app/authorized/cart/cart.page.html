@@ -376,33 +376,6 @@
             >Checkout</ion-button
           >
         </div>
-
-        <!-- <h3 class="header">You have {{cart.length}} bookings.</h3> -->
-        <!-- <div class="orderCard" *ngFor="let booking of cart">
-    <div class="detail">
-      <img [src]="booking.subCategory.image" alt="">
-      <div class="categories">
-        <div class="main">
-          <p>{{booking.mainCategory.name}}</p>
-        </div>
-        <div class="sub">
-          <p>{{booking.subCategory.name}}</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="dashed-line">
-
-    <ol class="items">
-      <li *ngFor="let item of booking.services">
-        {{item.name}}
-        <ol>
-          <li *ngFor="let variant of item.variants">{{variant.name}} - <span>{{variant.price | currency:'INR' : 'symbol' : '1.0-0'}}</span></li>
-        </ol>
-      </li>
-    </ol>
-    <ion-button color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
-  </div> -->
       </ion-content>
 
       <ion-content class="page-body" *ngIf="selectedBooking">

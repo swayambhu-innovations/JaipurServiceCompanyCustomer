@@ -142,26 +142,7 @@
   <div class="categories-container">
     <hr class="horizontalRow" />
     <h4>Categories of Services</h4>
-    <!-- <ion-row>
-        <ion-col size='3' class="serviceCategoriesImages" *ngFor="let mainCategory of categories | slice:0:3">
-          <div class="category-det">
-            <a routerLink="../sub-Categories/{{mainCategory.id}}">
-              <img src="{{mainCategory.icon}}" alt="">
-            </a>
-            <span>{{mainCategory.name}}</span>
-          </div>
-        </ion-col>
-        
-        
-        <ion-col class="serviceCategoriesImages" *ngIf="categories.length > 3? true: false">
-          <div class="category-det">
-            <a>
-              <img class="seeall-img" src="assets/images/SeeAll.png" routerLink="../all-categories/" alt="">
-            </a>
-            <span>See All</span>
-          </div>
-        </ion-col>
-      </ion-row> -->
+
     <div class="category-services-cont">
       <ng-container *ngFor="let mainCategory of categories;index as index">
         <div class="col-4 service-det" *ngIf="index<2">

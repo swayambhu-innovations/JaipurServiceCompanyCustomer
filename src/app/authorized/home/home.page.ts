@@ -189,9 +189,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     const isMobile = this.deviceService.isMobile();
     const isTablet = this.deviceService.isTablet();
     const isDesktopDevice = this.deviceService.isDesktop();
-    isMobile && console.log('Mobile Screen');
-    isTablet && console.log('Tablet Screen');
-    isDesktopDevice && console.log('Desktop Screen');
   }
 
   async ngOnInit() {
@@ -482,7 +479,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       .finally(() => {});
   }
 
-  async saveImage(url: string, path) {
+  async saveImage(url: string, path: string | undefined) {
     const response: any = await fetch(url, {
       headers: new Headers({
         Origin: location.origin,
@@ -513,7 +510,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     return savedFile;
   }
 
-  onNotServiceableDismiss(event) {}
+  onNotServiceableDismiss(event: any) {}
 
   onGotItClick() {
     this.isNotServiceableModalOpen = false;
@@ -522,31 +519,16 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }, 100);
   }
 
-  tConvert(time) {
+  tConvert(time: moment.MomentInput) {
     return moment(time, 'HH:mm').format('hh:mm a');
   }
 
-  async showSubCategories(id) {
-    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-      const modal = await this.modalController.create({
-        component: SubCategoryPage,
-        componentProps: { categoryId: id },
-      });
-      return await modal.present();
-    } else {
-      this.router.navigate([`/authorized/sub-Categories/${id}`]);
-    }
+  async showSubCategories(id: any) {
+    this.router.navigate([`/authorized/sub-Categories/${id}`]);
   }
 
   async allCategory() {
-    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-      const modal = await this.modalController.create({
-        component: AllCategoriesPage,
-      });
-      return await modal.present();
-    } else {
-      this.router.navigate(['/authorized/all-categories']);
-    }
+    this.router.navigate(['/authorized/all-categories']);
   }
 
   systeminfo() {
@@ -556,18 +538,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async openSubCategory(categoryId, itemsId) {
-    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-      const modal = await this.modalController.create({
-        component: ServicesPage,
-        componentProps: {
-          subCategoryId: { categoryId: categoryId, itemsId: itemsId },
-        },
-      });
-      return await modal.present();
-    } else {
-      this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
-    }
+  async openSubCategory(categoryId: any, itemsId: any) {
+    this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
 

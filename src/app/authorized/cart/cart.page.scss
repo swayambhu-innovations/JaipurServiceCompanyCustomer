@@ -582,16 +582,12 @@ ion-content {
     }
   }
 }
-ion-content.noItems {
+ion-content {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  .empty-cart-img {
-    margin: 40px;
-    margin-top: 100px;
-  }
   .spacer {
     height: 50px;
     width: 100%;
@@ -620,6 +616,17 @@ ion-content.noItems {
       width: 80%;
       margin-top: 10px;
     }
+  }
+}
+
+.noItems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

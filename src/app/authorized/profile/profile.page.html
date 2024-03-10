@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <!-- Profile -->
-  <ion-card>
+  <ion-card id="mobile-view">
     <img
       src="https://api.dicebear.com/6.x/initials/svg?seed"
       class="profile-pic"
@@ -17,7 +17,7 @@
     </h4>
   </ion-card>
 
-  <div class="nav">
+  <div id="mobile-view" class="nav">
     <!-- Navigating buttons -->
     <ion-button
       expand="block"
@@ -216,203 +216,205 @@
     </ion-modal> -->
   </div>
 
-  <div *ngIf="isWebModalOpen" class="profile-layout">
-    <div class="img-avatar">
-      <div>
-        <img
-          src="https://api.dicebear.com/6.x/initials/svg?seed"
-          class="profile-pic"
-          *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
-        />
-        <img
-          src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
-          class="profile-pic"
-          *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
-        />
+  <div id="web-view" class="back-container">
+    <div class="main-container profile-layout">
+      <div class="img-avatar">
+        <div>
+          <img
+            src="https://api.dicebear.com/6.x/initials/svg?seed"
+            class="profile-pic"
+            *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined"
+          />
+          <img
+            src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+            class="profile-pic"
+            *ngIf="this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+          />
 
-        <h4 style="text-align: center; color: #fff">
-          {{this.dataProvider.currentUser?.userData?.name}}
-        </h4>
+          <h4 style="text-align: center; color: #fff">
+            {{this.dataProvider.currentUser?.userData?.name}}
+          </h4>
+        </div>
       </div>
-    </div>
 
-    <div class="nav-web">
-      <!-- Navigating buttons -->
-      <ion-button
-        expand="block"
-        fill="clear"
-        type="outline"
-        class="side-buttons"
-        routerLink="profile-info"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/User_2.svg"
-            alt=""
-          />
-          <p>Edit Profile</p>
-        </div>
-      </ion-button>
-
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        (click)="openUpcomingBooking"
-      >
-        <div
-          (click)="openUpcomingBooking"
-          class="w-100 d-flex align-items-center"
+      <div class="nav-web">
+        <!-- Navigating buttons -->
+        <ion-button
+          expand="block"
+          fill="clear"
+          type="outline"
+          class="side-buttons"
+          routerLink="profile-info"
         >
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/Door to Door Delivery.svg"
-            alt=""
-          />
-          <p>My Bookings</p>
-        </div>
-      </ion-button>
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        routerLink="../select-address"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/location.svg"
-            alt=""
-          />
-          <p>Address Book</p>
-        </div>
-      </ion-button>
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        routerLink="../notification"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/Group 1000002396.svg"
-            alt=""
-          />
-          <p>Notifications</p>
-        </div>
-      </ion-button>
-
-      <a
-        style="text-decoration: none"
-        target="_blank"
-        href="https://jaipurservicecompany.com"
-      >
-        <ion-button expand="block" fill="clear" class="side-buttons">
           <div class="w-100 d-flex align-items-center">
             <img
               style="padding: auto"
               class="icons"
-              src="../../assets/info-circle.svg"
+              src="../../assets/User_2.svg"
               alt=""
             />
-            <p>About</p>
+            <p>Edit Profile</p>
           </div>
         </ion-button>
-      </a>
 
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        routerLink="../refer-afriend"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/profile-2user.svg"
-            alt=""
-          />
-          <p>Invite Friend</p>
-        </div>
-      </ion-button>
-      <ng-container *ngIf="isFaq">
         <ion-button
           expand="block"
           fill="clear"
           class="side-buttons"
-          routerLink="../faq"
+          (click)="openUpcomingBooking"
+        >
+          <div
+            (click)="openUpcomingBooking"
+            class="w-100 d-flex align-items-center"
+          >
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/Door to Door Delivery.svg"
+              alt=""
+            />
+            <p>My Bookings</p>
+          </div>
+        </ion-button>
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          routerLink="../select-address"
         >
           <div class="w-100 d-flex align-items-center">
             <img
               style="padding: auto"
               class="icons"
-              src="../../assets/help-outline.svg"
+              src="../../assets/location.svg"
               alt=""
             />
-            <p>Help & FAQ</p>
+            <p>Address Book</p>
           </div>
         </ion-button>
-      </ng-container>
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        routerLink="../contact-us"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/Call(1).svg"
-            alt=""
-          />
-          <p>Contact Us</p>
-        </div>
-      </ion-button>
-      <ion-button
-        expand="block"
-        fill="clear"
-        class="side-buttons"
-        id="open-modal-logout"
-      >
-        <div class="w-100 d-flex align-items-center">
-          <img
-            style="padding: auto"
-            class="icons"
-            src="../../assets/logout.svg"
-            alt=""
-            style="width: 25px; margin-left: 20px"
-          />
-          <p>Sign out</p>
-        </div>
-      </ion-button>
-
-      <a
-        style="text-decoration: none"
-        href="https://shreeva.in/"
-        target="_blank"
-      >
-        <ion-button expand="block" fill="clear" class="side-buttons">
-          <div class="w-100 d-flex align-items-center shreeva">
-            <!-- <a href="https://shreeva.in/" target="_blank"> -->
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          routerLink="../notification"
+        >
+          <div class="w-100 d-flex align-items-center">
             <img
               style="padding: auto"
               class="icons"
-              src="../../../assets/images/shreevaIcon.png"
+              src="../../assets/Group 1000002396.svg"
               alt=""
             />
-            <p>Powered By Shreeva</p>
-            <!-- </a> -->
+            <p>Notifications</p>
           </div>
         </ion-button>
-      </a>
+
+        <a
+          style="text-decoration: none"
+          target="_blank"
+          href="https://jaipurservicecompany.com"
+        >
+          <ion-button expand="block" fill="clear" class="side-buttons">
+            <div class="w-100 d-flex align-items-center">
+              <img
+                style="padding: auto"
+                class="icons"
+                src="../../assets/info-circle.svg"
+                alt=""
+              />
+              <p>About</p>
+            </div>
+          </ion-button>
+        </a>
+
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          routerLink="../refer-afriend"
+        >
+          <div class="w-100 d-flex align-items-center">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/profile-2user.svg"
+              alt=""
+            />
+            <p>Invite Friend</p>
+          </div>
+        </ion-button>
+        <ng-container *ngIf="isFaq">
+          <ion-button
+            expand="block"
+            fill="clear"
+            class="side-buttons"
+            routerLink="../faq"
+          >
+            <div class="w-100 d-flex align-items-center">
+              <img
+                style="padding: auto"
+                class="icons"
+                src="../../assets/help-outline.svg"
+                alt=""
+              />
+              <p>Help & FAQ</p>
+            </div>
+          </ion-button>
+        </ng-container>
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          routerLink="../contact-us"
+        >
+          <div class="w-100 d-flex align-items-center">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/Call(1).svg"
+              alt=""
+            />
+            <p>Contact Us</p>
+          </div>
+        </ion-button>
+        <ion-button
+          expand="block"
+          fill="clear"
+          class="side-buttons"
+          id="open-modal-logout"
+        >
+          <div class="w-100 d-flex align-items-center">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../assets/logout.svg"
+              alt=""
+              style="width: 25px; margin-left: 20px"
+            />
+            <p>Sign out</p>
+          </div>
+        </ion-button>
+
+        <a
+          style="text-decoration: none"
+          href="https://shreeva.in/"
+          target="_blank"
+        >
+          <ion-button expand="block" fill="clear" class="side-buttons">
+            <div class="w-100 d-flex align-items-center shreeva">
+              <!-- <a href="https://shreeva.in/" target="_blank"> -->
+              <img
+                style="padding: auto"
+                class="icons"
+                src="../../../assets/images/shreevaIcon.png"
+                alt=""
+              />
+              <p>Powered By Shreeva</p>
+              <!-- </a> -->
+            </div>
+          </ion-button>
+        </a>
+      </div>
     </div>
   </div>
 
