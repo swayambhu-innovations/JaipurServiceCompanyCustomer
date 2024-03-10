@@ -64,11 +64,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async user() {
-    const userModal = await this.modalController.create({
-      component: ProfilePage,
-    });
-    this.modalController.dismiss('cartModal');
-    return await userModal.present();
+    this.router.navigate(['authorized/profile']);
   }
 
   navigateTOSearch() {

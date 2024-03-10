@@ -1,38 +1,25 @@
-<div class="main">
+<div id="mobile-view" class="main">
 
-  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false" [showBackButton]="userData.name"></app-header-with-back>
+  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false"
+    [showBackButton]="userData.name"></app-header-with-back>
 
   <div class="container">
-    <!-- Profile picture with camera button -->
-    
-    <!-- <div class="title">
-      <h6>{{name2}}</h6>
-    </div> -->
-    <!-- Input boxes -->
     <form class="col" [formGroup]="userProfileForm" style="background-color: white;">
       <div class="container1">
         <div class="outer" *ngIf="this.userData?.photoUrl"
           [ngStyle]="{'background-image': 'url(' +  this.userData?.photoUrl + ')'}">
-            <div class="inner" (click)="profilePicker1.click()">
-               <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
-            </div>
+          <div class="inner" (click)="profilePicker1.click()">
+            <img class="camera-icon" src="assets/icon/camera-icon.svg" alt="">
+          </div>
         </div>
         <div class="outer dummy-profile-pic" *ngIf="!this.userData?.photoUrl"
-        [ngStyle]="{'background-image': 'url(assets/images/dummy-profile.jpg)'}"
-          (click)="profilePicker1.click()">
+          [ngStyle]="{'background-image': 'url(assets/images/dummy-profile.jpg)'}" (click)="profilePicker1.click()">
           <div class="inner">
-            <img  class="camera-icon"src="assets/icon/camera-icon.svg" alt="">
-         </div>
+            <img class="camera-icon" src="assets/icon/camera-icon.svg" alt="">
+          </div>
         </div>
       </div>
-      <input
-        type="file"
-        hidden
-        tabindex="-1"
-        accept="image/*"
-        (input)="setPhoto($event)"
-        #profilePicker1
-      />
+      <input type="file" hidden tabindex="-1" accept="image/*" (input)="setPhoto($event)" #profilePicker1 />
       <div class="input mt-3">
         <ion-input class="inputs" formControlName="name" label="Full Name" label-placement="floating" fill="outline"
           required></ion-input>
@@ -56,12 +43,8 @@
             <ion-text color="danger">DBO is required.</ion-text>
           </div>
         </div> -->
-        <ion-input fill="outline"
-          label="Gender" 
-          label-placement="floating" readonly 
-          class="gender-input-box"
-          formControlName="gender"
-          (click)="openGenderPicker()">
+        <ion-input fill="outline" label="Gender" label-placement="floating" readonly class="gender-input-box"
+          formControlName="gender" (click)="openGenderPicker()">
           <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true"></ion-icon>
         </ion-input>
         <!-- <div *ngIf="this.userProfileForm.get('gender')?.touched && this.userProfileForm.get('gender')?.invalid || isSubmitForm" style="padding: 8px 0px;">
@@ -78,4 +61,66 @@
 
   </div>
   <!-- main div -->
+</div>
+
+<app-header-with-back id="web-view" [title]="'User Profile'" [showNotificationIcon]="false"
+    [showBackButton]="userData.name"></app-header-with-back>
+
+<div id="web-view" class="back-container">
+  <div class="main-container">
+    <form class="col" [formGroup]="userProfileForm" style="background-color: white;">
+      <div class="container1">
+        <div class="outer" *ngIf="this.userData?.photoUrl"
+          [ngStyle]="{'background-image': 'url(' +  this.userData?.photoUrl + ')'}">
+          <div class="inner" (click)="profilePicker1.click()">
+            <img class="camera-icon" src="assets/icon/camera-icon.svg" alt="">
+          </div>
+        </div>
+        <div class="outer dummy-profile-pic" *ngIf="!this.userData?.photoUrl"
+          [ngStyle]="{'background-image': 'url(assets/images/dummy-profile.jpg)'}" (click)="profilePicker1.click()">
+          <div class="inner">
+            <img class="camera-icon" src="assets/icon/camera-icon.svg" alt="">
+          </div>
+        </div>
+      </div>
+      <input type="file" hidden tabindex="-1" accept="image/*" (input)="setPhoto($event)" #profilePicker1 />
+      <div class="input mt-3">
+        <ion-input class="inputs" formControlName="name" label="Full Name" label-placement="floating" fill="outline"
+          required></ion-input>
+        <div
+          *ngIf="(this.userProfileForm.get('name')?.touched && this.userProfileForm.get('name')?.invalid) || isSubmitForm">
+          <div class="" *ngIf="this.userProfileForm.get('name')?.errors?.required">
+            <ion-text color="danger">Name is required.</ion-text>
+          </div>
+          <div class="" color="danger" *ngIf="this.userProfileForm.get('name')?.errors?.minlength">
+            <ion-text color="danger">Name should be min 3 chars long.</ion-text>
+          </div>
+        </div>
+        <!-- <ion-input type="date" class="inputs"
+          formControlName="dateofbirth" label="Birthdate" label-placement="floating" fill="outline"
+          placeholder="date of birth" style="margin-top: 18px;"></ion-input> -->
+
+        <!-- <div
+          *ngIf="(this.userProfileForm.get('dateofbirth')?.touched && this.userProfileForm.get('dateofbirth')?.invalid) || isSubmitForm"
+          style="margin-top: -8px;padding-bottom: 9px;">
+          <div class="" *ngIf="this.userProfileForm.get('dateofbirth')?.value == 'YYYY-MM-DD' || this.userProfileForm.get('dateofbirth')?.value == ''">
+            <ion-text color="danger">DBO is required.</ion-text>
+          </div>
+        </div> -->
+        <ion-input fill="outline" label="Gender" label-placement="floating" readonly class="gender-input-box"
+          formControlName="gender" (click)="openGenderPicker()">
+          <ion-icon slot="end" name="chevron-down-outline" aria-hidden="true"></ion-icon>
+        </ion-input>
+        <!-- <div *ngIf="this.userProfileForm.get('gender')?.touched && this.userProfileForm.get('gender')?.invalid || isSubmitForm" style="padding: 8px 0px;">
+          <div class="" *ngIf="this.userProfileForm.get('gender')?.value == ''">
+            <ion-text color="danger">Gender is required.</ion-text>
+          </div>
+        </div> -->
+      </div>
+    </form>
+    <!-- Cancel and Save buttons -->
+    <div class="buttons">
+      <button class="save" (click)="nextFunction()">save</button>
+    </div>
+  </div>
 </div>

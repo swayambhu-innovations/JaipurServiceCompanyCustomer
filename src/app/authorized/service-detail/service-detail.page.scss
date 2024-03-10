@@ -522,6 +522,8 @@ ion-button {
 }
 .fixed-cart-button{
   position: fixed;
+}
+.fixed-cart-button,.abs-cart-button{
   bottom: 0px;
   height: 70px;
   width: 100%;
@@ -556,6 +558,8 @@ ion-button {
     }
   }
 }
+
+
 
 .services-button-view.services-button{
   height: auto;
@@ -620,5 +624,10 @@ ion-button {
 
   ion-title {
      font-weight: 700;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .abs-cart-button{
+    position: absolute;
   }
 }

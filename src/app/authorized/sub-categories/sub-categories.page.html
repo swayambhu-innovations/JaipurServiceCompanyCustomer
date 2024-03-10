@@ -1,15 +1,7 @@
-<app-header-with-back [title]="title" [showNotificationIcon]="false"></app-header-with-back>
-
-<ng-container id="mobile-view">
+<ng-container *ngIf="mobileView">
   <ion-content class="mobile-view">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start" routerLink="../../home">
-          <img class="leftArrow" src="assets/icon/leftArrow/leftArrow.svg" alt="" />
-        </ion-buttons>
-        <ion-title>{{matchingMainCategory?.name}} Sub Categories</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <app-header-with-back [title]="title" [showNotificationIcon]="false"></app-header-with-back>
+
 
     <ion-content [fullscreen]="true">
       <div class="subcategory-container">
@@ -22,6 +14,9 @@
     </ion-content>
   </ion-content>
 </ng-container>
+
+
+<app-header-with-back id="web-view" [title]="title" [showNotificationIcon]="false"></app-header-with-back>
 
 <div id="web-view" class="back-container">
   <div class="main-container subcategory-container">
