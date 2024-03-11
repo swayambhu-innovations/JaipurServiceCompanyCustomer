@@ -174,15 +174,19 @@ ion-modal {
   // a{
   text-decoration: none;
   display: flex;
+
   img {
     margin-left: -6px;
   }
+
   p {
     margin-left: 0px;
     margin-top: 6px;
   }
+
   // }
 }
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -193,11 +197,26 @@ ion-modal {
   }
 }
 
+ion-modal {
+  --width: 100%;
+}
+
 @media only screen and (min-width: 1024px) {
+
   ion-card,
   .nav {
     display: none;
   }
+
+  ion-modal {
+    --width: 25%;
+  }
+
+  .main-container {
+    padding: 0 !important;
+    width: 75%;
+  }
+
   .profile-layout {
     display: flex;
     justify-content: space-between;
@@ -215,15 +234,15 @@ ion-modal {
 
       .profile-pic {
         margin-top: 0;
-        width: 150px;
-        height: 150px;
+        width: 210px;
+        height: 210px;
       }
     }
 
     .nav-web {
       width: 50%;
       height: 100%;
-      display: list-item;
+      margin: 20px;
 
       .side-buttons {
         height: 50px;

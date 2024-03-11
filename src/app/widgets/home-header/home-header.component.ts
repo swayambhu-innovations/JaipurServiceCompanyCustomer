@@ -73,7 +73,6 @@ export class HomeHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.width = window.innerWidth;
-    console.log(this.width);
     this.systeminfo();
   }
 

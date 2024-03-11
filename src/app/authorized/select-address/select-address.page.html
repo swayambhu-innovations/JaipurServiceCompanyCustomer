@@ -95,11 +95,19 @@
   </ion-content>
 </ng-container>
 
-<app-header-with-back id="web-view" [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'"
-  [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back id="web-view" [showHomeIcon]="true" [showBackButton]="addressService.addresses.length > 0"
+  [title]="'Select Address'" [showNotificationIcon]="false"></app-header-with-back>
 
 <div class="back-container" id="web-view">
   <div class="main-container">
+    <div class="add-btn">
+      <div class="new-add-button">
+        <button (click)="newAddress()">
+          <span>Add new</span>
+          <img src="../../../assets/add-button.svg" alt="" />
+        </button>
+      </div>
+    </div>
     <div class="address-det-div">
       <div class="address-box" style="padding: 20px" *ngFor="let address of addressService.addresses">
         <div class="add-cont">

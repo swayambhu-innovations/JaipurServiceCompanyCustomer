@@ -1,5 +1,5 @@
 <app-header-with-back id="mobile-view" [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
-<app-header-with-back id="web-view" [title]="'Booking Details'" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back id="web-view" [title]="'Booking Details'" [showHomeIcon]="true" [showNotificationIcon]="false"></app-header-with-back>
 <div id="mobile-view" class="main">
   <!-- Toolbar -->
   <!-- Order ID card -->
@@ -456,12 +456,12 @@
 
 
 <ion-modal mode="ios" [isOpen]="isModalOpenCancellation" (ionModalDidDismiss)="ionModalDidDismiss($event)"
-  trigger="open-modal" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle">
+  trigger="open-modal" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6]" handleBehavior="cycle">
   <ng-template>
     <ion-content class="ion-padding">
       <form [formGroup]="CancelForm">
         <div class="ion-margin-top">
-          <h2><b> Cancellation Reason </b></h2>
+          <p class="title-cancel">Cancellation Reason</p>
 
           <div *ngFor="let item of RADIO_LIST; let i=index">
             <input type="radio" [value]="item.name" [checked]="item.checked" formControlName="cancelReason" />
@@ -493,7 +493,7 @@
     <ion-content class="ion-padding">
       <div class="container">
         <div class="row text-center">
-          <h2> Kitchen Cleaning</h2>
+          <p class="title-cancel">Kitchen Cleaning</p>
           <small style="color: #6f767e">Complete Kitchen Shape</small>
           <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
             alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>

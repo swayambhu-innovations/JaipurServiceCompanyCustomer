@@ -2,14 +2,20 @@
   <ion-toolbar class="toolbar">
     <ion-buttons *ngIf="showBackButton" slot="start">
       <ion-button (click)="onBackButtonClick()">
-        <img  src="assets/icon/leftArrow/leftArrow.svg" alt="">
+        <img src="assets/icon/leftArrow/leftArrow.svg" alt="">
       </ion-button>
     </ion-buttons>
     <ion-title class="title" [ngClass]="{'noBackButton' : !showBackButton}">{{title}}</ion-title>
     <ion-buttons slot="end" *ngIf="showNotificationIcon">
-      <ion-button (click) = "notification()">
+      <ion-button (click)="notification()">
         <img *ngIf="unreadNotifications.length == 0" src="assets/images/bell.svg" alt="">
         <img *ngIf="unreadNotifications.length > 0" src="assets/ui_icons/notification.svg" alt="">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="showHomeIcon" slot="secondary">
+      <ion-button (click)="goToHome()">
+        <img class="jsc-logo" src="../../../assets/images/logo.png" alt="Home">
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

@@ -36,3 +36,20 @@
     --padding-bottom: 14px;
   }
 }
+
+.option-dots{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 8px;
+}
+
+@media only screen and (min-width: 1024px) {
+  .option-dots{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 8px;
+    width: 90%;
+  }
+}

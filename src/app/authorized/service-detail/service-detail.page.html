@@ -277,6 +277,7 @@
           </ion-label>
         </div>
       </div>
+      
       <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
         <div class=" variants_modal" style="align-items: center;">
 
@@ -309,6 +310,7 @@
           <img src="../../../assets/couponTag.svg" alt="">
           <p>Apply Coupons to save upto 70%!</p>
         </div>
+
         <div class="page-variants">
           <div class="variants">
             <div lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
@@ -359,6 +361,7 @@
           </div>
         </div>
       </div>
+
       <ion-accordion-group #accordionGroup class="page-accordion">
         <ion-accordion value="first">
           <ion-item slot="header" color="light">
@@ -405,7 +408,8 @@
           </div>
         </div>
       </div>
-      <div class="rating-main-div">
+
+      <div *ngIf="matchingService?.rating" class="rating-main-div">
         <div class="row " *ngFor="let CustReview of matchingService?.rating">
           <div class="col mt-4" *ngIf="matchingService?.averageRating">
             <div class="card">

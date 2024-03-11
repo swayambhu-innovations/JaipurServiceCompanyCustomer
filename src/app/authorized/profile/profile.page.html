@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <!-- Profile -->
 
-  <app-header-with-back id="web-view" [title]="this.dataProvider.currentUser?.userData?.name"
+  <app-header-with-back id="web-view" [showHomeIcon]="true" [title]="this.dataProvider.currentUser?.userData?.name"
     [showNotificationIcon]="false"></app-header-with-back>
 
   <ion-card id="mobile-view">
@@ -194,7 +194,7 @@
         <ion-button expand="block" fill="clear" class="side-buttons" (click)="signoutUser=!signoutUser">
           <div class="w-100 d-flex align-items-center">
             <img style="padding: auto" class="icons" src="../../assets/logout.svg" alt=""
-              style="width: 25px; margin-left: 20px" />
+              style="width: 25px;" />
             <p>Sign out</p>
           </div>
         </ion-button>
