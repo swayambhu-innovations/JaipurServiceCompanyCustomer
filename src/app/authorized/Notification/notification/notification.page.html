@@ -1,12 +1,11 @@
 <app-header-with-back [title]="'Notification'" [showNotificationIcon]="false"></app-header-with-back>
+<div class="d-flex justify-content-end me-2">
+  <div class="icon-container" (click)="openMenu()">
+    <ion-icon name="ellipsis-vertical"></ion-icon>
+  </div>
+</div>
 
 <div id="mobile-view" class="container page-container">
-  <div class="d-flex justify-content-end">
-    <div class="icon-container" (click)="openMenu()">
-      <ion-icon name="ellipsis-vertical"></ion-icon>
-    </div>
-  </div>
-
   <ng-container *ngIf="isLoaded && todayNotifications.length !== 0">
     <span>
       <h1>Today</h1>

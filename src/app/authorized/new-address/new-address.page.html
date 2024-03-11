@@ -1,10 +1,18 @@
 <ion-content #content class="address-container">
   <div class="main-container">
     <app-header-with-back [title]="isEdit ? 'Edit Address' : 'Add New Address'" [showNotificationIcon]="false"
-      [showBackButton]="showHeader"></app-header-with-back>
+      [showBackButton]="showHeader" [showHomeIcon]="true"></app-header-with-back>
     <div class="data-container">
       <div class="left-container">
-        <img src="assets/images/add-address.png" alt="">
+        <div class="google-map-container">
+          <google-map width="100%" [center]="center" [zoom]="zoom" (mapClick)="moveMap($event)"
+            (mapMousemove)="move($event)">
+            <map-marker *ngIf="currentPosition" [options]="markerOptions" [position]="currentPosition"
+              (mapDragend)="newPosition($event)"></map-marker>
+            <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*1000"
+              [options]="mapOptionsCircle" (circleClick)="moveMap($event)" fillColor="green" />
+          </google-map>
+        </div>
       </div>
       <div class="right-container">
         <form [formGroup]="addressForm">

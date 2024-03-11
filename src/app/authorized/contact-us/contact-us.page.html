@@ -1,8 +1,8 @@
-<app-header-with-back *ngIf="mobileView" [title]="'Contact Us'" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back [title]="'Contact Us'" [showHomeIcon]="true" [showNotificationIcon]="false"></app-header-with-back>
 <!-- <app-header-with-back [title] = "'Contact Us"></app-header-with-back> -->
 
 <ion-content>
-    <main class="p-15 edit-contact">
+    <main id="mobile-view" class="p-15 edit-contact">
         <section class="contact border p-15 mb-4">
             <div class="heading-section d-flex">
                 <div class="img">
@@ -57,70 +57,72 @@
             </a>
             <a class="youtube" target="_blank" href="https://www.youtube.com/@jaipurservicecompany">
                 <img src="../../../assets/icon/contactUs/youtubeCircle.svg" alt="">
+                <img class="yt-img" src="../../../assets/icon/contactUs/youtube.svg" alt="">
             </a>
-            <img class="yt-img" src="../../../assets/icon/contactUs/youtube.svg" alt="">
         </div>
     </main>
 </ion-content>
 
-<!-- <div id="web-view" class="container">
-    <img src="../../../assets/icon/contactUs/youtube.svg" alt="">
-    <div class="p-15 -contact">
-        <section class="contact border p-15 mb-4">
-            <div class="heading-section d-flex">
-                <div class="img">
-                    <img src="../../../assets/phone.svg" alt="" />
+<div id="web-view" class="back-container">
+    <div class="main-container">
+        <div class="edit-contact">
+            <section class="contact border p-15 mb-4">
+                <div class="heading-section d-flex">
+                    <div class="img">
+                        <img src="../../../assets/phone.svg" alt="" />
+                    </div>
+                    <p class="name">Contact Number</p>
                 </div>
-                <p class="name">Contact Number</p>
-            </div>
-            <div class="no d-flex justify-content-between">
-                <a href="tel:{{number}}" *ngFor="let number of contacts?.mobileNumbers">
-                    <p>{{number}}</p>
+                <div class="no d-flex justify-content-between">
+                    <a href="tel:{{number}}" *ngFor="let number of contacts?.mobileNumbers">
+                        <p>{{number}}</p>
 
-                </a>
-            </div>
-        </section>
-        <section class="contact border p-15 mb-4">
-            <div class="heading-section d-flex">
-                <div class="img1">
-                    <img src="../../../assets/whatsapp.svg" alt="" />
+                    </a>
                 </div>
-                <p style="color: #14AE5C;" class="name">WhatsApp Number</p>
-            </div>
-            <div class="no d-flex justify-content-between">
-                <a *ngFor="let number of contacts?.whatsappNumbers" style="border: 1px solid #14AE5C;" target="_blank"
-                    href="https://wa.me/{{number}}">
-                    <p style="color: #14AE5C;">{{number}}</p>
-                </a>
-            </div>
-        </section>
-        <section class="contact border p-15 mb-4 email-main-container">
-            <div class="heading-section d-flex">
-                <div class="img1">
-                    <img src="../../../assets/email.svg" alt="" />
+            </section>
+            <section class="contact border p-15 mb-4">
+                <div class="heading-section d-flex">
+                    <div class="img1">
+                        <img src="../../../assets/whatsapp.svg" alt="" />
+                    </div>
+                    <p style="color: #14AE5C;" class="name">WhatsApp Number</p>
                 </div>
-                <p class="name">Email Id</p>
-            </div>
-            <div class="no d-flex justify-content-between">
-                <a target="_blank" href="mailto:{{email}}" *ngFor="let email of contacts?.emails">
-                    <p>{{email}}</p>
-                </a>
-            </div>
-        </section>
+                <div class="no d-flex justify-content-between">
+                    <a *ngFor="let number of contacts?.whatsappNumbers" style="border: 1px solid #14AE5C;"
+                        target="_blank" href="https://wa.me/{{number}}">
+                        <p style="color: #14AE5C;">{{number}}</p>
+                    </a>
+                </div>
+            </section>
+            <section class="contact border p-15 mb-4 email-main-container">
+                <div class="heading-section d-flex">
+                    <div class="img1">
+                        <img src="../../../assets/email.svg" alt="" />
+                    </div>
+                    <p class="name">Email Id</p>
+                </div>
+                <div class="no d-flex justify-content-between">
+                    <a target="_blank" href="mailto:{{email}}" *ngFor="let email of contacts?.emails">
+                        <p>{{email}}</p>
+                    </a>
+                </div>
+            </section>
 
-        <div class="social-media">
-            <a target="_blank" href="https://www.facebook.com/profile.php?id=100089889237508">
-                <img src="../../../assets/icon/contactUs/fb.svg" alt="">
-            </a>
-            <a target="_blank" href="https://www.instagram.com/jaipurservicecompany?igsh=MzRlODBiNWFlZA==">
-                <img src="../../../assets/icon/contactUs/insta.svg" alt="">
-            </a>
-            <a target="_blank" href="https://wa.me/919782688826">
-                <img src="../../../assets/icon/contactUs/whatsapp.svg" alt="">
-            </a>
-            <a class="youtube" target="_blank" href="https://www.youtube.com/@jaipurservicecompany">
-                <img src="../../../assets/icon/contactUs/youtubeCircle.svg" alt="">
-            </a>
+            <div class="sm">
+                <a target="_blank" href="https://www.facebook.com/profile.php?id=100089889237508">
+                    <img src="../../../assets/icon/contactUs/fb.svg" alt="">
+                </a>
+                <a target="_blank" href="https://www.instagram.com/jaipurservicecompany?igsh=MzRlODBiNWFlZA==">
+                    <img src="../../../assets/icon/contactUs/insta.svg" alt="">
+                </a>
+                <a target="_blank" href="https://wa.me/919782688826">
+                    <img src="../../../assets/icon/contactUs/whatsapp.svg" alt="">
+                </a>
+                <a class="youtube" target="_blank" href="https://www.youtube.com/@jaipurservicecompany">
+                    <img src="../../../assets/icon/contactUs/youtubeCircle.svg" alt="">
+                    <img class="yt-img" src="../../../assets/icon/contactUs/youtube.svg" alt="">
+                </a>
+            </div>
         </div>
     </div>
-</div> -->
+</div>

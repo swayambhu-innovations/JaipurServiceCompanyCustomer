@@ -101,7 +101,7 @@ export class SelectSlotPage implements OnInit {
     private loadingController: LoadingController,
     private router: Router,
     private cartService: CartService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // regenrate the slots
@@ -375,9 +375,6 @@ export class SelectSlotPage implements OnInit {
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
-    const orderPlacedModal = await this.modalController.create({
-      component: OrderPlacedPage,
-    });
     loader.present();
     let booking = this.dataProvider.currentBooking;
     if (!booking?.isUpdateSlot) {
@@ -411,8 +408,7 @@ export class SelectSlotPage implements OnInit {
                 );
                 await this.cartService.updateCart();
                 loader2.dismiss();
-                if (this.isWebModalOpen) return orderPlacedModal.present();
-                else this.router.navigate(['/authorized/order-placed']);
+                this.router.navigate(['/authorized/order-placed']);
               })
               .finally(() => {
                 loader.dismiss();
@@ -431,8 +427,7 @@ export class SelectSlotPage implements OnInit {
               if (paymentResponse.stage == 'paymentCaptureFailed') {
                 loader.dismiss();
                 booking.payment = paymentResponse;
-                if (this.isWebModalOpen) return orderPlacedModal.present();
-                else this.router.navigate(['/authorized/order-placed']);
+                this.router.navigate(['/authorized/order-placed']);
               } else if (
                 paymentResponse.stage == 'paymentGatewayClosed' ||
                 paymentResponse.stage == 'paymentGatewayOpened'
@@ -471,6 +466,7 @@ export class SelectSlotPage implements OnInit {
     //     });
     //   }
   }
+
   async rescheduleBooking() {
     let loader = await this.loadingController.create({
       message: 'Please wait...',

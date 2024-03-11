@@ -1,6 +1,6 @@
 <ng-container id="mobile-view">
   <app-header-with-back [title]="matchingSubCategory?.name?? 'Sub Categories'"
-    [showNotificationIcon]="false"></app-header-with-back>
+    [showNotificationIcon]="false" [showHomeIcon]="true"></app-header-with-back>
 
   <ion-content>
     <ion-list>
@@ -112,21 +112,6 @@
               <div class="rating">
                 <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
                 <strong>{{result.variants![0].jobDuration}} Hours</strong>
-              </div>
-            </ion-col>
-          </ion-row>
-          <ion-row style="margin-left: 7px">
-            <ion-col size="12">
-              <div class="details" *ngFor="let des of result.description.blocks">
-                <div class="list" *ngIf="des.type ==='list'">
-                  <div class="description">
-                    <ion-icon style="width: 6px" name="ellipse-sharp"></ion-icon>
-                    <strong [innerHTML]="des.data.items[0]"></strong>
-                  </div>
-                </div>
-                <div class="description" *ngIf="des.type ==='paragraph'">
-                  <strong>{{des.data.text}}</strong>
-                </div>
               </div>
             </ion-col>
           </ion-row>

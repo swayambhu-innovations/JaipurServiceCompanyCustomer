@@ -1,4 +1,5 @@
-<app-header-with-back [title]="'All Categories'" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back *ngIf="isDesktopview" [title]="'All Categories'" [showNotificationIcon]="false"
+  [showHomeIcon]="true"></app-header-with-back>
 
 <ng-container *ngIf="isMobileview">
   <div class="container-fluid">
@@ -33,7 +34,7 @@
 </ng-container>
 
 
-<div id="web-view" class="back-container">
+<div *ngIf="isDesktopview" class="back-container">
   <div class="main-container">
     <div class="allCategory-div">
       <div class="details" *ngFor="let mainCategory of categories">
@@ -44,6 +45,9 @@
           <span>{{mainCategory.name}}</span>
         </div>
       </div>
+    </div>
+    <div class="image">
+      <img src="assets/images/login.png" alt="All Categories">
     </div>
   </div>
 </div>

@@ -3,9 +3,11 @@
   color: black;
   box-shadow: none !important;
 }
+
 .mt-20 {
   margin-top: 20px;
 }
+
 .mb-20 {
   margin-bottom: 20px !important;
 }
@@ -59,11 +61,13 @@
   .row {
     float: left;
     color: var(--primary, #181f29);
+    width: 200%;
 
     .order {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
       // padding: 10px;
       gap: 20px;
 
@@ -112,6 +116,7 @@
   margin-top: 2px;
   padding-bottom: 15px;
   padding-top: 15px;
+
   .icon-text {
     display: flex;
     align-items: center;
@@ -121,6 +126,7 @@
       margin-left: 10px;
       padding-right: 5px;
     }
+
     p {
       font-size: 12px;
       margin: 0;
@@ -128,11 +134,13 @@
   }
 
   .agent-not-assigned {
-    display: grid;
-    grid-template-columns: 70% 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     .details {
       padding: 1px 17px;
+
       h2 {
         color: #1a1d1f;
         font-family: Lato;
@@ -153,7 +161,8 @@
     .icon {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
+      padding-right: 15px;
 
       .icon-div {
         width: 50px;
@@ -186,10 +195,12 @@
 
   .agent-det-div {
     padding: 0 12px;
+
     .row-2 {
       display: grid;
       grid-template-columns: 20% 32% 48%;
       margin-top: 7px;
+
       .agent-img {
         display: flex;
         align-items: center;
@@ -206,8 +217,10 @@
         p {
           margin: 0;
         }
+
         .rating-div {
           display: flex;
+
           p {
             margin-left: 3px;
             color: var(--Neutral-07, #1a1d1f);
@@ -225,6 +238,7 @@
         margin-right: 5px;
         align-items: center;
         flex-direction: row-reverse;
+
         button {
           width: 36px;
           height: 36px;
@@ -233,6 +247,7 @@
           background: #fff;
         }
       }
+
       .call-text p {
         color: #6f767e;
         font-family: Lato !important;
@@ -245,11 +260,13 @@
       }
     }
   }
+
   hr {
     height: 1px;
     /* color: red; */
     background: #e9e9e9;
   }
+
   .row-4 {
     display: flex;
     align-items: center;
@@ -309,26 +326,31 @@
 .Service-section {
   border: 1px solid var(--line, #e9e9e9);
   background: #fff;
+
   .allotmentPending,
   .acceptancePending,
   .otpVerificationPending {
     background: rgba(235, 131, 60, 0.25);
     color: rgba(235, 131, 60, 1);
   }
+
   .inProgress,
   .jobAccepted {
     background: rgba(255, 197, 84, 0.25);
     color: rgba(255, 169, 0, 1);
   }
+
   .completed,
   .jobStarted {
     background: rgba(240, 239, 255, 1);
     color: rgba(106, 93, 255, 1);
   }
+
   .discarded {
     background: #ffe1e3;
     color: #d3424a;
   }
+
   .row-5 {
     display: flex;
     justify-content: space-between;
@@ -355,6 +377,7 @@
       padding: 2px 5px;
       margin: 0;
     }
+
     // }
   }
 
@@ -419,6 +442,7 @@
 
     .img-div {
       width: 18%;
+
       .img-circle-div {
         width: 50px;
         height: 50px;
@@ -431,6 +455,7 @@
     .category-det-div {
       width: 64%;
       padding-left: 7px;
+
       h3 {
         margin: 0;
         color: #1a1d1f;
@@ -438,6 +463,7 @@
         font-weight: 700;
         letter-spacing: -0.32px;
       }
+
       span {
         color: var(--Neutral-04, #6f767e);
         font-family: Lato;
@@ -462,6 +488,7 @@
       }
     }
   }
+
   .row-8 {
     .right {
       float: right;
@@ -575,18 +602,21 @@
     padding: 15px;
     margin-top: 8px;
     box-shadow: -1px 4px 10px -4px rgba(22, 22, 22, 0.08);
+
     // display: flex;
-    h2{
+    h2 {
       color: var(--primary, #181f29);
       font-size: 14px;
       font-weight: 700;
     }
-    p{
+
+    p {
       margin-top: 4px;
       color: #444;
       font-size: 14px;
       font-weight: 400;
     }
+
     .head {
       font-size: 14px;
       font-weight: 700;
@@ -603,6 +633,13 @@
   }
 }
 
+.title-cancel {
+  margin-bottom: 10px;
+  font-family: Lato;
+  font-size: 22px;
+  font-weight: 700;
+}
+
 // Payment Details
 .payment {
   width: 100%;
@@ -613,21 +650,23 @@
   background: #fff;
   margin-top: 3px;
 
-  .items{
-    .row1{
+  .items {
+    .row1 {
       display: flex;
       justify-content: space-between;
       font-size: 13px;
       margin-bottom: 3px;
-      p{
+
+      p {
         color: #7e8083;
       }
     }
   }
-  
+
   ion-card-header {
     flex-direction: column;
   }
+
   .title {
     display: flex;
     float: left;
@@ -649,22 +688,26 @@
       background: #fff;
     }
   }
+
   .payment-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 10px;
+
     .payment-heading {
       text-align: left;
       flex: 0 0 50%;
       font-weight: 500;
       color: #7E8083;
     }
+
     .payment-value {
       text-align: right;
       flex: 0 0 50%;
     }
   }
+
   .head {
     float: left;
     display: inline;
@@ -789,17 +832,20 @@
       display: grid;
       grid-template-columns: 19% 65% 19%;
       padding: 19px 13px 5px;
+
       .img-div {
         width: 50px;
         height: 50px;
         background: #f5f5f5;
         border-radius: 58px;
         border: 1px solid #c7c4c4;
+
         img {
           padding-top: 12px;
           padding-left: 12px;
         }
       }
+
       .service-det {
         .service-head {
           h3 {
@@ -828,11 +874,14 @@
           }
         }
       }
+
       .rating {
+
         // border-bottom: 1px solid #d7d7d7;
         p {
           margin-bottom: 5px;
         }
+
         img {
           margin-top: -5px;
         }
@@ -893,11 +942,14 @@
 ion-card {
   --background: #f2ebf5;
   --color: #5e0080;
+  width: 100%;
+  --padding: 0;
   border-radius: 12px;
 }
 
 input {
-  margin: 0.4rem;
+  margin: 10px 0;
+  padding: 9px 12px;
 }
 
 .reschedule-container {
@@ -918,6 +970,7 @@ input {
     border: 1px solid var(--primary, #181f29);
     background: #fff;
   }
+
   .cancel-button {
     width: 48%;
     display: flex;
@@ -936,6 +989,7 @@ input {
 .pictures-div {
   padding: 0 10px 16px;
   background: white;
+
   h3 {
     color: #181f29;
     font-family: Lato;
@@ -1104,20 +1158,22 @@ ion-content {
     }
   }
 }
+
 li.pargraph {
   font-size: 12px;
   font-weight: 400;
-  line-height: 14px;
-  letter-spacing: 0em;
+  padding: 5px;
   text-align: left;
   color: #5e0080;
 }
+
 .row-discarded {
   display: grid;
   grid-template-columns: 80% 20%;
   padding: 19px 12px 19px 12px;
   margin: 5px 0px;
   background: #ffe1e3;
+
   p {
     font-family: Lato;
     font-size: 12px;
@@ -1141,6 +1197,7 @@ li.pargraph {
       margin-bottom: 6px;
       margin-top: 8px;
     }
+
     small {
       font-family: Lato;
       font-size: 12px;
@@ -1167,6 +1224,7 @@ li.pargraph {
       justify-content: space-evenly;
       padding: 0 77px;
       margin-bottom: 14px;
+
       i {
         font-size: 26px;
       }
@@ -1191,6 +1249,7 @@ li.pargraph {
         font-weight: 700;
         border-radius: 12px;
       }
+
       .skipbtn {
         background: white;
         color: #181f29;
@@ -1206,40 +1265,46 @@ li.pargraph {
   }
 }
 
-.success{
+.success {
   padding: 7px;
-    background: #DFF3D7;
-    color: #579540;
-    border-radius: 10px;
+  background: #DFF3D7;
+  color: #579540;
+  border-radius: 10px;
 }
-.faild{
+
+.faild {
   padding: 7px;
   background: #FFD2D2;
   color: #E82C2C;
   border-radius: 10px;
 }
-.paylater{
+
+.paylater {
   padding: 7px;
   background: #FFDFD2;
   color: #FF820F;
   border-radius: 10px;
 }
-.inProgressRefund{
+
+.inProgressRefund {
   padding: 7px;
   background: #CAE5FF;
   color: #007EDA !important;
   border-radius: 10px;
 }
-.payment-value{
+
+.payment-value {
   width: 50%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .payment-details-div {
   border: 1px solid var(--Line, #e9e9e9);
   background: #fff;
   margin-bottom: 13px;
+
   .heading {
     color: var(--primary, #181f29);
     font-family: Lato;
@@ -1280,5 +1345,23 @@ li.pargraph {
     padding: 4px 8px;
     color: #579540;
     font-size: 10px;
+  }
+}
+
+ion-modal {
+  --width: 100%;
+}
+
+@media only screen and (min-width: 1024px) {
+  .agent-not-assigned {
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+
+  ion-modal {
+    --width: 50%;
   }
 }

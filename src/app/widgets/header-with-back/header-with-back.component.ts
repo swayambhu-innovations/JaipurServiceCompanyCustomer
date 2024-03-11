@@ -12,6 +12,7 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
 export class HeaderWithBackComponent  implements OnInit {
   @Input() title!:string;
   @Input() showNotificationIcon:boolean = false;
+  @Input() showHomeIcon:boolean = false;
   @Input() showBackButton:boolean = true;
 
   notifications: any[] = [];
@@ -29,6 +30,9 @@ export class HeaderWithBackComponent  implements OnInit {
   }
   notification(){
     this.router.navigate(['authorized/notification']);
+  }
+  goToHome(){
+    this.router.navigate(['authorized/home']);
   }
   onBackButtonClick(){
     const previousUrlArray = this._navigationBack.getPreviourUrl();
