@@ -6,7 +6,7 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'landing',
+    redirectTo: 'unauthorized/login',
     pathMatch: 'full'
   },
   {
@@ -20,12 +20,7 @@ const routes: Routes = [
   {
     path: 'no-internet',
     loadChildren: () => import('./no-internet/no-internet.module').then( m => m.NoInternetPageModule)
-  },
-  {
-    path: 'landing',
-    loadChildren: () => import('./landing-page/landing-page.module').then( m => m.LandingPagePageModule)
   }
-
 ];
 
 @NgModule({
