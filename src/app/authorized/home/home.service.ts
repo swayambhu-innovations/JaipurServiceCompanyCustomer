@@ -20,7 +20,7 @@ import { CartService } from '../cart/cart.service';
   providedIn: 'root',
 })
 export class HomeService {
-  public showBanner : boolean = false;
+  public showBanner: boolean = false;
   mainCategories: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>([]);
   refetchCategories: Subject<void> = new Subject<void>();
   isCatalogueLoaded: boolean = false;
@@ -106,11 +106,11 @@ export class HomeService {
           allowReviews: service.data()['allowReviews'],
           taxes: service.data()['taxes'],
           tags: service.data()['tags'],
-          rating:service.data()['rating'],
+          rating: service.data()['rating'],
           taxType: service.data()['taxType'],
           discounts: service.data()['discounts'],
           variants: service.data()['variants'],
-          averageRating:service.data()['averageRating'],
+          averageRating: service.data()['averageRating'],
         };
       })
     );
@@ -187,19 +187,39 @@ export class HomeService {
   }
 
   showMobileMiddle() {
-    return getDoc(doc(this.firestore, 'customer-settings', 'mobile-banners' , 'sections' , 'middle'));
+    return getDoc(doc(this.firestore, 'customer-settings', 'mobile-banners', 'sections', 'middle'));
   }
 
   showMobileTop() {
-    return getDoc(doc(this.firestore, 'customer-settings', 'mobile-banners' , 'sections' , 'top'));
+    return getDoc(doc(this.firestore, 'customer-settings', 'mobile-banners', 'sections', 'top'));
   }
 
   getTopBanner() {
-    return getDocs(collection(this.firestore , 'customer-settings', 'mobile-banners' , 'sections' , 'top','banners'))
+    return getDocs(collection(this.firestore, 'customer-settings', 'mobile-banners', 'sections', 'top', 'banners'))
   }
 
   getMiddleBanner() {
-    return getDocs(collection(this.firestore , 'customer-settings', 'mobile-banners' , 'sections' , 'middle','banners'))
+    return getDocs(collection(this.firestore, 'customer-settings', 'mobile-banners', 'sections', 'middle', 'banners'))
+  }
+
+  showDesktopBanner() {
+    return getDoc(doc(this.firestore, 'customer-settings', 'desktop-banners'));
+  }
+
+  showDesktopMiddle() {
+    return getDoc(doc(this.firestore, 'customer-settings', 'desktop-banners', 'sections', 'middle'));
+  }
+
+  showDesktopTop() {
+    return getDoc(doc(this.firestore, 'customer-settings', 'desktop-banners', 'sections', 'top'));
+  }
+
+  getDesktopTopBanner() {
+    return getDocs(collection(this.firestore, 'customer-settings', 'desktop-banners', 'sections', 'top', 'banners'))
+  }
+
+  getDesktopMiddleBanner() {
+    return getDocs(collection(this.firestore, 'customer-settings', 'desktop-banners', 'sections', 'middle', 'banners'))
   }
 
 }

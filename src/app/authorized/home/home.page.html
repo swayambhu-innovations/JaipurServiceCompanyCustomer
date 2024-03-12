@@ -1,5 +1,7 @@
-<app-home-header [MAX_ADDRESS_LINE_LENGTH]="30"
-  [showUnreadNotification]="unreadNotifications.length > 0"></app-home-header>
+<app-home-header
+  [MAX_ADDRESS_LINE_LENGTH]="30"
+  [showUnreadNotification]="unreadNotifications.length > 0"
+></app-home-header>
 
 <ion-content #content class="ion-padding home-main" [fullscreen]="true">
   <button id="search" routerLink="../search">
@@ -9,7 +11,10 @@
     </span>
   </button>
 
-  <div class="banner-container" [hidden]="!bannerObject.showBanner || !bannerObject.showTop">
+  <div
+    class="banner-container"
+    [hidden]="!bannerObject.showBanner || !bannerObject.showTop"
+  >
     <div #swiperContainer2 class="swiper-container">
       <div class="swiper-wrapper">
         <ng-container *ngIf="topBanner.length > 0">
@@ -24,8 +29,29 @@
     </div>
   </div>
 
-  <div *ngIf="upcomingBookings.length > 0" class="recent-container"
-    [ngClass]="{'no-booking': !(bookingService.bookingsSubject && upcomingBookings.length > 0) }">
+  <div
+    class="banner-container"
+    [hidden]="!desktopBannerObject.showBanner || !desktopBannerObject.showTop"
+  >
+    <div #swiperContainer2 class="swiper-container">
+      <div class="swiper-wrapper">
+        <ng-container *ngIf="topBanner.length > 0">
+          <div class="swiper-slide" *ngFor="let items of topBanner">
+            <a href="{{items?.redirectUrl}}">
+              <img src="{{items?.imageUrl}}" alt="" />
+            </a>
+          </div>
+        </ng-container>
+      </div>
+      <div class="swiper-pagination swiper-pagination2"></div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="upcomingBookings.length > 0"
+    class="recent-container"
+    [ngClass]="{'no-booking': !(bookingService.bookingsSubject && upcomingBookings.length > 0) }"
+  >
     <ion-label class="label">Upcoming Booking</ion-label>
 
     <div *ngIf="mobileView" class="banner-container">
@@ -33,7 +59,10 @@
         <div class="swiper-wrapper recent-container-details">
           <ng-container *ngIf="upcomingBookings.length > 0">
             <div class="swiper-slide" *ngFor="let data of upcomingBookings">
-              <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
+              <ion-grid
+                width="100"
+                routerLink="../booking/booking-details/{{data.id}}"
+              >
                 <ion-row class="row-1">
                   <ion-col>
                     <ion-label class="row-1label">
@@ -44,7 +73,10 @@
                     <p>{{data.billing.grandTotal | currency:'INR'}}</p>
                   </ion-col>
                   <ion-col class="row-1-col-2">
-                    <p class="body allotment {{data?.stage}}" style="height: 38px; display: flex; align-items: center">
+                    <p
+                      class="body allotment {{data?.stage}}"
+                      style="height: 38px; display: flex; align-items: center"
+                    >
                       {{ utils[data?.stage || 'allotmentPending'].text }}
                     </p>
                   </ion-col>
@@ -60,8 +92,10 @@
                     <h3>{{tConvert(data.timeData.end)}}</h3>
                   </ion-col>
                   <ion-col>
-                    <span>{{data.timeSlot?.date?.toDate() | date:
-                      'longDate'}}</span>
+                    <span
+                      >{{data.timeSlot?.date?.toDate() | date:
+                      'longDate'}}</span
+                    >
                     <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
                   </ion-col>
                 </ion-row>
@@ -75,8 +109,14 @@
 
     <div class="upcoming-slide" *ngIf="isWebModalOpen">
       <ng-container *ngIf="upcomingBookings.length > 0">
-        <div class="booking-card recent-container-details" *ngFor="let data of upcomingBookings">
-          <ion-grid width="100" routerLink="../booking/booking-details/{{data.id}}">
+        <div
+          class="booking-card recent-container-details"
+          *ngFor="let data of upcomingBookings"
+        >
+          <ion-grid
+            width="100"
+            routerLink="../booking/booking-details/{{data.id}}"
+          >
             <ion-row class="row-1">
               <ion-col>
                 <ion-label class="row-1label">
@@ -87,7 +127,10 @@
                 <p>{{data.billing.grandTotal | currency:'INR'}}</p>
               </ion-col>
               <ion-col class="row-1-col-2">
-                <p class="body allotment {{data?.stage}}" style="height: 38px; display: flex; align-items: center">
+                <p
+                  class="body allotment {{data?.stage}}"
+                  style="height: 38px; display: flex; align-items: center"
+                >
                   {{ utils[data?.stage || 'allotmentPending'].text }}
                 </p>
               </ion-col>
@@ -103,7 +146,9 @@
                 <h3>{{tConvert(data.timeData.end)}}</h3>
               </ion-col>
               <ion-col>
-                <span>{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span>
+                <span
+                  >{{data.timeSlot?.date?.toDate() | date: 'longDate'}}</span
+                >
                 <h3>{{data.timeSlot?.date?.toDate() | date: 'EEEE'}}</h3>
               </ion-col>
             </ion-row>
@@ -157,35 +202,26 @@
         </div>
         <!-- <h3>{{mainCategory.name}}</h3> -->
         <img class="banner" [src]="mainCategory.image" alt="" />
-        <!-- <div class="container">
-          <div class="heading">
-            <div class="col-9">
-              <h4>Services</h4>
-            </div>
-            <div class="see-all-button">
-              <span routerLink="../sub-Categories/{{mainCategory.id}}">See All</span>
-              <img src="assets/icon/rightArrow/rightArrow.svg">
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="servicecontainer mt-2">
-          <div class="row serviceRowOverflow">
-            <div class="col text-center" *ngFor="let subCategory of mainCategory.subCategories">
-              <div class="service-det" routerLink="../services/{{mainCategory.id}}/{{subCategory.id}}">
-                <img alt="" src="{{subCategory.image}}" />
-                <h3>{{subCategory.name}}</h3>
-              </div>
-            </div>
-          </div>
-        </div> -->
 
         <div class="services">
           <div class="services-cont">
-            <ng-container *ngFor="let subCategory of mainCategory.subCategories;index as index">
-              <ng-container *ngIf="index<3">
-                <div class="service-det" *ngIf="subCategory.enabled">
-                  <div class="det" (click)="openSubCategory(mainCategory.id , subCategory.id)">
-                    <img alt="" src="{{subCategory.image}}" />
+            <ng-container
+              *ngFor="let subCategory of mainCategory.subCategories; let i = index;"
+            >
+              <ng-container *ngIf="i<3">
+                <div
+                  class="service-det"
+                  title="{{subCategory.name}}"
+                  *ngIf="subCategory.enabled"
+                >
+                  <div
+                    class="det"
+                    (click)="openSubCategory(mainCategory.id , subCategory.id)"
+                  >
+                    <img
+                      alt="{{subCategory.name}}"
+                      src="{{subCategory.image}}"
+                    />
                   </div>
                   <h3>{{subCategory.name}}</h3>
                 </div>
@@ -197,7 +233,24 @@
     </div>
   </ng-container>
 
-  <div class="banner-container" [hidden]="!bannerObject.showBanner || !bannerObject.showMiddle">
+  <div
+    class="banner-container"
+    [hidden]="!bannerObject.showBanner || !bannerObject.showMiddle"
+  >
+    <div #swiperContainer class="swiper-container">
+      <div class="swiper-wrapper">
+        <div *ngFor="let items of middleBanner" class="swiper-slide">
+          <img style="width: 100%" src="{{items?.imageUrl}}" alt="" />
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+
+  <div
+    class="banner-container"
+    [hidden]="!desktopBannerObject.showBanner || !desktopBannerObject.showMiddle"
+  >
     <div #swiperContainer class="swiper-container">
       <div class="swiper-wrapper">
         <div *ngFor="let items of middleBanner" class="swiper-slide">
@@ -280,7 +333,10 @@
   <app-footer-web class="footer-div"></app-footer-web>
 </ion-content>
 
-<ion-modal [isOpen]="isNotServiceableModalOpen" (willDismiss)="onNotServiceableDismiss($event)">
+<ion-modal
+  [isOpen]="isNotServiceableModalOpen"
+  (willDismiss)="onNotServiceableDismiss($event)"
+>
   <ng-template>
     <ion-content class="ion-padding">
       <div class="no-catalogue-center-container">
