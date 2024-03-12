@@ -173,9 +173,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
               });
             }
           });
-        }
-
-        else {
+        } else {
           //fetching desktop banners
           this.homeService.showDesktopBanner().then((show) => {
             this.desktopBannerObject.showBanner = show.data()?.['show'];
@@ -217,35 +215,37 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
               this.homeService.showDesktopMiddle().then((middle) => {
                 this.desktopBannerObject.showMiddle = middle.data()?.['show'];
                 if (this.desktopBannerObject.showMiddle) {
-                  this.homeService.getDesktopMiddleBanner().then((middleBan) => {
-                    this.middleBanner = middleBan.docs
-                      .map((item) => {
-                        return { ...item.data(), id: item.id };
-                      })
-                      .filter((item) => item?.['show']);
-                    if (this.middleBanner.length > 0) {
-                      if (this.swiper) {
-                        this.swiper.destroy();
-                      }
-                      this.swiper = new Swiper(
-                        this.swiperContainer.nativeElement,
-                        {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
-                          pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                          },
-                          observer: true,
-                          observeParents: true,
-                          centeredSlides: true,
-                          autoplay: {
-                            delay: 2000,
-                          },
+                  this.homeService
+                    .getDesktopMiddleBanner()
+                    .then((middleBan) => {
+                      this.middleBanner = middleBan.docs
+                        .map((item) => {
+                          return { ...item.data(), id: item.id };
+                        })
+                        .filter((item) => item?.['show']);
+                      if (this.middleBanner.length > 0) {
+                        if (this.swiper) {
+                          this.swiper.destroy();
                         }
-                      );
-                    }
-                  });
+                        this.swiper = new Swiper(
+                          this.swiperContainer.nativeElement,
+                          {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                            pagination: {
+                              el: '.swiper-pagination',
+                              clickable: true,
+                            },
+                            observer: true,
+                            observeParents: true,
+                            centeredSlides: true,
+                            autoplay: {
+                              delay: 2000,
+                            },
+                          }
+                        );
+                      }
+                    });
                 }
               });
             }
@@ -282,6 +282,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.systeminfo();
     this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;
+      console.log(this.categories);
       if (this.dataProvider.mainCategoriesLoaded) {
         setTimeout(() => {
           this.dataProvider.isPageLoaded$.next('loaded');
@@ -367,7 +368,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         .filter(
           (area) =>
             area['geoProofingLocality'] ===
-            this.currentAddress?.geoProofingLocality && area.serviceCatalogue
+              this.currentAddress?.geoProofingLocality && area.serviceCatalogue
         );
       if (areas.length > 0) {
         this.homeService.fetchData(areas[0].serviceCatalogue);
@@ -402,10 +403,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ionViewDidLeave() { }
+  ionViewDidLeave() {}
 
-  ngAfterViewInit() { }
-  ngOnDestroy() { }
+  ngAfterViewInit() {}
+  ngOnDestroy() {}
 
   isFutureDate(date: Date | undefined) {
     if (!date) return false;
@@ -560,7 +561,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           return `data:image/${fileType};base64,${readFile.data}`;
         });
       })
-      .finally(() => { });
+      .finally(() => {});
   }
 
   async saveImage(url: string, path: string | undefined) {
@@ -570,7 +571,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       }),
       mode: 'no-cors',
     })
-      .then((response) => { })
+      .then((response) => {})
       .catch((error) => {
         console.log('errror.....', error);
       });
@@ -594,7 +595,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     return savedFile;
   }
 
-  onNotServiceableDismiss(event: any) { }
+  onNotServiceableDismiss(event: any) {}
 
   onGotItClick() {
     this.isNotServiceableModalOpen = false;

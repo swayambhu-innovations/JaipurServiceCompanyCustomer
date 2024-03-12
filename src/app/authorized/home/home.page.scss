@@ -305,8 +305,10 @@ ion-thumbnail {
 
     .Imgcontainer {
       border-radius: 46px;
-      background: var(--Primary-Colour,
-          linear-gradient(101deg, #014868 0%, #001e42 45.1%, #451338 98%));
+      background: var(
+        --Primary-Colour,
+        linear-gradient(101deg, #014868 0%, #001e42 45.1%, #451338 98%)
+      );
       width: 55px;
       height: 54px;
       display: flex;
@@ -562,7 +564,7 @@ homepage.scss .serviceCategory {
 .services {
   .services-cont {
     display: flex;
-    // overflow: scroll;
+    overflow: auto;
     justify-content: space-around;
     gap: 10px;
 
@@ -572,7 +574,7 @@ homepage.scss .serviceCategory {
         justify-content: center;
 
         img {
-          width: 100%;
+          width: 100px;
           height: 100px;
           object-fit: cover;
           border-radius: 16px;
@@ -589,6 +591,10 @@ homepage.scss .serviceCategory {
         line-height: normal;
         letter-spacing: -0.14px;
         margin: 7px 0px;
+        width: 70px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
