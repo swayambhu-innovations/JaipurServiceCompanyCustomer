@@ -16,16 +16,16 @@ import { ServiceDetailPage } from '../service-detail/service-detail.page';
   styleUrls: ['./services.page.scss'],
 })
 export class ServicesPage implements OnInit {
-  @Input("subCategoryId") subCategoryId;
+  @Input('subCategoryId') subCategoryId;
   mainCategories: any;
   services: Service[] = [];
-  mainCatId = "";
-  subCatId = "";
+  mainCatId = '';
+  subCatId = '';
   matchingSubCategory: SubCategory | undefined;
   matchingMainCategory: Category | undefined;
 
   //modal
-  deviceInfo: any
+  deviceInfo: any;
   isModalOpen: boolean = false;
   mobileView: boolean = false;
   @ViewChild(IonModal) modal: IonModal;
@@ -36,8 +36,7 @@ export class ServicesPage implements OnInit {
     private router: Router,
     private viewController: ModalController,
     private modalController: ModalController
-  ) {
-  }
+  ) {}
 
   async ngOnInit() {
     await (async () => {
@@ -48,11 +47,11 @@ export class ServicesPage implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       this.mainCatId = params['mainCategoryId'];
-      this.subCatId = params['subCategoryId'].trim()
-    })
+      this.subCatId = params['subCategoryId'].trim();
+    });
 
     this.matchingMainCategory = this.mainCategories.find(
-      (mainCategory: { id: string; }) => mainCategory.id == this.mainCatId
+      (mainCategory: { id: string }) => mainCategory.id == this.mainCatId
     );
     if (!this.matchingMainCategory) {
       this.router.navigate(['/authorized/home']);
@@ -73,24 +72,25 @@ export class ServicesPage implements OnInit {
     this.services = sortedSubCategory;
   }
 
-
   getJobDuration(jobDurationInMin) {
     if (jobDurationInMin < 60) {
-      return jobDurationInMin + " Minutes"
-    }
-    else {
+      return jobDurationInMin + ' Minutes';
+    } else {
       if (jobDurationInMin % 60 == 0) {
-        return (jobDurationInMin / 60) + " Hours";
+        return jobDurationInMin / 60 + ' Hours';
+      } else {
+        return (
+          Math.floor(jobDurationInMin / 60) +
+          ' Hours ' +
+          Math.floor(jobDurationInMin % 60) +
+          ' Minutes'
+        );
       }
-      else {
-        return (jobDurationInMin / 60) + " Hours " + (jobDurationInMin % 60 == 0) + " Minutes"
-      }
-
     }
   }
 
   back() {
-    this.viewController.dismiss()
+    this.viewController.dismiss();
   }
 
   //modal
@@ -104,17 +104,18 @@ export class ServicesPage implements OnInit {
   }
 
   systeminfo() {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isModalOpen = true;
       this.mobileView = false;
-    }
-    else if (this.dataProvider.deviceInfo.deviceType === "mobile") {
+    } else if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
       this.isModalOpen = false;
       this.mobileView = true;
     }
   }
 
   async openCartFunctionWithSubId(mainCatId, subCatId, resultId) {
-    this.router.navigate([`/authorized/service-detail/${mainCatId}/${subCatId}/${resultId}`]);
+    this.router.navigate([
+      `/authorized/service-detail/${mainCatId}/${subCatId}/${resultId}`,
+    ]);
   }
 }
