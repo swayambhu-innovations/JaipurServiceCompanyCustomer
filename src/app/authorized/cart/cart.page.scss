@@ -298,7 +298,7 @@ ion-content {
 .got-it-button {
   width: 90%;
   margin: 0 5%;
-  background-color: #1a1d1f;
+  background-color: grey;
   color: #ffffff;
   border: none;
   padding: 16px 20px;
@@ -310,6 +310,27 @@ ion-content {
 }
 .select-address-button {
   margin-bottom: 20px;
+}
+
+.danger {
+  color: black;
+  background-color: rgb(197, 194, 194);
+  font-size: 16px !important;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  margin: 10px 5%;
+  width: 90%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px 20px;
+
+  p{
+    color: black !important;
+  }
+}
+
+.btn-active {
+  background-color: #1a1d1f !important;
 }
 
 @keyframes slideInRight {

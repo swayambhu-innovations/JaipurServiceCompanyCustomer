@@ -52,6 +52,8 @@ export class CartPage implements OnInit {
   isRecommended: boolean = false;
   couponCount: number = 0;
 
+  minPriceFromDB: number = 0;
+
   deviceInfo: any;
   isWebModalOpen: boolean = false;
   mobileView: boolean = true;
@@ -332,6 +334,10 @@ export class CartPage implements OnInit {
       } else {
         this.selectedBooking = undefined;
       }
+    });
+
+    this.cartService.getMinPrice().then((res: any) => {
+      this.minPriceFromDB = res.data().minPrice;
     });
   }
 
