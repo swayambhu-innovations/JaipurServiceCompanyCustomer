@@ -61,14 +61,22 @@ export class SearchPage implements OnInit {
     this.resultsFetched = false;
   }
 
+  ionViewWillLeave() {
+    this.results = [];
+  }
+
   ngOnInit() {
     this.historyTerms = this.getFromHistory();
     this.dataProvider.mainCategories.subscribe((mainCategory) => {
       let services: Service[] = [];
       mainCategory.forEach((mainCategory) => {
         mainCategory.subCategories.forEach((subCategory: SubCategory) => {
-          subCategory.services.forEach((service: Service) => {
-            services.push({ ...service });
+          subCategory.services.forEach((service: any) => {
+            services.push({
+              ...service,
+              mainCatId: mainCategory.id,
+              subCatId: subCategory.id,
+            });
           });
         });
       });
@@ -93,12 +101,10 @@ export class SearchPage implements OnInit {
   }
 
   openService(service: any) {
-    let mainCatId = '';
     let subCatId = '';
 
     this.dataProvider.mainCategories.subscribe((mainCategory) => {
       mainCategory.forEach((mainCategory) => {
-        mainCatId = mainCategory.id;
         let subCat = mainCategory.subCategories.filter(
           (subCategory: SubCategory) => {
             let serviceFind = subCategory.services.filter(
@@ -111,10 +117,10 @@ export class SearchPage implements OnInit {
           subCatId = subCat[0].id;
         }
       });
-      if (mainCatId && subCatId) {
+      if (service?.mainCatId && subCatId) {
         this.route.navigate([
           '/authorized/service-detail/' +
-            mainCatId +
+            service?.mainCatId +
             '/' +
             subCatId +
             '/' +

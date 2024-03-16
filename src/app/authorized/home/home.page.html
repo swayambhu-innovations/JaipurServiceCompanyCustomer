@@ -33,18 +33,22 @@
     class="banner-container"
     [hidden]="!desktopBannerObject.showBanner || !desktopBannerObject.showTop"
   >
-    <div #swiperContainer2 class="swiper-container">
-      <div class="swiper-wrapper">
-        <ng-container *ngIf="topBanner.length > 0">
-          <div class="swiper-slide" *ngFor="let items of topBanner">
-            <a href="{{items?.redirectUrl}}">
-              <img src="{{items?.imageUrl}}" alt="" />
-            </a>
-          </div>
-        </ng-container>
-      </div>
-      <div class="swiper-pagination swiper-pagination2"></div>
-    </div>
+    <swiper-container
+      *ngIf="topBanner.length > 0"
+      pagination="true"
+      slides-per-view="1"
+      speed="800"
+      delay="1000"
+      autoplay="true"
+      loop="true"
+      css-mode="true"
+    >
+      <swiper-slide *ngFor="let items of topBanner">
+        <a href="{{items?.redirectUrl}}">
+          <img src="{{items?.imageUrl}}" alt="" />
+        </a>
+      </swiper-slide>
+    </swiper-container>
   </div>
 
   <div
@@ -254,14 +258,22 @@
     class="banner-container"
     [hidden]="!desktopBannerObject.showBanner || !desktopBannerObject.showMiddle"
   >
-    <div #swiperContainer class="swiper-container">
-      <div class="swiper-wrapper">
-        <div *ngFor="let items of middleBanner" class="swiper-slide">
-          <img style="width: 100%" src="{{items?.imageUrl}}" alt="" />
-        </div>
-      </div>
-      <div class="swiper-pagination"></div>
-    </div>
+    <swiper-container
+      *ngIf="middleBanner.length > 0"
+      pagination="true"
+      slides-per-view="1"
+      speed="800"
+      delay="1000"
+      autoplay="true"
+      loop="true"
+      css-mode="true"
+    >
+      <swiper-slide *ngFor="let items of middleBanner">
+        <a href="{{items?.redirectUrl}}">
+          <img src="{{items?.imageUrl}}" alt="" />
+        </a>
+      </swiper-slide>
+    </swiper-container>
   </div>
 
   <div class="client-section">

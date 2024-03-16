@@ -7,34 +7,37 @@
   <ion-content [fullscreen]="true">
     <div class="container" id="container">
       <div class="row position-relative swiper-main">
-        <div #swiperContainerServiceDetail class="swiper-container">
-          <div class="swiper-wrapper">
-            <div
-              *ngFor="let image of this.matchingService?.image"
-              class="swiper-slide"
+        <swiper-container
+          pagination="true"
+          slides-per-view="1"
+          speed="800"
+          delay="1000"
+          autoplay="true"
+          loop="true"
+          css-mode="true"
+        >
+          <swiper-slide *ngFor="let image of this.matchingService?.image">
+            <img
+              style="width: 100%"
+              [src]="image"
+              [alt]="matchingService?.name"
+            />
+          </swiper-slide>
+
+          <swiper-slide *ngIf="this.matchingService?.video">
+            <video
+              class="d-block w-100"
+              #videoContainer
+              controls
+              autoplay
+              preload="auto"
+              muted
+              width="100%"
             >
-              <img style="width: 100%" [src]="image" alt="" />
-            </div>
-            <div class="swiper-slide" *ngIf="this.matchingService?.video">
-              <ion-content>
-                <video
-                  class="d-block w-100"
-                  #videoContainer
-                  controls
-                  preload="auto"
-                  muted
-                  width="100%"
-                >
-                  <source
-                    src="{{this.matchingService?.video}}"
-                    type="video/mp4"
-                  />
-                </video>
-              </ion-content>
-            </div>
-          </div>
-          <div class="swiper-pagination-service-detail swiper-pagination"></div>
-        </div>
+              <source src="{{this.matchingService?.video}}" type="video/mp4" />
+            </video>
+          </swiper-slide>
+        </swiper-container>
       </div>
 
       <div class="row service-details">
@@ -352,34 +355,33 @@
         *ngIf="this.matchingService?.image || this.matchingService?.video"
         class="row position-relative swiper-main"
       >
-        <div #swiperContainerServiceDetail class="swiper-container">
-          <div class="swiper-wrapper">
-            <div
-              *ngFor="let image of this.matchingService?.image"
-              class="swiper-slide"
+        <swiper-container
+          pagination="true"
+          slides-per-view="1"
+          speed="800"
+          delay="1000"
+          autoplay="true"
+          loop="true"
+          css-mode="true"
+          pauseOnMouseEnter="true"
+        >
+          <swiper-slide *ngIf="this.matchingService?.video">
+            <video
+              #videoContainer
+              controls
+              autoplay
+              preload="auto"
+              muted
+              width="100%"
             >
-              <img style="width: 100%" [src]="image" alt="" />
-            </div>
-            <div class="swiper-slide" *ngIf="this.matchingService?.video">
-              <ion-content>
-                <video
-                  class="d-block w-100"
-                  #videoContainer
-                  controls
-                  preload="auto"
-                  muted
-                  width="100%"
-                >
-                  <source
-                    src="{{this.matchingService?.video}}"
-                    type="video/mp4"
-                  />
-                </video>
-              </ion-content>
-            </div>
-          </div>
-          <div class="swiper-pagination-service-detail swiper-pagination"></div>
-        </div>
+              <source src="{{this.matchingService?.video}}" type="video/mp4" />
+            </video>
+          </swiper-slide>
+
+          <swiper-slide *ngFor="let image of this.matchingService?.image">
+            <img [src]="image" [alt]="matchingService?.name" />
+          </swiper-slide>
+        </swiper-container>
       </div>
 
       <div class="row service-details">
