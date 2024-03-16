@@ -282,16 +282,13 @@ ion-button {
 }
 
 .my-class {
-
   ion-select::part(content) {
-    box-shadow: 0px -2px 6px 1px rgba(22, 22, 22, 0.10);
+    box-shadow: 0px -2px 6px 1px rgba(22, 22, 22, 0.1);
   }
 
   // ion-padding{
   //   border-top: 2px solid #aaa6a630;
   // }
-
-
 }
 
 .cart-details {
@@ -611,36 +608,8 @@ ion-button {
   }
 }
 
-
-
 .services-button-view.services-button {
   height: auto;
-}
-
-.swiper-main {
-  padding-bottom: 35px;
-
-  swiper-container {
-    width: 100%;
-  }
-
-  swiper-slide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 32px;
-
-    a {
-      width: 100%;
-    }
-
-    img {
-      width: 100%;
-      // box-shadow: -1px 11px 13px -6px red;
-      border-radius: 17px;
-    }
-  }
 }
 
 .no-rating {
@@ -652,16 +621,6 @@ ion-button {
   height: 280px;
   max-height: 280px;
   overflow: auto;
-}
-
-.cross-div {
-  margin-right: 15px;
-  cursor: pointer;
-
-  img {
-    width: 22px;
-    object-fit: cover;
-  }
 }
 
 .leftArrow {
@@ -685,11 +644,33 @@ ion-button {
 }
 
 @media only screen and (min-width: 1024px) {
-  .abs-cart-button {
-    position: absolute;
-  }
+  .main-container {
+    margin-top: -2rem !important;
 
-  .coupon {
-    padding: 15px 82px;
+    swiper-slide {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+      scroll-behavior: smooth;
+
+      img,
+      video {
+        object-fit: contain;
+        width: 100%;
+      }
+    }
+
+    .abs-cart-button {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50% !important;
+    }
+
+    .coupon {
+      padding: 15px 82px;
+    }
   }
 }

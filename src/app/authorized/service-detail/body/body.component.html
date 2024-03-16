@@ -1,22 +1,22 @@
 <main id="bodyData">
   <ng-container *ngFor="let block of blocks">
     <!-- create a block compile for all block type jus like this -->
-    <p *ngIf="block.type=='paragraph'" class="para">
+    <p *ngIf="block.type==='paragraph'" class="para">
       {{block.data.text | removeExtraBr}}
     </p>
-    <h1 *ngIf="block.type=='header'">
+    <h1 *ngIf="block.type==='header'">
       {{block.data.text | removeExtraBr}}
     </h1>
-    <ul *ngIf="block.type=='list'">
+    <ul *ngIf="block.type==='list'">
       <li *ngFor="let item of block.data.items">
         {{item | removeExtraBr}}
       </li>
     </ul>
-    <blockquote *ngIf="block.type=='quote'">
+    <blockquote *ngIf="block.type==='quote'">
       <p>{{block.data.text | removeExtraBr}}</p>
       <footer>{{block.data.caption | removeExtraBr}}</footer>
     </blockquote>
-    <ul *ngIf="block.type=='checklist'">
+    <ul *ngIf="block.type==='checklist'">
       <li *ngFor="let item of block.data.items">
         <input type="checkbox" [checked]="item.checked" disabled />
         <span>{{item.text | removeExtraBr}}</span>

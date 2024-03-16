@@ -1,10 +1,14 @@
-<app-header1
-  [name]="this.dataProvider.currentBooking?.payment?.status === 'faild' ? 'Order Failed' : 'Order Placed'"></app-header1>
-
+<app-header-with-back
+  [title]="this.dataProvider.currentBooking?.payment?.status === 'faild' ? 'Order Failed' : 'Order Placed'"
+  [showNotificationIcon]="false"
+  [orderPlaced]="true"
+></app-header-with-back>
 <ion-content>
   <div id="mobile-view" class="container px-0">
-    <div class="first-section"
-      *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
+    <div
+      class="first-section"
+      *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'"
+    >
       <section>
         <img [src]="successLogo" alt="" />
 
@@ -14,8 +18,10 @@
         <p>Order ID: #{{this.dataProvider.currentBooking?.id}}</p>
       </section>
     </div>
-    <div class="payment-faild"
-      *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.payment.status === 'faild'">
+    <div
+      class="payment-faild"
+      *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.payment.status === 'faild'"
+    >
       <section>
         <img [src]="failiarLogo" alt="" />
         <h2>Payment Failed. Booking Cancelled.</h2>
@@ -27,12 +33,17 @@
       <div class="row-1">
         <p class="head">Services</p>
       </div>
-      <ng-container *ngFor="let service of this.dataProvider.currentBooking?.services">
+      <ng-container
+        *ngFor="let service of this.dataProvider.currentBooking?.services"
+      >
         <div class="order-placed-div" *ngFor="let variant of service.variants">
           <div class="img-div">
             <div class="img-circle-div">
-              <img src="{{this.dataProvider.currentBooking?.mainCategory?.icon}}" alt=""
-                style="padding-top: 12px; padding-left: 12px" />
+              <img
+                src="{{this.dataProvider.currentBooking?.mainCategory?.icon}}"
+                alt=""
+                style="padding-top: 12px; padding-left: 12px"
+              />
             </div>
           </div>
           <div class="category-det-div">
@@ -40,12 +51,17 @@
             <span>{{variant.name}}</span>
           </div>
           <div class="price-div">
-            <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' :
-              '1.0-0' }}</span>
+            <span
+              >{{variant.billing.discountedPrice | currency:'INR' : 'symbol' :
+              '1.0-0' }}</span
+            >
           </div>
         </div>
       </ng-container>
-      <div class="grand-total-price" *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal">
+      <div
+        class="grand-total-price"
+        *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal"
+      >
         Total amount - {{this.dataProvider.currentBooking?.billing?.grandTotal |
         currency:'INR'}}
       </div>
@@ -61,8 +77,10 @@
         </section>
         <section style="margin-left: 10px">
           <p>Date</p>
-          <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() |
-            date:'longDate'}}</span><br />
+          <span class="head"
+            >{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() |
+            date:'longDate'}}</span
+          ><br />
         </section>
       </div>
       <div class="row-2">
@@ -71,11 +89,15 @@
         </section>
         <section style="margin-left: 10px">
           <p>Slot Time</p>
-          <span class="head">{{slotStartTime | date:'h:mm' }} - {{ slotEndTime |
-            date:'shortTime' }}</span><br />
-          <span class="head">(Preferred Agent Arrival Time -
+          <span class="head"
+            >{{slotStartTime | date:'h:mm' }} - {{ slotEndTime |
+            date:'shortTime' }}</span
+          ><br />
+          <span class="head"
+            >(Preferred Agent Arrival Time -
             {{this.dataProvider.currentBooking?.timeSlot?.agentArrivalTime?.toDate()
-            | date: "shortTime" }})</span>
+            | date: "shortTime" }})</span
+          >
         </section>
       </div>
     </div>
@@ -102,20 +124,30 @@
         </section>
       </div>
     </div>
-    <div class=""
-      *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
-      <ion-button routerLink="../rating" expand="block" color="dark"
-        *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.isPaid">
+    <div
+      class=""
+      *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'"
+    >
+      <ion-button
+        routerLink="../rating"
+        expand="block"
+        color="dark"
+        *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.isPaid"
+      >
         Back To Home
       </ion-button>
       <!-- <ion-button routerLink="../rating" expand="block" color="dark"    *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false">
         Retry Payment
       </ion-button> -->
     </div>
-    <div class="temp"
-      *ngIf="this.dataProvider.currentBooking?.isPaylater === false || this.dataProvider.currentBooking?.payment?.status === 'faild'">
-      <div class="bottom1"
-        *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.isPaid === false">
+    <div
+      class="temp"
+      *ngIf="this.dataProvider.currentBooking?.isPaylater === false || this.dataProvider.currentBooking?.payment?.status === 'faild'"
+    >
+      <div
+        class="bottom1"
+        *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.isPaid === false"
+      >
         <button class="payafter" routerLink="../rating">Back To Home</button>
         <button class="paynow" (click)="onSelectRetryPayment()">
           Retry Payment
@@ -133,8 +165,10 @@
   <div id="web-view" class="back-container">
     <div class="main-container">
       <div class="container px-0">
-        <div class="first-section"
-          *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
+        <div
+          class="first-section"
+          *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'"
+        >
           <section>
             <img [src]="successLogo" alt="" />
 
@@ -145,8 +179,10 @@
           </section>
         </div>
 
-        <div class="payment-faild"
-          *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.payment.status === 'faild'">
+        <div
+          class="payment-faild"
+          *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.payment.status === 'faild'"
+        >
           <section>
             <img [src]="failiarLogo" alt="" />
             <h2>Payment Failed. Booking Cancelled.</h2>
@@ -158,12 +194,20 @@
           <div class="row-1">
             <p class="head">Services</p>
           </div>
-          <ng-container *ngFor="let service of this.dataProvider.currentBooking?.services">
-            <div class="order-placed-div" *ngFor="let variant of service.variants">
+          <ng-container
+            *ngFor="let service of this.dataProvider.currentBooking?.services"
+          >
+            <div
+              class="order-placed-div"
+              *ngFor="let variant of service.variants"
+            >
               <div class="img-div">
                 <div class="img-circle-div">
-                  <img src="{{this.dataProvider.currentBooking?.mainCategory?.icon}}" alt=""
-                    style="padding-top: 12px; padding-left: 12px" />
+                  <img
+                    src="{{this.dataProvider.currentBooking?.mainCategory?.icon}}"
+                    alt=""
+                    style="padding-top: 12px; padding-left: 12px"
+                  />
                 </div>
               </div>
               <div class="category-det-div">
@@ -171,12 +215,17 @@
                 <span>{{variant.name}}</span>
               </div>
               <div class="price-div">
-                <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol'
-                  : '1.0-0' }}</span>
+                <span
+                  >{{variant.billing.discountedPrice | currency:'INR' : 'symbol'
+                  : '1.0-0' }}</span
+                >
               </div>
             </div>
           </ng-container>
-          <div class="grand-total-price" *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal">
+          <div
+            class="grand-total-price"
+            *ngIf="this.dataProvider.currentBooking?.billing?.grandTotal"
+          >
             Total amount -
             {{this.dataProvider.currentBooking?.billing?.grandTotal |
             currency:'INR'}}
@@ -193,8 +242,10 @@
             </section>
             <section style="margin-left: 10px">
               <p>Date</p>
-              <span class="head">{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() |
-                date:'longDate'}}</span><br />
+              <span class="head"
+                >{{this.dataProvider.currentBooking?.timeSlot?.date?.toDate() |
+                date:'longDate'}}</span
+              ><br />
             </section>
           </div>
           <div class="row-2">
@@ -203,11 +254,15 @@
             </section>
             <section style="margin-left: 10px">
               <p>Slot Time</p>
-              <span class="head">{{slotStartTime | date:'h:mm' }} - {{ slotEndTime |
-                date:'shortTime' }}</span><br />
-              <span class="head">(Preferred Agent Arrival Time -
+              <span class="head"
+                >{{slotStartTime | date:'h:mm' }} - {{ slotEndTime |
+                date:'shortTime' }}</span
+              ><br />
+              <span class="head"
+                >(Preferred Agent Arrival Time -
                 {{this.dataProvider.currentBooking?.timeSlot?.agentArrivalTime?.toDate()
-                | date: "shortTime" }})</span>
+                | date: "shortTime" }})</span
+              >
             </section>
           </div>
         </div>
@@ -234,20 +289,30 @@
             </section>
           </div>
         </div>
-        <div class=""
-          *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'">
-          <ion-button routerLink="../rating" expand="block" color="dark"
-            *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.isPaid">
+        <div
+          class=""
+          *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'"
+        >
+          <ion-button
+            routerLink="../rating"
+            expand="block"
+            color="dark"
+            *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.isPaid"
+          >
             Back To Home
           </ion-button>
           <!-- <ion-button routerLink="../rating" expand="block" color="dark"    *ngIf="this.dataProvider.currentBooking?.isPaylater == false && this.dataProvider.currentBooking?.isPaid == false">
         Retry Payment
       </ion-button> -->
         </div>
-        <div class="temp"
-          *ngIf="this.dataProvider.currentBooking?.isPaylater === false || this.dataProvider.currentBooking?.payment?.status === 'faild'">
-          <div class="bottom1"
-            *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.isPaid === false">
+        <div
+          class="temp"
+          *ngIf="this.dataProvider.currentBooking?.isPaylater === false || this.dataProvider.currentBooking?.payment?.status === 'faild'"
+        >
+          <div
+            class="bottom1"
+            *ngIf="this.dataProvider.currentBooking?.isPaylater === false && this.dataProvider.currentBooking?.isPaid === false"
+          >
             <button class="payafter" routerLink="../rating">
               Back To Home
             </button>

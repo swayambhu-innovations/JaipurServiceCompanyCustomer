@@ -1,120 +1,204 @@
 <ng-container *ngIf="mobileView">
-  <app-header-with-back [title]="title" [showNotificationIcon]="false"></app-header-with-back>
+  <app-header-with-back
+    [title]="title"
+    [showNotificationIcon]="false"
+  ></app-header-with-back>
 
   <ion-content [fullscreen]="true">
     <div class="container" id="container">
       <div class="row position-relative swiper-main">
-        <div #swiperContainerServiceDetail class="swiper-container">
-          <div class="swiper-wrapper">
-            <div *ngFor="let image of this.matchingService?.image" class="swiper-slide">
-              <img style="width: 100%" [src]="image" alt="">
-            </div>
-            <div class="swiper-slide" *ngIf="this.matchingService?.video">
-              <ion-content>
-                <video class="d-block w-100" #videoContainer controls preload="auto" muted width="100%">
-                  <source src="{{this.matchingService?.video}}" type="video/mp4" />
-                </video>
-              </ion-content>
-            </div>
-          </div>
-          <div class="swiper-pagination-service-detail swiper-pagination"></div>
-        </div>
+        <swiper-container
+          pagination="true"
+          slides-per-view="1"
+          speed="800"
+          delay="1000"
+          autoplay="true"
+          loop="true"
+          css-mode="true"
+        >
+          <swiper-slide *ngFor="let image of this.matchingService?.image">
+            <img
+              style="width: 100%"
+              [src]="image"
+              [alt]="matchingService?.name"
+            />
+          </swiper-slide>
+
+          <swiper-slide *ngIf="this.matchingService?.video">
+            <video
+              class="d-block w-100"
+              #videoContainer
+              controls
+              autoplay
+              preload="auto"
+              muted
+              width="100%"
+            >
+              <source src="{{this.matchingService?.video}}" type="video/mp4" />
+            </video>
+          </swiper-slide>
+        </swiper-container>
       </div>
 
       <div class="row service-details">
-        <div class="col-8 col1 ">
+        <div class="col-8 col1">
           <h2 class="service-title">{{this.matchingService?.name}}</h2>
           <p>
             <!-- <img src="../../../assets/star1.svg" alt="">
           <span class="rating">4.5</span>
           <span class="review">(87)</span> -->
-            <ion-icon name="star" *ngIf="matchingService?.averageRating"
-              style="zoom: 1.3; margin-right: 5px;"></ion-icon>
-            <strong *ngIf="matchingService?.averageRating">{{matchingService?.averageRating}}</strong>
-            <span><img src="../../../assets/star-outlined.svg" alt="" class="no-rating"
-                *ngIf="!matchingService?.averageRating" /></span>
+            <ion-icon
+              name="star"
+              *ngIf="matchingService?.averageRating"
+              style="zoom: 1.3; margin-right: 5px"
+            ></ion-icon>
+            <strong *ngIf="matchingService?.averageRating"
+              >{{matchingService?.averageRating}}</strong
+            >
+            <span
+              ><img
+                src="../../../assets/star-outlined.svg"
+                alt=""
+                class="no-rating"
+                *ngIf="!matchingService?.averageRating"
+            /></span>
             <strong *ngIf="!matchingService?.averageRating"> No Rating</strong>
           </p>
         </div>
         <div class="col-4 text-end">
           <ion-label class="price">
-            {{this.matchingService?.variants![0]?.price | currency:'INR': 'symbol' : '1.0-0'}}
+            {{this.matchingService?.variants![0]?.price | currency:'INR':
+            'symbol' : '1.0-0'}}
           </ion-label>
         </div>
       </div>
       <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
-        <div class=" variants_modal" style="align-items: center;">
-
+        <div class="variants_modal" style="align-items: center">
           <div class="services-button-view fixed-cart-button">
             <div class="fixed-cart-inner">
               <div class="col-6 cart-details">
                 <div class="">
                   <span>
                     {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
-                    |
-                    currency:'INR'}}
+                    | currency:'INR'}}
                   </span>
-                  <p>{{
+                  <p>
+                    {{
                     this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
-                    }} items</p>
+                    }} items
+                  </p>
                 </div>
               </div>
               <div class="col-6 see-all-variants">
                 <p class="view-cart">
-                  <ion-button class="service-common-button w-100" color="dark" (click)="ViewCart()">
+                  <ion-button
+                    class="service-common-button w-100"
+                    color="dark"
+                    (click)="ViewCart()"
+                  >
                     View Cart
                   </ion-button>
                 </p>
               </div>
             </div>
-
           </div>
         </div>
         <div class="coupon">
-          <img src="../../../assets/couponTag.svg" alt="">
+          <img src="../../../assets/couponTag.svg" alt="" />
           <p>Apply Coupons to save upto 70%!</p>
         </div>
         <div class="page-variants">
           <div class="variants">
-            <div lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
-              <div class="" style="    width: -webkit-fill-available;">
+            <div
+              lines="none"
+              class="variant"
+              *ngFor="let variant of matchingService?.variants;"
+            >
+              <div class="" style="width: -webkit-fill-available">
                 <div class="row detail">
                   <div class="col-8 name variant-name">
-                    <p></p>{{variant.name}}
-                    <p *ngIf="variant.actualJobDuration">({{variant.actualJobDuration}} min)</p>
+                    <p></p>
+                    {{variant.name}}
+                    <p *ngIf="variant.actualJobDuration">
+                      ({{variant.actualJobDuration}} min)
+                    </p>
                   </div>
-                  <p class="col-4 price"> {{variant.price | currency:'INR'}}</p>
+                  <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                 </div>
                 <div class="cart-button">
-                  <div class="remove-pading1" no-lines id="{{variant.id}}"
-                    [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
-
+                  <div
+                    class="remove-pading1"
+                    no-lines
+                    id="{{variant.id}}"
+                    [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}"
+                  >
                     <div class="addremove-div">
-                      <button fill="outline" class="remove" color="dark"
-                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
-                      <input class="input-div" type="number" id="input{{variant.id}}" text-center
+                      <button
+                        fill="outline"
+                        class="remove"
+                        color="dark"
+                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                      >
+                        -
+                      </button>
+                      <input
+                        class="input-div"
+                        type="number"
+                        id="input{{variant.id}}"
+                        text-center
                         [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
-                        min="1" max="5">
-                      <button fill="outline" class="add" color="dark"
-                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
+                        min="1"
+                        max="5"
+                      />
+                      <button
+                        fill="outline"
+                        class="add"
+                        color="dark"
+                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                      >
+                        +
+                      </button>
                     </div>
                     <div class="remove-div">
-                      <button fill="outline" class="remove-item"
+                      <button
+                        fill="outline"
+                        class="remove-item"
                         (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
-                        color="danger">Remove item
+                        color="danger"
+                      >
+                        Remove item
                       </button>
                     </div>
                   </div>
-                  <ion-item class="remove-pading" lines="none" class="{{variant.id}}"
-                    *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
-                    <div class="row addCartdiv" style="width: -webkit-fill-available;">
+                  <ion-item
+                    class="remove-pading"
+                    lines="none"
+                    class="{{variant.id}}"
+                    *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
+                  >
+                    <div
+                      class="row addCartdiv"
+                      style="width: -webkit-fill-available"
+                    >
                       <div class="col-6">
-                        <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)" color="dark">Add
-                          To Cart</button>
+                        <button
+                          class="addCartdiv-buttons"
+                          fill="outline"
+                          (click)="addToCart(variant)"
+                          color="dark"
+                        >
+                          Add To Cart
+                        </button>
                       </div>
-                      <div class="col-6" style="text-align: end;">
-                        <button class="addCartdiv-buttons" fill="outline" color="dark"
-                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                      <div class="col-6" style="text-align: end">
+                        <button
+                          class="addCartdiv-buttons"
+                          fill="outline"
+                          color="dark"
+                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)"
+                        >
+                          Book Now
+                        </button>
                       </div>
                     </div>
                   </ion-item>
@@ -131,22 +215,30 @@
           </ion-item>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
-              <div class="details" *ngFor="let des of this.matchingService?.description.blocks">
+              <div
+                class="details"
+                *ngFor="let des of this.matchingService?.description.blocks"
+              >
                 <div class="header">
-                  <h4 *ngIf="des.type =='header'">{{des.data.text}}</h4>
-                  <div class="list" *ngIf="des.type =='list'">
-                    <div class="description" *ngFor="let item Of des?.data?.items">
-                      <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+                  <h4 *ngIf="des.type ==='header'">{{des.data.text}}</h4>
+                  <div class="list" *ngIf="des.type ==='list'">
+                    <div
+                      class="description"
+                      *ngFor="let item Of des?.data?.items"
+                    >
+                      <ion-icon
+                        style="width: 6px"
+                        name="ellipse-sharp"
+                      ></ion-icon>
                       <strong [innerHTML]="item"></strong>
                     </div>
                   </div>
-                  <div class="description" *ngIf="des.type =='paragraph'">
+                  <div class="description" *ngIf="des.type ==='paragraph'">
                     <strong [innerHTML]="des.data.text"></strong>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </ion-accordion>
         <ion-accordion value="second">
@@ -155,8 +247,14 @@
           </ion-item>
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
-              <p class="server-type" *ngFor="let type Of matchingService?.tags" (click)="tags = type"
-                [ngClass]="{active:tags==type}">{{type}}</p>
+              <p
+                class="server-type"
+                *ngFor="let type Of matchingService?.tags"
+                (click)="tags = type"
+                [ngClass]="{active:tags===type}"
+              >
+                {{type}}
+              </p>
             </div>
           </div>
         </ion-accordion>
@@ -192,7 +290,10 @@
       </div>
     </div> -->
 
-      <div class="row " [ngClass]="{'rating-div':!matchingService?.averageRating}">
+      <div
+        class="row"
+        [ngClass]="{'rating-div':!matchingService?.averageRating}"
+      >
         <div class="col">
           <h2>Customer Review</h2>
           <div class="no-ratings" *ngIf="!matchingService?.averageRating">
@@ -201,7 +302,7 @@
         </div>
       </div>
       <div class="rating-main-div">
-        <div class="row " *ngFor="let CustReview of matchingService?.rating">
+        <div class="row" *ngFor="let CustReview of matchingService?.rating">
           <div class="col mt-4" *ngIf="matchingService?.averageRating">
             <div class="card">
               <div class="card-body">
@@ -209,149 +310,241 @@
                   <div class="col-9" slot="start">
                     <ion-item>
                       <ion-avatar slot="start">
-                        <img alt="Silhouette of a person's head"
-                          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                        <img
+                          alt="Silhouette of a person's head"
+                          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                        />
                       </ion-avatar>
-                      <h5>{{CustReview.userName}}<br><small>{{CustReview.createAt.toDate() | date }}</small></h5>
+                      <h5>
+                        {{CustReview.userName}}<br /><small
+                          >{{CustReview.createAt.toDate() | date }}</small
+                        >
+                      </h5>
                     </ion-item>
                   </div>
-                  <div class="col-3  float-right mt-4 ml-4">
-                    <p class=" float-right" style="font-size: 20px;"><ion-icon name="star"
-                        style="margin-right: 5px"></ion-icon>{{CustReview.rating}}</p>
+                  <div class="col-3 float-right mt-4 ml-4">
+                    <p class="float-right" style="font-size: 20px">
+                      <ion-icon name="star" style="margin-right: 5px"></ion-icon
+                      >{{CustReview.rating}}
+                    </p>
                   </div>
                 </div>
-                <h5 class="card-title" style="font-weight: 600;">{{CustReview.reviewTitle}}</h5>
+                <h5 class="card-title" style="font-weight: 600">
+                  {{CustReview.reviewTitle}}
+                </h5>
                 <p class="card-text">{{CustReview.serviceReview}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </ion-content>
 </ng-container>
 
-<app-header-with-back id="web-view" [title]="title" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back
+  id="web-view"
+  [title]="title"
+  [showNotificationIcon]="false"
+></app-header-with-back>
 
 <div id="web-view" class="back-container">
   <div class="main-container">
     <div class="container" id="container">
+      <div
+        *ngIf="this.matchingService?.image || this.matchingService?.video"
+        class="row position-relative swiper-main"
+      >
+        <swiper-container
+          pagination="true"
+          slides-per-view="1"
+          speed="800"
+          delay="1000"
+          autoplay="true"
+          loop="true"
+          css-mode="true"
+          pauseOnMouseEnter="true"
+        >
+          <swiper-slide *ngIf="this.matchingService?.video">
+            <video
+              #videoContainer
+              controls
+              autoplay
+              preload="auto"
+              muted
+              width="100%"
+            >
+              <source src="{{this.matchingService?.video}}" type="video/mp4" />
+            </video>
+          </swiper-slide>
 
-      <div class="row position-relative swiper-main">
-        <div #swiperContainerServiceDetail class="swiper-container">
-          <div class="swiper-wrapper">
-            <div *ngFor="let image of this.matchingService?.image" class="swiper-slide">
-              <img style="width: 100%" [src]="image" alt="">
-            </div>
-            <div class="swiper-slide" *ngIf="this.matchingService?.video">
-              <ion-content>
-                <video class="d-block w-100" #videoContainer controls preload="auto" muted width="100%">
-                  <source src="{{this.matchingService?.video}}" type="video/mp4" />
-                </video>
-              </ion-content>
-            </div>
-          </div>
-          <div class="swiper-pagination-service-detail swiper-pagination"></div>
-        </div>
+          <swiper-slide *ngFor="let image of this.matchingService?.image">
+            <img [src]="image" [alt]="matchingService?.name" />
+          </swiper-slide>
+        </swiper-container>
       </div>
 
       <div class="row service-details">
-        <div class="col-8 col1 ">
+        <div class="col-8 col1">
           <h2 class="service-title">{{this.matchingService?.name}}</h2>
           <p>
             <!-- <img src="../../../assets/star1.svg" alt="">
           <span class="rating">4.5</span>
           <span class="review">(87)</span> -->
-            <ion-icon name="star" *ngIf="matchingService?.averageRating"
-              style="zoom: 1.3; margin-right: 5px;"></ion-icon>
-            <strong *ngIf="matchingService?.averageRating">{{matchingService?.averageRating}}</strong>
-            <span><img src="../../../assets/star-outlined.svg" alt="" class="no-rating"
-                *ngIf="!matchingService?.averageRating" /></span>
+            <ion-icon
+              name="star"
+              *ngIf="matchingService?.averageRating"
+              style="zoom: 1.3; margin-right: 5px"
+            ></ion-icon>
+            <strong *ngIf="matchingService?.averageRating"
+              >{{matchingService?.averageRating}}</strong
+            >
+            <span
+              ><img
+                src="../../../assets/star-outlined.svg"
+                alt=""
+                class="no-rating"
+                *ngIf="!matchingService?.averageRating"
+            /></span>
             <strong *ngIf="!matchingService?.averageRating"> No Rating</strong>
           </p>
         </div>
         <div class="col-4 text-end">
           <ion-label class="price">
-            {{this.matchingService?.variants![0]?.price | currency:'INR': 'symbol' : '1.0-0'}}
+            {{this.matchingService?.variants![0]?.price | currency:'INR':
+            'symbol' : '1.0-0'}}
           </ion-label>
         </div>
       </div>
-      
-      <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
-        <div class=" variants_modal" style="align-items: center;">
 
+      <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
+        <div class="variants_modal" style="align-items: center">
           <div class="services-button-view abs-cart-button">
             <div class="fixed-cart-inner">
               <div class="col-6 cart-details">
                 <div class="">
                   <span>
                     {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
-                    |
-                    currency:'INR'}}
+                    | currency:'INR'}}
                   </span>
-                  <p>{{
+                  <p>
+                    {{
                     this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
-                    }} items</p>
+                    }} items
+                  </p>
                 </div>
               </div>
               <div class="col-6 see-all-variants">
                 <p class="view-cart">
-                  <ion-button class="service-common-button w-100" color="dark" (click)="ViewCart()">
+                  <ion-button
+                    class="service-common-button w-100"
+                    color="dark"
+                    (click)="ViewCart()"
+                  >
                     View Cart
                   </ion-button>
                 </p>
               </div>
             </div>
-
           </div>
         </div>
         <div class="coupon">
-          <img src="../../../assets/couponTag.svg" alt="">
+          <img src="../../../assets/couponTag.svg" alt="" />
           <p>Apply Coupons to save upto 70%!</p>
         </div>
 
         <div class="page-variants">
           <div class="variants">
-            <div lines="none" class="variant" *ngFor="let variant of matchingService?.variants;">
-              <div class="" style="    width: -webkit-fill-available;">
+            <div
+              lines="none"
+              class="variant"
+              *ngFor="let variant of matchingService?.variants;"
+            >
+              <div class="" style="width: -webkit-fill-available">
                 <div class="row detail">
                   <div class="col-8 name variant-name">
-                    <p></p>{{variant.name}}
-                    <p *ngIf="variant.actualJobDuration">({{variant.actualJobDuration}} min)</p>
+                    <p></p>
+                    {{variant.name}}
+                    <p *ngIf="variant.actualJobDuration">
+                      ({{variant.actualJobDuration}} min)
+                    </p>
                   </div>
-                  <p class="col-4 price"> {{variant.price | currency:'INR'}}</p>
+                  <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                 </div>
                 <div class="cart-button">
-                  <div class="remove-pading1" no-lines id="{{variant.id}}"
-                    [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}">
-
+                  <div
+                    class="remove-pading1"
+                    no-lines
+                    id="{{variant.id}}"
+                    [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'flex':'none'}"
+                  >
                     <div class="addremove-div">
-                      <button fill="outline" class="remove" color="dark"
-                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">-</button>
-                      <input class="input-div" type="number" id="input{{variant.id}}" text-center
+                      <button
+                        fill="outline"
+                        class="remove"
+                        color="dark"
+                        (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                      >
+                        -
+                      </button>
+                      <input
+                        class="input-div"
+                        type="number"
+                        id="input{{variant.id}}"
+                        text-center
                         [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
-                        min="1" max="5">
-                      <button fill="outline" class="add" color="dark"
-                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">+</button>
+                        min="1"
+                        max="5"
+                      />
+                      <button
+                        fill="outline"
+                        class="add"
+                        color="dark"
+                        (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
+                      >
+                        +
+                      </button>
                     </div>
                     <div class="remove-div">
-                      <button fill="outline" class="remove-item"
+                      <button
+                        fill="outline"
+                        class="remove-item"
                         (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"
-                        color="danger">Remove item
+                        color="danger"
+                      >
+                        Remove item
                       </button>
                     </div>
                   </div>
-                  <ion-item class="remove-pading" lines="none" class="{{variant.id}}"
-                    *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)">
-                    <div class="row addCartdiv" style="width: -webkit-fill-available;">
+                  <ion-item
+                    class="remove-pading"
+                    lines="none"
+                    class="{{variant.id}}"
+                    *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
+                  >
+                    <div
+                      class="row addCartdiv"
+                      style="width: -webkit-fill-available"
+                    >
                       <div class="col-6">
-                        <button class="addCartdiv-buttons" fill="outline" (click)="addToCart(variant)" color="dark">Add
-                          To Cart</button>
+                        <button
+                          class="addCartdiv-buttons"
+                          fill="outline"
+                          (click)="addToCart(variant)"
+                          color="dark"
+                        >
+                          Add To Cart
+                        </button>
                       </div>
-                      <div class="col-6" style="text-align: end;">
-                        <button class="addCartdiv-buttons" fill="outline" color="dark"
-                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">Book Now</button>
+                      <div class="col-6" style="text-align: end">
+                        <button
+                          class="addCartdiv-buttons"
+                          fill="outline"
+                          color="dark"
+                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)"
+                        >
+                          Book Now
+                        </button>
                       </div>
                     </div>
                   </ion-item>
@@ -369,22 +562,30 @@
           </ion-item>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
-              <div class="details" *ngFor="let des of this.matchingService?.description.blocks">
+              <div
+                class="details"
+                *ngFor="let des of this.matchingService?.description.blocks"
+              >
                 <div class="header">
-                  <h4 *ngIf="des.type =='header'">{{des.data.text}}</h4>
-                  <div class="list" *ngIf="des.type =='list'">
-                    <div class="description" *ngFor="let item Of des?.data?.items">
-                      <ion-icon style="width: 6px;" name="ellipse-sharp"></ion-icon>
+                  <h4 *ngIf="des.type ==='header'">{{des.data.text}}</h4>
+                  <div class="list" *ngIf="des.type ==='list'">
+                    <div
+                      class="description"
+                      *ngFor="let item Of des?.data?.items"
+                    >
+                      <ion-icon
+                        style="width: 6px"
+                        name="ellipse-sharp"
+                      ></ion-icon>
                       <strong [innerHTML]="item"></strong>
                     </div>
                   </div>
-                  <div class="description" *ngIf="des.type =='paragraph'">
+                  <div class="description" *ngIf="des.type ==='paragraph'">
                     <strong [innerHTML]="des.data.text"></strong>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </ion-accordion>
         <ion-accordion value="second">
@@ -393,14 +594,23 @@
           </ion-item>
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
-              <p class="server-type" *ngFor="let type Of matchingService?.tags" (click)="tags = type"
-                [ngClass]="{active:tags==type}">{{type}}</p>
+              <p
+                class="server-type"
+                *ngFor="let type Of matchingService?.tags"
+                (click)="tags = type"
+                [ngClass]="{active:tags===type}"
+              >
+                {{type}}
+              </p>
             </div>
           </div>
         </ion-accordion>
       </ion-accordion-group>
 
-      <div class="row " [ngClass]="{'rating-div':!matchingService?.averageRating}">
+      <div
+        class="row"
+        [ngClass]="{'rating-div':!matchingService?.averageRating}"
+      >
         <div class="col">
           <h2>Customer Review</h2>
           <div class="no-ratings" *ngIf="!matchingService?.averageRating">
@@ -410,7 +620,7 @@
       </div>
 
       <div *ngIf="matchingService?.rating" class="rating-main-div">
-        <div class="row " *ngFor="let CustReview of matchingService?.rating">
+        <div class="row" *ngFor="let CustReview of matchingService?.rating">
           <div class="col mt-4" *ngIf="matchingService?.averageRating">
             <div class="card">
               <div class="card-body">
@@ -418,18 +628,28 @@
                   <div class="col-9" slot="start">
                     <ion-item>
                       <ion-avatar slot="start">
-                        <img alt="Silhouette of a person's head"
-                          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                        <img
+                          alt="Silhouette of a person's head"
+                          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                        />
                       </ion-avatar>
-                      <h5>{{CustReview.userName}}<br><small>{{CustReview.createAt.toDate() | date }}</small></h5>
+                      <h5>
+                        {{CustReview.userName}}<br /><small
+                          >{{CustReview.createAt.toDate() | date }}</small
+                        >
+                      </h5>
                     </ion-item>
                   </div>
-                  <div class="col-3  float-right mt-4 ml-4">
-                    <p class=" float-right" style="font-size: 20px;"><ion-icon name="star"
-                        style="margin-right: 5px"></ion-icon>{{CustReview.rating}}</p>
+                  <div class="col-3 float-right mt-4 ml-4">
+                    <p class="float-right" style="font-size: 20px">
+                      <ion-icon name="star" style="margin-right: 5px"></ion-icon
+                      >{{CustReview.rating}}
+                    </p>
                   </div>
                 </div>
-                <h5 class="card-title" style="font-weight: 600;">{{CustReview.reviewTitle}}</h5>
+                <h5 class="card-title" style="font-weight: 600">
+                  {{CustReview.reviewTitle}}
+                </h5>
                 <p class="card-text">{{CustReview.serviceReview}}</p>
               </div>
             </div>

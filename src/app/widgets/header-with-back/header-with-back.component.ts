@@ -9,36 +9,34 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
   templateUrl: './header-with-back.component.html',
   styleUrls: ['./header-with-back.component.scss'],
 })
-export class HeaderWithBackComponent  implements OnInit {
-  @Input() title!:string;
-  @Input() showNotificationIcon:boolean = false;
-  @Input() showHomeIcon:boolean = false;
-  @Input() showBackButton:boolean = true;
+export class HeaderWithBackComponent implements OnInit {
+  @Input() title!: string;
+  @Input() showNotificationIcon: boolean = false;
+  @Input() showHomeIcon: boolean = false;
+  @Input() orderPlaced: boolean = false;
+  @Input() showBackButton: boolean = true;
 
   notifications: any[] = [];
   unreadNotifications: any[] = [];
   constructor(
-    public _navigationBack : NavigationBackService,
+    public _navigationBack: NavigationBackService,
     private router: Router,
-    private _notificationService: UserNotificationService,
-  ) {
-    
-  }
+    private _notificationService: UserNotificationService
+  ) {}
 
   ngOnInit() {
     this.unreadNotifications = this._notificationService.unreadNotifications;
   }
-  notification(){
+  notification() {
     this.router.navigate(['authorized/notification']);
   }
-  goToHome(){
+  goToHome() {
     this.router.navigate(['authorized/home']);
   }
-  onBackButtonClick(){
+  onBackButtonClick() {
     const previousUrlArray = this._navigationBack.getPreviourUrl();
     const previousUrl = previousUrlArray[previousUrlArray.length - 2];
     this._navigationBack.setDataAfterNavigation();
     this.router.navigate([previousUrl]);
   }
-
 }

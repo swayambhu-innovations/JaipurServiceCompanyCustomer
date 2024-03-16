@@ -282,7 +282,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.systeminfo();
     this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;
-      console.log(this.categories);
       if (this.dataProvider.mainCategoriesLoaded) {
         setTimeout(() => {
           this.dataProvider.isPageLoaded$.next('loaded');
