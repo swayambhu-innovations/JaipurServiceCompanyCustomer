@@ -810,7 +810,8 @@ homepage.scss .serviceCategory {
     grid-template-columns: 32% 32% 32%;
     justify-content: space-between;
     width: 80%;
-    margin: 0 auto;
+    margin: 1rem auto;
+    gap: 1.75rem 0;
     // background: white;
     border-radius: 12px;
     // padding: 10px;

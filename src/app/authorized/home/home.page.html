@@ -194,7 +194,10 @@
             <div class="col-9">
               <h4>{{mainCategory.name}}</h4>
             </div>
-            <div class="see-all-button">
+            <div
+              *ngIf="mainCategory.subCategories.length>3"
+              class="see-all-button"
+            >
               <span (click)="showSubCategories(mainCategory.id)">See All</span>
               <img src="assets/icon/rightArrow/rightArrow.svg" />
             </div>
