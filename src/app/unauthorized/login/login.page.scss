@@ -140,6 +140,15 @@ a {
   p {
     margin-bottom: 0px;
     font-size: 13px;
+
+    button,
+    button:focus {
+      color: #9d0a91;
+      background-color: white;
+      border: none;
+      font-size: 13px;
+      outline: none;
+    }
   }
 }
 

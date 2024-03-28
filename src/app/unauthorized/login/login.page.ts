@@ -13,30 +13,55 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  phoneNumber:string= '';
-  terms:boolean= false;
-  verifier:RecaptchaVerifier|undefined;
-  constructor(private router: Router,private authService:AuthService,public dataProvider:DataProviderService,private alertify:AlertsAndNotificationsService,private loaderService:LoadingController) { }
+  phoneNumber: string = '';
+  terms: boolean = false;
+  verifier: RecaptchaVerifier | undefined;
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    public dataProvider: DataProviderService,
+    private alertify: AlertsAndNotificationsService,
+    private loaderService: LoadingController
+  ) {}
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
-  async login(){
+  async login() {
     let loader = await this.loaderService.create({
-      message:'Logging in...',
+      message: 'Logging in...',
     });
     loader.present();
-    if (!this.verifier) this.verifier = new RecaptchaVerifier('recaptcha-container',{'size':'invisible'},this.authService.auth);
-    this.authService.loginWithPhoneNumber(this.phoneNumber,this.verifier).then((login)=>{
-      this.dataProvider.loginConfirmationResult=login;
-      this.dataProvider.userMobile = this.phoneNumber;
-      this.router.navigate(['unauthorized/otp'])
-    }).catch((error)=>{
-      console.log(error);
-      this.alertify.presentToast(error.message);
-    }).finally(()=>{
-      loader.dismiss();
-    });
-  } 
+    if (!this.verifier)
+      this.verifier = new RecaptchaVerifier(
+        'recaptcha-container',
+        { size: 'invisible' },
+        this.authService.auth
+      );
+    this.authService
+      .loginWithPhoneNumber(this.phoneNumber, this.verifier)
+      .then((login) => {
+        this.dataProvider.loginConfirmationResult = login;
+        this.dataProvider.userMobile = this.phoneNumber;
+        this.router.navigate(['unauthorized/otp']);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.alertify.presentToast(error.message);
+      })
+      .finally(() => {
+        loader.dismiss();
+      });
+  }
+
+  openPrivacy() {
+    window.open('/privacy-policy', '_blank');
+  }
+
+  openTnC() {
+    window.open('/tnc', '_blank');
+  }
+
+  openRefund() {
+    window.open('/refund-policy', '_blank');
+  }
 }

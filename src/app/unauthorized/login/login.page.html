@@ -1,51 +1,81 @@
 <div class="login-container">
-  <div class="main" style="height: 100%; background-color: white;">
+  <div class="main" style="height: 100%; background-color: white">
     <div class="img-div">
       <section class="header">
-        <img src="assets/images/logo.png" alt="">
+        <img src="assets/images/logo.png" alt="" />
         <p>Jaipur Service Company</p>
       </section>
-    
+
       <section class="body">
-        <img src="assets/images/login.png" alt="">
+        <img src="assets/images/login.png" alt="" />
       </section>
     </div>
-  
-    <section class="login login-heading" *ngIf="!this.dataProvider.checkingAuth && !this.dataProvider.loggedIn">
+
+    <section
+      class="login login-heading"
+      *ngIf="!this.dataProvider.checkingAuth && !this.dataProvider.loggedIn"
+    >
       <h3>Welcome Back</h3>
       <h6>Please fill the details for further process</h6>
       <div class="image">
         <ion-icon name="call"></ion-icon>
-        <input class="input-number" type="text" placeholder="Mobile Number" inputmode="tel" [(ngModel)]="phoneNumber" required maxlength="10">
+        <input
+          class="input-number"
+          type="text"
+          placeholder="Mobile Number"
+          inputmode="tel"
+          [(ngModel)]="phoneNumber"
+          required
+          maxlength="10"
+        />
       </div>
       <div id="recaptcha-container"></div>
       <div class="agree-container">
-        <input type="checkbox" id="terms-agree" [(ngModel)]="terms" style="zoom: 2;" >&nbsp;&nbsp;&nbsp;&nbsp;
+        <input
+          type="checkbox"
+          id="terms-agree"
+          [(ngModel)]="terms"
+          style="zoom: 2"
+        />&nbsp;&nbsp;&nbsp;&nbsp;
         <label class="input-label" for="terms-agree"></label>
-        <p style="text-align: left;"> I agree to the
-          <a href="https://jaipurservicecompany.com/terms.html" target="_blank" rel="noopener noreferrer">Terms & Conditions,</a>&nbsp;&nbsp;
-          <a href="https://jaipurservicecompany.com/privacy.html" target="_blank" rel="noopener noreferrer">Privacy,</a>&nbsp;&nbsp;
-          <a href="https://jaipurservicecompany.com/refundpricingpolicy.html" target="_blank" rel="noopener noreferrer">Refund & Pricing</a>
+        <p style="text-align: left">
+          I agree to the
+          <button (click)="openTnC()">Terms & Conditions,</button>
+          &nbsp;
+          <button (click)="openPrivacy()">Privacy,</button>
+          &nbsp;
+          <button (click)="openRefund()">Refund & Pricingy</button>
           Policy
         </p>
-       
       </div>
-      
-      <ion-button [disabled]="(phoneNumber.length < 10) || terms == false ? true : false" class="signup" color="dark"
-        (click)="login()">Login/SignUp</ion-button>
+
+      <ion-button
+        [disabled]="(phoneNumber.length < 10) || terms === false ? true : false"
+        class="signup"
+        color="dark"
+        (click)="login()"
+        >Login/SignUp</ion-button
+      >
     </section>
-  
+
     <section class="login" *ngIf="this.dataProvider.checkingAuth">
       <h3>Checking Status</h3>
       <h6>Please wait till we verify you.</h6>
     </section>
-  
-    <div style="position: fixed; bottom: 0; width: 100%;" class="footer-container">
+
+    <!-- <div
+      style="position: fixed; bottom: 0; width: 100%"
+      class="footer-container"
+    >
       <footer>
-        <img src="assets/images/footer-1.png" style="height: 100px;">
-        <img class="toolbox" src="assets/images/footer-2.png" style="height: 80px; margin-top:auto">
+        <img src="assets/images/footer-1.png" style="height: 100px" />
+        <img
+          class="toolbox"
+          src="assets/images/footer-2.png"
+          style="height: 80px; margin-top: auto"
+        />
       </footer>
-    </div>
+    </div> -->
   </div>
 </div>
 <!-- <footer>

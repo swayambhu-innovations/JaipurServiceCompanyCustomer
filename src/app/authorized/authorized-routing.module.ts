@@ -208,25 +208,6 @@ const routes: Routes = [
             (m) => m.ServiceDetailPageModule
           ),
       },
-      {
-        path: 'privacy-policy',
-        loadChildren: () =>
-          import('./footer-web/privacy-policy/privacy-policy.module').then(
-            (m) => m.PrivacyPolicyPageModule
-          ),
-      },
-      {
-        path: 'tnc',
-        loadChildren: () =>
-          import('./footer-web/tnc/tnc.module').then((m) => m.TncPageModule),
-      },
-      {
-        path: 'refund-policy',
-        loadChildren: () =>
-          import('./footer-web/refund-policy/refund-policy.module').then(
-            (m) => m.RefundPolicyPageModule
-          ),
-      },
     ],
   },
 ];

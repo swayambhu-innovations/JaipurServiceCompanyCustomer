@@ -1,25 +1,32 @@
 ion-content {
-    .main-container {
-      width: 75% !important;
-  
-      section {
-        margin: 2rem 0;
-        h1 {
-          text-align: start;
-          font-size: 30px;
-          font-family: Lato;
-          font-weight: 700;
-          margin-bottom: 0.75rem;
-        }
-        p,
-        li {
-          text-align: start;
-          font-size: 18px;
-          font-family: Lato;
-          font-weight: 500;
-          margin: 0px 5px;
-        }
+  .main-container,
+  .main {
+    padding: 20px;
+
+    section {
+      h1 {
+        text-align: start;
+        font-size: 30px;
+        font-family: Lato;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+      p,
+      li {
+        text-align: start;
+        font-size: 18px;
+        font-family: Lato;
+        font-weight: 500;
+        margin: 0px 5px;
       }
     }
   }
-  
+
+  .main-container {
+    width: 75% !important;
+
+    section {
+      margin: 2rem 0 !important;
+    }
+  }
+}
