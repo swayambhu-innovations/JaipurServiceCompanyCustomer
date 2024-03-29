@@ -54,14 +54,14 @@ export class LoginPage implements OnInit {
   }
 
   openPrivacy() {
-    window.open('/privacy-policy', '_blank');
+    this.router.navigate(['/privacy-policy']);
   }
 
   openTnC() {
-    window.open('/tnc', '_blank');
+    this.router.navigate(['/tnc']);
   }
 
   openRefund() {
-    window.open('/refund-policy', '_blank');
+    this.router.navigate(['/refund-policy']);
   }
 }

@@ -11,7 +11,7 @@
       display: flex;
 
       .jsc-div {
-        width: 60%;
+        width: 40%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -55,6 +55,24 @@
 
     .vertical-line {
       border-left: 1px dashed;
+    }
+
+    .contact {
+      width: 80%;
+      padding: 0 40px;
+      .head {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .head1 {
+          font-size: 17px;
+          font-weight: 600;
+        }
+        p{
+          font-size: 17px;
+          font-weight: 400;
+        }
+      }
     }
 
     .col2 {
