@@ -170,17 +170,19 @@
                       </button>
                     </div>
                   </div>
-                  <ion-item
-                    class="remove-pading"
+                    <ion-item
+                     class="remove-pading"
                     lines="none"
                     class="{{variant.id}}"
                     *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                   >
-                    <div
+                  <ion-grid>
+                    <ion-row>
+                   <div
                       class="row addCartdiv"
-                      style="width: -webkit-fill-available"
+                    
                     >
-                      <div class="col-6">
+                      <!-- <div class="col-6">
                         <button
                           class="addCartdiv-buttons"
                           fill="outline"
@@ -188,8 +190,13 @@
                           color="dark"
                         >
                           Add To Cart
-                        </button>
-                      </div>
+                        </button>  -->
+                        <ion-col>
+                          <div class="ionbut">
+                            <ion-icon name ="cart-outline"></ion-icon>
+                       </div>   
+                       </ion-col>
+                       <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
                           class="addCartdiv-buttons"
@@ -199,10 +206,14 @@
                         >
                           Book Now
                         </button>
+                      </div> 
+                      </ion-col>
                       </div>
-                    </div>
-                  </ion-item>
-                </div>
+                      </ion-row>
+                      </ion-grid>
+                     
+                  </ion-item> 
+                 </div> 
               </div>
             </div>
           </div>
@@ -290,16 +301,9 @@
       </div>
     </div> -->
 
-      <div
-        class="row"
-        [ngClass]="{'rating-div':!matchingService?.averageRating}"
-      >
-        <div class="col">
-          <h2>Customer Review</h2>
-          <div class="no-ratings" *ngIf="!matchingService?.averageRating">
-            <span>Currently No ratings available.....</span>
-          </div>
-        </div>
+      
+        
+        <!-- </div>
       </div>
       <div class="rating-main-div">
         <div class="row" *ngFor="let CustReview of matchingService?.rating">
@@ -307,8 +311,17 @@
             <div class="card">
               <div class="card-body">
                 <div class="row card-title clearfix">
-                  <div class="col-9" slot="start">
-                    <ion-item>
+                    <ion-item>     
+                           <div class="col-9" slot="start">
+                            <div
+        class="row"
+        [ngClass]="{'rating-div':!matchingService?.averageRating}"
+      >
+        <div class="col">
+          <h2>Customer Review</h2>
+          <div class="no-ratings" *ngIf="!matchingService?.averageRating">
+            <span>Currently No ratings available.....</span> -->
+          <!-- </div>
                       <ion-avatar slot="start">
                         <img
                           alt="Silhouette of a person's head"
@@ -336,11 +349,11 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </ion-content>
-</ng-container>
+        </div> -->
+      <!-- </div>
+     </div> -->
+  <!-- </ion-content> -->
+<!-- </ng-container> -->
 
 <app-header-with-back
   id="web-view"
@@ -541,13 +554,14 @@
                         </button> -->
                         <ion-col>
                         <div class="ionbut">
-                        <ion-button (click)="addToCart(variant)">
+                        <!-- <ion-button (click)="addToCart(variant)"> -->
                           <ion-icon name="cart-outline"></ion-icon>
                         
-                        </ion-button></div>
+                        <!-- </ion-button> -->
+                      </div>
                        <!-- </div> -->
                       </ion-col>
-<ion-col>
+                       <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
                           class="addCartdiv-buttons"
@@ -634,7 +648,7 @@
         </div>
       </div> -->
 
-      <div *ngIf="matchingService?.rating" class="rating-main-div">
+      <!-- <div *ngIf="matchingService?.rating" class="rating-main-div">
         <div class="row" *ngFor="let CustReview of matchingService?.rating">
           <div class="col mt-4" *ngIf="matchingService?.averageRating">
             <div class="card">
@@ -657,8 +671,8 @@
                   </div>
                   <div class="col-3 float-right mt-4 ml-4">
                     <p class="float-right" style="font-size: 20px">
-                      <ion-icon name="star" style="margin-right: 5px"></ion-icon
-                      >{{CustReview.rating}}
+                      <ion-icon name="star" style="margin-right: 5px"></ion-icon -->
+                      <!-- >{{CustReview.rating}}
                     </p>
                   </div>
                 </div>
@@ -673,4 +687,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>  -->
