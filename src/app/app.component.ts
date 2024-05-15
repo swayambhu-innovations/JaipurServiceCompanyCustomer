@@ -9,6 +9,7 @@ import { filter } from 'rxjs';
 import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { LocationService } from './authorized/new-address/services/location.service';
+import { AnalyticsService } from './analyticsServices/analytics.service'; 
 
 @Component({
   selector: 'app-root',
@@ -17,12 +18,20 @@ import { LocationService } from './authorized/new-address/services/location.serv
 })
 export class AppComponent implements OnInit {
   currentUrl: string;
+  enabled = this. AnalyticsService.analyticsEnabled;
+
   constructor(
     private platform: Platform,
     public _navigationBack : NavigationBackService,
     private locationService:LocationService,
-    private router: Router) {
-      
+    private router: Router,
+  private AnalyticsService:AnalyticsService) {
+    
+      this.setUser()
+      this.setProperty()
+      this.logEvent()
+      this.toggleDataCollection()
+
     this.locationService.initLocation();
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
@@ -54,13 +63,33 @@ export class AppComponent implements OnInit {
     });
   }
 
+  setUser() {
+    this.AnalyticsService.setUser();
+   }
+ 
+   setProperty() {
+     this.AnalyticsService.setProperty();
+   }
+ 
+   logEvent() {
+     this.AnalyticsService.logEvent();
+   }
+ 
+ 
+   toggleDataCollection() {
+     this.AnalyticsService.toggleAnalytics();
+     this.enabled = this.AnalyticsService.analyticsEnabled;
+   }
+
   private registerIonicLifecycleEvents() {
     this.platform.pause.subscribe(() => {
       //App.exitApp();
     });
   }
 
+
   ngOnInit(): void {
+
     this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd)
     ).subscribe((event: any) => {

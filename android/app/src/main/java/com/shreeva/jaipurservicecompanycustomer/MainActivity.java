@@ -1,7 +1,11 @@
 package com.shreeva.jaipurservicecompanycustomer;
 import android.os.Bundle;
+import com.getcapacitor.community.firebaseanalytics.FirebaseAnalytics;
+
 
 import com.getcapacitor.BridgeActivity;
+import com.getcapacitor.Plugin;
+import java.util.ArrayList;
 
 public class MainActivity extends BridgeActivity {
   private boolean isGPS = false;
@@ -15,5 +19,13 @@ public class MainActivity extends BridgeActivity {
       }
     });
     super.onCreate(savedInstanceState);
+
+    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
+      // Additional plugins you've installed go here
+      add(FirebaseAnalytics.class);
+    }});
+  }
+
+  private void init(Bundle savedInstanceState, ArrayList<Class<? extends Plugin>> classes) {
   }
 }
