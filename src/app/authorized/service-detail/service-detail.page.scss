@@ -1,7 +1,7 @@
 .descriptionBody {
   padding: 8px;
   border-radius: 12px;
-  background: rgba(232, 233, 234, 0.7);
+  background: #E8E9EA;
   margin: 1px;
 
   .descrption-title {
@@ -383,6 +383,7 @@ ion-button {
     .addCartdiv-buttons {
       border: 1px solid var(--primary, #181f29);
       background: #fff;
+      border-radius: max;
     }
 
     .book-buttons {
