@@ -107,9 +107,9 @@
         font-size: 18px;
         font-weight: 700;
         color: green;
-        text-align: end;
+        text-align:left;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
       }
     }
@@ -370,25 +370,43 @@ ion-button {
   --inner-padding-end: 0px;
 
   .addCartdiv {
-    button {
-      width: 100%;
-      display: flex;
-      height: 45px;
-      padding: 5px 12px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 12px;
+    // button {
+    //   width: 100%;
+    //   display: flex;
+    //   height: 45px;
+    //   padding: 5px 12px;
+    //   justify-content: center;
+    //   align-items: center;
+    //   border-radius: 12px;
+    // }
+
+    .ionbut{
+      ion-button {
+        --background: #181f29;
+        --border-radius: 10px;
+        --padding-end: 16px;
+        --padding-start: 16px;
+        --icon-size: 50px;
+        --icon-padding-end: 8px;
+      }
+      
     }
 
     .addCartdiv-buttons {
-      border: 1px solid var(--primary, #181f29);
-      background: #fff;
-      border-radius: max;
+      border: 2px solid var(--primary, #181f29);
+      background: #95c28c;
+      border-radius: 8px;
+      width: 80px;
+      height: 50px;
+      font-size: small;
+      
+      
     }
 
     .book-buttons {
       color: white;
       background: var(--Primary, #1a1d1f);
+      border-radius: 10px;
     }
   }
 }

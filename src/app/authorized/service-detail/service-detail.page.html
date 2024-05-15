@@ -469,6 +469,7 @@
                       ({{variant.actualJobDuration}} min)
                     </p>
                   </div>
+                  <br>
                   <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                 </div>
                 <div class="cart-button">
@@ -522,9 +523,12 @@
                     class="{{variant.id}}"
                     *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                   >
+
+                  <ion-grid>
+                    <ion-row>
+                      
                     <div
                       class="row addCartdiv"
-                      style="width: -webkit-fill-available"
                     >
                       <!-- <div class="col-6"> -->
                         <!-- <button
@@ -535,12 +539,15 @@
                         >
                           Add To Cart
                         </button> -->
+                        <ion-col>
+                        <div class="ionbut">
                         <ion-button (click)="addToCart(variant)">
                           <ion-icon name="cart-outline"></ion-icon>
                         
-                        </ion-button>
+                        </ion-button></div>
                        <!-- </div> -->
-
+                      </ion-col>
+<ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
                           class="addCartdiv-buttons"
@@ -551,7 +558,10 @@
                           Book Now
                         </button>
                       </div>
+                      </ion-col>
                     </div>
+                  </ion-row>
+                </ion-grid>
                   </ion-item>
                 </div>
               </div>
