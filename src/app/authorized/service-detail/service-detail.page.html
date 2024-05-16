@@ -221,9 +221,9 @@
       </div>
       <ion-accordion-group #accordionGroup class="page-accordion">
         <ion-accordion value="first">
-          <ion-item slot="header" color="light">
-            <ion-label>Description</ion-label>
-          </ion-item>
+           <ion-item slot="header" color="light"> 
+             <ion-label>Description</ion-label> 
+           </ion-item>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
               <div
@@ -237,15 +237,17 @@
                       class="description"
                       *ngFor="let item Of des?.data?.items"
                     >
-                      <ion-icon
+                       <ion-icon
                         style="width: 6px"
                         name="ellipse-sharp"
                       ></ion-icon>
-                      <strong [innerHTML]="item"></strong>
+                      <strong [innerHTML]="item"></strong> 
+                      <!-- {{ item}} -->
                     </div>
                   </div>
                   <div class="description" *ngIf="des.type ==='paragraph'">
-                    <strong [innerHTML]="des.data.text"></strong>
+                     <strong [innerHTML]="des.data.text"></strong> 
+                    <!-- {{des.data.text}} -->
                   </div>
                 </div>
               </div>
@@ -253,9 +255,9 @@
           </div>
         </ion-accordion>
         <ion-accordion value="second">
-          <ion-item slot="header" color="light">
-            <ion-label>Type</ion-label>
-          </ion-item>
+           <ion-item slot="header" color="light"> 
+             <ion-label>Type</ion-label> 
+           </ion-item> 
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
               <p
@@ -269,7 +271,10 @@
             </div>
           </div>
         </ion-accordion>
-      </ion-accordion-group>
+      </ion-accordion-group> 
+      
+  
+      
       <!-- <div class="row descriptionBody">
       <h5 class="descrption-title">Description</h5>
       <div class="pdt-desc">
