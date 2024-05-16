@@ -220,8 +220,8 @@
         </div>
       </div>
       <ion-accordion-group #accordionGroup class="page-accordion">
-        <ion-accordion value="first">
-           <ion-item slot="header" color="light"> 
+        <!-- <ion-accordion value="first"> -->
+           <!-- <ion-item slot="header" color="light"> 
              <ion-label>Description</ion-label> 
            </ion-item>
           <div class="ion-padding descriptionBody" slot="content">
@@ -240,21 +240,48 @@
                        <ion-icon
                         style="width: 6px"
                         name="ellipse-sharp"
-                      ></ion-icon>
-                      <strong [innerHTML]="item"></strong> 
-                      <!-- {{ item}} -->
-                    </div>
+                      ></ion-icon> -->
+                      <!-- <strong [innerHTML]="item"></strong> 
+                    
+                     </div>
                   </div>
                   <div class="description" *ngIf="des.type ==='paragraph'">
                      <strong [innerHTML]="des.data.text"></strong> 
-                    <!-- {{des.data.text}} -->
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        <!-- </ion-accordion>  -->
+
+
+
+
+        <ion-accordion value="first">
+          <!-- Replace ion-item with a simple paragraph -->
+          <p slot="header" style="color: light;">Description</p>
+          <div class="ion-padding descriptionBody" slot="content">
+            <div class="pdt-desc">
+              <div class="details" *ngFor="let des of matchingService?.description.blocks">
+                <div class="header">
+                  <h4 *ngIf="des.type === 'header'">{{ des.data.text }}</h4>
+                  <div class="list" *ngIf="des.type === 'list'">
+                    <div class="description" *ngFor="let item of des?.data?.items">
+                      {{ item }}
+                    </div>
+                  </div>
+                  <div class="description" *ngIf="des.type === 'paragraph'">
+                    {{ des.data.text }}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </ion-accordion>
-        <ion-accordion value="second">
+        
+    
+                <!-- <ion-accordion value="second">
            <ion-item slot="header" color="light"> 
              <ion-label>Type</ion-label> 
            </ion-item> 
@@ -264,13 +291,33 @@
                 class="server-type"
                 *ngFor="let type Of matchingService?.tags"
                 (click)="tags = type"
-                [ngClass]="{active:tags===type}"
+                [ngClass]="{active:tags===type}"></p>
+            </div>
+          </div>
+        </ion-accordion> -->
+
+
+
+  
+
+        <ion-accordion value="second">
+          <!-- Replace ion-item with a simple paragraph -->
+          <p slot="header" style="color: light;">Type</p>
+          <div class="ion-padding service-types" slot="content">
+            <div class="service-box">
+              <p
+                class="server-type"
+                *ngFor="let type of matchingService?.tags"
+                  
+                [ngClass]="{active: tags === type}"
               >
-                {{type}}
+                {{ type }}
               </p>
             </div>
           </div>
         </ion-accordion>
+        
+        
       </ion-accordion-group> 
       
   
