@@ -192,8 +192,9 @@
                           Add To Cart
                         </button>  -->
                         <ion-col>
-                          <div class="ionbut">
-                            <ion-icon name ="cart-outline"></ion-icon>
+                          <div class="ionbut" color="181f29">
+                            <ion-icon name ="cart-outline" class="larger-icon"></ion-icon>
+                            
                        </div>   
                        </ion-col>
                        <ion-col>
@@ -201,7 +202,7 @@
                         <button
                           class="addCartdiv-buttons"
                           fill="outline"
-                          color="dark"
+                          color="#181f29"
                           (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)"
                         >
                           Book Now
@@ -260,7 +261,7 @@
 
         <ion-accordion value="first">
           <!-- Replace ion-item with a simple paragraph -->
-          <p slot="header" style="color: light;">Description</p>
+          <p slot="header" style="color: #181f29;">Description</p>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
               <div class="details" *ngFor="let des of matchingService?.description.blocks">
@@ -302,7 +303,7 @@
 
         <ion-accordion value="second">
           <!-- Replace ion-item with a simple paragraph -->
-          <p slot="header" style="color: light;">Type</p>
+          <p slot="header" style="color:#181f29;">Type</p>
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
               <p

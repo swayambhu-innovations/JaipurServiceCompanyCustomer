@@ -2,22 +2,25 @@
   padding: 8px;
   border-radius: 12px;
   background: #E8E9EA;
-  margin: 1px;
+  margin: 3px;
 
   .descrption-title {
     color: var(--primary, #181f29);
     font-family: Lato;
-    font-size: 18px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-top: 8px;
+    margin-top: 10px;
+    background: #181F29;
+    
+
   }
 
   .pdt-desc {
     padding-left: 23px;
     // ul {
-    //   color: #444;
+      // color: #444;
     //   font-family: Lato;
     //   font-size: 12px;
     //   font-style: normal;
@@ -382,15 +385,25 @@ ion-button {
     // }
 
     .ionbut{
-      ion-button {
+      
         --background: #181f29;
         --border-radius: 1px;
         --padding-end: 16px;
         --padding-start: 16px;
         --icon-size: 400px;
         --icon-padding-end: 10px;
-
+        .larger-icon {
+          font-size: 30px; /* Adjust the size as per your requirement */
+          --background: #181f29;
+        --border-radius: 1px;
+        --padding-end: 16px;
+        --padding-start: 16px;
+        --icon-size: 400px;
+        --icon-padding-end: 10px;
+        margin-bottom: auto;
       }
+      
+      
       
     }
 
@@ -398,9 +411,10 @@ ion-button {
       border: 2px solid var(--primary, #181f29);
       background: #95c28c;
       border-radius: 8px;
-      width: 70px;
-      height: 30px;
+      width: 80px;
+      height: 40px;
       font-size: small;
+      
       
       
     }
@@ -409,6 +423,7 @@ ion-button {
       color: white;
       background: var(--Primary, #1a1d1f);
       border-radius: 10px;
+      margin-bottom: auto;
     }
   }
 }
