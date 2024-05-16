@@ -192,11 +192,16 @@
                           Add To Cart
                         </button>  -->
                         <ion-col>
-                          <div class="ionbut" color="181f29">
+                          <div class="ionbut" color="181f29" onclick="addToCart()">
                             <ion-icon name ="cart-outline" class="larger-icon"></ion-icon>
                             
                        </div>   
                        </ion-col>
+                       <script>
+                        function addToCart() {
+                          alert('Item added to cart');
+                        }
+                       </script>
                        <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
@@ -261,7 +266,7 @@
 
         <ion-accordion value="first">
           <!-- Replace ion-item with a simple paragraph -->
-          <p slot="header" style="color: #181f29;">Description</p>
+          <p slot="header" style="color: #181f29; margin-top: 40px;">Description</p>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
               <div class="details" *ngFor="let des of matchingService?.description.blocks">

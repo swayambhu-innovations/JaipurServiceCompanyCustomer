@@ -393,9 +393,9 @@ ion-button {
         --icon-size: 400px;
         --icon-padding-end: 10px;
         .larger-icon {
-          font-size: 30px; /* Adjust the size as per your requirement */
-          --background: #181f29;
-        --border-radius: 1px;
+          font-size: 50px; /* Adjust the size as per your requirement */
+          background: #95c28c;
+        border-radius: 1px;
         --padding-end: 16px;
         --padding-start: 16px;
         --icon-size: 400px;
@@ -411,9 +411,12 @@ ion-button {
       border: 2px solid var(--primary, #181f29);
       background: #95c28c;
       border-radius: 8px;
-      width: 80px;
-      height: 40px;
+      width: 100px;
+      height: 50px;
       font-size: small;
+
+      
+
       
       
       
@@ -591,10 +594,11 @@ ion-button {
 
 .page-accordion {
   margin-top: 20px;
+  
 
   .descriptionBody {
     border-radius: 0px;
-    margin: 0px;
+    margin: 3px;
   }
 }
 
