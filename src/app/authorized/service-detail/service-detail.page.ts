@@ -5,6 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { PaymentService } from '../../payment.service';
 import * as $ from 'jquery';
 import Swiper from 'swiper';
+import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-service-detail',
   templateUrl: './service-detail.page.html',
@@ -62,7 +64,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
   isCategoryItemsLoaded: boolean = false;
   constructor(public dataProvider: DataProviderService, private activatedRoute: ActivatedRoute, private router: Router,
     private paymentService: PaymentService, public cartService: CartService, private loadingController: LoadingController
-    , private activeRoute: ActivatedRoute, private viewController: ModalController) {
+    , private activeRoute: ActivatedRoute, private viewController: ModalController, private toastController: ToastController) {
 
 
   }
@@ -207,16 +209,48 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     this.isModalOpen = false;
   }
 
-  addToCart(variant: any) {
-    $("#input" + variant.id).val(1);
-    let html = document.getElementById(variant.id + "");
-    $("." + variant.id).hide();
-    html?.style.setProperty("display", "flex");
-    this.totalPrice += variant.price;
-    this.selectedItems += 1;
-    this.itemList.push(variant);
-    this.cartService.addToCart(this.dataProvider.currentUser!.user.uid, variant.id, this.matchingService!, this.matchingMainCategory!, this.matchingSubCategory!);
+  cart: any[] = [];
+
+  // constructor(private toastController: ToastController) {}
+
+  addToCart() {
+    const newItem = {
+      name: 'Sample Item',  // Replace with actual item details
+      quantity: 1
+    };
+
+    // Check if item already exists in the cart
+    const existingItem = this.cart.find(item => item.name === newItem.name);
+
+    if (existingItem) {
+      // If item exists, increment the quantity
+      existingItem.quantity += 1;
+    } else {
+      // If item does not exist, add it to the cart
+      this.cart.push(newItem);
+    }
+
+    this.presentToast('Item added to cart');
   }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+    });
+    toast.present();
+  }
+
+  // addToCart(variant: any) {
+  //   $("#input" + variant.id).val(1);
+  //   let html = document.getElementById(variant.id + "");
+  //   $("." + variant.id).hide();
+  //   html?.style.setProperty("display", "flex");
+  //   this.totalPrice += variant.price;
+  //   this.selectedItems += 1;
+  //   this.itemList.push(variant);
+  //   this.cartService.addToCart(this.dataProvider.currentUser!.user.uid, variant.id, this.matchingService!, this.matchingMainCategory!, this.matchingSubCategory!);
+  // }
 
   decrementQuantity(matchingCategoryId, matchingSubCategoryId, matchingService, variantId) {
     const bookingId = this.getBookingId(matchingCategoryId, matchingSubCategoryId, matchingService);

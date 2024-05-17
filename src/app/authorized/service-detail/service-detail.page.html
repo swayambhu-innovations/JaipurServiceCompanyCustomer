@@ -192,16 +192,23 @@
                           Add To Cart
                         </button>  -->
                         <ion-col>
-                          <div class="ionbut" color="181f29" onclick="addToCart()">
+                          <div class="ionbut" color="181f29" click="addToCart()">
                             <ion-icon name ="cart-outline" class="larger-icon"></ion-icon>
                             
                        </div>   
                        </ion-col>
-                       <script>
-                        function addToCart() {
-                          alert('Item added to cart');
-                        }
-                       </script>
+
+                       
+                        <ion-col>
+                          <div *ngFor="let item of cart">
+                            {{ item.name }} - {{ item.quantity }}
+                          </div>
+                        </ion-col>
+                       
+                        
+                        
+                  
+            
                        <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
