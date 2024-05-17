@@ -170,17 +170,19 @@
                       </button>
                     </div>
                   </div>
-                  <ion-item
-                    class="remove-pading"
+                    <ion-item
+                     class="remove-pading"
                     lines="none"
                     class="{{variant.id}}"
                     *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                   >
-                    <div
+                  <ion-grid>
+                    <ion-row>
+                   <div
                       class="row addCartdiv"
-                      style="width: -webkit-fill-available"
+                    
                     >
-                      <div class="col-6">
+                      <!-- <div class="col-6">
                         <button
                           class="addCartdiv-buttons"
                           fill="outline"
@@ -188,31 +190,53 @@
                           color="dark"
                         >
                           Add To Cart
-                        </button>
-                      </div>
+                        </button>  -->
+                        <ion-col>
+                          <div class="ionbut" color="181f29" click="addToCart()">
+                            <ion-icon name ="cart-outline" class="larger-icon"></ion-icon>
+                            
+                       </div>   
+                       </ion-col>
+
+                       
+                        <ion-col>
+                          <div *ngFor="let item of cart">
+                            {{ item.name }} - {{ item.quantity }}
+                          </div>
+                        </ion-col>
+                       
+                        
+                        
+                  
+            
+                       <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
                           class="addCartdiv-buttons"
                           fill="outline"
-                          color="dark"
+                          color="#181f29"
                           (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)"
                         >
                           Book Now
                         </button>
+                      </div> 
+                      </ion-col>
                       </div>
-                    </div>
-                  </ion-item>
-                </div>
+                      </ion-row>
+                      </ion-grid>
+                     
+                  </ion-item> 
+                 </div> 
               </div>
             </div>
           </div>
         </div>
       </div>
       <ion-accordion-group #accordionGroup class="page-accordion">
-        <ion-accordion value="first">
-          <ion-item slot="header" color="light">
-            <ion-label>Description</ion-label>
-          </ion-item>
+        <!-- <ion-accordion value="first"> -->
+           <!-- <ion-item slot="header" color="light"> 
+             <ion-label>Description</ion-label> 
+           </ion-item>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
               <div
@@ -226,39 +250,91 @@
                       class="description"
                       *ngFor="let item Of des?.data?.items"
                     >
-                      <ion-icon
+                       <ion-icon
                         style="width: 6px"
                         name="ellipse-sharp"
-                      ></ion-icon>
-                      <strong [innerHTML]="item"></strong>
-                    </div>
+                      ></ion-icon> -->
+                      <!-- <strong [innerHTML]="item"></strong> 
+                    
+                     </div>
                   </div>
                   <div class="description" *ngIf="des.type ==='paragraph'">
-                    <strong [innerHTML]="des.data.text"></strong>
+                     <strong [innerHTML]="des.data.text"></strong> 
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        <!-- </ion-accordion>  -->
+
+
+
+
+        <ion-accordion value="first">
+          <!-- Replace ion-item with a simple paragraph -->
+          <p slot="header" style="color: #181f29; margin-top: 40px;">Description</p>
+          <div class="ion-padding descriptionBody" slot="content">
+            <div class="pdt-desc">
+              <div class="details" *ngFor="let des of matchingService?.description.blocks">
+                <div class="header">
+                  <h4 *ngIf="des.type === 'header'">{{ des.data.text }}</h4>
+                  <div class="list" *ngIf="des.type === 'list'">
+                    <div class="description" *ngFor="let item of des?.data?.items">
+                      {{ item }}
+                    </div>
+                  </div>
+                  <div class="description" *ngIf="des.type === 'paragraph'">
+                    {{ des.data.text }}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </ion-accordion>
-        <ion-accordion value="second">
-          <ion-item slot="header" color="light">
-            <ion-label>Type</ion-label>
-          </ion-item>
+        
+    
+                <!-- <ion-accordion value="second">
+           <ion-item slot="header" color="light"> 
+             <ion-label>Type</ion-label> 
+           </ion-item> 
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
               <p
                 class="server-type"
                 *ngFor="let type Of matchingService?.tags"
                 (click)="tags = type"
-                [ngClass]="{active:tags===type}"
+                [ngClass]="{active:tags===type}"></p>
+            </div>
+          </div>
+        </ion-accordion> -->
+
+
+
+  
+
+        <ion-accordion value="second">
+          <!-- Replace ion-item with a simple paragraph -->
+          <p slot="header" style="color:#181f29;">Type</p>
+          <div class="ion-padding service-types" slot="content">
+            <div class="service-box">
+              <p
+                class="server-type"
+                *ngFor="let type of matchingService?.tags"
+                  
+                [ngClass]="{active: tags === type}"
               >
-                {{type}}
+                {{ type }}
               </p>
             </div>
           </div>
         </ion-accordion>
-      </ion-accordion-group>
+        
+        
+      </ion-accordion-group> 
+      
+  
+      
       <!-- <div class="row descriptionBody">
       <h5 class="descrption-title">Description</h5>
       <div class="pdt-desc">
@@ -290,16 +366,9 @@
       </div>
     </div> -->
 
-      <div
-        class="row"
-        [ngClass]="{'rating-div':!matchingService?.averageRating}"
-      >
-        <div class="col">
-          <h2>Customer Review</h2>
-          <div class="no-ratings" *ngIf="!matchingService?.averageRating">
-            <span>Currently No ratings available.....</span>
-          </div>
-        </div>
+      
+        
+        <!-- </div>
       </div>
       <div class="rating-main-div">
         <div class="row" *ngFor="let CustReview of matchingService?.rating">
@@ -307,8 +376,17 @@
             <div class="card">
               <div class="card-body">
                 <div class="row card-title clearfix">
-                  <div class="col-9" slot="start">
-                    <ion-item>
+                    <ion-item>     
+                           <div class="col-9" slot="start">
+                            <div
+        class="row"
+        [ngClass]="{'rating-div':!matchingService?.averageRating}"
+      >
+        <div class="col">
+          <h2>Customer Review</h2>
+          <div class="no-ratings" *ngIf="!matchingService?.averageRating">
+            <span>Currently No ratings available.....</span> -->
+          <!-- </div>
                       <ion-avatar slot="start">
                         <img
                           alt="Silhouette of a person's head"
@@ -336,11 +414,11 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </ion-content>
-</ng-container>
+        </div> -->
+      <!-- </div>
+     </div> -->
+  <!-- </ion-content> -->
+<!-- </ng-container> -->
 
 <app-header-with-back
   id="web-view"
@@ -469,6 +547,7 @@
                       ({{variant.actualJobDuration}} min)
                     </p>
                   </div>
+                  <br>
                   <p class="col-4 price">{{variant.price | currency:'INR'}}</p>
                 </div>
                 <div class="cart-button">
@@ -522,31 +601,46 @@
                     class="{{variant.id}}"
                     *ngIf="!this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                   >
+
+                  <ion-grid>
+                    <ion-row>
+                      
                     <div
                       class="row addCartdiv"
-                      style="width: -webkit-fill-available"
                     >
-                      <div class="col-6">
-                        <button
+                      <!-- <div class="col-6"> -->
+                        <!-- <button
                           class="addCartdiv-buttons"
                           fill="outline"
                           (click)="addToCart(variant)"
                           color="dark"
                         >
                           Add To Cart
-                        </button>
+                        </button> -->
+                        <ion-col>
+                        <div class="ionbut">
+                        <!-- <ion-button (click)="addToCart(variant)"> -->
+                          <ion-icon name="cart-outline"></ion-icon>
+                        
+                        <!-- </ion-button> -->
                       </div>
+                       <!-- </div> -->
+                      </ion-col>
+                       <ion-col>
                       <div class="col-6" style="text-align: end">
                         <button
                           class="addCartdiv-buttons"
                           fill="outline"
                           color="dark"
-                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)"
-                        >
+                          (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">
+                        
                           Book Now
                         </button>
                       </div>
+                      </ion-col>
                     </div>
+                  </ion-row>
+                </ion-grid>
                   </ion-item>
                 </div>
               </div>
@@ -607,7 +701,7 @@
         </ion-accordion>
       </ion-accordion-group>
 
-      <div
+       <!-- <div
         class="row"
         [ngClass]="{'rating-div':!matchingService?.averageRating}"
       >
@@ -617,9 +711,9 @@
             <span>Currently No ratings available.....</span>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div *ngIf="matchingService?.rating" class="rating-main-div">
+      <!-- <div *ngIf="matchingService?.rating" class="rating-main-div">
         <div class="row" *ngFor="let CustReview of matchingService?.rating">
           <div class="col mt-4" *ngIf="matchingService?.averageRating">
             <div class="card">
@@ -642,8 +736,8 @@
                   </div>
                   <div class="col-3 float-right mt-4 ml-4">
                     <p class="float-right" style="font-size: 20px">
-                      <ion-icon name="star" style="margin-right: 5px"></ion-icon
-                      >{{CustReview.rating}}
+                      <ion-icon name="star" style="margin-right: 5px"></ion-icon -->
+                      <!-- >{{CustReview.rating}}
                     </p>
                   </div>
                 </div>
@@ -658,4 +752,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>  -->
