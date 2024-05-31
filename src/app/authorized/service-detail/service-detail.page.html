@@ -6,8 +6,8 @@
 
   <ion-content [fullscreen]="true">
     <div class="container" id="container">
-      <div class="row position-relative swiper-main">
-        <swiper-container
+      <div class="row position-relative swiper-main ">
+        <swiper-container class="swiperdiv"
           pagination="true"
           slides-per-view="1"
           speed="800"
@@ -15,10 +15,11 @@
           autoplay="true"
           loop="true"
           css-mode="true"
+          *ngIf=" matchingService?.image ||matchingService?.video"
         >
           <swiper-slide *ngFor="let image of this.matchingService?.image">
             <img
-              style="width: 100%"
+              style="width: 100% ;height: 100%; border-radius: 15px;"
               [src]="image"
               [alt]="matchingService?.name"
             />
@@ -33,21 +34,164 @@
               preload="auto"
               muted
               width="100%"
+              height="200px"
+              style="border-radius: 15px;"
             >
               <source src="{{this.matchingService?.video}}" type="video/mp4" />
             </video>
           </swiper-slide>
         </swiper-container>
+        <div class="swiperdiv1" *ngIf="!matchingService?.image && !matchingService?.video">
+          <img src="https://via.placeholder.com/100" alt="">
+        </div>
       </div>
-
+     <div *ngFor="let variant of matchingService?.variants;" class="item-inner1">
+      <ion-item  >
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <div class="newdiv">
+                <h6>{{this.matchingService?.name}}</h6>
+                <p >{{this.matchingService?.variants![0]?.price | currency:'INR':
+                  'symbol' : '1.0-0'}}</p>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="div-set">
+                <div class="divset1">
+                <button class="button1"  (click)="addToCart(variant)">
+                  <ion-icon name="cart-outline"></ion-icon>
+                </button>
+                </div>
+                  <div class="divset2">
+                    <ion-button class="button2" (click)="bookNow(matchingMainCategory!.id,matchingService!.id,variant.id)">
+                     <label for="ion-button"> Book Now</label>
+                    </ion-button>
+                  </div>
+                 
+                </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+       
+      
+      </ion-item>
+      <div [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'block':'none'}">
+        <ion-item  >
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <div class="newdiv">
+                  <h6> {{variant.name}}</h6>
+                  <p >{{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
+                    | currency:'INR':'symbol' :'1.0-0'}}
+                    </p>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="div-set">
+                  <div class="divset3">
+                  <ion-button class="minus"  (click)="decrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">
+                   <label for="ion-button">
+                    _
+                   </label>
+                  </ion-button>
+                  <input
+                  class="input-div"
+                  type="number"
+                  id="input{{variant.id}}"
+                  text-center
+                  [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
+                  min="1"
+                  max="5"
+                />
+                  <ion-button class="plus" (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">
+                    +
+                 </ion-button>
+                  </div>
+                    <div class="divset4">
+                      <ion-button class="trash" (click)="removeFromCart(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)">
+                        <img src="/assets/Delete2.svg" alt="abhinav">
+                      </ion-button>
+                    </div>
+                   
+                  </div>
+                </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+        </ion-item>
+        <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
+          <div class="variants_modal" style="align-items: center">
+            <div class="services-button-view fixed-cart-button">
+              <div class="fixed-cart-inner">
+                <div class="col-6 cart-details">
+                  <div class="cartset">
+                    <span>
+                      {{this.cartService.getServiceBill(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
+                      | currency:'INR':'symbol' :'1.0-0'}}
+                    </span>
+                    <p>
+                      |
+                      {{
+                      this.cartService.getServiceQuantity(matchingService!,matchingMainCategory!.id,matchingSubCategory!.id)
+                      }} items
+                    </p>
+                  </div>
+                </div>
+                <div class="col-6 see-all-variants">
+                  <p class="view-cart">
+                    <ion-button
+                      class="service-common-button w-100"
+                      color="dark"
+                      (click)="ViewCart()"
+                    >
+                      View Cart
+                    </ion-button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+      </div>
+      <ion-card class="cardset">
+        <ion-card-header>
+          <ion-card-title>Product Description</ion-card-title>
+        </ion-card-header>
+        <ion-card-content >
+          <ul *ngIf="matchingService?.description?.blocks?.[3]?.data">
+            <li *ngFor="let detail of matchingService.description.blocks[3].data.items">{{ detail }}</li>
+           
+          </ul>
+        </ion-card-content>
+      </ion-card>
+      <div class="cardset2">
+        <ion-card-header >
+          <ion-card-title>Tags</ion-card-title>
+        </ion-card-header>
+        <div>
+          <div class="tags-container">
+            <ion-chip *ngFor="let tag of tagse">
+              <ion-label>{{ tag }}</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+      </div>
+     
+     
+     
+<!-- 
       <div class="row service-details">
+      
         <div class="col-8 col1">
           <h2 class="service-title">{{this.matchingService?.name}}</h2>
-          <p>
+          <p> -->
             <!-- <img src="../../../assets/star1.svg" alt="">
           <span class="rating">4.5</span>
           <span class="review">(87)</span> -->
-            <ion-icon
+            <!-- <ion-icon
               name="star"
               *ngIf="matchingService?.averageRating"
               style="zoom: 1.3; margin-right: 5px"
@@ -71,8 +215,8 @@
             'symbol' : '1.0-0'}}
           </ion-label>
         </div>
-      </div>
-      <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
+      </div> -->
+      <!-- <div class="page-variant-main" *ngIf="isCategoryItemsLoaded">
         <div class="variants_modal" style="align-items: center">
           <div class="services-button-view fixed-cart-button">
             <div class="fixed-cart-inner">
@@ -102,8 +246,9 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="coupon">
+        </div> -->
+
+      <!--  <div class="coupon">
           <img src="../../../assets/couponTag.svg" alt="" />
           <p>Apply Coupons to save upto 70%!</p>
         </div>
@@ -181,7 +326,7 @@
                    <div
                       class="row addCartdiv"
                     
-                    >
+                    > -->
                       <!-- <div class="col-6">
                         <button
                           class="addCartdiv-buttons"
@@ -191,7 +336,7 @@
                         >
                           Add To Cart
                         </button>  -->
-                        <ion-col>
+                        <!-- <ion-col>
                           <div class="ionbut" color="181f29" click="addToCart()">
                             <ion-icon name ="cart-outline" class="larger-icon"></ion-icon>
                             
@@ -232,7 +377,7 @@
           </div>
         </div>
       </div>
-      <ion-accordion-group #accordionGroup class="page-accordion">
+      <ion-accordion-group #accordionGroup class="page-accordion"> -->
         <!-- <ion-accordion value="first"> -->
            <!-- <ion-item slot="header" color="light"> 
              <ion-label>Description</ion-label> 
@@ -271,9 +416,9 @@
 
 
 
-        <ion-accordion value="first">
+        <!-- <ion-accordion value="first"> -->
           <!-- Replace ion-item with a simple paragraph -->
-          <p slot="header" style="color: #181f29; margin-top: 40px;">Description</p>
+          <!-- <p slot="header" style="color: #181f29; margin-top: 40px;">Description</p>
           <div class="ion-padding descriptionBody" slot="content">
             <div class="pdt-desc">
               <div class="details" *ngFor="let des of matchingService?.description.blocks">
@@ -291,7 +436,7 @@
               </div>
             </div>
           </div>
-        </ion-accordion>
+        </ion-accordion> -->
         
     
                 <!-- <ion-accordion value="second">
@@ -313,9 +458,9 @@
 
   
 
-        <ion-accordion value="second">
+        <!-- <ion-accordion value="second"> -->
           <!-- Replace ion-item with a simple paragraph -->
-          <p slot="header" style="color:#181f29;">Type</p>
+          <!-- <p slot="header" style="color:#181f29;">Type</p>
           <div class="ion-padding service-types" slot="content">
             <div class="service-box">
               <p
@@ -328,10 +473,10 @@
               </p>
             </div>
           </div>
-        </ion-accordion>
+        </ion-accordion> -->
         
         
-      </ion-accordion-group> 
+      <!-- </ion-accordion-group>  -->
       
   
       
@@ -427,7 +572,7 @@
 ></app-header-with-back>
 
 <div id="web-view" class="back-container">
-  <div class="main-container">
+  <div class="main-container divset">
     <div class="container" id="container">
       <div
         *ngIf="this.matchingService?.image || this.matchingService?.video"

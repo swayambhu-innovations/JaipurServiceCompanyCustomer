@@ -68,6 +68,17 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
 
 
   }
+  productDetails = [
+    { description: 'Time duration - 60 to 70 min.' },
+    { description: 'Time frequency - 4 to 5 months' },
+    { description: 'Covered - Mesh and filter deep clean' },
+    { description: 'Exterior cleaning' }
+  ];
+  tagse = [
+    'Complete Kitchen',
+    'Complete Kitchen With Chimney',
+    'Complete Kitchen With Appliance'
+  ];
 
   async ngOnInit() {
 
@@ -213,25 +224,25 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
 
   // constructor(private toastController: ToastController) {}
 
-  addToCart() {
-    const newItem = {
-      name: 'Sample Item',  // Replace with actual item details
-      quantity: 1
-    };
+  // addToCart() {
+  //   const newItem = {
+  //     name: 'Sample Item',  // Replace with actual item details
+  //     quantity: 1
+  //   };
 
-    // Check if item already exists in the cart
-    const existingItem = this.cart.find(item => item.name === newItem.name);
+  //   // Check if item already exists in the cart
+  //   const existingItem = this.cart.find(item => item.name === newItem.name);
 
-    if (existingItem) {
-      // If item exists, increment the quantity
-      existingItem.quantity += 1;
-    } else {
-      // If item does not exist, add it to the cart
-      this.cart.push(newItem);
-    }
+  //   if (existingItem) {
+  //     // If item exists, increment the quantity
+  //     existingItem.quantity += 1;
+  //   } else {
+  //     // If item does not exist, add it to the cart
+  //     this.cart.push(newItem);
+  //   }
 
-    this.presentToast('Item added to cart');
-  }
+  //   this.presentToast('Item added to cart');
+  // }
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
@@ -241,16 +252,16 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     toast.present();
   }
 
-  // addToCart(variant: any) {
-  //   $("#input" + variant.id).val(1);
-  //   let html = document.getElementById(variant.id + "");
-  //   $("." + variant.id).hide();
-  //   html?.style.setProperty("display", "flex");
-  //   this.totalPrice += variant.price;
-  //   this.selectedItems += 1;
-  //   this.itemList.push(variant);
-  //   this.cartService.addToCart(this.dataProvider.currentUser!.user.uid, variant.id, this.matchingService!, this.matchingMainCategory!, this.matchingSubCategory!);
-  // }
+  addToCart(variant: any) {
+    $("#input" + variant.id).val(1);
+    let html = document.getElementById(variant.id + "");
+    $("." + variant.id).hide();
+    html?.style.setProperty("display", "flex");
+    this.totalPrice += variant.price;
+    this.selectedItems += 1;
+    this.itemList.push(variant);
+    this.cartService.addToCart(this.dataProvider.currentUser!.user.uid, variant.id, this.matchingService!, this.matchingMainCategory!, this.matchingSubCategory!);
+  }
 
   decrementQuantity(matchingCategoryId, matchingSubCategoryId, matchingService, variantId) {
     const bookingId = this.getBookingId(matchingCategoryId, matchingSubCategoryId, matchingService);
