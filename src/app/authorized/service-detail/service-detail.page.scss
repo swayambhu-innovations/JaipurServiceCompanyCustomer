@@ -1,7 +1,7 @@
 .descriptionBody {
   padding: 8px;
   border-radius: 12px;
-  background: #E8E9EA;
+  background: #e8e9ea;
   margin: 3px;
 
   .descrption-title {
@@ -12,15 +12,13 @@
     font-weight: 700;
     line-height: normal;
     margin-top: 10px;
-    background: #181F29;
-    
-
+    background: #181f29;
   }
 
   .pdt-desc {
     padding-left: 23px;
     // ul {
-      // color: #444;
+    // color: #444;
     //   font-family: Lato;
     //   font-size: 12px;
     //   font-style: normal;
@@ -110,7 +108,7 @@
         font-size: 18px;
         font-weight: 700;
         color: green;
-        text-align:left;
+        text-align: left;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -374,27 +372,26 @@ ion-button {
 
   .addCartdiv {
     // button {
-      //  width: 100%;
+    //  width: 100%;
     // display: flex;
-      //  height: 45px;
+    //  height: 45px;
     //  padding: 5px 12px;
     //  justify-content: center;
     //  align-items: center;
-      //  border-radius: 12px;
-      
+    //  border-radius: 12px;
+
     // }
 
-    .ionbut{
-      
-        --background: #181f29;
-        --border-radius: 1px;
-        --padding-end: 16px;
-        --padding-start: 16px;
-        --icon-size: 400px;
-        --icon-padding-end: 10px;
-        .larger-icon {
-          font-size: 50px; /* Adjust the size as per your requirement */
-          background: #95c28c;
+    .ionbut {
+      --background: #181f29;
+      --border-radius: 1px;
+      --padding-end: 16px;
+      --padding-start: 16px;
+      --icon-size: 400px;
+      --icon-padding-end: 10px;
+      .larger-icon {
+        font-size: 50px; /* Adjust the size as per your requirement */
+        background: #95c28c;
         border-radius: 1px;
         --padding-end: 16px;
         --padding-start: 16px;
@@ -402,9 +399,6 @@ ion-button {
         --icon-padding-end: 10px;
         margin-bottom: auto;
       }
-      
-      
-      
     }
 
     .addCartdiv-buttons {
@@ -414,12 +408,6 @@ ion-button {
       width: 100px;
       height: 50px;
       font-size: small;
-
-      
-
-      
-      
-      
     }
 
     .book-buttons {
@@ -594,7 +582,6 @@ ion-button {
 
 .page-accordion {
   margin-top: 20px;
-  
 
   .descriptionBody {
     border-radius: 0px;
@@ -620,6 +607,8 @@ ion-button {
 
   .fixed-cart-inner {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     flex: 0 0 100%;
 
@@ -630,7 +619,7 @@ ion-button {
 
       div {
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         margin: 0px;
         align-items: center;
         font-weight: bold;
@@ -708,100 +697,90 @@ ion-button {
       margin-right: auto;
       width: 50% !important;
     }
-    
+
     .coupon {
       padding: 15px 82px;
     }
   }
 }
-.divset1{
+.divset1 {
   width: 40px;
   margin-top: 4px;
-  .button1{
-    background:rgba(0, 0, 0, 1);
-    color:white;
-    border-radius:10px;
+  .button1 {
+    background: rgba(0, 0, 0, 1);
+    color: white;
+    border-radius: 10px;
     width: 100%;
     height: 37px;
-    
-    ion-icon{
-      width:90%;
-     height: 33px;
-     padding-top: 2px;
+
+    ion-icon {
+      width: 90%;
+      height: 33px;
+      padding-top: 2px;
     }
   }
-  
-
 }
-.divset2{
+.divset2 {
   width: 90px;
-  .button2{
-    --background:white ;
-    --color:rgba(0, 0, 0, 1);
-      border: 2px solid  rgba(0, 0, 0, 1);
-      border-radius: 10px;
-      --border-width:2px;
-      --border-radius: 10px;
-      --border-color: rgba(0, 0, 0, 1);
-      width: 100%;
-      height: 37px;
-      label{
-        padding-left: 5px;
-        padding-right: 5px;
-        font-weight: 700;
-        font-size: 12px;
-      }
-    
+  .button2 {
+    --background: white;
+    --color: rgba(0, 0, 0, 1);
+    border: 2px solid rgba(0, 0, 0, 1);
+    border-radius: 10px;
+    --border-width: 2px;
+    --border-radius: 10px;
+    --border-color: rgba(0, 0, 0, 1);
+    width: 100%;
+    height: 37px;
+    label {
+      padding-left: 5px;
+      padding-right: 5px;
+      font-weight: 700;
+      font-size: 12px;
+    }
   }
 }
 
-.div-set{
+.div-set {
   display: flex;
   justify-content: space-between;
-  
-  h6{
+
+  h6 {
     font-weight: bolder;
     font-size: 0.9rem;
     margin-bottom: 2px;
   }
-  p{
+  p {
     color: rgba(87, 149, 64, 1);
     font-weight: 700;
     font-style: Lato;
     font-size: 1rem;
-    
   }
 }
-.divset3
-{
+.divset3 {
   display: flex;
 
- 
-
-  .plus
-  {
-    --color:white;
-    --background:rgba(24, 31, 41, 1);
+  .plus {
+    --color: white;
+    --background: rgba(24, 31, 41, 1);
     --border-radius: 6px;
     --border-color: rgba(24, 31, 41, 1);
     width: 23px;
     height: 20px;
 
-    --background-activated:rgba(0, 0, 0, 1);
-    --color-activated:white ;
-  
+    --background-activated: rgba(0, 0, 0, 1);
+    --color-activated: white;
   }
-  .minus
-  {
-    --color:rgba(24, 31, 41, 1);
-    --background:white ;
+  .minus {
+    --color: rgba(24, 31, 41, 1);
+    --background: white;
     --border-radius: 6px;
     --border-color: rgba(24, 31, 41, 1);
     width: 23px;
     height: 20px;
-    --background-activated:rgba(0, 0, 0, 1);
-    --color-activated:white ;
-    label{
+    --background-activated: rgba(0, 0, 0, 1);
+    --color-activated: white;
+    label {
       padding-left: 5px;
       padding-right: 5px;
       font-weight: 700;
@@ -809,68 +788,65 @@ ion-button {
       padding-bottom: 19px;
     }
   }
-  input{
+  input {
     text-align: center;
     font-size: 20px;
-   
+
     border: none;
     color: rgba(0, 0, 0, 1);
-    
+
     width: 29px;
     height: 29px;
     margin-top: 5px;
     margin-left: 1px;
-}
-}
-.divset4
-{ margin-top: 0px;
-  
-  width: 40px;
-  .trash{
-    width: 100%;
-    height:28px;
-    --border-radius: 10px;
-    --background:white ;
-   img
-   {
-    width: 100%;
-    height:28px ;
-   }
   }
 }
-ion-item{
+.divset4 {
+  margin-top: 0px;
+
+  width: 40px;
+  .trash {
+    width: 100%;
+    height: 28px;
+    --border-radius: 10px;
+    --background: white;
+    img {
+      width: 100%;
+      height: 28px;
+    }
+  }
+}
+ion-item {
   outline: none;
   justify-content: center;
 }
-.newdiv{
-  h6{
+.newdiv {
+  h6 {
     font-weight: 700;
     font-size: 14px;
     margin-bottom: 0px;
     margin-top: 0px;
   }
-  p{
+  p {
     color: rgba(87, 149, 64, 1);
     font-weight: 700;
     font-size: 14px;
     font-style: Lato;
     font-size: 1rem;
     margin-bottom: 0px;
-    
   }
-  
-  
 }
-.cardset{
-  --background:rgba(232, 233, 234, 0.7);
+.cardset {
+  --background: rgba(232, 233, 234, 0.7);
   border-radius: 12px;
-  ion-card-title{
+  ion-card-title {
     font-size: 14px;
     font-weight: 500;
   }
 }
-.cardset2{
-  ion-card-title{
+.cardset2 {
+  margin-bottom: 12px;
+  ion-card-title {
     font-size: 14px;
     font-weight: 500;
   }
@@ -887,36 +863,33 @@ ion-chip {
   padding: 8px;
   font-size: 0.8rem;
 }
-.cartset{
-  span{
-  
-      color: rgba(87, 149, 64, 1);
-      font-weight: 700;
-      font-style: Lato;
-      font-size: 1.2rem;
-      
-    
+.cartset {
+  span {
+    color: rgba(87, 149, 64, 1);
+    font-weight: 700;
+    font-style: Lato;
+    font-size: 1.2rem;
   }
-  p{
+  p {
     color: black;
     font-weight: 700;
-      font-style: Lato;
-      font-size: 1.2rem;
-      font-weight: bold;
+    font-style: Lato;
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 }
-.swiperdiv{
+.swiperdiv {
   height: 200px;
-  
 }
-.swiperdiv1{
+.swiperdiv1 {
   height: 200px;
-  img{
+  img {
     width: 100%;
     height: 200px;
     border-radius: 15px;
   }
 }
-.item-inner1{
+.item-inner1 {
+  margin-top: 12px;
   padding-right: 0px;
 }

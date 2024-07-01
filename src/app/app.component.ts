@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 register();
-import { Filesystem, Directory, Encoding, FilesystemPlugin } from '@capacitor/filesystem';
+import {
+  Filesystem,
+  Directory,
+  Encoding,
+  FilesystemPlugin,
+} from '@capacitor/filesystem';
 import { Platform } from '@ionic/angular';
 import { NavigationBackService } from './navigation-back.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -9,7 +14,7 @@ import { filter } from 'rxjs';
 import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { LocationService } from './authorized/new-address/services/location.service';
-import { AnalyticsService } from './analyticsServices/analytics.service'; 
+import { AnalyticsService } from './analyticsServices/analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -18,39 +23,39 @@ import { AnalyticsService } from './analyticsServices/analytics.service';
 })
 export class AppComponent implements OnInit {
   currentUrl: string;
-  enabled = this. AnalyticsService.analyticsEnabled;
+  enabled = this.AnalyticsService.analyticsEnabled;
 
   constructor(
     private platform: Platform,
-    public _navigationBack : NavigationBackService,
-    private locationService:LocationService,
+    public _navigationBack: NavigationBackService,
+    private locationService: LocationService,
     private router: Router,
-  private AnalyticsService:AnalyticsService) {
-    
-      this.setUser()
-      this.setProperty()
-      this.logEvent()
-      this.toggleDataCollection()
+    private AnalyticsService: AnalyticsService
+  ) {
+    // this.setUser()
+    // this.setProperty()
+    // this.logEvent()
+    // this.toggleDataCollection()
 
     this.locationService.initLocation();
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
-      if(this.currentUrl == '/authorized/home' || this.currentUrl == '/no-internet'){
-        if(this.platform.is('cordova') || this.platform.is('mobile')){
+      if (
+        this.currentUrl == '/authorized/home' ||
+        this.currentUrl == '/no-internet'
+      ) {
+        if (this.platform.is('cordova') || this.platform.is('mobile')) {
           App.exitApp();
         }
-      }
-      else{
+      } else {
         const previousUrl = previousUrlArray[previousUrlArray.length - 2];
         this._navigationBack.setDataAfterNavigation();
         this.router.navigate([previousUrl]);
       }
-      
-      
     });
-    Network.addListener('networkStatusChange', status => {
-      if(!status.connected){
+    Network.addListener('networkStatusChange', (status) => {
+      if (!status.connected) {
         this._navigationBack.isAddressSubscription$ = false;
         setTimeout(() => {
           this.router.navigate(['/no-internet']);
@@ -65,21 +70,20 @@ export class AppComponent implements OnInit {
 
   setUser() {
     this.AnalyticsService.setUser();
-   }
- 
-   setProperty() {
-     this.AnalyticsService.setProperty();
-   }
- 
-   logEvent() {
-     this.AnalyticsService.logEvent();
-   }
- 
- 
-   toggleDataCollection() {
-     this.AnalyticsService.toggleAnalytics();
-     this.enabled = this.AnalyticsService.analyticsEnabled;
-   }
+  }
+
+  setProperty() {
+    this.AnalyticsService.setProperty();
+  }
+
+  logEvent() {
+    this.AnalyticsService.logEvent();
+  }
+
+  toggleDataCollection() {
+    this.AnalyticsService.toggleAnalytics();
+    this.enabled = this.AnalyticsService.analyticsEnabled;
+  }
 
   private registerIonicLifecycleEvents() {
     this.platform.pause.subscribe(() => {
@@ -87,31 +91,29 @@ export class AppComponent implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
-
-    this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.currentUrl = event.url;
-      const lastUrlArray = this._navigationBack.getPreviourUrl();
-      if(lastUrlArray[lastUrlArray.length -1 ] != event.url){
-        this._navigationBack.addPreviousUrl(event.url);
-      }
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.currentUrl = event.url;
+        const lastUrlArray = this._navigationBack.getPreviourUrl();
+        if (lastUrlArray[lastUrlArray.length - 1] != event.url) {
+          this._navigationBack.addPreviousUrl(event.url);
+        }
+      });
   }
 
- async createCasheFolder(){
-  Filesystem.readdir({
-    directory:Directory.Cache,
-    path:"CASHED_IMG"
-  }).then(list=>{
-  }).catch(async e =>{
-    await  Filesystem.mkdir({
-      directory:Directory.Cache,
-      path:`CASHED_IMG`
-    });
-  })
- 
+  async createCasheFolder() {
+    Filesystem.readdir({
+      directory: Directory.Cache,
+      path: 'CASHED_IMG',
+    })
+      .then((list) => {})
+      .catch(async (e) => {
+        await Filesystem.mkdir({
+          directory: Directory.Cache,
+          path: `CASHED_IMG`,
+        });
+      });
   }
 }

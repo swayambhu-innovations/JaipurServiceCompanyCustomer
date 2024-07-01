@@ -234,6 +234,7 @@ ion-thumbnail {
   overflow: auto;
 
   .service-det {
+    width: 35% !important;
     .det-container {
       display: flex;
       justify-content: center;
@@ -437,7 +438,7 @@ homepage.scss .serviceCategory {
 
       .row-1-col-2 {
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         height: 32px;
 
         p {

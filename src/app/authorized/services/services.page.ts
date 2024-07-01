@@ -70,7 +70,6 @@ export class ServicesPage implements OnInit {
       return a.variants[0].price - b.variants[0].price;
     });
     this.services = sortedSubCategory;
-
   }
 
   getJobDuration(jobDurationInMin) {
@@ -97,7 +96,6 @@ export class ServicesPage implements OnInit {
   //modal
   ionViewDidEnter() {
     this.systeminfo();
-    console.log(this.dataProvider.deviceInfo);
   }
 
   ionViewDidLeave() {

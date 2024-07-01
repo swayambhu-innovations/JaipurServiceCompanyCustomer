@@ -212,6 +212,7 @@ export class CartService {
           return;
         }
       }
+      console.log(this.dataProvider.currentUser);
       let data: Booking = {
         mainCategory: {
           id: mainCategory.id,
@@ -297,6 +298,7 @@ export class CartService {
           id: '',
         },
       };
+      console.log(data);
       await addDoc(collection(this.firestore, 'users', userId, 'cart'), data);
       this.updateCart();
     }

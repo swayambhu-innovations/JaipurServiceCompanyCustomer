@@ -481,7 +481,7 @@
       font-weight: 700;
       line-height: normal;
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
 
       span {
         color: #579540;
@@ -1325,7 +1325,7 @@ li.pargraph {
 
   .title-det {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     color: #252525;
     text-align: right;
     font-family: Lato;
