@@ -36,7 +36,7 @@ export class AllCategoriesPage implements OnInit {
     setInterval(() => {
       if (this.searchedIndex + 1 < this.categories.length) this.searchedIndex++;
       else this.searchedIndex = 0;
-    }, 3500);
+    }, 2500);
   }
 
   ionViewDidEnter() {

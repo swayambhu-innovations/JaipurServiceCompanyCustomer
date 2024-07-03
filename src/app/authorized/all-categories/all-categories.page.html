@@ -9,20 +9,25 @@
   <div class="container-fluid">
     <div class="row">
       <ion-header collapse="fade" mode="ios">
-        <div routerLink="../search" class="input-group mb-3 mt-4">
+        <div class="input-group mb-3 mt-4">
           <button id="search">
             <span class="left-arrow" routerLink="../home">
               <img src="../../../assets/icon/leftArrow/leftArrow.svg" alt="" />
             </span>
-            <!-- <p>{{'Search '+ categories[searchedIndex]['name']}}</p> -->
-            <input
+            <p routerLink="../search" class="search-bar">
+              Search
+              <span class="searchText">
+                &nbsp; {{categories[searchedIndex]['name']}}
+              </span>
+            </p>
+            <!-- <input
               type="search"
               routerLink="../search"
               class="searchText"
               [placeholder]="'Search '+ categories[searchedIndex]['name']"
               name=""
               #search
-            />
+            /> -->
             <span>
               <img src="../../../assets/ui_icons/search.svg" alt="" />
             </span>
