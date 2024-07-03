@@ -115,22 +115,25 @@ export class CartPage implements OnInit {
         subTotal: this.selectedBooking?.billing?.subTotal,
         appliedCoupon: this.selectedBooking!['appliedCoupon'],
       },
+      cssClass: 'modal-fullscreen',
     });
     modal.onDidDismiss().then((data) => {
       const callbackData = data['data'];
-      const coupan = callbackData['appliedCoupon'];
-      const isRemoved = callbackData['isRemoved'];
-      if (isRemoved && !coupan) {
-        this.removeCoupan(
-          this.dataProvider.currentUser?.user!.uid!,
-          this.selectedBooking?.id!
-        );
-      } else if (coupan) {
-        this.isOpenPopu = true;
-        modal2.setCurrentBreakpoint(0.3);
-        modal2.present();
-        this.selectedCoupan = coupan;
-        this.appliedCoupanDiscount();
+      if (callbackData) {
+        const coupan = callbackData['appliedCoupon'];
+        const isRemoved = callbackData['isRemoved'];
+        if (isRemoved && !coupan) {
+          this.removeCoupan(
+            this.dataProvider.currentUser?.user!.uid!,
+            this.selectedBooking?.id!
+          );
+        } else if (coupan) {
+          this.isOpenPopu = true;
+          modal2.setCurrentBreakpoint(0.3);
+          modal2.present();
+          this.selectedCoupan = coupan;
+          this.appliedCoupanDiscount();
+        }
       }
     });
     modal.present();
@@ -168,7 +171,7 @@ export class CartPage implements OnInit {
   }
 
   appliedCoupanDiscount() {
-    //this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
+    this.selectedBooking!['appliedCoupon'] = this.selectedCoupan;
     this.cartService.calculateBilling(this.selectedBooking!);
   }
   getOfferCount() {

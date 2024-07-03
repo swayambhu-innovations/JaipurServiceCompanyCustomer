@@ -1,16 +1,28 @@
-<app-header-with-back *ngIf="isDesktopview" [title]="'All Categories'" [showNotificationIcon]="false"
-  [showHomeIcon]="true"></app-header-with-back>
+<app-header-with-back
+  *ngIf="isDesktopview"
+  [title]="'All Categories'"
+  [showNotificationIcon]="false"
+  [showHomeIcon]="true"
+></app-header-with-back>
 
 <ng-container *ngIf="isMobileview">
   <div class="container-fluid">
     <div class="row">
       <ion-header collapse="fade" mode="ios">
-        <div class="input-group mb-3 mt-4">
+        <div routerLink="../search" class="input-group mb-3 mt-4">
           <button id="search">
             <span class="left-arrow" routerLink="../home">
               <img src="../../../assets/icon/leftArrow/leftArrow.svg" alt="" />
             </span>
-            <input type="search" routerLink="../search" placeholder="Search Category" name="" id="" />
+            <!-- <p>{{'Search '+ categories[searchedIndex]['name']}}</p> -->
+            <input
+              type="search"
+              routerLink="../search"
+              class="searchText"
+              [placeholder]="'Search '+ categories[searchedIndex]['name']"
+              name=""
+              #search
+            />
             <span>
               <img src="../../../assets/ui_icons/search.svg" alt="" />
             </span>
@@ -33,7 +45,6 @@
   </div>
 </ng-container>
 
-
 <div *ngIf="isDesktopview" class="back-container">
   <div class="main-container">
     <div class="allCategory-div">
@@ -47,7 +58,7 @@
       </div>
     </div>
     <div class="image">
-      <img src="assets/images/login.png" alt="All Categories">
+      <img src="assets/images/login.png" alt="All Categories" />
     </div>
   </div>
 </div>

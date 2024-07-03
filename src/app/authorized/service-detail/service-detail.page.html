@@ -96,15 +96,16 @@
                     >
                       <label for="ion-button"> _ </label>
                     </ion-button>
-                    <input
+                    <span
                       class="input-div"
                       type="number"
                       id="input{{variant.id}}"
                       text-center
-                      [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                       min="1"
                       max="5"
-                    />
+                    >
+                      {{this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)}}
+                    </span>
                     <ion-button
                       class="plus"
                       (click)="incrementQuantity(matchingMainCategory!.id,matchingSubCategory!.id,matchingService!,variant.id)"

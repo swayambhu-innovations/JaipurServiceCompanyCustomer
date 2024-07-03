@@ -248,6 +248,7 @@ ion-content {
 }
 .offer-count-text {
   color: #5e0080;
+  text-align: center;
   font-weight: 700;
   font-family: "Lato", sans-serif;
 }
@@ -298,7 +299,7 @@ ion-content {
 .got-it-button {
   width: 90%;
   margin: 0 5%;
-  background-color: grey;
+  background-color: #181f29;
   color: #ffffff;
   border: none;
   padding: 16px 20px;
@@ -324,7 +325,7 @@ ion-content {
   border-radius: 10px;
   padding: 10px 20px;
 
-  p{
+  p {
     color: black !important;
   }
 }
@@ -440,6 +441,7 @@ ion-modal {
   --border-radius: 16px 16px 0 0;
   --position: absolute;
   --bottom: 0;
+  text-align: center;
   --left: 0;
   --transform: translate3d(0, 100%, 0);
   --animation-duration: 300ms;

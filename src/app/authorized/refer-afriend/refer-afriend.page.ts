@@ -10,24 +10,22 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./refer-afriend.page.scss'],
 })
 export class ReferAfriendPage implements OnInit {
+  constructor(private socialSharing: SocialSharing) {}
 
-  constructor(
-    private socialSharing: SocialSharing
-  ) { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  shareLink() {
+    console.log('hey atul this side');
+    this.socialSharing
+      .share(
+        'Please try out Jaipur Service Company app for all types of house maintenance services.',
+        'Subject',
+        undefined,
+        'https://play.google.com/store/apps/details?id=com.shreeva.jaipurservicecompanycustomer'
+      )
+      .then(() => {})
+      .catch((error) => {
+        console.error('Error sharing:', error);
+      });
   }
-
-  shareLink(){
-    this.socialSharing.share('Please try out Jaipur Service Company app for all types of house maintenance services.', 'Subject', undefined, 'https://play.google.com/store/apps/details?id=com.shreeva.jaipurservicecompanycustomer')
-    .then(() => {
-      
-    })
-    .catch((error) => {
-      console.error('Error sharing:', error);
-    });
-  }
-
-  
-
 }

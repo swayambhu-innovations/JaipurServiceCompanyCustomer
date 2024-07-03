@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 //import { HomeService } from './home.service';
@@ -20,15 +20,24 @@ import { SubCategoryPage } from '../sub-categories/sub-categories.page';
   styleUrls: ['./all-categories.page.scss'],
 })
 export class AllCategoriesPage implements OnInit {
+  @ViewChild('search') input: any;
   isMobileview: boolean = false;
   isDesktopview: boolean = false;
-  constructor(private router: Router,
+  searchedIndex: number = 0;
+  constructor(
+    private router: Router,
     private profileService: ProfileService,
     private imageService: FileService,
     private http: HttpClient,
     private dataProvider: DataProviderService,
     public viewController: ModalController,
-    private modalController: ModalController) { }
+    private modalController: ModalController
+  ) {
+    setInterval(() => {
+      if (this.searchedIndex + 1 < this.categories.length) this.searchedIndex++;
+      else this.searchedIndex = 0;
+    }, 3500);
+  }
 
   ionViewDidEnter() {
     this.categories = [];
@@ -39,11 +48,11 @@ export class AllCategoriesPage implements OnInit {
   }
 
   systeminfo() {
-    if (this.dataProvider.deviceInfo.deviceType === "desktop") {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isDesktopview = true;
       this.isMobileview = false;
     }
-    if (this.dataProvider.deviceInfo.deviceType === "mobile") {
+    if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
       this.isDesktopview = false;
       this.isMobileview = true;
     }
@@ -54,7 +63,7 @@ export class AllCategoriesPage implements OnInit {
   }
 
   ionViewDidLeave() {
-    this.categories = [];
+    // this.categories = [];
     this.isDesktopview = false;
   }
 
@@ -66,23 +75,20 @@ export class AllCategoriesPage implements OnInit {
   icon: any[] = [];
 
   ngOnInit() {
-
     // this.fetchMainCategory();
     // this.fetchMainCategoryIcon();
-
   }
 
   home() {
     this.router.navigate(['home']);
   }
   cart() {
-    this.router.navigate(['cart'])
+    this.router.navigate(['cart']);
   }
 
   booking() {
-    this.router.navigate(['booking'])
+    this.router.navigate(['booking']);
   }
-
 
   AllCategories = [
     {

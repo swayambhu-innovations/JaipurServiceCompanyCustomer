@@ -46,6 +46,35 @@
   }
 }
 
+.searchText::placeholder {
+  animation: showup 3s infinite;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.searchText::-ms-input-placeholder {
+  animation: showup 3s infinite;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@keyframes showup {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 #search {
   display: inline-flex;
   padding: 9px 13px;

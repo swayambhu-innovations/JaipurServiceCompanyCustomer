@@ -123,6 +123,7 @@ export class CartService {
       message: 'Please wait...',
     });
     loader.present();
+    console.log(this.dataProvider.currentUser);
     let variant = service.variants.find((v) => v.id == variantId);
     if (variant) {
       for (const data of this.cart) {

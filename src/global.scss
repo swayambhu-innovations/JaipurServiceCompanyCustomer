@@ -47,11 +47,6 @@ ion-modal::part(backdrop) {
   --backdrop-opacity: 0.4;
 }
 
-ion-modal {
-  --width: 65%;
-  --height: 75%;
-}
-
 #web-view {
   display: none;
 }
@@ -61,10 +56,13 @@ ion-modal {
     display: block;
   }
 
+  ion-modal {
+    --width: 65%;
+    --height: 75%;
+  }
+
   #mobile-view {
     display: flex;
-
-    
   }
 
   .back-container {

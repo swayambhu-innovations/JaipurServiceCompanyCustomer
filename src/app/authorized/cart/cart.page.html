@@ -1,6 +1,6 @@
 <ng-container id="mobile-view">
   <app-header-with-back
-    [title]="'cart'"
+    [title]="'Your Cart'"
     [showHomeIcon]="mobileView ? false : true"
     [showNotificationIcon]="mobileView ? true : false"
   ></app-header-with-back>
@@ -132,7 +132,9 @@
           <span class="apply-coupon-text">Apply Coupons</span>
         </div>
         <div class="coupon-items">
-          <span class="offer-count-text">{{couponCount}} offers</span>
+          <p class="offer-count-text">
+            {{couponCount}} {{couponCount>1 ? 'Offers' : 'Offer'}}
+          </p>
           <span class="spacer"></span>
           <img
             src="../../../assets/images/material-symbols_arrow-back-ios-rounded.png"
@@ -166,33 +168,6 @@
           <ion-icon name="close"></ion-icon>
         </div>
       </div>
-      <!-- <ion-button (click)="setOpen(true)">Open</ion-button> -->
-      <!-- <ion-action-sheet
-  [isOpen]=true
-  header="Actions"
-  [buttons]="actionSheetButtons"
-  (didDismiss)="setOpen(false)"
-></ion-action-sheet> -->
-      <ion-modal [initialBreakpoint]="0.30" [isOpen]="false">
-        <ng-template>
-          <div class="action-sheet-header">
-            <p class="action-sheet-header-text">
-              Yay! You will receive up to ₹550 cashback on this order
-            </p>
-            <img
-              class="action-sheet-header-img"
-              src="../../../assets/images/discount-shape (1).png"
-              alt=""
-            />
-          </div>
-          <ion-content>
-            <p class="modal-bottom-text">‘JCPaytm’ - applied succesfully</p>
-            <button (click)="setOpen(false)" class="got-it-button">
-              Okay, Got It
-            </button>
-          </ion-content>
-        </ng-template>
-      </ion-modal>
     </ng-container>
 
     <!-- payment detail section -->
@@ -501,33 +476,6 @@
               <ion-icon name="close"></ion-icon>
             </div>
           </div>
-          <!-- <ion-button (click)="setOpen(true)">Open</ion-button> -->
-          <!-- <ion-action-sheet
-  [isOpen]=true
-  header="Actions"
-  [buttons]="actionSheetButtons"
-  (didDismiss)="setOpen(false)"
-></ion-action-sheet> -->
-          <ion-modal [initialBreakpoint]="0.30" [isOpen]="false">
-            <ng-template>
-              <div class="action-sheet-header">
-                <p class="action-sheet-header-text">
-                  Yay! You will receive up to ₹550 cashback on this order
-                </p>
-                <img
-                  class="action-sheet-header-img"
-                  src="../../../assets/images/discount-shape (1).png"
-                  alt=""
-                />
-              </div>
-              <ion-content>
-                <p class="modal-bottom-text">‘JCPaytm’ - applied succesfully</p>
-                <button (click)="setOpen(false)" class="got-it-button">
-                  Okay, Got It
-                </button>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
         </ng-container>
 
         <!-- payment detail section -->
@@ -689,8 +637,8 @@
       <div class="row" style="margin: 30px 10px">
         <div class="col-9">
           <h6>
-            Yay! You will receive up to ₹{{ selectedCoupan.type === 'flat' ||
-            selectedCoupan.type === "fixed"?selectedCoupan.value + " "+
+            Yay! You will receive up to {{ selectedCoupan.type === 'flat' ||
+            selectedCoupan.type === "fixed"?'₹' +selectedCoupan.value + " "+
             selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
             order
           </h6>

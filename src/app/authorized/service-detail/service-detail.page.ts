@@ -207,7 +207,9 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     this.cartService.cartSubject.subscribe((cartDetils) => {
       this.cartDetils = cartDetils;
     });
-    // this.router.navigate([`/authorized/cart/${matchingMainCategoryId}/${matchingServiceId}`]);
+    this.router.navigate([
+      `/authorized/cart/${matchingMainCategoryId}/${matchingServiceId}`,
+    ]);
   }
 
   ionViewDidLeave() {
@@ -271,7 +273,6 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
       matchingSubCategoryId,
       matchingService
     );
-    console.log(bookingId);
     this.cartService.incrementQuantity(
       this.dataProvider.currentUser!.user.uid,
       matchingService!,
