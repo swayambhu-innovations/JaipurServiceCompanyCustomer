@@ -50,6 +50,10 @@ const routes: Routes = [
         (m) => m.RefundPolicyPageModule
       ),
   },
+  {
+    path: 'fetch-address',
+    loadChildren: () => import('./fetch-address/fetch-address.module').then( m => m.FetchAddressPageModule)
+  },
 ];
 
 @NgModule({
