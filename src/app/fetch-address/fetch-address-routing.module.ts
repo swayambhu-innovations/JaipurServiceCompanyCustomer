@@ -7,6 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: FetchAddressPage
+  },
+  {
+    path: 'gps-map',
+    loadChildren: () => import('./gps-map/gps-map.module').then( m => m.GpsMapPageModule)
+  },
+  {
+    path: 'location-disabled',
+    loadChildren: () => import('./location-disabled/location-disabled.module').then( m => m.LocationDisabledPageModule)
+  },
+  {
+    path: 'search-loc',
+    loadChildren: () => import('./search-loc/search-loc.module').then( m => m.SearchLocPageModule)
   }
 ];
 
