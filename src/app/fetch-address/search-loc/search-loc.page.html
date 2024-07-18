@@ -1,13 +1,26 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>search-loc</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding" [fullscreen]="true">
+  <button id="search">
+    <img class="back" (click)="goBack()" src="assets/icon/leftArrow/leftArrow.svg" alt="" />
+    <input type="search" #searchInput autofocus (input)="searchInputSubject.next(searchInput.value)"
+      placeholder="Search for area, street name, locality..." [(ngModel)]="inputSearchVar" name="" id="" />
+    <span>
+      <img (click)="searchInputSubject.next(searchInput.value)" src="assets/ui_icons/search.svg" alt="" />
+    </span>
+  </button>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">search-loc</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="detectCurr" *ngIf="results.length === 0 && resultsFetched">
+    <img class="back" (click)="goBack()" src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+    <input type="search" #searchInput autofocus (input)="searchInputSubject.next(searchInput.value)"
+      placeholder="Search for area, street name, locality..." [(ngModel)]="inputSearchVar" name="" id="" />
+
+  </div>
+
+
+  <div class="notFound" *ngIf="results.length === 0 && resultsFetched">
+    <img src="assets/images/notFound.svg" alt="" />
+    <h3>Not Found</h3>
+    <p>
+      Sorry, the locality you entered cannot be found, please check again or search something else.
+    </p>
+  </div>
 </ion-content>

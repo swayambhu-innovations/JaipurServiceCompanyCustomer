@@ -50,7 +50,7 @@ export class GpsMapPage implements OnInit {
   mapOptionsCircle: any = null;
   circleRadius: number = 6;
   isGoogleMapReady: boolean = false;
-  isCatalogue: boolean = false;
+  isCatalogue: boolean = true;
   constructor(
     private router: Router,
     private locationService: LocationService,
@@ -78,7 +78,7 @@ export class GpsMapPage implements OnInit {
   }
 
   async changeLoc() {
-    await this.getLocation();
+    this.router.navigate([`/fetch-address/search-loc`]);
   }
 
   setCircleInMap() {

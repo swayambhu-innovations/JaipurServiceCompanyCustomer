@@ -7,14 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./fetch-address.page.scss'],
 })
 export class FetchAddressPage implements OnInit {
-
-  constructor(
-    private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     setTimeout(() => {
       this.router.navigate([`/fetch-address/gps-map`]);
     }, 1500);
   }
-
 }
