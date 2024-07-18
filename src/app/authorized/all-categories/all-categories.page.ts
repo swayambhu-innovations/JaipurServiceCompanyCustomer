@@ -40,7 +40,6 @@ export class AllCategoriesPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.categories = [];
     this.systeminfo();
     this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;

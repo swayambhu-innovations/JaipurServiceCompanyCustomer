@@ -123,7 +123,6 @@ export class CartService {
       message: 'Please wait...',
     });
     loader.present();
-    console.log(this.dataProvider.currentUser);
     let variant = service.variants.find((v) => v.id == variantId);
     if (variant) {
       for (const data of this.cart) {
@@ -213,7 +212,6 @@ export class CartService {
           return;
         }
       }
-      console.log(this.dataProvider.currentUser);
       let data: Booking = {
         mainCategory: {
           id: mainCategory.id,
@@ -272,7 +270,7 @@ export class CartService {
           },
         ],
         currentUser: {
-          name: this.dataProvider.currentUser!.user.displayName!,
+          name: this.dataProvider.currentUser!.userData.name!,
           phoneNumber: this.dataProvider.currentUser!.user.phoneNumber!,
           userId: this.dataProvider.currentUser!.user.uid,
         },
@@ -299,7 +297,6 @@ export class CartService {
           id: '',
         },
       };
-      console.log(data);
       await addDoc(collection(this.firestore, 'users', userId, 'cart'), data);
       this.updateCart();
     }
@@ -557,16 +554,12 @@ export class CartService {
         });
         service.discountsApplicable = [...filteredDiscounts];
 
-        // we will first calculate the original price
-        const taxesList = service.taxes;
-        const filteredTaxes = this.taxes.filter((s) => {
-          const taxesItems = taxesList.filter((tax: any) => {
-            return tax == s.id;
-          });
-          return taxesItems.length;
-        });
-        service.taxes = filteredTaxes;
-
+        // const filteredTaxes = this.taxes.filter((s) => {
+        //   const taxesItems = taxesList.filter((tax: any) => {
+        //     return tax == s.id;
+        //   });
+        //   return taxesItems.length;
+        // });
         service.variants.forEach((variant) => {
           variant.billing.originalPrice = variant.quantity * variant.price;
           // we will now calculate the total tax
@@ -829,8 +822,8 @@ export class CartService {
     return getDocs(collectionGroup(this.firestore, 'coupons'));
   }
 
-  getCurrentUserCart() {
-    return getDocs(
+  async getCurrentUserCart() {
+    const data = await getDocs(
       collection(
         this.firestore,
         'users',
@@ -838,6 +831,7 @@ export class CartService {
         'cart'
       )
     );
+    return data;
   }
 
   getTaxes() {

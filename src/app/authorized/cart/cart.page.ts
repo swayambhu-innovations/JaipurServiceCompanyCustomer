@@ -290,12 +290,11 @@ export class CartPage implements OnInit {
     });
 
     let duration = mins + ' Mins';
-    // if(mins > 1){
-    //   duration = mins + " Hours"
-    // }
-    // else{
-    //   duration = mins + " Hour"
-    // }
+    if (mins >= 60) {
+      duration = Math.round(mins / 60) + (mins / 60 > 2 ? ' Hours' : ' Hour');
+    } else {
+      if (mins < 2) duration = mins + ' Min';
+    }
     return duration;
   }
 

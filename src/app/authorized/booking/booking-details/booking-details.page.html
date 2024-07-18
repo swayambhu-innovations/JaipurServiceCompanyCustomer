@@ -1,5 +1,14 @@
-<app-header-with-back id="mobile-view" [title]="'Booking Details'" [showNotificationIcon]="true"></app-header-with-back>
-<app-header-with-back id="web-view" [title]="'Booking Details'" [showHomeIcon]="true" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back
+  id="mobile-view"
+  [title]="'Booking Details'"
+  [showNotificationIcon]="true"
+></app-header-with-back>
+<app-header-with-back
+  id="web-view"
+  [title]="'Booking Details'"
+  [showHomeIcon]="true"
+  [showNotificationIcon]="false"
+></app-header-with-back>
 <div id="mobile-view" class="main">
   <!-- Toolbar -->
   <!-- Order ID card -->
@@ -32,8 +41,12 @@
       </div>
       <div class="icon">
         <div class="icon-div">
-          <img class="mechanic-icon" src="../../../../assets/icon/mechanic.png" alt="">
-          <img class="search-icon" src="../../../../assets/search.svg" alt="">
+          <img
+            class="mechanic-icon"
+            src="../../../../assets/icon/mechanic.png"
+            alt=""
+          />
+          <img class="search-icon" src="../../../../assets/search.svg" alt="" />
         </div>
       </div>
     </div>
@@ -44,7 +57,10 @@
     <!-- Profile image & Name -->
     <div class="agent-det-div" *ngIf="assignedAgent !== undefined">
       <div class="row-2">
-        <div class="agent-img" style="background-image: url({{assignedAgent.photoUrl}});">
+        <div
+          class="agent-img"
+          style="background-image: url({{assignedAgent.photoUrl}});"
+        >
           <!-- <img class="profile-pic" src="{{assignedAgent.photoUrl}}" alt="" style="    border-radius: 50%;" /> -->
         </div>
         <div class="agent-name">
@@ -55,48 +71,54 @@
           </div>
         </div>
         <!--  -->
-        <div class="call-button"
-          *ngIf=" (currentBooking?.stage == 'completed') || (jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0) && (currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
+        <div
+          class="call-button"
+          *ngIf=" (currentBooking?.stage === 'completed') || (jobTimeBeforMins < 30) && (currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0"
+        >
           <button>
             <a href="tel:{{assignedAgent.phoneNumber}}">
               <img class="call" src="../../../assets/Call.svg" alt="" />
             </a>
           </button>
-          <p style="    margin-right: 5px;">{{assignedAgent.phoneNumber}}</p>
+          <p style="margin-right: 5px">{{assignedAgent.phoneNumber}}</p>
         </div>
-        <div class="call-text"
-          *ngIf="(currentBooking?.stage !== 'completed') && (jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0) ">
+        <div
+          class="call-text"
+          *ngIf="(currentBooking?.stage !== 'completed') && (jobTimeBeforMins > 30 ) "
+        >
           <p>Phone No. will be visible 30 min prior to booking</p>
         </div>
       </div>
-      <hr>
+      <hr />
       <!-- OTP -->
-      <div class="row-4"
-        *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
+      <div
+        class="row-4"
+        *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0"
+      >
         <h5>OTP to start the service</h5>
         <div class="otp-div">
           <!-- {{(currentBooking?.jobOtp)?.length}} -->
-          <div class="otp-digit" *ngFor="let otp of jobOtp">
-            {{otp}}
-          </div>
+          <div class="otp-digit" *ngFor="let otp of jobOtp">{{otp}}</div>
         </div>
       </div>
     </div>
   </div>
   <!-- Booking Cancelled  -->
-  <div class="row-discarded" *ngIf="currentBooking?.stage == 'discarded'">
+  <div class="row-discarded" *ngIf="currentBooking?.stage === 'discarded'">
     <div>
       <p>Booking Cancelled by : You</p>
       <p>Cancellation Reason : {{currentBooking?.cancelReason}}</p>
       <p>Cancellation Time : 2 hrs After Booking</p>
     </div>
     <div class="otp-div">
-      <img src="assets/discarded.png" alt="">
+      <img src="assets/discarded.png" alt="" />
     </div>
   </div>
   <!-- Offer water -->
-  <div class="water"
-    *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded' && currentBooking?.stage !== 'completed' && currentBooking?.stage !== 'expired'">
+  <div
+    class="water"
+    *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded' && currentBooking?.stage !== 'completed' && currentBooking?.stage !== 'expired'"
+  >
     <img class="glass-image" src="../../../assets/glass1.svg" alt="" />
     <span>
       <p>Offer drinking water to the professional</p>
@@ -107,9 +129,11 @@
   <div class="Service-section">
     <!-- Card header -->
     <div class="row-5">
-      <p class="head">Services </p>
+      <p class="head">Services</p>
       <!-- <div class="row-6"> -->
-      <p class="body {{currentBooking?.stage}}">{{ utils[currentBooking?.stage || 'allotmentPending'].text }}</p>
+      <p class="body {{currentBooking?.stage}}">
+        {{ utils[currentBooking?.stage || 'allotmentPending'].text }}
+      </p>
       <!-- </div> -->
     </div>
     <!-- Price and Subject -->
@@ -137,7 +161,11 @@
         <div *ngFor="let variant of service.variants" class="service-det-div">
           <div class="img-div">
             <div class="img-circle-div">
-              <img src="{{currentBooking?.mainCategory?.icon}}" alt="" style="padding-top: 12px; padding-left: 12px;">
+              <img
+                src="{{currentBooking?.mainCategory?.icon}}"
+                alt=""
+                style="padding-top: 12px; padding-left: 12px"
+              />
             </div>
           </div>
           <div class="category-det-div">
@@ -145,7 +173,10 @@
             <span>{{variant.name }} x {{ variant.quantity}}</span>
           </div>
           <div class="price-div">
-            <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' : '1.0-0' }}</span>
+            <span
+              >{{variant.billing.discountedPrice | currency:'INR' : 'symbol' :
+              '1.0-0' }}</span
+            >
           </div>
         </div>
       </div>
@@ -163,7 +194,10 @@
       <div class="row-9">
         <h6>Total</h6>
         <span>
-          <h5>{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</h5>
+          <h5>
+            {{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' :
+            '1.0-0'}}
+          </h5>
         </span>
       </div>
     </div>
@@ -182,7 +216,10 @@
 
       <section style="margin-left: 10px">
         <span class="head">Date</span><br />
-        <span class="body">{{this.currentBooking?.timeSlot?.date?.toDate()| date:'mediumDate'}}</span>
+        <span class="body"
+          >{{this.currentBooking?.timeSlot?.date?.toDate()|
+          date:'mediumDate'}}</span
+        >
       </section>
     </div>
     <div class="row-2">
@@ -192,10 +229,16 @@
 
       <section style="margin-left: 10px">
         <span class="head">Time</span><br />
-        <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To
-          {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span><br />
-        <span class="body">(Preferred Agent Arrival Time - {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() |
-          date: "shortTime" }})</span>
+        <span class="body"
+          >{{currentBooking?.timeSlot?.time?.startTime?.toDate() |
+          date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate()
+          | date:'shortTime'}}</span
+        ><br />
+        <span class="body"
+          >(Preferred Agent Arrival Time -
+          {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date:
+          "shortTime" }})</span
+        >
       </section>
     </div>
   </div>
@@ -210,7 +253,10 @@
       <div class="left">
         <h2 class="mb-1">Name: {{currentBooking?.address?.name}}</h2>
         <h2>Address: {{currentBooking?.address?.addressLine1}}</h2>
-        <p>Phone no.: {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}</p>
+        <p>
+          Phone no.:
+          {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}
+        </p>
         <p>City: {{currentBooking?.address?.city}}</p>
         <p>State: {{currentBooking?.address?.state}}</p>
         <p>Pincode: {{currentBooking?.address?.pincode}}</p>
@@ -224,7 +270,7 @@
       <h3>Pictures Before Work</h3>
       <div class="img-cont">
         <div class="images" *ngFor="let item of currentBooking?.picsBefore">
-          <img src="{{item}}" alt="">
+          <img src="{{item}}" alt="" />
         </div>
       </div>
     </div>
@@ -232,7 +278,7 @@
       <h3>Pictures After Work</h3>
       <div class="img-cont">
         <div class="images" *ngFor="let item of currentBooking?.picsAfter">
-          <img src="{{item}}" alt="">
+          <img src="{{item}}" alt="" />
         </div>
       </div>
     </div>
@@ -242,10 +288,13 @@
   <div>
     <ion-card class="payment">
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
-        <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
+        <div
+          class="title"
+          *ngIf="currentBooking?.stage === utils.completed.key"
+        >
           <span>Payment Details</span>
           <button (click)="downloadPdf()">
-            <img src="../../../../assets/download.svg" alt="">
+            <img src="../../../../assets/download.svg" alt="" />
           </button>
         </div>
 
@@ -262,26 +311,42 @@
         <div class="items">
           <ng-container *ngFor="let item of currentBooking?.services">
             <div class="row1" *ngFor="let variant of item.variants">
-              <p class="col1">{{variant.name }} X <span style="color: #7e8083;">{{ variant.quantity}}</span></p>
-              <p style="color: black;">{{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+              <p class="col1">
+                {{variant.name }} X
+                <span style="color: #7e8083">{{ variant.quantity}}</span>
+              </p>
+              <p style="color: black">
+                {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' :
+                '1.0-0'}}
+              </p>
             </div>
           </ng-container>
         </div>
 
         <div class="payment-row">
           <div class="payment-heading">Total (MRP)</div>
-          <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+          <div class="payment-value">
+            {{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' :
+            '1.0-0'}}
+          </div>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Discount</div>
-          <div class="payment-value" style="color: #C16256;">-{{discount | currency:'INR': 'symbol' : '1.0-0'}}</div>
+          <div class="payment-value" style="color: #c16256">
+            -{{discount | currency:'INR': 'symbol' : '1.0-0'}}
+          </div>
         </div>
         <div class="payment-row mb-20">
           <div class="payment-heading">Discounted Price</div>
-          <div class="payment-value">{{(currentBooking?.billing?.subTotal || 0) -
-            (discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+          <div class="payment-value">
+            {{(currentBooking?.billing?.subTotal || 0) - (discount || 0) |
+            currency:'INR' : 'symbol' : '1.0-0'}}
+          </div>
         </div>
-        <div class="payment-row" *ngFor="let charge of currentBooking?.billing?.fixedCharges">
+        <div
+          class="payment-row"
+          *ngFor="let charge of currentBooking?.billing?.fixedCharges"
+        >
           <div class="payment-heading">{{charge.name}}</div>
           <div class="payment-value">{{charge.amount | currency:'INR'}}</div>
         </div>
@@ -289,14 +354,19 @@
         <div style="border-top: 2px dashed #d7d7d7">
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Total</div>
-            <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.grandTotal) |
-              currency:'INR' : 'symbol' : '1.0-0'}}</div>
+            <div class="payment-value amount" style="color: #579540">
+              {{(currentBooking?.billing?.grandTotal) | currency:'INR' :
+              'symbol' : '1.0-0'}}
+            </div>
           </div>
         </div>
         <!-- Banner -->
         <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
           <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-          <p class="tag-text">Yay! You have saved {{discount | currency:'INR' : 'symbol' : '1.0-0'}}.</p>
+          <p class="tag-text">
+            Yay! You have saved {{discount | currency:'INR' : 'symbol' :
+            '1.0-0'}}.
+          </p>
         </div>
       </ion-card-header>
     </ion-card>
@@ -332,53 +402,100 @@
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div class="title">
           <span>Payment Details</span>
-          <p class="body"
-            *ngIf="currentBooking?.isRefundInitiated == false && (currentBooking?.isPaid || currentBooking?.isPaylater == false)"
-            [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']">{{
-            currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'Completed' : 'Failed' }}</p>
-          <p class="body paylater" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">Pending</p>
-          <p class="body inProgressRefund"
-            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'pending'">
-            Refund In Progress</p>
-          <p class="body success"
-            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'processed'">
-            Refund Processed</p>
-          <p class="body faild"
-            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'failed'">
-            Refund Failed</p>
+          <p
+            class="body"
+            *ngIf="currentBooking?.isRefundInitiated === false && (currentBooking?.isPaid || currentBooking?.isPaylater === false)"
+            [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']"
+          >
+            {{ currentBooking?.payment?.stage === 'paymentCaptureSuccess' ?
+            'Completed' : 'Failed' }}
+          </p>
+          <p
+            class="body paylater"
+            *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+          >
+            Pending
+          </p>
+          <p
+            class="body inProgressRefund"
+            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'pending'"
+          >
+            Refund In Progress
+          </p>
+          <p
+            class="body success"
+            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'processed'"
+          >
+            Refund Processed
+          </p>
+          <p
+            class="body faild"
+            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'failed'"
+          >
+            Refund Failed
+          </p>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Payment Mode</div>
-          <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false">Pre Paid
-            Online</div>
-          <div class="payment-value" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">Pay After Job
+          <div
+            class="payment-value"
+            *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater === false"
+          >
+            Pre Paid Online
+          </div>
+          <div
+            class="payment-value"
+            *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+          >
+            Pay After Job
           </div>
         </div>
         <div class="payment-row">
           <div class="payment-heading">Transaction ID</div>
-          <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false"
-            title="{{currentBooking?.payment?.id}}">{{currentBooking?.payment?.razorpay_payment_id}}</div>
-          <div class="payment-value" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">
-            {{currentBooking?.id}}</div>
+          <div
+            class="payment-value"
+            *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater === false"
+            title="{{currentBooking?.payment?.id}}"
+          >
+            {{currentBooking?.payment?.razorpay_payment_id}}
+          </div>
+          <div
+            class="payment-value"
+            *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+          >
+            {{currentBooking?.id}}
+          </div>
         </div>
         <div class="payment-row" *ngIf="currentBooking?.isRefundInitiated">
           <div class="payment-heading">Refund Transaction ID</div>
-          <div class="payment-value" title="{{currentBooking?.refundInitiatedDetails?.id}}">
-            {{currentBooking?.refundInitiatedDetails?.id}}</div>
+          <div
+            class="payment-value"
+            title="{{currentBooking?.refundInitiatedDetails?.id}}"
+          >
+            {{currentBooking?.refundInitiatedDetails?.id}}
+          </div>
         </div>
         <div style="border-top: 2px dashed #d7d7d7">
           <div class="payment-row mt-20">
             <div class="payment-heading total-price">Refund Amount</div>
-            <div class="payment-value amount" style="color: #579540;">
-              {{((currentBooking?.refundInitiatedDetails?.amount/100) || 0) | currency:'INR' : 'symbol' : '1.0-0'}}
+            <div class="payment-value amount" style="color: #579540">
+              {{((currentBooking?.refundInitiatedDetails?.amount/100) || 0) |
+              currency:'INR' : 'symbol' : '1.0-0'}}
             </div>
           </div>
         </div>
-        <div class="payment-row"
-          *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'pending'">
+        <div
+          class="payment-row"
+          *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'pending'"
+        >
           <div class="payment-heading">Refund Status</div>
-          <div class="" title="Your Refund has been initiated It will be processed before 3 Business Days">Your Refund
-            has been initiated It will be processed before 3 Business Days</div>
+          <div
+            class=""
+            title="Your Refund has been initiated It will be processed before 3 Business Days"
+          >
+            Your Refund has been initiated It will be processed before 3
+            Business Days
+          </div>
         </div>
       </ion-card-header>
     </ion-card>
@@ -388,65 +505,124 @@
     <!-- Card header -->
     <div class="row-5" *ngIf="currentBooking?.stage !== 'discarded' ">
       <h3 class="head">Rating</h3>
-      <p>(Ratings can be given/changed within 2 hours after the completion of Service)</p>
+      <p>
+        (Ratings can be given/changed within 2 hours after the completion of
+        Service)
+      </p>
     </div>
     <div *ngIf="currentBooking?.stage === 'completed' ">
-      <div class="service-review-cont" *ngFor="let service of currentBooking?.services">
+      <div
+        class="service-review-cont"
+        *ngFor="let service of currentBooking?.services"
+      >
         <!-- Price and Subject -->
         <div class="row-7" *ngFor="let variant of service.variants">
           <div class="img-div">
-            <img class="image" src="{{currentBooking?.mainCategory?.icon}}" alt="" />
+            <img
+              class="image"
+              src="{{currentBooking?.mainCategory?.icon}}"
+              alt=""
+            />
           </div>
           <div class="service-det">
             <div class="service-head">
               <h3 class="head">{{service.name}}</h3>
-              <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
+              <span class="body1"
+                >{{variant.name }} x {{ variant.quantity}}</span
+              >
             </div>
             <!-- (click)="isModalOpenRate=true" -->
-            <div class="rating" id="open-modal-rate" expand="block" (click)="rateService(service)"
-              *ngIf="!service?.rating">
-              <p style="margin-right: 10px" *ngIf="!service?.rating">Please Rate</p>
-              <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-              <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+            <div
+              class="rating"
+              id="open-modal-rate"
+              expand="block"
+              (click)="rateService(service)"
+              *ngIf="!service?.rating"
+            >
+              <p style="margin-right: 10px" *ngIf="!service?.rating">
+                Please Rate
+              </p>
+              <p style="margin-right: 10px" *ngIf="service?.rating">
+                {{service?.rating.reviewTitle}}
+              </p>
+              <span
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
+              <span
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
+              <span
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
+              <span
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
+              <span
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
             </div>
-            <div class="rating" id="open-modal-rate" expand="block" *ngIf="service?.rating">
-              <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
-              <span *ngFor="let item of [].constructor(service?.rating.rating); let i = index "><img
-                  src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-              <span *ngFor="let item of [].constructor(5-service?.rating.rating); let i = index "><img
-                  src="../../../assets/star-outlined.svg" alt="" /></span>
+            <div
+              class="rating"
+              id="open-modal-rate"
+              expand="block"
+              *ngIf="service?.rating"
+            >
+              <p style="margin-right: 10px" *ngIf="service?.rating">
+                {{service?.rating.reviewTitle}}
+              </p>
+              <span
+                *ngFor="let item of [].constructor(service?.rating.rating); let i = index "
+                ><img src="../../../assets/carbon_star-filled.svg" alt=""
+              /></span>
+              <span
+                *ngFor="let item of [].constructor(5-service?.rating.rating); let i = index "
+                ><img src="../../../assets/star-outlined.svg" alt=""
+              /></span>
             </div>
           </div>
           <div class="price">
-            <span class="right">{{variant.billing.discountedPrice | currency:'INR' }}</span>
+            <span class="right"
+              >{{variant.billing.discountedPrice | currency:'INR' }}</span
+            >
           </div>
         </div>
       </div>
     </div>
 
-
-    <div class="reschedule-container mt-4"
-      *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending'  || currentBooking?.stage == 'jobAccepted'">
-      <button class="reschedule-button" type="button" (click)="rescheduleSubmit()">Reschedule</button>
-      <button class="cancel-button" type="button" (click)="onClickCancelBooking()">
+    <div
+      class="reschedule-container mt-4"
+      *ngIf="currentBooking?.stage === 'allotmentPending' || currentBooking?.stage === 'acceptancePending'  || currentBooking?.stage === 'jobAccepted'"
+    >
+      <button
+        class="reschedule-button"
+        type="button"
+        (click)="rescheduleSubmit()"
+      >
+        Reschedule
+      </button>
+      <button
+        class="cancel-button"
+        type="button"
+        (click)="onClickCancelBooking()"
+      >
         Cancel Booking
       </button>
     </div>
-    <div class="container"
-      *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending' || currentBooking?.stage == 'inProgress'"
-      style="margin-bottom: 25px;">
-      <ion-card style="margin: 0px;">
+    <div
+      class="container"
+      *ngIf="currentBooking?.stage === 'allotmentPending' || currentBooking?.stage === 'acceptancePending' || currentBooking?.stage === 'inProgress'"
+      style="margin-bottom: 25px"
+    >
+      <ion-card style="margin: 0px">
         <ion-card-content>
           <ul>
             <li class="pargraph">
               No charge if you reschedule or cacnel until 3 hours before the
               service
             </li>
-            <li class="pargraph">Within 3hrs, a cancellation fee of ₹100 is applicable</li>
+            <li class="pargraph">
+              Within 3hrs, a cancellation fee of ₹100 is applicable
+            </li>
           </ul>
         </ion-card-content>
       </ion-card>
@@ -454,9 +630,15 @@
   </div>
 </div>
 
-
-<ion-modal mode="ios" [isOpen]="isModalOpenCancellation" (ionModalDidDismiss)="ionModalDidDismiss($event)"
-  trigger="open-modal" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6]" handleBehavior="cycle">
+<ion-modal
+  mode="ios"
+  [isOpen]="isModalOpenCancellation"
+  (ionModalDidDismiss)="ionModalDidDismiss($event)"
+  trigger="open-modal"
+  [initialBreakpoint]="0.6"
+  [breakpoints]="[0, 0.6]"
+  handleBehavior="cycle"
+>
   <ng-template>
     <ion-content class="ion-padding">
       <form [formGroup]="CancelForm">
@@ -464,7 +646,12 @@
           <p class="title-cancel">Cancellation Reason</p>
 
           <div *ngFor="let item of RADIO_LIST; let i=index">
-            <input type="radio" [value]="item.name" [checked]="item.checked" formControlName="cancelReason" />
+            <input
+              type="radio"
+              [value]="item.name"
+              [checked]="item.checked"
+              formControlName="cancelReason"
+            />
             <label>{{item.name}}</label>
           </div>
         </div>
@@ -477,8 +664,12 @@
           </div>
         </div>
         <div class="bottom mt-4">
-          <ion-button class="text-light bg-dark" [disabled]="CancelForm.invalid" expand="block"
-            (click)="cancelSubmit()">
+          <ion-button
+            class="text-light bg-dark"
+            [disabled]="CancelForm.invalid"
+            expand="block"
+            (click)="cancelSubmit()"
+          >
             Cancel Booking
           </ion-button>
         </div>
@@ -487,16 +678,24 @@
   </ng-template>
 </ion-modal>
 
-<ion-modal mode="ios" trigger="open-modal-rate" [isOpen]="isModalOpenRate" [initialBreakpoint]="0.70"
-  [breakpoints]="[0, 0.25, 0.5, 0.75]" handleBehavior="cycle">
+<ion-modal
+  mode="ios"
+  trigger="open-modal-rate"
+  [isOpen]="isModalOpenRate"
+  [initialBreakpoint]="0.70"
+  [breakpoints]="[0, 0.25, 0.5, 0.75]"
+  handleBehavior="cycle"
+>
   <ng-template>
     <ion-content class="ion-padding">
       <div class="container">
         <div class="row text-center">
           <p class="title-cancel">Kitchen Cleaning</p>
           <small style="color: #6f767e">Complete Kitchen Shape</small>
-          <ion-img src="https://docs-demo.ionic.io/assets/madison.jpg"
-            alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
+          <ion-img
+            src="https://docs-demo.ionic.io/assets/madison.jpg"
+            alt="The Wisconsin State Capitol building in Madison, WI at night"
+          ></ion-img>
           <small style="color: #579540">Thank you for your rating!</small>
           <div class="col rating-star">
             <i class="bi bi-star" (click)="userRating(1)"></i>
@@ -508,20 +707,33 @@
           <br />
           <form [formGroup]="userRatingForm">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Review Title" formControlName="reviewTitle"
-                [ngClass]="{'is-invalid':(ratingSumitted && userRatingForm.controls.reviewTitle.errors)}" />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Review Title"
+                formControlName="reviewTitle"
+                [ngClass]="{'is-invalid':(ratingSumitted && userRatingForm.controls.reviewTitle.errors)}"
+              />
               <!-- <div *ngIf="ratingSumitted && userRatingForm.controls.reviewTitle.errors" class="text-danger">
               <div *ngIf="userRatingForm.controls.reviewTitle.errors.required">
                 Review Title is Required
               </div>
             </div> -->
-              <textarea class="form-control" placeholder="Service Review" rows="3"
-                formControlName="serviceReview"></textarea>
+              <textarea
+                class="form-control"
+                placeholder="Service Review"
+                rows="3"
+                formControlName="serviceReview"
+              ></textarea>
             </div>
             <div class="container mt-4 bottom-buttons">
-              <button type="button" class="skipbtn" (click)="SkipRating()"> Skip</button>
+              <button type="button" class="skipbtn" (click)="SkipRating()">
+                Skip
+              </button>
               <!-- <span class="example-spacer"></span> -->
-              <button type="button" class="submitbtn" (click)="sendRating()">Submit</button>
+              <button type="button" class="submitbtn" (click)="sendRating()">
+                Submit
+              </button>
             </div>
           </form>
         </div>
@@ -561,19 +773,34 @@
         </div>
         <div class="icon">
           <div class="icon-div">
-            <img class="mechanic-icon" src="../../../../assets/icon/mechanic.png" alt="">
-            <img class="search-icon" src="../../../../assets/search.svg" alt="">
+            <img
+              class="mechanic-icon"
+              src="../../../../assets/icon/mechanic.png"
+              alt=""
+            />
+            <img
+              class="search-icon"
+              src="../../../../assets/search.svg"
+              alt=""
+            />
           </div>
         </div>
       </div>
       <div class="icon-text" *ngIf="assignedAgent !== undefined">
-        <img class="profile-icon" src="../../../assets/profile-sign.svg" alt="" />
+        <img
+          class="profile-icon"
+          src="../../../assets/profile-sign.svg"
+          alt=""
+        />
         <p>Professional Assigned</p>
       </div>
       <!-- Profile image & Name -->
       <div class="agent-det-div" *ngIf="assignedAgent !== undefined">
         <div class="row-2">
-          <div class="agent-img" style="background-image: url({{assignedAgent.photoUrl}});">
+          <div
+            class="agent-img"
+            style="background-image: url({{assignedAgent.photoUrl}});"
+          >
             <!-- <img class="profile-pic" src="{{assignedAgent.photoUrl}}" alt="" style="    border-radius: 50%;" /> -->
           </div>
           <div class="agent-name">
@@ -584,48 +811,54 @@
             </div>
           </div>
           <!--  -->
-          <div class="call-button"
-            *ngIf=" (currentBooking?.stage == 'completed') || (jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0) && (currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
+          <div
+            class="call-button"
+            *ngIf=" (currentBooking?.stage ==='completed') || (jobTimeBeforMins < 30 &&  jobTimeBeforMins > 0) && (currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0"
+          >
             <button>
               <a href="tel:{{assignedAgent.phoneNumber}}">
                 <img class="call" src="../../../assets/Call.svg" alt="" />
               </a>
             </button>
-            <p style="    margin-right: 5px;">{{assignedAgent.phoneNumber}}</p>
+            <p style="margin-right: 5px">{{assignedAgent.phoneNumber}}</p>
           </div>
-          <div class="call-text"
-            *ngIf="(currentBooking?.stage !== 'completed') && (jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0) ">
+          <div
+            class="call-text"
+            *ngIf="(currentBooking?.stage !== 'completed') && (jobTimeBeforMins > 30 ||  jobTimeBeforMins < 0) "
+          >
             <p>Phone No. will be visible 30 min prior to booking</p>
           </div>
         </div>
-        <hr>
+        <hr />
         <!-- OTP -->
-        <div class="row-4"
-          *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0">
+        <div
+          class="row-4"
+          *ngIf="(currentBooking?.stage !== 'discarded') && (currentBooking?.stage !== 'completed') && (currentBooking?.stage !== 'expired') && jobOtp.length > 0"
+        >
           <h5>OTP to start the service</h5>
           <div class="otp-div">
             <!-- {{(currentBooking?.jobOtp)?.length}} -->
-            <div class="otp-digit" *ngFor="let otp of jobOtp">
-              {{otp}}
-            </div>
+            <div class="otp-digit" *ngFor="let otp of jobOtp">{{otp}}</div>
           </div>
         </div>
       </div>
     </div>
     <!-- Booking Cancelled  -->
-    <div class="row-discarded" *ngIf="currentBooking?.stage == 'discarded'">
+    <div class="row-discarded" *ngIf="currentBooking?.stage === 'discarded'">
       <div>
         <p>Booking Cancelled by : You</p>
         <p>Cancellation Reason : {{currentBooking?.cancelReason}}</p>
         <p>Cancellation Time : 2 hrs After Booking</p>
       </div>
       <div class="otp-div">
-        <img src="assets/discarded.png" alt="">
+        <img src="assets/discarded.png" alt="" />
       </div>
     </div>
     <!-- Offer water -->
-    <div class="water"
-      *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded' && currentBooking?.stage !== 'completed' && currentBooking?.stage !== 'expired'">
+    <div
+      class="water"
+      *ngIf="assignedAgent !== undefined && currentBooking?.stage !== 'discarded' && currentBooking?.stage !== 'completed' && currentBooking?.stage !== 'expired'"
+    >
       <img class="glass-image" src="../../../assets/glass1.svg" alt="" />
       <span>
         <p>Offer drinking water to the professional</p>
@@ -636,9 +869,11 @@
     <div class="Service-section">
       <!-- Card header -->
       <div class="row-5">
-        <p class="head">Services </p>
+        <p class="head">Services</p>
         <!-- <div class="row-6"> -->
-        <p class="body {{currentBooking?.stage}}">{{ utils[currentBooking?.stage || 'allotmentPending'].text }}</p>
+        <p class="body {{currentBooking?.stage}}">
+          {{ utils[currentBooking?.stage || 'allotmentPending'].text }}
+        </p>
         <!-- </div> -->
       </div>
       <!-- Price and Subject -->
@@ -666,7 +901,11 @@
           <div *ngFor="let variant of service.variants" class="service-det-div">
             <div class="img-div">
               <div class="img-circle-div">
-                <img src="{{currentBooking?.mainCategory?.icon}}" alt="" style="padding-top: 12px; padding-left: 12px;">
+                <img
+                  src="{{currentBooking?.mainCategory?.icon}}"
+                  alt=""
+                  style="padding-top: 12px; padding-left: 12px"
+                />
               </div>
             </div>
             <div class="category-det-div">
@@ -674,7 +913,10 @@
               <span>{{variant.name }} x {{ variant.quantity}}</span>
             </div>
             <div class="price-div">
-              <span>{{variant.billing.discountedPrice | currency:'INR' : 'symbol' : '1.0-0' }}</span>
+              <span
+                >{{variant.billing.discountedPrice | currency:'INR' : 'symbol' :
+                '1.0-0' }}</span
+              >
             </div>
           </div>
         </div>
@@ -692,7 +934,10 @@
         <div class="row-9">
           <h6>Total</h6>
           <span>
-            <h5>{{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol' : '1.0-0'}}</h5>
+            <h5>
+              {{currentBooking?.billing?.grandTotal | currency:'INR' : 'symbol'
+              : '1.0-0'}}
+            </h5>
           </span>
         </div>
       </div>
@@ -711,7 +956,10 @@
 
         <section style="margin-left: 10px">
           <span class="head">Date</span><br />
-          <span class="body">{{this.currentBooking?.timeSlot?.date?.toDate()| date:'mediumDate'}}</span>
+          <span class="body"
+            >{{this.currentBooking?.timeSlot?.date?.toDate()|
+            date:'mediumDate'}}</span
+          >
         </section>
       </div>
       <div class="row-2">
@@ -721,10 +969,17 @@
 
         <section style="margin-left: 10px">
           <span class="head">Time</span><br />
-          <span class="body">{{currentBooking?.timeSlot?.time?.startTime?.toDate() | date:'hh:mm'}} To
-            {{currentBooking?.timeSlot?.time?.endTime?.toDate() | date:'shortTime'}}</span><br />
-          <span class="body">(Preferred Agent Arrival Time - {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() |
-            date: "shortTime" }})</span>
+          <span class="body"
+            >{{currentBooking?.timeSlot?.time?.startTime?.toDate() |
+            date:'hh:mm'}} To
+            {{currentBooking?.timeSlot?.time?.endTime?.toDate() |
+            date:'shortTime'}}</span
+          ><br />
+          <span class="body"
+            >(Preferred Agent Arrival Time -
+            {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date:
+            "shortTime" }})</span
+          >
         </section>
       </div>
     </div>
@@ -739,7 +994,10 @@
         <div class="left">
           <h2 class="mb-1">Name: {{currentBooking?.address?.name}}</h2>
           <h2>Address: {{currentBooking?.address?.addressLine1}}</h2>
-          <p>Phone no.: {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}</p>
+          <p>
+            Phone no.:
+            {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}
+          </p>
           <p>City: {{currentBooking?.address?.city}}</p>
           <p>State: {{currentBooking?.address?.state}}</p>
           <p>Pincode: {{currentBooking?.address?.pincode}}</p>
@@ -753,7 +1011,7 @@
         <h3>Pictures Before Work</h3>
         <div class="img-cont">
           <div class="images" *ngFor="let item of currentBooking?.picsBefore">
-            <img src="{{item}}" alt="">
+            <img src="{{item}}" alt="" />
           </div>
         </div>
       </div>
@@ -761,7 +1019,7 @@
         <h3>Pictures After Work</h3>
         <div class="img-cont">
           <div class="images" *ngFor="let item of currentBooking?.picsAfter">
-            <img src="{{item}}" alt="">
+            <img src="{{item}}" alt="" />
           </div>
         </div>
       </div>
@@ -771,10 +1029,13 @@
     <div>
       <ion-card class="payment">
         <ion-card-header style="border-bottom: 1px double #d7d7d7">
-          <div class="title" *ngIf="currentBooking?.stage == utils.completed.key">
+          <div
+            class="title"
+            *ngIf="currentBooking?.stage === utils.completed.key"
+          >
             <span>Payment Details</span>
             <button (click)="downloadPdf()">
-              <img src="../../../../assets/download.svg" alt="">
+              <img src="../../../../assets/download.svg" alt="" />
             </button>
           </div>
 
@@ -791,26 +1052,42 @@
           <div class="items">
             <ng-container *ngFor="let item of currentBooking?.services">
               <div class="row1" *ngFor="let variant of item.variants">
-                <p class="col1">{{variant.name }} X <span style="color: #7e8083;">{{ variant.quantity}}</span></p>
-                <p style="color: black;">{{(variant.billing.totalPrice) | currency:'INR' : 'symbol' : '1.0-0'}}</p>
+                <p class="col1">
+                  {{variant.name }} X
+                  <span style="color: #7e8083">{{ variant.quantity}}</span>
+                </p>
+                <p style="color: black">
+                  {{(variant.billing.totalPrice) | currency:'INR' : 'symbol' :
+                  '1.0-0'}}
+                </p>
               </div>
             </ng-container>
           </div>
 
           <div class="payment-row">
             <div class="payment-heading">Total (MRP)</div>
-            <div class="payment-value">{{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+            <div class="payment-value">
+              {{currentBooking?.billing?.subTotal | currency:'INR' : 'symbol' :
+              '1.0-0'}}
+            </div>
           </div>
           <div class="payment-row">
             <div class="payment-heading">Discount</div>
-            <div class="payment-value" style="color: #C16256;">-{{discount | currency:'INR': 'symbol' : '1.0-0'}}</div>
+            <div class="payment-value" style="color: #c16256">
+              -{{discount | currency:'INR': 'symbol' : '1.0-0'}}
+            </div>
           </div>
           <div class="payment-row mb-20">
             <div class="payment-heading">Discounted Price</div>
-            <div class="payment-value">{{(currentBooking?.billing?.subTotal || 0) -
-              (discount || 0) | currency:'INR' : 'symbol' : '1.0-0'}}</div>
+            <div class="payment-value">
+              {{(currentBooking?.billing?.subTotal || 0) - (discount || 0) |
+              currency:'INR' : 'symbol' : '1.0-0'}}
+            </div>
           </div>
-          <div class="payment-row" *ngFor="let charge of currentBooking?.billing?.fixedCharges">
+          <div
+            class="payment-row"
+            *ngFor="let charge of currentBooking?.billing?.fixedCharges"
+          >
             <div class="payment-heading">{{charge.name}}</div>
             <div class="payment-value">{{charge.amount | currency:'INR'}}</div>
           </div>
@@ -818,14 +1095,22 @@
           <div style="border-top: 2px dashed #d7d7d7">
             <div class="payment-row mt-20">
               <div class="payment-heading total-price">Total</div>
-              <div class="payment-value amount" style="color: #579540;">{{(currentBooking?.billing?.grandTotal) |
-                currency:'INR' : 'symbol' : '1.0-0'}}</div>
+              <div class="payment-value amount" style="color: #579540">
+                {{(currentBooking?.billing?.grandTotal) | currency:'INR' :
+                'symbol' : '1.0-0'}}
+              </div>
             </div>
           </div>
           <!-- Banner -->
-          <div class="offer-bar" *ngIf="discount !==0 && discount !== undefined">
+          <div
+            class="offer-bar"
+            *ngIf="discount !==0 && discount !== undefined"
+          >
             <img class="tag-image" src="../../../assets/tag.svg" alt="" />
-            <p class="tag-text">Yay! You have saved {{discount | currency:'INR' : 'symbol' : '1.0-0'}}.</p>
+            <p class="tag-text">
+              Yay! You have saved {{discount | currency:'INR' : 'symbol' :
+              '1.0-0'}}.
+            </p>
           </div>
         </ion-card-header>
       </ion-card>
@@ -861,54 +1146,100 @@
         <ion-card-header style="border-bottom: 1px double #d7d7d7">
           <div class="title">
             <span>Payment Details</span>
-            <p class="body"
-              *ngIf="currentBooking?.isRefundInitiated == false && (currentBooking?.isPaid || currentBooking?.isPaylater == false)"
-              [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']">{{
-              currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'Completed' : 'Failed' }}</p>
-            <p class="body paylater" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">Pending</p>
-            <p class="body inProgressRefund"
-              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'pending'">
-              Refund In Progress</p>
-            <p class="body success"
-              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'processed'">
-              Refund Processed</p>
-            <p class="body faild"
-              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'failed'">
-              Refund Failed</p>
+            <p
+              class="body"
+              *ngIf="currentBooking?.isRefundInitiated === false && (currentBooking?.isPaid || currentBooking?.isPaylater === false)"
+              [ngClass]="[currentBooking?.payment?.stage === 'paymentCaptureSuccess' ? 'success' : 'faild']"
+            >
+              {{ currentBooking?.payment?.stage === 'paymentCaptureSuccess' ?
+              'Completed' : 'Failed' }}
+            </p>
+            <p
+              class="body paylater"
+              *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+            >
+              Pending
+            </p>
+            <p
+              class="body inProgressRefund"
+              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'pending'"
+            >
+              Refund In Progress
+            </p>
+            <p
+              class="body success"
+              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'processed'"
+            >
+              Refund Processed
+            </p>
+            <p
+              class="body faild"
+              *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'failed'"
+            >
+              Refund Failed
+            </p>
           </div>
           <div class="payment-row">
             <div class="payment-heading">Payment Mode</div>
-            <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false">Pre Paid
-              Online</div>
-            <div class="payment-value" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">Pay After
-              Job
+            <div
+              class="payment-value"
+              *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater === false"
+            >
+              Pre Paid Online
+            </div>
+            <div
+              class="payment-value"
+              *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+            >
+              Pay After Job
             </div>
           </div>
           <div class="payment-row">
             <div class="payment-heading">Transaction ID</div>
-            <div class="payment-value" *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater == false"
-              title="{{currentBooking?.payment?.id}}">{{currentBooking?.payment?.razorpay_payment_id}}</div>
-            <div class="payment-value" *ngIf="currentBooking?.isPaid == false && currentBooking?.isPaylater">
-              {{currentBooking?.id}}</div>
+            <div
+              class="payment-value"
+              *ngIf="currentBooking?.isPaid || currentBooking?.isPaylater === false"
+              title="{{currentBooking?.payment?.id}}"
+            >
+              {{currentBooking?.payment?.razorpay_payment_id}}
+            </div>
+            <div
+              class="payment-value"
+              *ngIf="currentBooking?.isPaid === false && currentBooking?.isPaylater"
+            >
+              {{currentBooking?.id}}
+            </div>
           </div>
           <div class="payment-row" *ngIf="currentBooking?.isRefundInitiated">
             <div class="payment-heading">Refund Transaction ID</div>
-            <div class="payment-value" title="{{currentBooking?.refundInitiatedDetails?.id}}">
-              {{currentBooking?.refundInitiatedDetails?.id}}</div>
+            <div
+              class="payment-value"
+              title="{{currentBooking?.refundInitiatedDetails?.id}}"
+            >
+              {{currentBooking?.refundInitiatedDetails?.id}}
+            </div>
           </div>
           <div style="border-top: 2px dashed #d7d7d7">
             <div class="payment-row mt-20">
               <div class="payment-heading total-price">Refund Amount</div>
-              <div class="payment-value amount" style="color: #579540;">
-                {{((currentBooking?.refundInitiatedDetails?.amount/100) || 0) | currency:'INR' : 'symbol' : '1.0-0'}}
+              <div class="payment-value amount" style="color: #579540">
+                {{((currentBooking?.refundInitiatedDetails?.amount/100) || 0) |
+                currency:'INR' : 'symbol' : '1.0-0'}}
               </div>
             </div>
           </div>
-          <div class="payment-row"
-            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status == 'pending'">
+          <div
+            class="payment-row"
+            *ngIf="currentBooking?.isRefundInitiated && currentBooking?.refundInitiatedDetails.status === 'pending'"
+          >
             <div class="payment-heading">Refund Status</div>
-            <div class="" title="Your Refund has been initiated It will be processed before 3 Business Days">Your Refund
-              has been initiated It will be processed before 3 Business Days</div>
+            <div
+              class=""
+              title="Your Refund has been initiated It will be processed before 3 Business Days"
+            >
+              Your Refund has been initiated It will be processed before 3
+              Business Days
+            </div>
           </div>
         </ion-card-header>
       </ion-card>
@@ -918,68 +1249,128 @@
       <!-- Card header -->
       <div class="row-5" *ngIf="currentBooking?.stage !== 'discarded' ">
         <h3 class="head">Rating</h3>
-        <p>(Ratings can be given/changed within 2 hours after the completion of Service)</p>
+        <p>
+          (Ratings can be given/changed within 2 hours after the completion of
+          Service)
+        </p>
       </div>
       <div *ngIf="currentBooking?.stage === 'completed' ">
-        <div class="service-review-cont" *ngFor="let service of currentBooking?.services">
+        <div
+          class="service-review-cont"
+          *ngFor="let service of currentBooking?.services"
+        >
           <!-- Price and Subject -->
           <div class="row-7" *ngFor="let variant of service.variants">
             <div class="img-div">
-              <img class="image" src="{{currentBooking?.mainCategory?.icon}}" alt="" />
+              <img
+                class="image"
+                src="{{currentBooking?.mainCategory?.icon}}"
+                alt=""
+              />
             </div>
             <div class="service-det">
               <div class="service-head">
                 <h3 class="head">{{service.name}}</h3>
-                <span class="body1">{{variant.name }} x {{ variant.quantity}}</span>
+                <span class="body1"
+                  >{{variant.name }} x {{ variant.quantity}}</span
+                >
               </div>
               <!-- (click)="isModalOpenRate=true" -->
-              <div class="rating" id="open-modal-rate" expand="block" (click)="rateService(service)"
-                *ngIf="!service?.rating">
-                <p style="margin-right: 10px" *ngIf="!service?.rating">Please Rate</p>
-                <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
-                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
-                <span><img src="../../../assets/star-outlined.svg" alt="" /></span>
+              <div
+                class="rating"
+                id="open-modal-rate"
+                expand="block"
+                (click)="rateService(service)"
+                *ngIf="!service?.rating"
+              >
+                <p style="margin-right: 10px" *ngIf="!service?.rating">
+                  Please Rate
+                </p>
+                <p style="margin-right: 10px" *ngIf="service?.rating">
+                  {{service?.rating.reviewTitle}}
+                </p>
+                <span
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
+                <span
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
+                <span
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
+                <span
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
+                <span
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
               </div>
-              <div class="rating" id="open-modal-rate" expand="block" *ngIf="service?.rating">
-                <p style="margin-right: 10px" *ngIf="service?.rating">{{service?.rating.reviewTitle}}</p>
-                <span *ngFor="let item of [].constructor(service?.rating.rating); let i = index "><img
-                    src="../../../assets/carbon_star-filled.svg" alt="" /></span>
-                <span *ngFor="let item of [].constructor(5-service?.rating.rating); let i = index "><img
-                    src="../../../assets/star-outlined.svg" alt="" /></span>
+              <div
+                class="rating"
+                id="open-modal-rate"
+                expand="block"
+                *ngIf="service?.rating"
+              >
+                <p style="margin-right: 10px" *ngIf="service?.rating">
+                  {{service?.rating.reviewTitle}}
+                </p>
+                <span
+                  *ngFor="let item of [].constructor(service?.rating.rating); let i = index "
+                  ><img src="../../../assets/carbon_star-filled.svg" alt=""
+                /></span>
+                <span
+                  *ngFor="let item of [].constructor(5-service?.rating.rating); let i = index "
+                  ><img src="../../../assets/star-outlined.svg" alt=""
+                /></span>
               </div>
             </div>
             <div class="price">
-              <span class="right">{{variant.billing.discountedPrice | currency:'INR' }}</span>
+              <span class="right"
+                >{{variant.billing.discountedPrice | currency:'INR' }}</span
+              >
             </div>
           </div>
         </div>
       </div>
 
-
-      <div class="reschedule-container mt-4"
-        *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending'  || currentBooking?.stage == 'jobAccepted'">
-        <button class="reschedule-button" type="button" (click)="rescheduleSubmit()">Reschedule</button>
-        <button class="cancel-button" type="button" (click)="onClickCancelBooking()">
+      <div
+        class="reschedule-container mt-4"
+        *ngIf="currentBooking?.stage === 'allotmentPending' || currentBooking?.stage === 'acceptancePending'  || currentBooking?.stage === 'jobAccepted'"
+      >
+        <button
+          class="reschedule-button"
+          type="button"
+          (click)="rescheduleSubmit()"
+        >
+          Reschedule
+        </button>
+        <button
+          class="cancel-button"
+          type="button"
+          (click)="onClickCancelBooking()"
+        >
           Cancel Booking
         </button>
       </div>
-      <div class="container"
-        *ngIf="currentBooking?.stage == 'allotmentPending' || currentBooking?.stage == 'acceptancePending' || currentBooking?.stage == 'inProgress'"
-        style="margin-bottom: 25px;">
-        <ion-card style="margin: 0px;">
+      <div
+        class="container"
+        *ngIf="currentBooking?.stage === 'allotmentPending' || currentBooking?.stage === 'acceptancePending' || currentBooking?.stage === 'inProgress'"
+        style="margin-bottom: 25px"
+      >
+        <ion-card style="margin: 0px">
           <ion-card-content>
             <ul>
               <li class="pargraph">
                 No charge if you reschedule or cacnel until 3 hours before the
                 service
               </li>
-              <li class="pargraph">Within 3hrs, a cancellation fee of ₹100 is applicable</li>
+              <li class="pargraph">
+                Within 3hrs, a cancellation fee of ₹100 is applicable
+              </li>
             </ul>
           </ion-card-content>
         </ion-card>
       </div>
     </div>
   </div>
+</div>

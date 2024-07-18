@@ -101,7 +101,7 @@ export class SelectSlotPage implements OnInit {
     private loadingController: LoadingController,
     private router: Router,
     private cartService: CartService
-  ) { }
+  ) {}
 
   ngOnInit() {
     // regenrate the slots
@@ -257,6 +257,11 @@ export class SelectSlotPage implements OnInit {
     });
 
     let duration = mins + ' Mins';
+    if (mins >= 60) {
+      duration = Math.round(mins / 60) + (mins / 60 > 2 ? ' Hours' : ' Hour');
+    } else {
+      if (mins < 2) duration = mins + ' Min';
+    }
     return duration;
   }
 
