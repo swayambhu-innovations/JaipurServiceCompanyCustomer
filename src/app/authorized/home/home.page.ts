@@ -93,174 +93,167 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private deviceService: DeviceDetectorService,
     private modalController: ModalController
   ) {
-    this._notificationService
-      .getCurrentUserNotification()
-      .then((notificationRequest) => {
-        this.notifications = notificationRequest.docs.map(
-          (notification: any) => {
-            return { ...notification.data(), id: notification.id };
-          }
-        );
+    if (this.dataProvider.currentUser)
+      this._notificationService
+        .getCurrentUserNotification()
+        .then((notificationRequest) => {
+          this.notifications = notificationRequest.docs.map(
+            (notification: any) => {
+              return { ...notification.data(), id: notification.id };
+            }
+          );
 
-        if (this.mobileView) {
-          //fetching mobile banners
-          this.homeService.showMobileBanner().then((show) => {
-            this.bannerObject.showBanner = show.data()?.['show'];
-            if (this.bannerObject.showBanner) {
-              this.homeService.showMobileTop().then((top) => {
-                this.bannerObject.showTop = top.data()?.['show'];
-                if (this.bannerObject.showTop) {
-                  this.homeService.getTopBanner().then((topBan) => {
-                    this.topBanner = topBan.docs
-                      .map((item) => {
-                        return { ...item.data(), id: item.id };
-                      })
-                      .filter((item) => item?.['show']);
-                    if (this.topBanner.length > 0) {
-                      if (this.swiper2) {
-                        this.swiper2.destroy();
-                      }
-                      this.swiper2 = new Swiper(
-                        this.swiperContainer2.nativeElement,
-                        {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
-                          pagination: {
-                            el: '.swiper-pagination2',
-                            clickable: true,
-                          },
-                          centeredSlides: true,
-                          autoplay: {
-                            delay: 2000,
-                          },
-                        }
-                      );
+          this.unreadNotifications = this.notifications.filter(
+            (notification: any) => {
+              return !notification.read;
+            }
+          );
+          this._notificationService.allNotifications.next(this.notifications);
+          this._notificationService.unreadNotifications =
+            this.unreadNotifications;
+        });
+
+    if (this.mobileView) {
+      //fetching mobile banners
+      this.homeService.showMobileBanner().then((show) => {
+        this.bannerObject.showBanner = show.data()?.['show'];
+        if (this.bannerObject.showBanner) {
+          this.homeService.showMobileTop().then((top) => {
+            this.bannerObject.showTop = top.data()?.['show'];
+            if (this.bannerObject.showTop) {
+              this.homeService.getTopBanner().then((topBan) => {
+                this.topBanner = topBan.docs
+                  .map((item) => {
+                    return { ...item.data(), id: item.id };
+                  })
+                  .filter((item) => item?.['show']);
+                if (this.topBanner.length > 0) {
+                  if (this.swiper2) {
+                    this.swiper2.destroy();
+                  }
+                  this.swiper2 = new Swiper(
+                    this.swiperContainer2.nativeElement,
+                    {
+                      slidesPerView: 1,
+                      spaceBetween: 20,
+                      pagination: {
+                        el: '.swiper-pagination2',
+                        clickable: true,
+                      },
+                      centeredSlides: true,
+                      autoplay: {
+                        delay: 2000,
+                      },
                     }
-                  });
-                }
-              });
-              this.homeService.showMobileMiddle().then((middle) => {
-                this.bannerObject.showMiddle = middle.data()?.['show'];
-                if (this.bannerObject.showMiddle) {
-                  this.homeService.getMiddleBanner().then((middleBan) => {
-                    this.middleBanner = middleBan.docs
-                      .map((item) => {
-                        return { ...item.data(), id: item.id };
-                      })
-                      .filter((item) => item?.['show']);
-                    if (this.middleBanner.length > 0) {
-                      if (this.swiper) {
-                        this.swiper.destroy();
-                      }
-                      this.swiper = new Swiper(
-                        this.swiperContainer.nativeElement,
-                        {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
-                          pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true,
-                          },
-                          centeredSlides: true,
-                          autoplay: {
-                            delay: 2000,
-                          },
-                        }
-                      );
-                    }
-                  });
+                  );
                 }
               });
             }
           });
-        } else {
-          //fetching desktop banners
-          this.homeService.showDesktopBanner().then((show) => {
-            this.desktopBannerObject.showBanner = show.data()?.['show'];
-            if (this.desktopBannerObject.showBanner) {
-              this.homeService.showDesktopTop().then((top) => {
-                this.desktopBannerObject.showTop = top.data()?.['show'];
-                if (this.desktopBannerObject.showTop) {
-                  this.homeService.getDesktopTopBanner().then((topBan) => {
-                    this.topBanner = topBan.docs
-                      .map((item) => {
-                        return { ...item.data(), id: item.id };
-                      })
-                      .filter((item) => item?.['show']);
-                    if (this.topBanner.length > 0) {
-                      if (this.swiper2) {
-                        this.swiper2.destroy();
-                      }
-                      this.swiper2 = new Swiper(
-                        this.swiperContainer2.nativeElement,
-                        {
-                          slidesPerView: 1,
-                          spaceBetween: 20,
-                          pagination: {
-                            el: '.swiper-pagination2',
-                            clickable: true,
-                          },
-                          observer: true,
-                          observeParents: true,
-                          centeredSlides: true,
-                          autoplay: {
-                            delay: 2000,
-                          },
-                        }
-                      );
-                    }
+          this.homeService.showMobileMiddle().then((middle) => {
+            this.bannerObject.showMiddle = middle.data()?.['show'];
+            if (this.bannerObject.showMiddle) {
+              this.homeService.getMiddleBanner().then((middleBan) => {
+                this.middleBanner = middleBan.docs
+                  .map((item) => {
+                    return { ...item.data(), id: item.id };
+                  })
+                  .filter((item) => item?.['show']);
+                if (this.middleBanner.length > 0) {
+                  if (this.swiper) {
+                    this.swiper.destroy();
+                  }
+                  this.swiper = new Swiper(this.swiperContainer.nativeElement, {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    pagination: {
+                      el: '.swiper-pagination',
+                      clickable: true,
+                    },
+                    centeredSlides: true,
+                    autoplay: {
+                      delay: 2000,
+                    },
                   });
-                }
-              });
-              this.homeService.showDesktopMiddle().then((middle) => {
-                this.desktopBannerObject.showMiddle = middle.data()?.['show'];
-                if (this.desktopBannerObject.showMiddle) {
-                  this.homeService
-                    .getDesktopMiddleBanner()
-                    .then((middleBan) => {
-                      this.middleBanner = middleBan.docs
-                        .map((item) => {
-                          return { ...item.data(), id: item.id };
-                        })
-                        .filter((item) => item?.['show']);
-                      if (this.middleBanner.length > 0) {
-                        if (this.swiper) {
-                          this.swiper.destroy();
-                        }
-                        this.swiper = new Swiper(
-                          this.swiperContainer.nativeElement,
-                          {
-                            slidesPerView: 1,
-                            spaceBetween: 20,
-                            pagination: {
-                              el: '.swiper-pagination',
-                              clickable: true,
-                            },
-                            observer: true,
-                            observeParents: true,
-                            centeredSlides: true,
-                            autoplay: {
-                              delay: 2000,
-                            },
-                          }
-                        );
-                      }
-                    });
                 }
               });
             }
           });
         }
-
-        this.unreadNotifications = this.notifications.filter(
-          (notification: any) => {
-            return !notification.read;
-          }
-        );
-        this._notificationService.allNotifications.next(this.notifications);
-        this._notificationService.unreadNotifications =
-          this.unreadNotifications;
       });
+    } else {
+      //fetching desktop banners
+      this.homeService.showDesktopBanner().then((show) => {
+        this.desktopBannerObject.showBanner = show.data()?.['show'];
+        if (this.desktopBannerObject.showBanner) {
+          this.homeService.showDesktopTop().then((top) => {
+            this.desktopBannerObject.showTop = top.data()?.['show'];
+            if (this.desktopBannerObject.showTop) {
+              this.homeService.getDesktopTopBanner().then((topBan) => {
+                this.topBanner = topBan.docs
+                  .map((item) => {
+                    return { ...item.data(), id: item.id };
+                  })
+                  .filter((item) => item?.['show']);
+                if (this.topBanner.length > 0) {
+                  if (this.swiper2) {
+                    this.swiper2.destroy();
+                  }
+                  this.swiper2 = new Swiper(
+                    this.swiperContainer2.nativeElement,
+                    {
+                      slidesPerView: 1,
+                      spaceBetween: 20,
+                      pagination: {
+                        el: '.swiper-pagination2',
+                        clickable: true,
+                      },
+                      observer: true,
+                      observeParents: true,
+                      centeredSlides: true,
+                      autoplay: {
+                        delay: 2000,
+                      },
+                    }
+                  );
+                }
+              });
+            }
+          });
+          this.homeService.showDesktopMiddle().then((middle) => {
+            this.desktopBannerObject.showMiddle = middle.data()?.['show'];
+            if (this.desktopBannerObject.showMiddle) {
+              this.homeService.getDesktopMiddleBanner().then((middleBan) => {
+                this.middleBanner = middleBan.docs
+                  .map((item) => {
+                    return { ...item.data(), id: item.id };
+                  })
+                  .filter((item) => item?.['show']);
+                if (this.middleBanner.length > 0) {
+                  if (this.swiper) {
+                    this.swiper.destroy();
+                  }
+                  this.swiper = new Swiper(this.swiperContainer.nativeElement, {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    pagination: {
+                      el: '.swiper-pagination',
+                      clickable: true,
+                    },
+                    observer: true,
+                    observeParents: true,
+                    centeredSlides: true,
+                    autoplay: {
+                      delay: 2000,
+                    },
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
     this.utils = Utils.stageMaster;
     this._cartService.getFixedCharges().then((fixedCharges) => {
       const cartFixedCharges = fixedCharges.docs.map((discount: any) => {
@@ -277,9 +270,46 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     this._navigationService.isAddressSubscription$ = true;
-    this.recentActivity();
-    this.fetchMainCategoryIcon(); // added by ronak
+    this.fetchMainCategoryIcon();
+    if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
+      this.fetchAddressWithoutAuth();
+    } else if (this.dataProvider.currentUser) {
+      this.fetchAddress();
+      this.recentActivity();
+      this.bookingService.bookingsSubject.subscribe((bookings) => {
+        this.upcomingBookings = bookings.filter((item) => {
+          if (
+            item.stage == 'expired' ||
+            item.stage == 'completed' ||
+            item.stage == 'discarded' ||
+            item.stage == 'cancelled'
+          ) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        if (this.upcomingBookings.length > 0) {
+          if (this.swiper1) {
+            this.swiper1.destroy();
+          }
+          this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+              el: '.swiper-pagination1',
+              clickable: true,
+            },
+            centeredSlides: true,
+            autoplay: {
+              delay: 2000,
+            },
+          });
+        }
+      });
+    }
     this.systeminfo();
+    console.log(this.dataProvider.mainCategoriesLoaded);
     this.dataProvider.mainCategories.subscribe((categories) => {
       this.categories = categories;
       if (this.dataProvider.mainCategoriesLoaded) {
@@ -288,44 +318,18 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       }
     });
-    this.fetchAddress();
-    this.bookingService.bookingsSubject.subscribe((bookings) => {
-      this.upcomingBookings = bookings.filter((item) => {
-        if (
-          item.stage == 'expired' ||
-          item.stage == 'completed' ||
-          item.stage == 'discarded' ||
-          item.stage == 'cancelled'
-        ) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-      if (this.upcomingBookings.length > 0) {
-        if (this.swiper1) {
-          this.swiper1.destroy();
-        }
-        this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
-          slidesPerView: 1,
-          spaceBetween: 20,
-          pagination: {
-            el: '.swiper-pagination1',
-            clickable: true,
-          },
-          centeredSlides: true,
-          autoplay: {
-            delay: 2000,
-          },
-        });
-      }
-    });
   }
 
   scrollToTop() {
     if (this.content && this.content.scrollToTop) {
       this.content.scrollToTop();
     }
+  }
+
+  fetchAddressWithoutAuth() {
+    this.currentAddress = this.dataProvider.authLessAddress;
+    this._cartService.selectedCatalogue = '';
+    this.setupCategories();
   }
 
   fetchAddress() {
@@ -371,6 +375,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         );
       if (areas.length > 0) {
         this.homeService.fetchData(areas[0].serviceCatalogue);
+        this._cartService.selectedCatalogue = areas[0].serviceCatalogue;
+        this.dataProvider.mainCategoriesLoaded = true;
       } else {
         this.isNotServiceableModalOpen = true;
         this.dataProvider.mainCategoriesLoaded = true;
@@ -380,26 +386,25 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         }, 1000);
       }
     }
-    this._cartService.selectedCatalogue =
-      this.addresses[0].selectedArea.serviceCatalogue;
   }
 
   ionViewDidEnter() {
     this.scrollToTop();
-    this._notificationService
-      .getCurrentUserNotification()
-      .then((notificationRequest) => {
-        this.notifications = notificationRequest.docs.map(
-          (notification: any) => {
-            return { ...notification.data(), id: notification.id };
-          }
-        );
-        this.unreadNotifications = this.notifications.filter(
-          (notification: any) => {
-            return !notification.read;
-          }
-        );
-      });
+    if (this.dataProvider.currentUser)
+      this._notificationService
+        .getCurrentUserNotification()
+        .then((notificationRequest) => {
+          this.notifications = notificationRequest.docs.map(
+            (notification: any) => {
+              return { ...notification.data(), id: notification.id };
+            }
+          );
+          this.unreadNotifications = this.notifications.filter(
+            (notification: any) => {
+              return !notification.read;
+            }
+          );
+        });
   }
 
   ionViewDidLeave() {}

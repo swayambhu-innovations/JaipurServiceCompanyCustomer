@@ -47,8 +47,11 @@ export class SearchLocPage implements OnInit {
             .catch((err) => {
               this.results.length = 0;
               this.resultsFetched = true;
-              console.log(err);
             });
+        }
+        if (term.length == 0) {
+          this.resultsFetched = false;
+          this.results.length = 0;
         }
       });
   }

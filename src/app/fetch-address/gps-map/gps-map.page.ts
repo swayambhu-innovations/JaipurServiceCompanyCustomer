@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, Platform } from '@ionic/angular';
 import { firstValueFrom, map, Observable, Subject } from 'rxjs';
 import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
-import { LocationService } from 'src/app/authorized/new-address/services/location.service';
+import { AddressService } from 'src/app/authorized/db_services/address.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class GpsMapPage implements OnInit {
   @ViewChild('content', { static: true }) content: any;
   areaOptions: any;
   isValidMarker: boolean = false;
-  selectedAddress: any;
+  selectedAddress: google.maps.GeocoderResult;
   formattedAdd: string = '';
   areaName: string = '';
   showHeader: boolean = true;
@@ -40,7 +40,7 @@ export class GpsMapPage implements OnInit {
   state$: Observable<object>;
   constructor(
     private router: Router,
-    private locationService: LocationService,
+    private addressService: AddressService,
     private alertify: AlertsAndNotificationsService,
     private platform: Platform,
     public dataProvider: DataProviderService,
@@ -129,7 +129,51 @@ export class GpsMapPage implements OnInit {
     this.setCircleInMap();
   }
 
-  confirmLoc() {
-    console.log(this.selectedAddress);
+  async confirmLoc() {
+    let state: string = '';
+    let city: string = '';
+    let stateId: string = '';
+    let cityId: string = '';
+    this.selectedAddress.address_components.map((component) => {
+      component.types.map((type) => {
+        if (type == 'administrative_area_level_1') state = component.long_name;
+        if (type == 'administrative_area_level_3') city = component.long_name;
+      });
+    });
+    await this.addressService.getState().then(async (docs) => {
+      docs.docs.map((stat) => {
+        if (
+          state
+            .toLowerCase()
+            .includes(stat.data()['state'].toString().toLowerCase())
+        )
+          stateId = stat.id;
+      });
+
+      if (stateId !== '') {
+        await this.addressService.getCity(stateId).then((docs) => {
+          docs.docs.map((cities) => {
+            if (
+              city
+                .toLowerCase()
+                .includes(cities.data()['name'].toString().toLowerCase())
+            )
+              cityId = cities.id;
+          });
+          if (cityId !== '') {
+            const addressObject = {
+              ...this.selectedAddress,
+              cityId: cityId,
+              stateId: stateId,
+              selectedArea: this.selectedAddress,
+              isDefault: true,
+            };
+            this.dataProvider.authLessAddress = addressObject;
+            localStorage.setItem('address', JSON.stringify(addressObject));
+            this.router.navigate(['/authorized/home']);
+          } else this.isCatalogue = false;
+        });
+      } else this.isCatalogue = false;
+    });
   }
 }

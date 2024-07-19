@@ -49,9 +49,10 @@ export class CartService {
       cartRequest: this.getCurrentUserCart(),
       taxRequest: this.getTaxes(),
     }).subscribe(({ discountRequest, cartRequest, taxRequest }) => {
-      this.cart = cartRequest.docs.map((cart: any) => {
-        return { ...cart.data(), id: cart.id };
-      });
+      if (cartRequest)
+        this.cart = cartRequest.docs.map((cart: any) => {
+          return { ...cart.data(), id: cart.id };
+        });
       this.discounts = discountRequest.docs.map((discount: any) => {
         return { ...discount.data(), id: discount.id };
       });
@@ -351,9 +352,10 @@ export class CartService {
 
   async updateCart() {
     this.getCurrentUserCart().then((cartRequest) => {
-      this.cart = cartRequest.docs.map((cart: any) => {
-        return { ...cart.data(), id: cart.id };
-      });
+      if (cartRequest)
+        this.cart = cartRequest.docs.map((cart: any) => {
+          return { ...cart.data(), id: cart.id };
+        });
       this.cart.map((cartItem: any) => {
         cartItem = this.calculateBilling(cartItem);
         return cartItem;
@@ -823,15 +825,16 @@ export class CartService {
   }
 
   async getCurrentUserCart() {
-    const data = await getDocs(
-      collection(
-        this.firestore,
-        'users',
-        this.dataProvider.currentUser!.user.uid,
-        'cart'
-      )
-    );
-    return data;
+    if (this.dataProvider.currentUser)
+      return await getDocs(
+        collection(
+          this.firestore,
+          'users',
+          this.dataProvider.currentUser!.user.uid,
+          'cart'
+        )
+      );
+    return undefined;
   }
 
   getTaxes() {

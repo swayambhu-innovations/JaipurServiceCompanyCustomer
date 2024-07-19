@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-location-disabled',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./location-disabled.page.scss'],
 })
 export class LocationDisabledPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
+    setInterval(() => {
+      this.router.navigate(['/fetch-address']);
+    }, 5000);
   }
 
+  ngOnInit() {}
 }

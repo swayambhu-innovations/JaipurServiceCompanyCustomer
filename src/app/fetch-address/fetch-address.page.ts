@@ -53,6 +53,7 @@ export class FetchAddressPage implements OnInit {
         },
         (error) => {
           setTimeout(() => this.getLocation(), 500);
+          this.router.navigate(['/fetch-address/location-disabled']);
         }
       );
     }

@@ -27,6 +27,7 @@ export class DataProviderService {
   currentUser$:BehaviorSubject<any> = new BehaviorSubject<any>('');
   isPageLoaded$:BehaviorSubject<string> = new BehaviorSubject<string>("");
   deviceInfo:any;
+  authLessAddress:any;
   constructor(
     private deviceService: DeviceDetectorService,
   ) {

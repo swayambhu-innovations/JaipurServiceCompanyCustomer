@@ -13,13 +13,11 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () =>
           import('./home/home.module').then((m) => m.HomePageModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'search',
         loadChildren: () =>
           import('./search/search.module').then((m) => m.SearchPageModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'select-slot',
@@ -63,7 +61,6 @@ const routes: Routes = [
         path: 'cart/:mainCategoryId/:serviceId',
         loadChildren: () =>
           import('./cart/cart.module').then((m) => m.CartPageModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'select-address',
@@ -85,7 +82,6 @@ const routes: Routes = [
           import('./empty-cart/empty-cart.module').then(
             (m) => m.EmptyCartPageModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'new-address',
@@ -131,13 +127,11 @@ const routes: Routes = [
           import('./all-categories/all-categories.module').then(
             (m) => m.AllCategoriesPageModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'profile',
         loadChildren: () =>
           import('./profile/profile.module').then((m) => m.ProfilePageModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'contact-us',
@@ -145,12 +139,10 @@ const routes: Routes = [
           import('./contact-us/contact-us.module').then(
             (m) => m.ContactUsModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'faq',
         loadChildren: () => import('./faq/faq.module').then((m) => m.FaqModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'reschedule',
