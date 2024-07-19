@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { debounceTime, Observable, Subject } from 'rxjs';
 import Fuse from 'fuse.js';
 import { DataProviderService } from 'src/app/core/data-provider.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search-loc',
@@ -24,26 +25,45 @@ export class SearchLocPage implements OnInit {
   inputSearchVar: string = '';
   resultsFetched: boolean = false;
   areaSearchList$!: Observable<any>;
-  private areaSearchText$ = new Subject<string>();
 
   constructor(
     private dataProvider: DataProviderService,
-    private router: Router
+    private router: Router,
+    public nav: NavController
   ) {
     this.searchInputSubject
       .pipe(debounceTime(600))
       .subscribe((term: string) => {
         this.results = [];
         if (term.length > 2) {
-          term && this.areaSearchText$.next(term);
-
-          this.resultsFetched = true;
+          const geocoder = new google.maps.Geocoder();
+          geocoder
+            .geocode({ address: term })
+            .then((res) => {
+              const { results } = res;
+              this.results = [...results];
+              this.resultsFetched = true;
+            })
+            .catch((err) => {
+              this.results.length = 0;
+              this.resultsFetched = true;
+              console.log(err);
+            });
         }
       });
   }
 
   ionViewDidLoad() {
     this.resultsFetched = false;
+  }
+
+  currLoc() {
+    this.router.navigate(['/fetch-address']);
+  }
+
+  sendLoc(selectedArea: any) {
+    let coord = selectedArea.geometry.location.toJSON();
+    this.router.navigate(['/fetch-address/gps-map', coord]);
   }
 
   ionViewWillLeave() {
@@ -62,7 +82,7 @@ export class SearchLocPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigateByUrl('fetch-address/gps-map');
+    this.router.navigateByUrl('fetch-address');
   }
 
   saveToHistory(term: string) {

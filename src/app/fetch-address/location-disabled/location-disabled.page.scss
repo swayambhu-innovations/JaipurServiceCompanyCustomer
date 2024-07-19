@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100% !important;
+
+  ion-img {
+    width: 292px;
+    height: 265px;
+    flex-shrink: 0;
+  }
+
+  ion-text {
+    margin-top: 6rem;
+
+    .head {
+      color: #181f29;
+      text-align: center;
+      font-family: Poppins;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .content {
+      color: #666;
+      text-align: center;
+      font-family: Lato;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+}

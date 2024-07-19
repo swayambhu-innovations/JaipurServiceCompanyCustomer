@@ -4,15 +4,17 @@
       (mapMousemove)="move($event)">
       <map-marker *ngIf="currentPosition" [options]="markerOptions" [position]="currentPosition"
         (mapDragend)="newPosition($event)"></map-marker>
-      <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*1000" [options]="mapOptionsCircle"
+      <map-circle *ngIf="isGoogleMapReady" [center]="center" [radius]="circleRadius*800" [options]="mapOptionsCircle"
         (circleClick)="moveMap($event)" fillColor="green" />
     </google-map>
     <div class="info">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-between">
           <ion-col size="7">
-            <ion-img src="../../../assets/fetchAddress/pin_drop_24px.svg"></ion-img>
-            <ion-label class="text">Ashok Nagar, Prayagraj</ion-label>
+            <span class="loc">
+              <ion-img src="../../../assets/fetchAddress/pin_drop_24px.svg"></ion-img>
+            </span>
+            <ion-label class="text">{{areaName}}</ion-label>
           </ion-col>
           <ion-col (click)="changeLoc()" class="btn" size="5">
             CHANGE
@@ -20,11 +22,11 @@
         </ion-row>
 
         <ion-row class="ion-justify-content-center ion-align-items-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing el
+          {{formattedAdd}}
         </ion-row>
 
         <ion-row class="ion-justify-content-center ion-align-items-center">
-          <button *ngIf="isCatalogue" class="button" (click)="changeLoc()">
+          <button (click)="confirmLoc()" *ngIf="isCatalogue" class="button">
             Confirm Location
           </button>
 

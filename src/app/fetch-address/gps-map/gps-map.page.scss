@@ -16,6 +16,14 @@
     ion-row {
       margin: 12px auto;
 
+      .loc {
+        margin-left: -3px;
+        width: 24px;
+        height: 24px;
+        gap: 0px;
+        opacity: 0px;
+      }
+
       .text {
         color: #181f29;
         text-align: right;
@@ -90,6 +98,11 @@
         color: #fff;
         border-radius: 10px;
         background: #181f29;
+        font-family: Inter;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 18.15px;
+        text-align: left;
       }
     }
   }

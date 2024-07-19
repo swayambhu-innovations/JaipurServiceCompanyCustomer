@@ -8,13 +8,18 @@
     </span>
   </button>
 
-  <div class="detectCurr" *ngIf="results.length === 0 && resultsFetched">
-    <img class="back" (click)="goBack()" src="assets/fetchAddress/Group 1000004946.svg" alt="" />
-    <input type="search" #searchInput autofocus (input)="searchInputSubject.next(searchInput.value)"
-      placeholder="Search for area, street name, locality..." [(ngModel)]="inputSearchVar" name="" id="" />
-
+  <div (click)="currLoc()" class="detectCurr" *ngIf="!resultsFetched">
+    <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+    <ion-label>Detect Current Location</ion-label>
   </div>
 
+  <div class="found" *ngIf="results.length !== 0 && resultsFetched">
+    <ion-list>
+      <ion-item (click)="sendLoc(area)" *ngFor="let area of results" lines="none">
+        <ion-label>{{area.formatted_address}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 
   <div class="notFound" *ngIf="results.length === 0 && resultsFetched">
     <img src="assets/images/notFound.svg" alt="" />
