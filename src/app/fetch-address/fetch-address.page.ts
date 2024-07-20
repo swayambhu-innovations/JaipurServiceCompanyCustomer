@@ -27,7 +27,11 @@ export class FetchAddressPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    await this.getLocation();
+    const address = localStorage.getItem('address');
+    if (address) {
+      this.dataProvider.authLessAddress = JSON.parse(address);
+      this.router.navigate(['/authorized/home']);
+    } else await this.getLocation();
   }
 
   async getLocation() {

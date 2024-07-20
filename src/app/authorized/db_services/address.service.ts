@@ -37,12 +37,14 @@ export class AddressService {
     private router: Router,
     public cartService: CartService
   ) {
-    if (
-      this.dataProvider.currentUser &&
-      this.dataProvider.currentUser!.user.uid !== undefined
-    ) {
-      this.setupAddress();
-    }
+    // if (
+    //   this.dataProvider.currentUser &&
+    //   this.dataProvider.currentUser!.user.uid !== undefined
+    // ) {
+    //   this.setupAddress();
+    // }
+
+    this.fetchedAddresses.next(this.dataProvider.authLessAddress);
   }
   setupAddress() {
     collectionData(

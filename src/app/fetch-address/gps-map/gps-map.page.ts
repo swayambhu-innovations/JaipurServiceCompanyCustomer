@@ -169,6 +169,7 @@ export class GpsMapPage implements OnInit {
               isDefault: true,
             };
             this.dataProvider.authLessAddress = addressObject;
+            localStorage.removeItem('address');
             localStorage.setItem('address', JSON.stringify(addressObject));
             this.router.navigate(['/authorized/home']);
           } else this.isCatalogue = false;

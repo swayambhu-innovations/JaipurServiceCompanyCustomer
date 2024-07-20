@@ -68,7 +68,6 @@ const routes: Routes = [
           import('./select-address/select-address.module').then(
             (m) => m.SelectAddressPageModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'offers',
