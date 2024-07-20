@@ -13,10 +13,21 @@
     <ion-label>Detect Current Location</ion-label>
   </div>
 
+  <div class="found" *ngIf="recentSearches.length && !resultsFetched">
+    <ion-list>
+      <ion-label>Recent Searches</ion-label>
+      <ion-item (click)="sendLoc(area)" *ngFor="let area of recentSearches" lines="none">
+        <ion-label>{{area.formatted_address}}</ion-label>
+        <img (click)="deleteLoc(area)" src="../../../assets/Delete2.svg" alt="">
+      </ion-item>
+    </ion-list>
+  </div>
+
   <div class="found" *ngIf="results.length !== 0 && resultsFetched">
     <ion-list>
       <ion-item (click)="sendLoc(area)" *ngFor="let area of results" lines="none">
         <ion-label>{{area.formatted_address}}</ion-label>
+        <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
       </ion-item>
     </ion-list>
   </div>
