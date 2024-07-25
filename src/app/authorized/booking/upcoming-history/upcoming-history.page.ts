@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { BookingService } from '../booking.service';
 import Utils from '../../common/util';
 import * as moment from 'moment';
+import { DataProviderService } from 'src/app/core/data-provider.service';
 
 @Component({
   selector: 'app-upcoming-history',
@@ -77,7 +78,8 @@ export class UpcomingHistoryPage implements OnInit {
   constructor(
     private router: Router,
     private alertController: AlertController,
-    public bookingService:BookingService
+    public bookingService:BookingService,
+    public dataProvider: DataProviderService,
   ) {
     this.utils = Utils.stageMaster;
     this.bookings = this.bookingService.bookings;

@@ -105,16 +105,24 @@
         expand="block"
         fill="clear"
         class="side-buttons"
-        routerLink="../notification"
+        (click)="openNotification()"
       >
-        <div class="w-100 d-flex align-items-center">
+        <div
+          [ngClass]="dataProvider.currentUser ? '':'disabled'"
+          class="w-100 d-flex align-items-center"
+        >
           <img
             style="padding: auto"
             class="icons"
             src="../../assets/Group 1000002396.svg"
             alt=""
           />
-          <p>Notifications</p>
+          <p>
+            Notifications
+            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+              >Log In</span
+            >
+          </p>
         </div>
       </ion-button>
 
@@ -131,7 +139,7 @@
               src="../../assets/info-circle.svg"
               alt=""
             />
-            <p>About</p>
+            <p>About Jaipur Service Company</p>
           </div>
         </ion-button>
       </a>
@@ -191,6 +199,7 @@
         fill="clear"
         class="side-buttons"
         id="open-modal-logout"
+        *ngIf="dataProvider.currentUser"
       >
         <div
           [ngClass]="dataProvider.currentUser ? '':'disabled'"
@@ -203,13 +212,7 @@
             alt=""
             style="width: 25px; margin-left: 20px"
           />
-          <p>
-            Sign out
-
-            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
-              >Log In</span
-            >
-          </p>
+          <p>Sign out</p>
         </div>
       </ion-button>
 
@@ -281,6 +284,7 @@
 
             <h4 style="text-align: center; color: #fff">
               {{this.dataProvider.currentUser?.userData?.name}}
+              {{!this.dataProvider.currentUser && 'You are not Logged In'}}
             </h4>
           </div>
         </div>
@@ -294,7 +298,10 @@
             class="side-buttons"
             (click)="editProfile()"
           >
-            <div class="w-100 d-flex align-items-center">
+            <div
+              [ngClass]="dataProvider.currentUser ? '':'disabled'"
+              class="w-100 d-flex align-items-center"
+            >
               <img
                 style="padding: auto"
                 class="icons"
@@ -317,7 +324,7 @@
             (click)="openBooking()"
           >
             <div
-              (click)="openUpcomingBooking"
+              [ngClass]="dataProvider.currentUser ? '':'disabled'"
               class="w-100 d-flex align-items-center"
             >
               <img
@@ -340,7 +347,10 @@
             class="side-buttons"
             (click)="openAddress()"
           >
-            <div class="w-100 d-flex align-items-center">
+            <div
+              [ngClass]="dataProvider.currentUser ? '':'disabled'"
+              class="w-100 d-flex align-items-center"
+            >
               <img
                 style="padding: auto"
                 class="icons"
@@ -359,16 +369,25 @@
             expand="block"
             fill="clear"
             class="side-buttons"
-            routerLink="../notification"
+            (click)="openNotification()"
           >
-            <div class="w-100 d-flex align-items-center">
+            <div
+              [ngClass]="dataProvider.currentUser ? '':'disabled'"
+              class="w-100 d-flex align-items-center"
+            >
               <img
                 style="padding: auto"
                 class="icons"
                 src="../../assets/Group 1000002396.svg"
                 alt=""
               />
-              <p>Notifications</p>
+              <p>
+                Notifications
+
+                <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+                  >Log In</span
+                >
+              </p>
             </div>
           </ion-button>
 
@@ -385,7 +404,7 @@
                   src="../../assets/info-circle.svg"
                   alt=""
                 />
-                <p>About</p>
+                <p>About Jaipur Service Company</p>
               </div>
             </ion-button>
           </a>
@@ -444,6 +463,7 @@
             expand="block"
             fill="clear"
             class="side-buttons"
+            *ngIf="dataProvider.currentUser"
             (click)="signoutUser=!signoutUser"
           >
             <div class="w-100 d-flex align-items-center">

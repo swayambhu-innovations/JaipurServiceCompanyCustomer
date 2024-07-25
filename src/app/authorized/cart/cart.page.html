@@ -286,18 +286,23 @@
     </button>
 
     <button
-      *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB > 0"
+      *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB > 0 && dataProvider.currentUser"
       class="select-address-button btn-active"
       (click)="this.dataProvider.currentBooking = selectedBooking; temp()"
     >
       Next
     </button>
+
+    <button
+      *ngIf="!dataProvider.currentUser"
+      class="select-address-button btn-active"
+      (click)="login()"
+    >
+      Login to Proceed
+    </button>
   </ion-content>
 
-  <ion-content
-    class="noItems"
-    *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded"
-  >
+  <ion-content class="noItems" *ngIf="!selectedBooking && cart?.length === 0">
     <img class="empty-cart-img" src="../../../assets/images/amico.png" alt="" />
     <span class="text-content">
       <p class="cart-empty-text">Your cart is empty</p>
@@ -595,17 +600,25 @@
         </button>
 
         <button
-          *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB > 0"
+          *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB > 0 && dataProvider.currentUser"
           class="select-address-button btn-active"
           (click)="this.dataProvider.currentBooking = selectedBooking; temp()"
         >
           Next
         </button>
+
+        <button
+          *ngIf="!dataProvider.currentUser"
+          class="select-address-button btn-active"
+          (click)="login()"
+        >
+          Login to Proceed
+        </button>
       </ion-content>
 
       <ion-content
         class="noItems"
-        *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded"
+        *ngIf="!selectedBooking && cart?.length === 0"
       >
         <img
           class="empty-cart-img"

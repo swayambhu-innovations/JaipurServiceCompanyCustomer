@@ -149,27 +149,8 @@ export class CartPage implements OnInit {
   async ionViewDidEnter() {
     this.systeminfo();
     this.pageLeaved = false;
-    let tempBooking: any;
-    if (this.dataProvider.currentUser) {
-      if (this.cartService.cart.length === 1) {
-        this.selectedBooking = this.cartService.cart[0];
-        this.createOfferCount();
-        this.addFixedCharges();
-      } else {
-        this.selectedBooking = undefined;
-      }
-    } else {
-      tempBooking = localStorage.getItem('cart');
-      if (tempBooking) {
-        this.cart = [...JSON.parse(tempBooking)];
-        this.selectedBooking = this.cart[0];
-        this.createOfferCount();
-        this.addFixedCharges();
-      } else {
-        this.selectedBooking = undefined;
-      }
-    }
   }
+  
   onRemoveCoupon() {
     this.removeCoupan(
       this.dataProvider.currentUser?.user!.uid!,
@@ -241,6 +222,10 @@ export class CartPage implements OnInit {
       result.minutes %= 60;
     }
     return result;
+  }
+
+  login() {
+    this.router.navigate(['/unauthorized/login']);
   }
 
   onIncrementCartQuantity(service, variant) {
@@ -325,48 +310,39 @@ export class CartPage implements OnInit {
   orderCount: any = 2;
   async ngOnInit() {
     let tempBooking;
-    if (this.dataProvider.currentUser) {
-      this.cart = this.cartService.cart;
-      this.cartLoaded = true;
-      if (this.cart.length > 0) {
+    if (this.dataProvider.currentUser) this.cart = this.cartService.cart;
+    else {
+      tempBooking = localStorage.getItem('cart');
+      if (tempBooking) this.cart = [...JSON.parse(tempBooking)];
+    }
+    this.cartLoaded = true;
+    if (this.cart.length > 0) {
+      this.setCurrentBooking();
+    }
+    this.cartService.cartSubject.subscribe((bookings) => {
+      this.cart = bookings;
+
+      if (this.mainCategoryId != 'all') {
         this.setCurrentBooking();
       }
-      this.cartService.cartSubject.subscribe((bookings) => {
-        this.cart = bookings;
-
-        if (this.mainCategoryId != 'all') {
-          this.setCurrentBooking();
-        }
-        if (this.selectedBooking?.id && bookings.length > 0) {
-          let foundBooking = bookings.find(
-            (booking) => booking.id === this.selectedBooking!.id
-          );
-          if (foundBooking) {
-            this.selectedBooking = foundBooking;
-            this.createOfferCount();
-          } else {
-            this.selectedBooking = undefined;
-          }
+      if (this.selectedBooking?.id && bookings.length > 0) {
+        let foundBooking = bookings.find(
+          (booking) => booking.id === this.selectedBooking!.id
+        );
+        if (foundBooking) {
+          this.selectedBooking = foundBooking;
+          this.createOfferCount();
         } else {
           this.selectedBooking = undefined;
         }
-      });
-      this.cartService.getMinPrice().then((res: any) => {
-        this.minPriceFromDB = res.data().minPrice;
-      });
-    } else {
-      tempBooking = localStorage.getItem('cart');
-      if (tempBooking) {
-        this.cart = [...JSON.parse(tempBooking)];
-        this.cartLoaded = true;
-        this.selectedBooking = this.cart[0];
-        console.log(this.selectedBooking);
-
-        this.setCurrentBooking();
-        this.createOfferCount();
       } else {
         this.selectedBooking = undefined;
       }
+    });
+    if (this.dataProvider.currentUser) {
+      this.cartService.getMinPrice().then((res: any) => {
+        this.minPriceFromDB = res.data().minPrice;
+      });
     }
   }
 
@@ -374,12 +350,12 @@ export class CartPage implements OnInit {
   checkout() {}
   removeFromCart(service: any) {}
   setCurrentBooking() {
-    // this.selectedBooking = this.cart.find((booking) => {
-    //   const serviceFind = booking.services.find(
-    //     (service) => service.serviceId == this.serviceId
-    //   );
-    //   return serviceFind && booking.mainCategory.id == this.mainCategoryId;
-    // });
+    this.selectedBooking = this.cart.find((booking) => {
+      const serviceFind = booking.services.find(
+        (service) => service.serviceId == this.serviceId
+      );
+      return serviceFind && booking.mainCategory.id == this.mainCategoryId;
+    });
     if (this.selectedBooking) {
       this.createOfferCount();
       this.addFixedCharges();

@@ -234,7 +234,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     toast.present();
   }
 
-  addToCart(variant: any) {
+  async addToCart(variant: any) {
     $('#input' + variant.id).val(1);
     let html = document.getElementById(variant.id + '');
     $('.' + variant.id).hide();
@@ -242,13 +242,21 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     this.totalPrice += variant.price;
     this.selectedItems += 1;
     this.itemList.push(variant);
-    this.cartService.addToCart(
-      this.dataProvider.currentUser!.user.uid,
-      variant.id,
-      this.matchingService!,
-      this.matchingMainCategory!,
-      this.matchingSubCategory!
-    );
+    if (this.dataProvider.currentUser)
+      await this.cartService.addToCart(
+        this.dataProvider.currentUser!.user.uid,
+        variant.id,
+        this.matchingService!,
+        this.matchingMainCategory!,
+        this.matchingSubCategory!
+      );
+    else
+      await this.cartService.addToCartAuthLess(
+        variant.id,
+        this.matchingService!,
+        this.matchingMainCategory!,
+        this.matchingSubCategory!
+      );
   }
 
   decrementQuantity(

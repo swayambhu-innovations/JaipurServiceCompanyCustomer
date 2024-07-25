@@ -57,6 +57,11 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['unauthorized/login']);
   }
 
+  openNotification(){
+    this.router.navigate(['authorized/notification']);
+
+  }
+
   async openUpcomingBooking() {
     this.router.navigate(['authorized/booking/upcoming-history']);
   }

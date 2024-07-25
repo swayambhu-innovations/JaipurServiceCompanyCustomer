@@ -501,6 +501,15 @@ export class CartService {
     }, 1000);
   }
 
+ async addLocalHostCart(
+  userId: string, data:any){
+    data.map(async (item)=>{
+
+      await addDoc(collection(this.firestore, 'users', userId, 'cart'), item);
+      this.updateCart();
+    })
+  }
+
   async removeFromCart(
     userId: string,
     serviceId: string,
