@@ -113,6 +113,201 @@ export class CartService {
     return await getDoc(doc(this.firestore, 'customer-settings', 'min-price'));
   }
 
+  async addToCartAuthLess(
+    variantId: string,
+    service: Service,
+    mainCategory: Category,
+    subCategory: SubCategory
+  ) {
+    const loader = await this.loadingController.create({
+      message: 'Please wait...',
+    });
+    loader.present();
+    let variant = service.variants.find((v) => v.id == variantId);
+    if (variant) {
+      for (const data of this.cart) {
+        if (
+          data.mainCategory.id == mainCategory.id &&
+          data.subCategory.id == subCategory.id
+        ) {
+          let serviceIndex = data.services.findIndex(
+            (s) => s.serviceId == service.id
+          );
+          if (serviceIndex != -1) {
+            let variantIndex = data.services[serviceIndex].variants.findIndex(
+              (v) => v.variantId == variantId
+            );
+            if (data.services[serviceIndex].variants[variantIndex]) {
+              data.services[serviceIndex].variants[variantIndex].quantity++;
+            } else {
+              // add variant to the service
+              data.services[serviceIndex].variants.push({
+                billing: {
+                  discountedPrice: 0,
+                  originalPrice: 0,
+                  discount: 0,
+                  tax: 0,
+                  totalPrice: 0,
+                  untaxedPrice: 0,
+                },
+                quantity: 1,
+                description: variant.description,
+                jobAcceptanceCharge: variant.jobAcceptanceCharge,
+                jobDuration: variant.jobDuration,
+                actualJobDuration: variant.actualJobDuration ?? 0,
+                mainCategoryId: mainCategory.id,
+                name: variant.name,
+                price: variant.price,
+                serviceId: service.id,
+                subCategoryId: subCategory.id,
+                variantId: variant.id,
+              });
+            }
+          } else {
+            data.services.push({
+              name: service.name,
+              allowReviews: service.allowReviews,
+              description: service.description,
+              discounts: service.discounts,
+              image: service.image,
+              serviceId: service.id,
+              taxes: service.taxes,
+              variants: [
+                {
+                  billing: {
+                    discountedPrice: 0,
+                    originalPrice: 0,
+                    discount: 0,
+                    tax: 0,
+                    totalPrice: 0,
+                    untaxedPrice: 0,
+                  },
+                  quantity: 1,
+                  description: variant.description,
+                  jobAcceptanceCharge: variant.jobAcceptanceCharge,
+                  jobDuration: variant.jobDuration,
+                  actualJobDuration: variant.actualJobDuration ?? 0,
+                  mainCategoryId: mainCategory.id,
+                  name: variant.name,
+                  price: variant.price,
+                  serviceId: service.id,
+                  subCategoryId: subCategory.id,
+                  variantId: variant.id,
+                },
+              ],
+              video: service.video,
+              color: service.color,
+              taxType: service.taxType,
+            });
+          }
+          let cartItems: any[] = [];
+          if (localStorage.getItem('cart'))
+            cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+          cartItems = [...cartItems, data];
+          localStorage.setItem('cart', JSON.stringify(cartItems));
+          setTimeout(() => {
+            loader.dismiss();
+          }, 1000);
+
+          return;
+        }
+      }
+      let data: Booking = {
+        mainCategory: {
+          id: mainCategory.id,
+          name: mainCategory.name,
+          image: mainCategory.image,
+          icon: mainCategory.icon,
+        },
+        subCategory: {
+          id: subCategory.id,
+          name: subCategory.name,
+          image: subCategory.image,
+          icon: subCategory.icon,
+        },
+        isPaid: false,
+        isPaylater: false,
+        address: this.userCurrentAddress,
+        isUpdateSlot: false,
+        picsAfter: [],
+        picsBefore: [],
+        cancelReason: '',
+        services: [
+          {
+            name: service.name,
+            allowReviews: service.allowReviews,
+            description: service.description,
+            discounts: service.discounts,
+            image: service.image,
+            serviceId: service.id,
+            taxes: service.taxes,
+            variants: [
+              {
+                billing: {
+                  discountedPrice: 0,
+                  originalPrice: 0,
+                  discount: 0,
+                  tax: 0,
+                  totalPrice: 0,
+                  untaxedPrice: 0,
+                },
+                quantity: 1,
+                description: variant.description,
+                jobAcceptanceCharge: variant.jobAcceptanceCharge,
+                jobDuration: variant.jobDuration,
+                actualJobDuration: variant.actualJobDuration ?? 0,
+                mainCategoryId: mainCategory.id,
+                name: variant.name,
+                price: variant.price,
+                serviceId: service.id,
+                subCategoryId: subCategory.id,
+                variantId: variant.id,
+              },
+            ],
+            video: service.video,
+            color: service.color,
+            taxType: service.taxType,
+          },
+        ],
+        currentUser: {
+          name: '',
+          phoneNumber: '',
+          userId: '',
+        },
+        stage: 'allotmentPending',
+        jobOtp: this.generateOtpCode(),
+        billing: {
+          grandTotal: 0,
+          tax: 0,
+          discount: 0,
+          subTotal: 0,
+          totalJobTime: 0,
+          totalJobAcceptanceCharge: 0,
+        },
+        id: this.generateJobId(),
+        createdAt: Timestamp.fromDate(new Date()),
+        timeSlot: {
+          date: Timestamp.fromDate(new Date()),
+          agentArrivalTime: Timestamp.fromDate(new Date()),
+          time: {
+            // anukul changes
+            startTime: Timestamp.fromDate(new Date()),
+            endTime: Timestamp.fromDate(new Date()),
+          },
+          id: '',
+        },
+      };
+      let cartItems: any[] = [];
+      if (localStorage.getItem('cart'))
+        cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+      cartItems = [...cartItems, data];
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+    }
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
+  }
+
   async addToCart(
     userId: string,
     variantId: string,

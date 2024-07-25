@@ -118,7 +118,6 @@ const routes: Routes = [
         path: 'booking',
         loadChildren: () =>
           import('./booking/booking.module').then((m) => m.BookingPageModule),
-        canActivate: [AuthGuard],
       },
       {
         path: 'all-categories',
@@ -166,7 +165,6 @@ const routes: Routes = [
           import('./booking-empty/booking-empty.module').then(
             (m) => m.BookingEmptyPageModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'sub-Categories/:mainCategoryId',
@@ -174,7 +172,6 @@ const routes: Routes = [
           import('./sub-categories/sub-categories.module').then(
             (m) => m.SubCategoryPageModule
           ),
-        // canActivate:[AuthGuard]
       },
       {
         path: 'category-services/:mainCategoryId/:categoryId',
@@ -182,7 +179,6 @@ const routes: Routes = [
           import('./sub-categories/sub-categories.module').then(
             (m) => m.SubCategoryPageModule
           ),
-        // canActivate:[AuthGuard]
       },
       {
         path: 'services/:mainCategoryId/:subCategoryId',
@@ -190,7 +186,6 @@ const routes: Routes = [
           import('./services/services.module').then(
             (m) => m.ServicesPageModule
           ),
-        canActivate: [AuthGuard],
       },
       {
         path: 'service-detail/:mainCategoryId/:subCategoryId/:serviceId',

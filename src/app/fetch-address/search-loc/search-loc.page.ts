@@ -15,6 +15,7 @@ export class SearchLocPage implements OnInit {
   searchInputSubject: Subject<string> = new Subject<string>();
   recentSearches: any[] = [];
   serviceList: any[] = [];
+  mobileView: boolean = false;
   fuseSearchInstance = new Fuse(this.serviceList, {
     keys: ['name', 'variants.name'],
     includeScore: true,
@@ -65,10 +66,19 @@ export class SearchLocPage implements OnInit {
   }
 
   ionViewDidEnter() {
+    this.systemInfo();
     this.recentSearches.length = 0;
     this.resultsFetched = false;
     let recentLoc = localStorage.getItem('recent-loc');
     if (recentLoc) this.recentSearches = [...JSON.parse(recentLoc)];
+  }
+  
+  systemInfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.mobileView = false;
+    } else if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
+      this.mobileView = true;
+    }
   }
 
   currLoc() {

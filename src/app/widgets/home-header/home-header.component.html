@@ -57,7 +57,7 @@
         <img src="assets/icon/navbar/cart.svg" alt="" />
         <!-- <img *ngIf="!selectedBooking && cart?.length === 0 && cartLoaded" src="assets/ui_icons/shopping-cart.svg" alt="cart" /> -->
       </ion-button>
-      <ion-button (click)="notification()">
+      <ion-button *ngIf="this.dataProvider.currentUser" (click)="notification()">
         <img
           *ngIf="!showUnreadNotification"
           src="assets/images/bell.svg"
@@ -68,6 +68,9 @@
           src="assets/ui_icons/notification.svg"
           alt=""
         />
+      </ion-button>
+      <ion-button class="login-btn" *ngIf="!this.dataProvider.currentUser" (click)="login()">
+       Login
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

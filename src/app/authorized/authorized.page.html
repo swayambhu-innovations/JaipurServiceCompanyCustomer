@@ -3,14 +3,25 @@
 <app-navbar></app-navbar>
 
 <div *ngIf="!isPageLoaded" class="loading-container">
-    <div class="loading-container-inner">
-        <div class="image">
+  <div class="loading-container-inner">
+    <!-- <div class="image">
             <img src="assets/images/relax1.svg" alt="Relax">
+        </div> -->
+    <div class="image">
+      <div class="image-carousel">
+        <div
+          class="image-container"
+          [ngStyle]="{'transform': 'translateX(' + (-currentImageIndex * 100) + '%)'}"
+        >
+          <img
+            *ngFor="let image of images"
+            class="d-block w-100"
+            [src]="'assets/images/' + image"
+            alt="Slide"
+          />
         </div>
-        <div class="text">
-            Sit back, relax, and let the app work its magic.
-        </div>
-        
+      </div>
     </div>
+    <div class="text">Sit back, relax, and let the app work its magic.</div>
+  </div>
 </div>
-

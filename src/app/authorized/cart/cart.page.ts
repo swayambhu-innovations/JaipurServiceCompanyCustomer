@@ -45,7 +45,7 @@ export class CartPage implements OnInit {
   isOpenPopu: boolean = false;
   discounts: any[] = [];
   fixedCharges: any = [];
-  cart: any;
+  cart: any[] = [];
   cartLoaded: boolean = false;
   mainCategoryId: string = '';
   serviceId: string = '';
@@ -149,12 +149,25 @@ export class CartPage implements OnInit {
   async ionViewDidEnter() {
     this.systeminfo();
     this.pageLeaved = false;
-    if (this.cartService.cart.length === 1) {
-      this.selectedBooking = this.cartService.cart[0];
-      this.createOfferCount();
-      this.addFixedCharges();
+    let tempBooking: any;
+    if (this.dataProvider.currentUser) {
+      if (this.cartService.cart.length === 1) {
+        this.selectedBooking = this.cartService.cart[0];
+        this.createOfferCount();
+        this.addFixedCharges();
+      } else {
+        this.selectedBooking = undefined;
+      }
     } else {
-      this.selectedBooking = undefined;
+      tempBooking = localStorage.getItem('cart');
+      if (tempBooking) {
+        this.cart = [...JSON.parse(tempBooking)];
+        this.selectedBooking = this.cart[0];
+        this.createOfferCount();
+        this.addFixedCharges();
+      } else {
+        this.selectedBooking = undefined;
+      }
     }
   }
   onRemoveCoupon() {
@@ -181,8 +194,7 @@ export class CartPage implements OnInit {
         if (this.selectedBooking?.billing?.subTotal) {
           if (
             (discount.type == 'flat' &&
-              (discount?.value <= this.selectedBooking?.billing?.subTotal ??
-                0)) ||
+              discount?.value <= this.selectedBooking?.billing?.subTotal) ||
             discount.type != 'flat'
           ) {
             count++;
@@ -201,8 +213,7 @@ export class CartPage implements OnInit {
         if (this.selectedBooking?.billing?.subTotal) {
           if (
             (discount.type == 'flat' &&
-              (discount?.value <= this.selectedBooking?.billing?.subTotal ??
-                0)) ||
+              discount?.value <= this.selectedBooking?.billing?.subTotal) ||
             discount.type != 'flat'
           ) {
             const index = discountList.findIndex(
@@ -310,49 +321,65 @@ export class CartPage implements OnInit {
   deccreaseServiceCount(onService: Service) {
     onService.serviceOrderCount--;
   }
+
   orderCount: any = 2;
   async ngOnInit() {
-    this.cart = this.cartService.cart;
-    this.cartLoaded = true;
-    if (this.cart.length > 0) {
-      this.setCurrentBooking();
-    }
-    this.cartService.cartSubject.subscribe((bookings) => {
-      this.cart = bookings;
-
-      if (this.mainCategoryId != 'all') {
+    let tempBooking;
+    if (this.dataProvider.currentUser) {
+      this.cart = this.cartService.cart;
+      this.cartLoaded = true;
+      if (this.cart.length > 0) {
         this.setCurrentBooking();
       }
-      if (this.selectedBooking?.id && bookings.length > 0) {
-        let foundBooking = bookings.find(
-          (booking) => booking.id === this.selectedBooking!.id
-        );
-        if (foundBooking) {
-          this.selectedBooking = foundBooking;
-          this.createOfferCount();
+      this.cartService.cartSubject.subscribe((bookings) => {
+        this.cart = bookings;
+
+        if (this.mainCategoryId != 'all') {
+          this.setCurrentBooking();
+        }
+        if (this.selectedBooking?.id && bookings.length > 0) {
+          let foundBooking = bookings.find(
+            (booking) => booking.id === this.selectedBooking!.id
+          );
+          if (foundBooking) {
+            this.selectedBooking = foundBooking;
+            this.createOfferCount();
+          } else {
+            this.selectedBooking = undefined;
+          }
         } else {
           this.selectedBooking = undefined;
         }
+      });
+      this.cartService.getMinPrice().then((res: any) => {
+        this.minPriceFromDB = res.data().minPrice;
+      });
+    } else {
+      tempBooking = localStorage.getItem('cart');
+      if (tempBooking) {
+        this.cart = [...JSON.parse(tempBooking)];
+        this.cartLoaded = true;
+        this.selectedBooking = this.cart[0];
+        console.log(this.selectedBooking);
+
+        this.setCurrentBooking();
+        this.createOfferCount();
       } else {
         this.selectedBooking = undefined;
       }
-    });
-
-    this.cartService.getMinPrice().then((res: any) => {
-      this.minPriceFromDB = res.data().minPrice;
-    });
+    }
   }
 
   calculateTotal() {}
   checkout() {}
   removeFromCart(service: any) {}
   setCurrentBooking() {
-    this.selectedBooking = this.cart.find((booking) => {
-      const serviceFind = booking.services.find(
-        (service) => service.serviceId == this.serviceId
-      );
-      return serviceFind && booking.mainCategory.id == this.mainCategoryId;
-    });
+    // this.selectedBooking = this.cart.find((booking) => {
+    //   const serviceFind = booking.services.find(
+    //     (service) => service.serviceId == this.serviceId
+    //   );
+    //   return serviceFind && booking.mainCategory.id == this.mainCategoryId;
+    // });
     if (this.selectedBooking) {
       this.createOfferCount();
       this.addFixedCharges();

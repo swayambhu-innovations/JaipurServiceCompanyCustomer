@@ -379,9 +379,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
         this.dataProvider.mainCategoriesLoaded = true;
       } else {
         this.isNotServiceableModalOpen = true;
-        this.dataProvider.mainCategoriesLoaded = true;
         this.homeService.mainCategories.next([]);
         setTimeout(() => {
+          this.dataProvider.mainCategoriesLoaded = true;
           this.dataProvider.isPageLoaded$.next('loaded');
         }, 1000);
       }

@@ -52,6 +52,8 @@ export class HomeHeaderComponent implements OnInit {
     //   }s
     // );
     // this.addressess = dataProvider.authLessAddress;
+    // dataProvider.authLessAddress.geometry.location =
+    //   dataProvider.authLessAddress.geometry.location.toJSON();
     this.setupAddress(dataProvider.authLessAddress);
     // console.log(this.addressess);
   }
@@ -66,6 +68,10 @@ export class HomeHeaderComponent implements OnInit {
 
   async user() {
     this.router.navigate(['authorized/profile']);
+  }
+
+  login() {
+    this.router.navigate(['unauthorized/login']);
   }
 
   navigateTOSearch() {
@@ -94,7 +100,7 @@ export class HomeHeaderComponent implements OnInit {
       this.mainAddressLine = add1 + ', ' + add2 + ', ' + city + ', ' + pinCode;
       this.addressLineOne = this.mainAddressLine;
       this.insertAddressAccordionButton = true;
-      console.log(this.addressLineOne);
+      console.log(currentAddress);
       if (this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH) {
         this.addressLineOne = this.mainAddressLine.slice(
           0,
@@ -148,7 +154,12 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
-    this.router.navigate(['/authorized/select-address']);
+    if (this.dataProvider.currentUser)
+      this.router.navigate(['/authorized/select-address']);
+    else {
+      let currentPosition = this.dataProvider.authLessAddress.geometry.location;
+      this.router.navigate(['/fetch-address/gps-map', currentPosition]);
+    }
   }
 
   onWillDismiss(event) {

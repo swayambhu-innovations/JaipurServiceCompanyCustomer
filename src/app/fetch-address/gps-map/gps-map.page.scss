@@ -13,6 +13,10 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
+    .img-dest {
+      display: none;
+    }
+
     ion-row {
       margin: 12px auto;
 
@@ -104,6 +108,36 @@
         font-weight: 600;
         line-height: 18.15px;
         text-align: left;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 650px) {
+  .map-box {
+    width: 70% !important;
+
+    .info {
+      width: 40% !important;
+      left: auto !important;
+      right: 0 !important;
+      height: 100% !important;
+
+      .img-dest {
+        display: block;
+        margin: 60px auto !important;
+      }
+
+      ion-grid {
+        margin: 60px auto !important;
+
+        .label{
+          justify-content: flex-start !important;
+
+          span{
+            margin-right: 20px !important;
+          }
+        }
       }
     }
   }

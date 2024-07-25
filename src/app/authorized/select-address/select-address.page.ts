@@ -39,6 +39,19 @@ export class SelectAddressPage implements OnInit {
     this.systeminfo();
     this.address = JSON.parse(localStorage.getItem('address')!);
     console.log(this.address);
+    let add1: string = '',
+      add2: string = '',
+      city: string = '',
+      pinCode: string = '';
+    this.address.address_components.map((comp) => {
+      if (comp.types.includes('premise')) add1 = comp.long_name;
+      if (comp.types.includes('neighborhood')) add2 = comp.long_name;
+      if (comp.types.includes('locality')) city = comp.long_name;
+      if (comp.types.includes('postal_code')) pinCode = comp.long_name;
+    });
+    this.address.name = 'Home';
+    this.address.addressLine1 = add1 + ', ' + add2 + ', ' + city;
+    this.address.pincode = pinCode;
   }
 
   back() {
@@ -77,8 +90,10 @@ export class SelectAddressPage implements OnInit {
     }
   }
   editAddress(address: Address) {
-    this.addressService.action.next({ isEdit: true, data: address });
-    this.router.navigate(['/authorized/new-address']);
+    // this.addressService.action.next({ isEdit: true, data: address });
+    localStorage.removeItem('address')
+    this.dataProvider.authLessAddress = null;
+    this.router.navigate(['/fetch-address']);
   }
 
   async changeAddress(address: Address) {

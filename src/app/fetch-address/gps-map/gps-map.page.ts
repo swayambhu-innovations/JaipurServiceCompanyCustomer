@@ -17,6 +17,7 @@ export class GpsMapPage implements OnInit {
   isValidMarker: boolean = false;
   selectedAddress: google.maps.GeocoderResult;
   formattedAdd: string = '';
+  mobileView: boolean = false;
   areaName: string = '';
   showHeader: boolean = true;
   private areaSearchText$ = new Subject<string>();
@@ -50,6 +51,7 @@ export class GpsMapPage implements OnInit {
 
   async ionViewDidEnter() {
     this.scrollToTop();
+    this.systemInfo();
     this.isValidMarker = false;
     this.activatedRoute.params.subscribe((params) => {
       if (params && params['lat'] && params['lat'] != 0) {
@@ -87,6 +89,14 @@ export class GpsMapPage implements OnInit {
     setTimeout(() => {
       this.isGoogleMapReady = true;
     }, 10);
+  }
+
+  systemInfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.mobileView = false;
+    } else if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
+      this.mobileView = true;
+    }
   }
 
   ngOnInit(): void {}

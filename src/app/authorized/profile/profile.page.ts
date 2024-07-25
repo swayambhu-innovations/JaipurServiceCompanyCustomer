@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
   deviceInfo: any;
   isWebModalOpen: boolean = false;
   mobileView: boolean = true;
-  signoutUser:boolean=false;
+  signoutUser: boolean = false;
   public isFaq: boolean = false;
   constructor(
     public router: Router,
@@ -43,11 +43,18 @@ export class ProfilePage implements OnInit {
     this.router.navigate([url]);
   }
 
+  openProfileInfo() {}
+
   systeminfo() {
     if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
-      this.isWebModalOpen = true;
       this.mobileView = false;
+    } else if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
+      this.mobileView = true;
     }
+  }
+
+  openLogin() {
+    this.router.navigate(['unauthorized/login']);
   }
 
   async openUpcomingBooking() {
@@ -60,8 +67,17 @@ export class ProfilePage implements OnInit {
   financial() {
     this.router.navigate(['/financial-details']);
   }
+  openBooking() {
+    if (this.dataProvider.currentUser)
+      this.router.navigate(['/authorized/booking/upcoming-history']);
+  }
   editProfile() {
-    this.router.navigate(['/edit-profile']);
+    if (this.dataProvider.currentUser)
+      this.router.navigate(['/authorized/profile/profile-info']);
+  }
+  openAddress(){
+    if (this.dataProvider.currentUser)
+      this.router.navigate(['/authorized/select-address']);
   }
 
   signout() {

@@ -12,7 +12,7 @@
   }
 
   ion-text {
-	margin-top: 6rem;
+    margin-top: 6rem;
 
     .head {
       color: #181f29;
@@ -33,5 +33,23 @@
       font-weight: 500;
       line-height: normal;
     }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  ion-img {
+    width: 292px !important;
+    height: 265px !important;
+    flex-shrink: 0;
+  }
+
+  .head {
+    color: #181f29;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: normal;
   }
 }

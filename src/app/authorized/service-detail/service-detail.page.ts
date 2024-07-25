@@ -196,13 +196,21 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     });
     loader.present();
     let variant = this.matchingService?.variants.find((v) => v.id == variantId);
-    await this.cartService.addToCart(
-      this.dataProvider.currentUser!.user.uid,
-      variantId,
-      this.matchingService!,
-      this.matchingMainCategory!,
-      this.matchingSubCategory!
-    );
+    if (this.dataProvider.currentUser)
+      await this.cartService.addToCart(
+        this.dataProvider.currentUser!.user.uid,
+        variantId,
+        this.matchingService!,
+        this.matchingMainCategory!,
+        this.matchingSubCategory!
+      );
+    else
+      await this.cartService.addToCartAuthLess(
+        variantId,
+        this.matchingService!,
+        this.matchingMainCategory!,
+        this.matchingSubCategory!
+      );
     loader.dismiss();
     this.cartService.cartSubject.subscribe((cartDetils) => {
       this.cartDetils = cartDetils;
