@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'unauthorized/login',
+    redirectTo: 'fetch-address',
     pathMatch: 'full',
   },
   {
@@ -49,6 +49,10 @@ const routes: Routes = [
       import('./authorized/footer-web/refund-policy/refund-policy.module').then(
         (m) => m.RefundPolicyPageModule
       ),
+  },
+  {
+    path: 'fetch-address',
+    loadChildren: () => import('./fetch-address/fetch-address.module').then( m => m.FetchAddressPageModule)
   },
 ];
 

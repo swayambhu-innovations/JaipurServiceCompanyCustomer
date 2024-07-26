@@ -45,7 +45,7 @@ export class CartPage implements OnInit {
   isOpenPopu: boolean = false;
   discounts: any[] = [];
   fixedCharges: any = [];
-  cart: any;
+  cart: any[] = [];
   cartLoaded: boolean = false;
   mainCategoryId: string = '';
   serviceId: string = '';
@@ -149,14 +149,8 @@ export class CartPage implements OnInit {
   async ionViewDidEnter() {
     this.systeminfo();
     this.pageLeaved = false;
-    if (this.cartService.cart.length === 1) {
-      this.selectedBooking = this.cartService.cart[0];
-      this.createOfferCount();
-      this.addFixedCharges();
-    } else {
-      this.selectedBooking = undefined;
-    }
   }
+  
   onRemoveCoupon() {
     this.removeCoupan(
       this.dataProvider.currentUser?.user!.uid!,
@@ -181,8 +175,7 @@ export class CartPage implements OnInit {
         if (this.selectedBooking?.billing?.subTotal) {
           if (
             (discount.type == 'flat' &&
-              (discount?.value <= this.selectedBooking?.billing?.subTotal ??
-                0)) ||
+              discount?.value <= this.selectedBooking?.billing?.subTotal) ||
             discount.type != 'flat'
           ) {
             count++;
@@ -201,8 +194,7 @@ export class CartPage implements OnInit {
         if (this.selectedBooking?.billing?.subTotal) {
           if (
             (discount.type == 'flat' &&
-              (discount?.value <= this.selectedBooking?.billing?.subTotal ??
-                0)) ||
+              discount?.value <= this.selectedBooking?.billing?.subTotal) ||
             discount.type != 'flat'
           ) {
             const index = discountList.findIndex(
@@ -230,6 +222,10 @@ export class CartPage implements OnInit {
       result.minutes %= 60;
     }
     return result;
+  }
+
+  login() {
+    this.router.navigate(['/unauthorized/login']);
   }
 
   onIncrementCartQuantity(service, variant) {
@@ -310,9 +306,15 @@ export class CartPage implements OnInit {
   deccreaseServiceCount(onService: Service) {
     onService.serviceOrderCount--;
   }
+
   orderCount: any = 2;
   async ngOnInit() {
-    this.cart = this.cartService.cart;
+    let tempBooking;
+    if (this.dataProvider.currentUser) this.cart = this.cartService.cart;
+    else {
+      tempBooking = localStorage.getItem('cart');
+      if (tempBooking) this.cart = [...JSON.parse(tempBooking)];
+    }
     this.cartLoaded = true;
     if (this.cart.length > 0) {
       this.setCurrentBooking();
@@ -337,10 +339,11 @@ export class CartPage implements OnInit {
         this.selectedBooking = undefined;
       }
     });
-
-    this.cartService.getMinPrice().then((res: any) => {
-      this.minPriceFromDB = res.data().minPrice;
-    });
+    if (this.dataProvider.currentUser) {
+      this.cartService.getMinPrice().then((res: any) => {
+        this.minPriceFromDB = res.data().minPrice;
+      });
+    }
   }
 
   calculateTotal() {}

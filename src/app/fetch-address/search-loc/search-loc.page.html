@@ -1,0 +1,151 @@
+<ng-container *ngIf="mobileView">
+  <ion-content class="ion-padding" [fullscreen]="true">
+    <button id="search">
+      <img
+        class="back"
+        (click)="goBack()"
+        src="assets/icon/leftArrow/leftArrow.svg"
+        alt=""
+      />
+      <input
+        type="search"
+        #searchInput
+        autofocus
+        (input)="searchInputSubject.next(searchInput.value)"
+        placeholder="Search for area, street name, locality..."
+        [(ngModel)]="inputSearchVar"
+        name=""
+        id=""
+      />
+      <span>
+        <img
+          (click)="searchInputSubject.next(searchInput.value)"
+          src="assets/ui_icons/search.svg"
+          alt=""
+        />
+      </span>
+    </button>
+
+    <div (click)="currLoc()" class="detectCurr" *ngIf="!resultsFetched">
+      <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+      <ion-label>Detect Current Location</ion-label>
+    </div>
+
+    <div class="found" *ngIf="recentSearches.length && !resultsFetched">
+      <ion-list>
+        <ion-label>Recent Searches</ion-label>
+        <ion-item
+          (click)="sendLoc(area)"
+          *ngFor="let area of recentSearches"
+          lines="none"
+        >
+          <ion-label>{{area.formatted_address}}</ion-label>
+          <img
+            (click)="deleteLoc(area)"
+            src="../../../assets/Delete2.svg"
+            alt=""
+          />
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="found" *ngIf="results.length !== 0 && resultsFetched">
+      <ion-list>
+        <ion-item
+          (click)="sendLoc(area)"
+          *ngFor="let area of results"
+          lines="none"
+        >
+          <ion-label>{{area.formatted_address}}</ion-label>
+          <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="notFound" *ngIf="results.length === 0 && resultsFetched">
+      <img src="assets/images/notFound.svg" alt="" />
+      <h3>Not Found</h3>
+      <p>
+        Sorry, the locality you entered cannot be found, please check again or
+        search something else.
+      </p>
+    </div>
+  </ion-content>
+</ng-container>
+
+<ng-container *ngIf="!mobileView">
+  <div id="web-view" class="back-container">
+    <div class="main-container">
+      <button id="search">
+        <img
+          class="back"
+          (click)="goBack()"
+          src="assets/icon/leftArrow/leftArrow.svg"
+          alt=""
+        />
+        <input
+          type="search"
+          #searchInput
+          autofocus
+          (input)="searchInputSubject.next(searchInput.value)"
+          placeholder="Search for area, street name, locality..."
+          [(ngModel)]="inputSearchVar"
+          name=""
+          id=""
+        />
+        <span>
+          <img
+            (click)="searchInputSubject.next(searchInput.value)"
+            src="assets/ui_icons/search.svg"
+            alt=""
+          />
+        </span>
+      </button>
+
+      <div (click)="currLoc()" class="detectCurr" *ngIf="!resultsFetched">
+        <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+        <ion-label>Detect Current Location</ion-label>
+      </div>
+
+      <div class="found" *ngIf="recentSearches.length && !resultsFetched">
+        <ion-list>
+          <ion-label>Recent Searches</ion-label>
+          <ion-item
+            (click)="sendLoc(area)"
+            *ngFor="let area of recentSearches"
+            lines="none"
+          >
+            <ion-label>{{area.formatted_address}}</ion-label>
+            <img
+              (click)="deleteLoc(area)"
+              src="../../../assets/Delete2.svg"
+              alt=""
+            />
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="found" *ngIf="results.length !== 0 && resultsFetched">
+        <ion-list>
+          <ion-item
+            (click)="sendLoc(area)"
+            *ngFor="let area of results"
+            lines="none"
+          >
+            <ion-label>{{area.formatted_address}}</ion-label>
+            <img src="assets/fetchAddress/Group 1000004946.svg" alt="" />
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="notFound" *ngIf="results.length === 0 && resultsFetched">
+        <img src="assets/images/notFound.svg" alt="" />
+        <h3>Not Found</h3>
+        <p>
+          Sorry, the locality you entered cannot be found, please check again or
+          search something else.
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-container>

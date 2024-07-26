@@ -51,6 +51,23 @@ ion-modal::part(backdrop) {
   display: none;
 }
 
+.login-btn {
+  display: inline-flex;
+  padding: 6px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background: #5e0080;
+  color: #fff;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-transform: capitalize;
+}
+
 @media only screen and (min-width: 1024px) {
   #web-view {
     display: block;

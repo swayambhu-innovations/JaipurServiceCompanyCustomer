@@ -13,10 +13,10 @@ import { IonModal } from '@ionic/angular';
 })
 export class SelectAddressPage implements OnInit {
   temp: any = {};
-  addressLineTwoVisible:boolean = false;
-
-  deviceinfo:any;
-  isModalOpen:boolean = false;
+  addressLineTwoVisible: boolean = false;
+  address: any = this.dataProvider.authLessAddress;
+  deviceinfo: any;
+  isModalOpen: boolean = false;
   mobileView: boolean = false;
   @ViewChild(IonModal) modal: IonModal;
 
@@ -24,8 +24,8 @@ export class SelectAddressPage implements OnInit {
     private router: Router,
     public addressService: AddressService,
     public dataProvider: DataProviderService,
-    private loadingController:LoadingController,
-    private viewController:ModalController
+    private loadingController: LoadingController,
+    private viewController: ModalController
   ) {}
 
   newAddress() {
@@ -35,30 +35,43 @@ export class SelectAddressPage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.systeminfo();
+    this.address = JSON.parse(localStorage.getItem('address')!);
+    console.log(this.address);
+    let add1: string = '',
+      add2: string = '',
+      city: string = '',
+      pinCode: string = '';
+    this.address.address_components.map((comp) => {
+      if (comp.types.includes('premise')) add1 = comp.long_name;
+      if (comp.types.includes('neighborhood')) add2 = comp.long_name;
+      if (comp.types.includes('locality')) city = comp.long_name;
+      if (comp.types.includes('postal_code')) pinCode = comp.long_name;
+    });
+    this.address.name = 'Home';
+    this.address.addressLine1 = add1 + ', ' + add2 + ', ' + city;
+    this.address.pincode = pinCode;
   }
 
   back() {
     this.viewController.dismiss();
   }
 
-  ionViewDidLeave(){
+  ionViewDidLeave() {
     this.isModalOpen = false;
   }
 
-   systeminfo(){
-    if(this.dataProvider.deviceInfo.deviceType === "desktop"){
+  systeminfo() {
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isModalOpen = true;
       this.mobileView = false;
     }
-    if(this.dataProvider.deviceInfo.deviceType === "mobile"){
+    if (this.dataProvider.deviceInfo.deviceType === 'mobile') {
       this.mobileView = true;
       this.isModalOpen = false;
     }
   }
-
-  
 
   setValue(event: any) {
     this.dataProvider.currentBooking!.address = event.detail.value;
@@ -77,40 +90,44 @@ export class SelectAddressPage implements OnInit {
     }
   }
   editAddress(address: Address) {
-    this.addressService.action.next({ isEdit: true, data: address });
-    this.router.navigate(['/authorized/new-address']);
+    // this.addressService.action.next({ isEdit: true, data: address });
+    localStorage.removeItem('address')
+    this.dataProvider.authLessAddress = null;
+    this.router.navigate(['/fetch-address']);
   }
 
-
-  async changeAddress(address:Address){
-    let addressId = "";
-    let userId = "";
-    let loader = await this.loadingController.create({message:'Changing  Location...'});
+  async changeAddress(address: Address) {
+    let addressId = '';
+    let userId = '';
+    let loader = await this.loadingController.create({
+      message: 'Changing  Location...',
+    });
     loader.present();
-    if(this.dataProvider.currentUser?.user.uid){
+    if (this.dataProvider.currentUser?.user.uid) {
       userId = this.dataProvider.currentUser?.user.uid;
-      await this.addressService.getAddresses2(this.dataProvider.currentUser?.user.uid).then((addressRequest) => {
-        const addresses = addressRequest.docs.map((notification:any) => {
-          return { ...notification.data(),id: notification.id };
+      await this.addressService
+        .getAddresses2(this.dataProvider.currentUser?.user.uid)
+        .then((addressRequest) => {
+          const addresses = addressRequest.docs.map((notification: any) => {
+            return { ...notification.data(), id: notification.id };
+          });
+          addresses.map((res) => {
+            if (address.id === res.id) {
+              addressId = res.id;
+            }
+            if (res.isDefault) {
+              res.isDefault = false;
+              this.addressService.editAddress(userId, res.id, res);
+            }
+          });
         });
-        addresses.map(res=>{
-          if(address.id === res.id){
-            addressId = res.id;
-          }
-          if(res.isDefault){
-            res.isDefault = false;
-            this.addressService.editAddress(userId, res.id,res);
-          }
-        });
-      });
     }
-    if(userId !== "" && addressId !== ""){
+    if (userId !== '' && addressId !== '') {
       address.isDefault = true;
-      this.addressService.editAddress(userId, addressId,address);
+      this.addressService.editAddress(userId, addressId, address);
       loader.dismiss();
       this.addressService.clearCart(userId).then(() => {});
-
-    }else{
+    } else {
       loader.dismiss();
     }
   }

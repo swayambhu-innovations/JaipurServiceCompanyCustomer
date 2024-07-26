@@ -47,12 +47,15 @@ export class HomeHeaderComponent implements OnInit {
     public dataProvider: DataProviderService,
     private loadingController: LoadingController
   ) {
-    this.addressService.fetchedAddresses.subscribe(
-      async (address: Address[]) => {
-        this.addressess = address;
-        this.setupAddress(address);
-      }
-    );
+    // this.addressService.fetchedAddresses.subscribe(
+    //   async (address: Address[]) => {
+    //   }s
+    // );
+    // this.addressess = dataProvider.authLessAddress;
+    // dataProvider.authLessAddress.geometry.location =
+    //   dataProvider.authLessAddress.geometry.location.toJSON();
+    this.setupAddress(dataProvider.authLessAddress);
+    // console.log(this.addressess);
   }
 
   notification() {
@@ -67,6 +70,10 @@ export class HomeHeaderComponent implements OnInit {
     this.router.navigate(['authorized/profile']);
   }
 
+  login() {
+    this.router.navigate(['unauthorized/login']);
+  }
+
   navigateTOSearch() {
     this.router.navigate(['authorized/search']);
   }
@@ -76,18 +83,24 @@ export class HomeHeaderComponent implements OnInit {
     this.systeminfo();
   }
 
-  setupAddress(address) {
-    if (address.length > 0) {
-      let currentAddress = address.filter((add) => add.isDefault);
-      this.selectedAddress = currentAddress[0];
-      this.mainAddressLine =
-        currentAddress[0].addressLine1 +
-        ', ' +
-        currentAddress[0].cityName +
-        ', ' +
-        currentAddress[0].pincode;
+  setupAddress(currentAddress: google.maps.GeocoderResult) {
+    if (currentAddress) {
+      let add1: string = '',
+        add2: string = '',
+        city: string = '',
+        pinCode: string = '';
+
+      this.selectedAddress = this.dataProvider.authLessAddress;
+      currentAddress.address_components.map((comp) => {
+        if (comp.types.includes('premise')) add1 = comp.long_name;
+        if (comp.types.includes('neighborhood')) add2 = comp.long_name;
+        if (comp.types.includes('locality')) city = comp.long_name;
+        if (comp.types.includes('postal_code')) pinCode = comp.long_name;
+      });
+      this.mainAddressLine = add1 + ', ' + add2 + ', ' + city + ', ' + pinCode;
       this.addressLineOne = this.mainAddressLine;
       this.insertAddressAccordionButton = true;
+      console.log(currentAddress);
       if (this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH) {
         this.addressLineOne = this.mainAddressLine.slice(
           0,
@@ -99,9 +112,7 @@ export class HomeHeaderComponent implements OnInit {
         );
       }
     } else {
-      this.router.navigateByUrl('authorized/new-address', {
-        state: { isfirstTime: true, isEdit: true },
-      });
+      this.router.navigateByUrl('fetch-address');
     }
   }
 
@@ -133,7 +144,7 @@ export class HomeHeaderComponent implements OnInit {
       address.isDefault = true;
       this.addressService.editAddress(userId, addressId, address);
       loader.dismiss();
-      this.addressService.clearCart(userId).then(() => { });
+      this.addressService.clearCart(userId).then(() => {});
     } else {
       loader.dismiss();
     }
@@ -143,7 +154,12 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
-    this.router.navigate(['/authorized/select-address']);
+    if (this.dataProvider.currentUser)
+      this.router.navigate(['/authorized/select-address']);
+    else {
+      let currentPosition = this.dataProvider.authLessAddress.geometry.location;
+      this.router.navigate(['/fetch-address/gps-map', currentPosition]);
+    }
   }
 
   onWillDismiss(event) {

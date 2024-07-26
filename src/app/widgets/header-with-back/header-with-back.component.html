@@ -8,7 +8,7 @@
     <ion-title class="title" [ngClass]="{ noBackButton: !showBackButton }">{{
       title
     }}</ion-title>
-    <ion-buttons slot="end" *ngIf="showNotificationIcon">
+    <ion-buttons slot="end" *ngIf="this.dataProvider.currentUser && showNotificationIcon">
       <ion-button (click)="notification()">
         <img
           *ngIf="unreadNotifications.length === 0"
@@ -23,13 +23,23 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-buttons *ngIf="showHomeIcon" slot="secondary">
-      <ion-button (click)="goToHome()">
+    <ion-buttons slot="secondary">
+      <ion-button
+        *ngIf="this.dataProvider.currentUser && showHomeIcon"
+        (click)="goToHome()"
+      >
         <img
           class="jsc-logo"
           src="../../../assets/images/logo.png"
           alt="Home"
         />
+      </ion-button>
+      <ion-button
+        class="login-btn"
+        *ngIf="!this.dataProvider.currentUser"
+        (click)="login()"
+      >
+        Login
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

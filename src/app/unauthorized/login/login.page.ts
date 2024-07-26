@@ -37,6 +37,7 @@ export class LoginPage implements OnInit {
         { size: 'invisible' },
         this.authService.auth
       );
+      console.log(this.verifier)
     this.authService
       .loginWithPhoneNumber(this.phoneNumber, this.verifier)
       .then((login) => {

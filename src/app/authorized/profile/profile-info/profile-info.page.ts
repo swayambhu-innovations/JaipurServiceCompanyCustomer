@@ -13,6 +13,8 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from 'src/app/core/auth.service';
 import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.service';
 import * as moment from 'moment';
+import { AddressService } from '../../db_services/address.service';
+import { CartService } from '../../cart/cart.service';
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.page.html',
@@ -30,26 +32,27 @@ export class ProfileInfoPage implements OnInit {
   selectedGender: string = '';
   isGenderSelected: boolean = false;
   isFocused: boolean = false;
-  photoUrl:File;
+  photoUrl: File;
   urlparam: string = '';
 
   constructor(
     private actionSheetController: ActionSheetController,
     private route: Router,
     public dataProvider: DataProviderService,
+    private addressService: AddressService,
     private loadingController: LoadingController,
     private profileService: ProfileService,
     public formBuilder: FormBuilder,
+    public cartService: CartService,
     private activeRoute: ActivatedRoute,
     public auth: AuthService,
-    private alertify:AlertsAndNotificationsService
-  ) {
-  }
+    private alertify: AlertsAndNotificationsService
+  ) {}
 
   userProfileForm: FormGroup = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     // dateofbirth: [''],
-    gender: ['']
+    gender: [''],
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -67,12 +70,12 @@ export class ProfileInfoPage implements OnInit {
   }
 
   ngOnInit() {
-    this.dataProvider.isPageLoaded$.next("loaded");
+    this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
     this.dataProvider.currentUser$.subscribe((response) => {
       this.userData = response?.userData ?? '';
     });
-    
+
     this.activeRoute.queryParams.subscribe((param: any) => {
       this.urlparam = param.from;
       if (this.userData?.name) {
@@ -86,8 +89,7 @@ export class ProfileInfoPage implements OnInit {
         // else{
         //   this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
         // }
-      }
-      else{
+      } else {
         // this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
       }
     });
@@ -102,13 +104,13 @@ export class ProfileInfoPage implements OnInit {
           text: 'Male',
           handler: () => {
             this.selectedGender = 'Male';
-            this.userProfileForm.get("gender")?.setValue("Male");
+            this.userProfileForm.get('gender')?.setValue('Male');
           },
         },
         {
           text: 'Female',
           handler: () => {
-            this.userProfileForm.get("gender")?.setValue("Female");
+            this.userProfileForm.get('gender')?.setValue('Female');
             this.selectedGender = 'Female';
           },
         },
@@ -118,7 +120,7 @@ export class ProfileInfoPage implements OnInit {
   }
 
   async nextFunction() {
-    let date = "";
+    let date = '';
     this.isSubmitForm = true;
     // if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
     //   date = this.userProfileForm.controls.dateofbirth.value.split('-');
@@ -126,12 +128,11 @@ export class ProfileInfoPage implements OnInit {
     // } else {
     //   date = "DD/MM/YYYY";
     // }
-    
-    if (this.userProfileForm.controls.name.value == "") {
+
+    if (this.userProfileForm.controls.name.value == '') {
       return;
     }
 
-    
     if (this.selectedGender === '') {
       this.isGenderSelected = false;
       //return;
@@ -139,23 +140,43 @@ export class ProfileInfoPage implements OnInit {
       this.isGenderSelected = true;
     }
     let finalData = {
-      gender: this.userProfileForm.controls.gender.value?? '',
+      gender: this.userProfileForm.controls.gender.value ?? '',
       // dateofbirth: date,
-      name: this.userProfileForm.controls.name.value
-    }
+      name: this.userProfileForm.controls.name.value,
+    };
     let loader = await this.loadingController.create({
       message: 'Adding Customer Details.........',
     });
 
     loader.present();
-    if (this.dataProvider?.currentUser?.user.uid === undefined || this.dataProvider.currentUser?.userData == undefined) {
+    if (
+      this.dataProvider?.currentUser?.user.uid === undefined ||
+      this.dataProvider.currentUser?.userData == undefined
+    ) {
       this.profileService
-        .addUsers(
-          this.dataProvider.currentUser!.user.uid,
-          finalData
-        )
+        .addUsers(this.dataProvider.currentUser!.user.uid, finalData)
         .then(() => {
-          this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
+          // this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
+          this.addressService
+            .addAddress(
+              this.dataProvider.currentUser!.user!.uid,
+              this.dataProvider.authLessAddress
+            )
+            .then(() => {
+              let cart: any[] = [];
+              let tempBooking = localStorage.getItem('cart');
+              if (tempBooking) cart = [...JSON.parse(tempBooking)];
+              this.cartService.addLocalHostCart(
+                this.dataProvider.currentUser!.user!.uid,
+                cart
+              );
+              this.dataProvider.isFirstTime.next(true);
+              this.route.navigate(['/authorized/home']);
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+            .finally(() => loader.dismiss());
           this.isSubmitForm = false;
           loader.dismiss();
         })
@@ -164,22 +185,23 @@ export class ProfileInfoPage implements OnInit {
         })
         .finally(() => loader.dismiss());
     } else {
-      this.auth.isProfileUpdated= true;
-        await this.profileService
+      this.auth.isProfileUpdated = true;
+      await this.profileService
         .editUsers(
           this.dataProvider.currentUser!.user.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
-        ).then(() => {
+        )
+        .then(() => {
           this.isSubmitForm = false;
-          this.alertify.presentToast("Profile updated...");
+          this.alertify.presentToast('Profile updated...');
         });
-        
-        await this.auth.updateUserDate(false);
-        loader.dismiss();
+
+      await this.auth.updateUserDate(false);
+      loader.dismiss();
     }
   }
-  ionViewDidLeave (){
+  ionViewDidLeave() {
     this.auth.isProfileUpdated = false;
   }
 
@@ -193,7 +215,8 @@ export class ProfileInfoPage implements OnInit {
       message: 'Updating Coustomer Details.........',
     });
     loader.present();
-    this.profileService.updatePic(file, this.dataProvider.currentUser!.user.uid)
+    this.profileService
+      .updatePic(file, this.dataProvider.currentUser!.user.uid)
       .then((url) => {
         this.userData.photoUrl = url;
         loader.dismiss();
