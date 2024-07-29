@@ -235,6 +235,7 @@ export class CartPage implements OnInit {
       variant.variantId,
       this.selectedBooking?.id!
     );
+    
   }
 
   onDecrementCartQuantity(service, variant) {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, Observable, Subject } from 'rxjs';
 import Fuse from 'fuse.js';
 import { DataProviderService } from 'src/app/core/data-provider.service';
@@ -21,6 +21,7 @@ export class SearchLocPage implements OnInit {
     includeScore: true,
     minMatchCharLength: 3,
   });
+  center:any;
 
   results: any[] = [];
   inputSearchVar: string = '';
@@ -30,7 +31,8 @@ export class SearchLocPage implements OnInit {
   constructor(
     private dataProvider: DataProviderService,
     private router: Router,
-    public nav: NavController
+    public nav: NavController,
+    public activatedRoute: ActivatedRoute
   ) {
     this.searchInputSubject
       .pipe(debounceTime(600))
@@ -67,6 +69,11 @@ export class SearchLocPage implements OnInit {
 
   ionViewDidEnter() {
     this.systemInfo();
+    this.activatedRoute.params.subscribe((params) => {
+      if (params) {
+        this.center = params
+      }
+    });
     this.recentSearches.length = 0;
     this.resultsFetched = false;
     let recentLoc = localStorage.getItem('recent-loc');
@@ -115,6 +122,6 @@ export class SearchLocPage implements OnInit {
   ngOnInit() {}
 
   goBack() {
-    this.router.navigateByUrl('fetch-address');
+    this.router.navigate(['/fetch-address/gps-map', this.center]);
   }
 }

@@ -44,6 +44,7 @@ export class CartService {
     dataProvider.selectedAddress.subscribe((address) => {
       this.userCurrentAddress = address;
     });
+
     forkJoin({
       discountRequest: this.getDiscounts(),
       cartRequest: this.getCurrentUserCart(),
@@ -65,6 +66,12 @@ export class CartService {
       });
       this.cartSubject.next(this.cart);
     });
+
+    if (dataProvider.currentUser) {
+      let cartStorage: any;
+      cartStorage = localStorage.getItem('cart');
+      if (cartStorage) this.cart = JSON.parse(cartStorage);
+    }
   }
 
   async getServices(
@@ -205,6 +212,7 @@ export class CartService {
             cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
           cartItems = [...cartItems, data];
           localStorage.setItem('cart', JSON.stringify(cartItems));
+          this.cart.push(data);
           setTimeout(() => {
             loader.dismiss();
           }, 1000);
@@ -290,7 +298,6 @@ export class CartService {
           date: Timestamp.fromDate(new Date()),
           agentArrivalTime: Timestamp.fromDate(new Date()),
           time: {
-            // anukul changes
             startTime: Timestamp.fromDate(new Date()),
             endTime: Timestamp.fromDate(new Date()),
           },
@@ -302,6 +309,7 @@ export class CartService {
         cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
       cartItems = [...cartItems, data];
       localStorage.setItem('cart', JSON.stringify(cartItems));
+      this.cart.push(data);
     }
     setTimeout(() => {
       loader.dismiss();
@@ -486,7 +494,6 @@ export class CartService {
           date: Timestamp.fromDate(new Date()),
           agentArrivalTime: Timestamp.fromDate(new Date()),
           time: {
-            // anukul changes
             startTime: Timestamp.fromDate(new Date()),
             endTime: Timestamp.fromDate(new Date()),
           },
@@ -501,13 +508,11 @@ export class CartService {
     }, 1000);
   }
 
- async addLocalHostCart(
-  userId: string, data:any){
-    data.map(async (item)=>{
-
+  async addLocalHostCart(userId: string, data: any) {
+    data.map(async (item) => {
       await addDoc(collection(this.firestore, 'users', userId, 'cart'), item);
       this.updateCart();
-    })
+    });
   }
 
   async removeFromCart(
@@ -580,6 +585,42 @@ export class CartService {
     });
   }
 
+  async incrementQuantityAuthLess(
+    service: any,
+    variantId: string,
+    bookingId: string
+  ) {
+    let cart = this.cart.find((bookingItem) => {
+      return bookingItem.id == bookingId;
+    });
+    let data: any = cart;
+    let serviceIndex = data.services.findIndex(
+      (s) => s.serviceId == service.id
+    );
+    if (serviceIndex != -1) {
+      let variantIndex = data.services[serviceIndex].variants.findIndex(
+        (v) => v.variantId == variantId
+      );
+      if (variantIndex != -1) {
+        data.services[serviceIndex].variants[variantIndex] = {
+          ...data.services[serviceIndex].variants[variantIndex],
+          quantity:
+            data.services[serviceIndex].variants[variantIndex].quantity + 1,
+        } as any;
+      }
+    }
+    this.calculateBilling(data);
+    let cartItems: any[] = [];
+    if (localStorage.getItem('cart'))
+      cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+    cartItems = cartItems.filter((item) => {
+      return item.id !== bookingId;
+    });
+    cartItems.push(data);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    console.log('done');
+  }
+
   async incrementQuantity(
     userId: string,
     service: any,
@@ -636,6 +677,47 @@ export class CartService {
     }
     this.calculateBilling(data);
     setDoc(doc(this.firestore, 'users', userId, 'cart', bookingId), data);
+  }
+
+  async decrementQuantityAuthLess(
+    service: any,
+    variantId: string,
+    bookingId: string
+  ) {
+    let cart = this.cart.find((bookingItem) => {
+      return bookingItem.id == bookingId;
+    });
+    let data: any = cart;
+    let serviceIndex = data.services.findIndex(
+      (s) => s.serviceId == service.id
+    );
+    if (serviceIndex != -1) {
+      let variantIndex = data.services[serviceIndex].variants.findIndex(
+        (v) => v.variantId == variantId
+      );
+      if (variantIndex != -1) {
+        if (data.services[serviceIndex].variants[variantIndex].quantity === 1) {
+          data.services[serviceIndex].variants.splice(variantIndex, 1);
+        } else {
+          data.services[serviceIndex].variants[variantIndex] = {
+            ...data.services[serviceIndex].variants[variantIndex],
+            quantity:
+              data.services[serviceIndex].variants[variantIndex].quantity - 1,
+          } as any;
+        }
+      }
+    }
+
+    this.calculateBilling(data);
+    let cartItems: any[] = [];
+    if (localStorage.getItem('cart'))
+      cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+    cartItems = cartItems.filter((item) => {
+      return item.id !== bookingId;
+    });
+    cartItems.push(data);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    console.log('done');
   }
 
   async decrementQuantity(

@@ -270,12 +270,19 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
       matchingSubCategoryId,
       matchingService
     );
-    this.cartService.decrementQuantity(
-      this.dataProvider.currentUser!.user.uid,
-      matchingService!,
-      variantId,
-      bookingId
-    );
+    if (this.dataProvider.currentUser)
+      this.cartService.decrementQuantity(
+        this.dataProvider.currentUser!.user.uid,
+        matchingService!,
+        variantId,
+        bookingId
+      );
+    else
+      this.cartService.decrementQuantityAuthLess(
+        matchingService!,
+        variantId,
+        bookingId
+      );
   }
 
   incrementQuantity(
@@ -289,12 +296,19 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
       matchingSubCategoryId,
       matchingService
     );
-    this.cartService.incrementQuantity(
-      this.dataProvider.currentUser!.user.uid,
-      matchingService!,
-      variantId,
-      bookingId
-    );
+    if (this.dataProvider.currentUser)
+      this.cartService.incrementQuantity(
+        this.dataProvider.currentUser!.user.uid,
+        matchingService!,
+        variantId,
+        bookingId
+      );
+    else
+      this.cartService.incrementQuantityAuthLess(
+        matchingService!,
+        variantId,
+        bookingId
+      );
   }
 
   removeFromCart(

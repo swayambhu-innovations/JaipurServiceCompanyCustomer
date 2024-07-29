@@ -76,7 +76,7 @@ export class GpsMapPage implements OnInit {
   }
 
   async changeLoc() {
-    this.router.navigate([`/fetch-address/search-loc`]);
+    this.router.navigate(['/fetch-address/search-loc', this.center]);
   }
 
   setCircleInMap() {
