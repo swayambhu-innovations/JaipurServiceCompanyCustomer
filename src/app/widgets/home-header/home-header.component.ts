@@ -157,7 +157,7 @@ export class HomeHeaderComponent implements OnInit {
     if (this.dataProvider.currentUser)
       this.router.navigate(['/authorized/select-address']);
     else {
-      let currentPosition = this.dataProvider.authLessAddress.geometry.location;
+      let currentPosition = this.dataProvider.authLessAddress.geometry.location.toJSON();
       this.router.navigate(['/fetch-address/gps-map', currentPosition]);
     }
   }
