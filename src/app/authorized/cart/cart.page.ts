@@ -150,7 +150,7 @@ export class CartPage implements OnInit {
     this.systeminfo();
     this.pageLeaved = false;
   }
-  
+
   onRemoveCoupon() {
     this.removeCoupan(
       this.dataProvider.currentUser?.user!.uid!,
@@ -229,23 +229,40 @@ export class CartPage implements OnInit {
   }
 
   onIncrementCartQuantity(service, variant) {
-    this.cartService.incrementFormQuantity(
-      this.dataProvider.currentUser?.user!.uid!,
-      service,
-      variant.variantId,
-      this.selectedBooking?.id!
-    );
-    
+    if (this.dataProvider.currentUser)
+      this.cartService.incrementFormQuantity(
+        this.dataProvider.currentUser?.user!.uid!,
+        service,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
+    else
+      this.cartService.incrementFormQuantity(
+        '',
+        service,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
   }
 
   onDecrementCartQuantity(service, variant) {
-    this.cartService.decrementFormQuantity(
-      this.dataProvider.currentUser?.user!.uid!,
-      service,
-      variant.variantId,
-      this.selectedBooking?.id!
-    );
+    if (this.dataProvider.currentUser)
+      this.cartService.decrementFormQuantity(
+        this.dataProvider.currentUser?.user!.uid!,
+        service,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
+    else
+      this.cartService.decrementFormQuantity(
+        '',
+        service,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
+
     if (
+      this.dataProvider.currentUser &&
       this.selectedBooking?.appliedCoupon?.minimumRequiredAmount &&
       this.selectedBooking?.appliedCoupon?.minimumRequiredAmount >
         this.selectedBooking?.billing.subTotal
@@ -258,12 +275,20 @@ export class CartPage implements OnInit {
   }
 
   onDeleteItemFromCart(service, variant) {
-    this.cartService.removeFromCart(
-      this.dataProvider.currentUser!.user.uid,
-      service!.serviceId,
-      variant.variantId,
-      this.selectedBooking?.id!
-    );
+    if (this.dataProvider.currentUser)
+      this.cartService.removeFromCart(
+        this.dataProvider.currentUser!.user.uid,
+        service!.serviceId,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
+    else
+      this.cartService.removeFromCart(
+        '',
+        service!.serviceId,
+        variant.variantId,
+        this.selectedBooking?.id!
+      );
     if (
       this.selectedBooking?.appliedCoupon?.minimumRequiredAmount &&
       this.selectedBooking?.appliedCoupon?.minimumRequiredAmount >
@@ -316,6 +341,7 @@ export class CartPage implements OnInit {
       tempBooking = localStorage.getItem('cart');
       if (tempBooking) this.cart = [...JSON.parse(tempBooking)];
     }
+    console.log(this.cart);
     this.cartLoaded = true;
     if (this.cart.length > 0) {
       this.setCurrentBooking();

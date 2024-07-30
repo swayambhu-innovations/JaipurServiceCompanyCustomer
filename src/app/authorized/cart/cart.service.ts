@@ -309,7 +309,12 @@ export class CartService {
         cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
       cartItems = [...cartItems, data];
       localStorage.setItem('cart', JSON.stringify(cartItems));
-      this.cart.push(data);
+      cartItems.map((cartItem: any) => {
+        cartItem = this.calculateBilling(cartItem);
+      });
+      this.cart.length = 0;
+      this.cart = [...cartItems];
+      console.log(this.cart);
     }
     setTimeout(() => {
       loader.dismiss();
@@ -525,10 +530,20 @@ export class CartService {
       message: 'Please wait...',
     });
     loader.present();
-    let cart = await getDoc(
-      doc(this.firestore, 'users', userId, 'cart', bookingId)
-    );
-    let data: Booking = cart.data() as unknown as Booking;
+    let cart: any;
+    if (userId !== '')
+      cart = await getDoc(
+        doc(this.firestore, 'users', userId, 'cart', bookingId)
+      );
+    else
+      cart = this.cart.filter((item) => {
+        return item.id === bookingId;
+      });
+    let data: Booking =
+      userId !== ''
+        ? (cart.data() as unknown as Booking)
+        : cart[0]
+    console.log(data);
     let serviceIndex = data.services.findIndex((s) => s.serviceId == serviceId);
     if (
       serviceIndex != -1 &&
@@ -545,14 +560,30 @@ export class CartService {
         data.services[serviceIndex].variants.splice(variantIndex, 1);
       }
     }
-    if (data.services.length === 0) {
-      await this.clearCart(userId, bookingId);
-    } else {
-      await setDoc(
-        doc(this.firestore, 'users', userId, 'cart', bookingId),
-        data
-      );
+    if (userId !== '')
+      if (data.services.length === 0) {
+        await this.clearCart(userId, bookingId);
+      } else {
+        await setDoc(
+          doc(this.firestore, 'users', userId, 'cart', bookingId),
+          data
+        );
+      }
+    else {
+      let cartItems: any[] = [];
+      if (data.services.length === 0) localStorage.removeItem('cart');
+      else {
+        if (localStorage.getItem('cart'))
+          cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+        cartItems = cartItems.filter((item) => {
+          return item.id !== bookingId;
+        });
+        cartItems.push(data);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        console.log('done');
+      }
     }
+
     this.updateCart();
     setTimeout(() => {
       loader.dismiss();
@@ -676,7 +707,19 @@ export class CartService {
       }
     }
     this.calculateBilling(data);
-    setDoc(doc(this.firestore, 'users', userId, 'cart', bookingId), data);
+    if (userId !== '')
+      setDoc(doc(this.firestore, 'users', userId, 'cart', bookingId), data);
+    else {
+      let cartItems: any[] = [];
+      if (localStorage.getItem('cart'))
+        cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+      cartItems = cartItems.filter((item) => {
+        return item.id !== bookingId;
+      });
+      cartItems.push(data);
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+      console.log('done');
+    }
   }
 
   async decrementQuantityAuthLess(
@@ -783,7 +826,19 @@ export class CartService {
       }
     }
     this.calculateBilling(data);
-    setDoc(doc(this.firestore, 'users', userId, 'cart', bookingId), data);
+    if (userId !== '')
+      setDoc(doc(this.firestore, 'users', userId, 'cart', bookingId), data);
+    else {
+      let cartItems: any[] = [];
+      if (localStorage.getItem('cart'))
+        cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+      cartItems = cartItems.filter((item) => {
+        return item.id !== bookingId;
+      });
+      cartItems.push(data);
+      localStorage.setItem('cart', JSON.stringify(cartItems));
+      console.log('done');
+    }
   }
 
   onRemoveCoupon(userId, bookingId, data) {

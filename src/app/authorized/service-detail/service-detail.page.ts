@@ -322,12 +322,20 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
       matchingSubCategoryId,
       matchingService
     );
-    this.cartService.removeFromCart(
-      this.dataProvider.currentUser!.user.uid,
-      matchingService!.id,
-      variantId,
-      bookingId
-    );
+    if (this.dataProvider.currentUser)
+      this.cartService.removeFromCart(
+        this.dataProvider.currentUser!.user.uid,
+        matchingService!.id,
+        variantId,
+        bookingId
+      );
+    else
+      this.cartService.removeFromCart(
+        '',
+        matchingService!.id,
+        variantId,
+        bookingId
+      );
   }
 
   getBookingId(matchingCategoryId, matchingSubCategoryId, matchingService) {
