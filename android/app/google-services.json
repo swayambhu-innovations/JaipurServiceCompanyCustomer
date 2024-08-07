@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "592897926378",
+    "project_id": "jaipurservicecompany-demo",
+    "storage_bucket": "jaipurservicecompany-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592897926378:android:0a71224b288a565642a393",
+        "android_client_info": {
+          "package_name": "com.shreeva.jaipurservicecompanyagent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592897926378-h2j588s6250fc50u5s2mg1usonfdsnmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9dEYSftNH3syyNO_s2thSLSCE6bDGu2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592897926378-g87vlkjbeir3j2ecnvdnvs3qa0h3ukeg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592897926378:android:6a17760a619bd29442a393",
+        "android_client_info": {
+          "package_name": "com.shreeva.jaipurservicecompanycustomer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592897926378-h2j588s6250fc50u5s2mg1usonfdsnmd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9dEYSftNH3syyNO_s2thSLSCE6bDGu2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592897926378-g87vlkjbeir3j2ecnvdnvs3qa0h3ukeg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

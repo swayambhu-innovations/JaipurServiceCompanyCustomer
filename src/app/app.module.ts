@@ -7,15 +7,25 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService } from '@angular/fire/analytics';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideFunctions,getFunctions } from '@angular/fire/functions';
-import { provideMessaging,getMessaging } from '@angular/fire/messaging';
-import { providePerformance,getPerformance } from '@angular/fire/performance';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+import {
+  provideAnalytics,
+  getAnalytics,
+  ScreenTrackingService,
+  UserTrackingService,
+} from '@angular/fire/analytics';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+// import {
+//   provideAppCheck,
+//   getAppCheck,
+//   ReCaptchaV3Provider,
+// } from '@angular/fire/app-check'; // Import App Check
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideFunctions, getFunctions } from '@angular/fire/functions';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
+import { providePerformance, getPerformance } from '@angular/fire/performance';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { PaymentService } from './payment.service';
 import { DataProviderService } from './core/data-provider.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -23,11 +33,16 @@ import { CartService } from './authorized/cart/cart.service';
 import { FileInterceptorInterceptor } from './authorized/interceptors/file-interceptor.interceptor';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
-
+// import { AppCheckService } from './app-check.service';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ReactiveFormsModule,HttpClientModule,
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     FormsModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
@@ -36,14 +51,28 @@ import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
+    // provideAppCheck(() => getAppCheck(), {
+    //   provider: new ReCaptchaV3Provider('6LfX6R0qAAAAAIcWWO84K20lue3arAI5wkWTBNf5'),
+    //   isTokenAutoRefreshEnabled: true
+    // }),
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
-    provideStorage(() => getStorage()),],
-  providers: [{ 
-    provide: HTTP_INTERCEPTORS, useClass: FileInterceptorInterceptor, multi:true
-  },{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-     ScreenTrackingService,UserTrackingService,PaymentService,DataProviderService, CartService
-    ],
+    provideStorage(() => getStorage()),
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FileInterceptorInterceptor,
+      multi: true,
+    },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ScreenTrackingService,
+    UserTrackingService,
+    PaymentService,
+    DataProviderService,
+    CartService,
+    // AppCheckService,
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
