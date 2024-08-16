@@ -76,6 +76,12 @@ export class ProfileInfoPage implements OnInit {
       this.userData = response?.userData ?? '';
     });
 
+    if (!this.userData?.uid) {
+      this.dataProvider.checkingAuth = false;
+      this.dataProvider.loggedIn = false;
+      this.route.navigate(['unauthorized/login']);
+    }
+
     this.activeRoute.queryParams.subscribe((param: any) => {
       this.urlparam = param.from;
       if (this.userData?.name) {
@@ -143,40 +149,23 @@ export class ProfileInfoPage implements OnInit {
       gender: this.userProfileForm.controls.gender.value ?? '',
       // dateofbirth: date,
       name: this.userProfileForm.controls.name.value,
+      uid: this.dataProvider.currentUser?.user['uid'],
     };
     let loader = await this.loadingController.create({
       message: 'Adding Customer Details.........',
     });
 
     loader.present();
+    console.log(this.dataProvider.currentUser);
     if (
       this.dataProvider?.currentUser?.user.uid === undefined ||
       this.dataProvider.currentUser?.userData == undefined
     ) {
       this.profileService
-        .addUsers(this.dataProvider.currentUser!.user.uid, finalData)
+        .addUsers(this.dataProvider.currentUser!.userData.uid, finalData)
         .then(() => {
-          // this.route.navigate(['/authorized/new-address'], { state: { isEdit: false } });
-          this.addressService
-            .addAddress(
-              this.dataProvider.currentUser!.user!.uid,
-              this.dataProvider.authLessAddress
-            )
-            .then(() => {
-              let cart: any[] = [];
-              let tempBooking = localStorage.getItem('cart');
-              if (tempBooking) cart = [...JSON.parse(tempBooking)];
-              this.cartService.addLocalHostCart(
-                this.dataProvider.currentUser!.user!.uid,
-                cart
-              );
-              this.dataProvider.isFirstTime.next(true);
-              this.route.navigate(['/authorized/home']);
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-            .finally(() => loader.dismiss());
+          console.log(this.dataProvider.currentUser);
+          this.route.navigate(['/authorized/select-address']);
           this.isSubmitForm = false;
           loader.dismiss();
         })
@@ -184,6 +173,7 @@ export class ProfileInfoPage implements OnInit {
           console.log(error);
         })
         .finally(() => loader.dismiss());
+      loader.dismiss();
     } else {
       this.auth.isProfileUpdated = true;
       await this.profileService

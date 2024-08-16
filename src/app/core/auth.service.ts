@@ -13,7 +13,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
+  query,
   setDoc,
+  where,
 } from 'firebase/firestore';
 import { DataProviderService } from './data-provider.service';
 import { AlertsAndNotificationsService } from '../alerts-and-notifications.service';
@@ -21,6 +25,9 @@ import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../authorized/db_services/profile.service';
 import { Network } from '@capacitor/network';
+import { from, map } from 'rxjs';
+import { AddressService } from '../authorized/db_services/address.service';
+import { CartService } from '../authorized/cart/cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,70 +41,75 @@ export class AuthService {
     private firestore: Firestore,
     private dataProvider: DataProviderService,
     private alertify: AlertsAndNotificationsService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private addressService: AddressService,
+    private cartService: CartService
   ) {
-    this.dataProvider.checkingAuth = true;
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.dataProvider.loggedIn = true;
-        this.getUserData(user.uid).subscribe(async (userData) => {
-          this.dataProvider.currentUser = {
-            user: user,
-            userData: userData,
-          };
-          this.dataProvider.currentUser$.next({
-            user: user,
-            userData: userData,
-          });
-          const status = await Network.getStatus();
-          if (!status.connected) {
-            this.router.navigate(['/no-internet']);
-          } else if (!userData || !userData.name) {
-            this.router.navigate(['/authorized/profile/profile-info']);
-          } else {
-            if (!this.isProfileUpdated) {
-              this.router.navigate(['../../authorized/home']);
-            }
+    this.onAuth();
+  }
+  async onAuth() {
+    if (
+      this.dataProvider.currentUser &&
+      (this.dataProvider.currentUser.userData == undefined ||
+        this.dataProvider.currentUser.userData == null)
+    )
+      this.getUserData(
+        this.dataProvider.currentUser?.userData['uid']
+      ).subscribe(async (userData) => {
+        let currUser = { uid: userData?.['uid'] };
+        this.dataProvider.currentUser = {
+          user: currUser,
+          userData: userData,
+        };
+        const status = await Network.getStatus();
+        if (!status.connected) {
+          this.router.navigate(['/no-internet']);
+        } else if (!userData || !userData.name) {
+          this.router.navigate(['/authorized/profile/profile-info']);
+        } else {
+          if (!this.isProfileUpdated) {
+            this.router.navigate(['../../authorized/home']);
           }
-          this.dataProvider.checkingAuth = false;
-        });
-      } else {
-        this.dataProvider.loggedIn = false;
-        this.dataProvider.checkingAuth = false;
+        }
+      });
+    else {
+      const status = await Network.getStatus();
+      if (!status.connected) {
+        this.router.navigate(['/no-internet']);
+      } else if (!this.isProfileUpdated) {
+        this.router.navigate(['../../authorized/home']);
       }
-    });
+    }
   }
 
   updateUserDate(redirect?: boolean) {
     this.dataProvider.checkingAuth = true;
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.dataProvider.loggedIn = true;
-        this.getUserData(user.uid).subscribe((userData) => {
-          this.dataProvider.currentUser = {
-            user: user,
-            userData: userData,
-          };
-          this.getAddresses(this.dataProvider.currentUser!.user.uid).then(
-            (result) => {
-              const addresses = result.docs.map((address: any) => {
-                return { ...address.data(), id: address.id };
-              });
-              if (addresses.length > 0) {
-                this.router.navigate(['/authorized/profile']);
-              } else {
-                this.router.navigate(['/authorized/new-address']);
-              }
-            }
-          );
-          this.dataProvider.checkingAuth = false;
+    console.log(this.dataProvider.authLessAddress);
+    this.addressService.addAddress(
+      this.dataProvider.currentUser!.userData.uid,
+      this.dataProvider.authLessAddress
+    );
+    let tempBooking, cart;
+    tempBooking = localStorage.getItem('cart');
+    if (tempBooking) cart = [...JSON.parse(tempBooking)];
+    this.cartService.addLocalHostCart(
+      this.dataProvider.currentUser!.userData.uid,
+      cart
+    );
+    this.getAddresses(this.dataProvider.currentUser!.userData.uid).then(
+      (result) => {
+        const addresses = result.docs.map((address: any) => {
+          return { ...address.data(), id: address.id };
         });
-      } else {
-        this.dataProvider.loggedIn = false;
-        this.dataProvider.checkingAuth = false;
+        this.router.navigate(['/authorized/profile']);
+        // if (addresses.length > 0) {
+        // } else {
+        //   this.router.navigate(['/authorized/new-address']);
+        // }
       }
-    });
+    );
   }
+
   async getAddresses(userId: string) {
     return await getDocs(
       collection(this.firestore, 'users', userId, 'addresses')
@@ -105,7 +117,22 @@ export class AuthService {
   }
 
   getUserData(uid: string) {
-    return docData(doc(this.firestore, 'users', uid));
+    const userQuery = query(
+      collection(this.firestore, 'users'),
+      where('authId', '==', uid)
+    );
+    const userDocsPromise = getDocs(userQuery);
+
+    return from(userDocsPromise).pipe(
+      map((userDocs) => {
+        if (userDocs.docs.length > 0) {
+          const firstUserDoc = userDocs.docs[0];
+          return firstUserDoc.data();
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
   async loginWithPhoneNumber(phone: string, appVerifier: ApplicationVerifier) {
@@ -115,40 +142,55 @@ export class AuthService {
     return signInWithPhoneNumber(this.auth, '+91' + phone, appVerifier);
   }
 
-  async setUserData(user: User) {
+  async setUserData(phone: string) {
     let loader = await this.loadingController.create({
       message: 'Please wait...',
     });
     loader.present();
-    let userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
-    if (userDoc.exists()) {
+    let userDocs = await getDocs(
+      query(
+        collection(this.firestore, 'users'),
+        where('phoneNumber', '==', phone)
+      )
+    );
+    let userDoc = userDocs.docs.map((user) => {
+      return { ...user.data(), uid: user.id };
+    });
+
+    console.log(userDoc);
+
+    if (userDoc[0]) {
       this.dataProvider.currentUser = {
-        user: { ...user, displayName: userDoc.data()['name'] },
-        userData: userDoc.data(),
+        user: { uid: userDoc[0]['uid'] },
+        userData: userDoc[0],
       };
+      this.dataProvider.currentUser$.next(this.dataProvider.currentUser);
       loader.dismiss();
-      this.alertify.presentToast(
-        'Welcome back,' + userDoc.data()['name'] + ' 😄'
-      );
+      this.alertify.presentToast('Welcome back,' + userDoc[0]['name'] + ' 😄');
       return;
     }
+
     this.alertify.presentToast('Creating new account');
     let newUserData = {
-      name: user.displayName || '',
-      email: user.email || '',
-      phoneNumber: user.phoneNumber || '',
-      photoURL: user.photoURL || '',
-      uid: user.uid || '',
+      name: '',
+      email: '',
+      phoneNumber: phone || '',
+      photoURL: '',
+      uid: '',
       type: 'customer',
     };
-    await setDoc(doc(this.firestore, 'users', user.uid), newUserData);
-    this.dataProvider.currentUser = {
-      user: user,
-      userData: newUserData,
-    };
+    await addDoc(collection(this.firestore, 'users'), newUserData).then(
+      (docRef) => {
+        this.dataProvider.currentUser = {
+          user: { uid: docRef.id },
+          userData: { ...newUserData, uid: docRef.id },
+        };
+        this.dataProvider.currentUser$.next(this.dataProvider.currentUser);
+      }
+    );
     loader.dismiss();
-    if (user && user.displayName) {
-      this.alertify.presentToast('Welcome, ' + user.displayName + ' 😄');
+    if (newUserData && newUserData['name']) {
+      this.alertify.presentToast('Welcome, ' + newUserData['name'] + ' 😄');
     }
     return;
   }

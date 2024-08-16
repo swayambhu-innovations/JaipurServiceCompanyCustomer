@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
-import { FormControl } from '@angular/forms';
 import { RecaptchaVerifier } from '@angular/fire/auth';
 import { DataProviderService } from '../../core/data-provider.service';
 import { AlertsAndNotificationsService } from '../../alerts-and-notifications.service';
 import { LoadingController } from '@ionic/angular';
-import firebase from 'firebase/compat/app';
-import { getApp } from 'firebase/app';
-import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check';
-import { error } from 'console';
+import { signUp } from 'aws-amplify/auth';
+import { confirmSignUp, deleteUser, signOut, signIn } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +16,6 @@ import { error } from 'console';
 export class LoginPage implements OnInit {
   phoneNumber: string = '';
   terms: boolean = false;
-  recaptchaVerifier: firebase.auth.RecaptchaVerifier | undefined;
   verifier: RecaptchaVerifier | undefined;
   private recaptchaScriptLoaded = false;
   constructor(
@@ -31,115 +27,126 @@ export class LoginPage implements OnInit {
   ) {
     // this.initializeAppCheck();
     // this.loadRecaptchaScript();
+    console.log(this.dataProvider.loggedIn);
+    console.log(this.dataProvider.checkingAuth);
   }
 
   ngOnInit() {}
 
-  private initializeAppCheck() {
-    const app = getApp();
-    return initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(
-        '6LfX6R0qAAAAAIcWWO84K20lue3arAI5wkWTBNf5'
-      ),
-      isTokenAutoRefreshEnabled: true,
+  async logout() {
+    await signOut({ global: true }).then((res) => {
+      console.log(res);
     });
   }
 
-  private loadRecaptchaScript(): void {
-    if (this.recaptchaScriptLoaded) return;
-
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/api.js?render=6LfX6R0qAAAAAIcWWO84K20lue3arAI5wkWTBNf5`;
-    script.onload = () => (this.recaptchaScriptLoaded = true);
-    script.onerror = () => console.error('Failed to load reCAPTCHA script');
-    document.head.appendChild(script);
-  }
-
-  isRecaptchaScriptLoaded(): Promise<boolean> {
-    return new Promise((resolve) => {
-      if (this.recaptchaScriptLoaded) {
-        resolve(true);
-      } else {
-        const interval = setInterval(() => {
-          if (this.recaptchaScriptLoaded) {
-            clearInterval(interval);
-            resolve(true);
+  async userExist() {
+    await this.logout();
+    let userExist: boolean = false;
+    await signIn({
+      username: `+91${this.phoneNumber}`,
+      password: 'Shreeva@2022',
+    })
+      .then(async (res) => {
+        userExist = true;
+      })
+      .catch((error) => {
+        const code = error.name;
+        console.log(error.name);
+        switch (code) {
+          case 'UserNotFoundException': {
+            userExist = false;
+            break;
           }
-        }, 100);
+          case 'NotAuthorizedException': {
+            userExist = false;
+            break;
+          }
+          case 'PasswordResetRequiredException': {
+            userExist = false;
+            break;
+          }
+          case 'UserAlreadyAuthenticatedException': {
+            userExist = false;
+            break;
+          }
+          case 'UserNotConfirmedException': {
+            userExist = false;
+            break;
+          }
+          case 'UsernameExistsException': {
+            userExist = false;
+            break;
+          }
+        }
+      });
+    if (userExist)
+      try {
+        await deleteUser();
+        await this.logout();
+      } catch (error) {
+        console.log(error);
       }
-    });
   }
 
-  async setupRecaptcha(): Promise<RecaptchaVerifier> {
-    // await this.isRecaptchaScriptLoaded();
-    return new RecaptchaVerifier(
-      'recaptcha-container',
-      {
-        size: 'invisible',
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber
-        },
-      },
-      this.authService.auth
-    );
-  }
-
-  // async login() {
-  //   let loader = await this.loaderService.create({
-  //     message: 'Logging in...',
-  //   });
-  //   loader.present();
-
-  //   try {
-  //     await this.setupRecaptcha().then(async (recaptchaVerifier) => {
-  //       console.log(recaptchaVerifier);
-  //       await this.authService
-  //         .loginWithPhoneNumber(this.phoneNumber, recaptchaVerifier)
-  //         .then((login) => {
-  //           this.dataProvider.loginConfirmationResult = login;
-  //           this.dataProvider.userMobile = this.phoneNumber;
-  //           this.router.navigate(['unauthorized/otp']);
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //           this.alertify.presentToast(error.message);
-  //         })
-  //         .finally(() => {
-  //           loader.dismiss();
-  //         });
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-   async login() {
+  async login() {
     let loader = await this.loaderService.create({
       message: 'Logging in...',
     });
     loader.present();
-    if (!this.verifier)
-      this.verifier = new RecaptchaVerifier(
-        'recaptcha-container',
-        { size: 'invisible' },
-        this.authService.auth
-      );
-    this.authService
-      .loginWithPhoneNumber(this.phoneNumber, this.verifier)
-      .then((login) => {
-        this.dataProvider.loginConfirmationResult = login;
-        this.dataProvider.userMobile = this.phoneNumber;
-        this.phoneNumber = '';
-        this.terms = false;
-        this.router.navigate(['unauthorized/otp']);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.alertify.presentToast(error.message);
-      })
-      .finally(() => {
-        loader.dismiss();
-      });
+    await this.userExist();
+
+    const { isSignUpComplete, userId, nextStep } = await signUp({
+      username: `+91${this.phoneNumber}`,
+      password: 'Shreeva@2022',
+      options: {
+        userAttributes: {
+          email: 'hello@mycompany.com',
+          phone_number: `+91${this.phoneNumber}`, // E.164 number convention
+        },
+      },
+    });
+
+    console.log(isSignUpComplete, userId, nextStep);
+
+    if (userId) {
+      this.dataProvider.isSignUpUserID = userId;
+      this.dataProvider.userMobile = this.phoneNumber;
+      this.phoneNumber = '';
+      this.terms = false;
+      this.router.navigate(['unauthorized/otp']);
+      loader.dismiss();
+    }
+    // if (!this.verifier) {
+    //   this.verifier = new RecaptchaVerifier(
+    //     'recaptcha-container',
+    //     {
+    //       size: 'invisible',
+    //       callback: (response) => {
+    //         // reCAPTCHA solved, allow signInWithPhoneNumber.
+    //         console.log(response);
+    //       },
+    //     },
+    //     this.authService.auth
+    //   );
+    //   console.log(this.verifier);
+    // }
+
+    // await this.authService
+    //   .loginWithPhoneNumber(this.phoneNumber, this.verifier)
+    //   .then((login) => {
+    //     this.dataProvider.loginConfirmationResult = login;
+    //     this.dataProvider.userMobile = this.phoneNumber;
+    //     this.phoneNumber = '';
+    //     this.terms = false;
+    //     this.router.navigate(['unauthorized/otp']);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     this.alertify.presentToast(error.message);
+    //   })
+    //   .finally(() => {
+    //     loader.dismiss();
+    //   });
   }
 
   openPrivacy() {

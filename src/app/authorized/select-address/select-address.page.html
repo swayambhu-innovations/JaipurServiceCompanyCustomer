@@ -1,39 +1,39 @@
 <ng-container *ngIf="mobileView">
-  <app-header-with-back [showBackButton]="addressService.addresses.length > 0" [title]="'Select Address'"
-    [showNotificationIcon]="false"></app-header-with-back>
-  <div class="container">
-    <div class="row">
-      <ion-toolbar slot="end">
-        <div class="new-add-button">
-          <button (click)="newAddress()">
-            <span>Add new</span>
-            <img src="../../../assets/add-button.svg" alt="" />
-          </button>
-        </div>
-      </ion-toolbar>
-    </div>
-  </div>
-  <ion-content [fullscreen]="true">
+  <app-header-with-back
+    [showBackButton]="true"
+    [title]="'Select Address'"
+    [showNotificationIcon]="false"
+  ></app-header-with-back>
 
+  <ion-content [fullscreen]="true">
     <div class="main-container">
       <div class="address-det-div">
         <div class="address-box">
           <div class="add-cont">
             <div class="input-div">
-              <input type="radio" name="defaultChange" [checked]="address.isDefault"
-                (change)="changeAddress(address)" />
+              <input
+                type="radio"
+                name="defaultChange"
+                [checked]="address.isDefault"
+                (change)="changeAddress(address)"
+              />
             </div>
             <div class="address-details">
               <h2>{{address.name}}</h2>
               <p>{{dataProvider.currentUser?.userData.phoneNumber}}</p>
-              <p>
-                {{address.addressLine1}},
-                {{address.pincode}}
-              </p>
+              <p>{{address.addressLine1}}, {{address.pincode}}</p>
             </div>
             <div class="edit-delete-address">
-              <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)" />
-              <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)" />
+              <img
+                src="../../../assets/edit-button.svg"
+                alt=""
+                (click)="editAddress(address)"
+              />
+              <img
+                src="../../../assets/delete-button.svg"
+                alt=""
+                (click)="deleteAddress(address)"
+              />
             </div>
           </div>
         </div>
@@ -42,8 +42,13 @@
   </ion-content>
 </ng-container>
 
-<app-header-with-back id="web-view" [showHomeIcon]="true" [showBackButton]="addressService.addresses.length > 0"
-  [title]="'Select Address'" [showNotificationIcon]="false"></app-header-with-back>
+<app-header-with-back
+  id="web-view"
+  [showHomeIcon]="true"
+  [showBackButton]="addressService.addresses.length > 0"
+  [title]="'Select Address'"
+  [showNotificationIcon]="false"
+></app-header-with-back>
 
 <div class="back-container" id="web-view">
   <div class="main-container">
@@ -59,7 +64,12 @@
       <div class="address-box" style="padding: 20px">
         <div class="add-cont">
           <div class="input-div">
-            <input type="radio" name="defaultChange" [checked]="address.isDefault" (change)="changeAddress(address)" />
+            <input
+              type="radio"
+              name="defaultChange"
+              [checked]="address.isDefault"
+              (change)="changeAddress(address)"
+            />
           </div>
           <div class="address-details">
             <h2>{{address.name}}</h2>
@@ -70,8 +80,16 @@
             </p>
           </div>
           <div class="edit-delete-address" style="padding-left: 3rem">
-            <img src="../../../assets/edit-button.svg" alt="" (click)="editAddress(address)" />
-            <img src="../../../assets/delete-button.svg" alt="" (click)="deleteAddress(address)" />
+            <img
+              src="../../../assets/edit-button.svg"
+              alt=""
+              (click)="editAddress(address)"
+            />
+            <img
+              src="../../../assets/delete-button.svg"
+              alt=""
+              (click)="deleteAddress(address)"
+            />
           </div>
         </div>
       </div>

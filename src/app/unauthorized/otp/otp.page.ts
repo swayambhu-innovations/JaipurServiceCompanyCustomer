@@ -5,6 +5,7 @@ import { DataProviderService } from '../../core/data-provider.service';
 import { AuthService } from '../../core/auth.service';
 import { LoadingController } from '@ionic/angular';
 import { RecaptchaVerifier } from 'firebase/auth';
+import { confirmSignUp, autoSignIn, signOut, signIn } from 'aws-amplify/auth';
 
 @Component({
   selector: 'app-otp',
@@ -26,17 +27,16 @@ export class OtpPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.dataProvider.loginConfirmationResult) {
-      this.alertify.presentToast(
-        'Some Error occurred. Please enter phone again.'
-      );
-      this.router.navigate(['unauthorized/login']);
-    } else {
-      this.startResendTimer();
-    }
+    // if (!this.dataProvider.loginConfirmationResult) {
+    //   this.alertify.presentToast(
+    //     'Some Error occurred. Please enter phone again.'
+    //   );
+    //   this.router.navigate(['unauthorized/login']);
+    // } else {
+    //   this.startResendTimer();
+    // }
   }
   async sendOTP() {
-    
     if (this.dataProvider.loginConfirmationResult) {
       let loader = await this.loadingController.create({
         message: 'OTP Sending...',
@@ -61,28 +61,53 @@ export class OtpPage implements OnInit {
         .finally(() => {
           loader.dismiss();
         });
-    }  
+    }
   }
   async login() {
-    
-    if (this.dataProvider.loginConfirmationResult) {
+    if (this.dataProvider.isSignUpUserID) {
       let loader = await this.loadingController.create({
         message: 'Logging in...',
       });
       loader.present();
-      this.dataProvider.loginConfirmationResult
-        .confirm(this.otp)
-        .then((result) => {
-          this.authService.setUserData(result.user);
-          this.router.navigate(['authorized/profile/profile-info']);
+      // this.dataProvider.loginConfirmationResult
+      //   .confirm(this.otp)
+      //   .then((result) => {
+      //     this.authService.setUserData(result.user).then(()=>{
+      //       this.router.navigate(['authorized/profile/profile-info']);
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     this.alertify.presentToast(error.message);
+      //   })
+      //   .finally(() => {
+      //     loader.dismiss();
+      //   });
+      const { isSignUpComplete, nextStep } = await confirmSignUp({
+        username: `+91${this.dataProvider.userMobile}`,
+        confirmationCode: this.otp,
+      });
+      if (isSignUpComplete) {
+        await signIn({
+          username: `+91${this.dataProvider.userMobile}`,
+          password: 'Shreeva@2022',
         })
-        .catch((error) => {
-          console.log(error);
-          this.alertify.presentToast(error.message);
-        })
-        .finally(() => {
-          loader.dismiss();
-        });
+          .then((res) => {
+            const { isSignedIn, nextStep } = res;
+            if (isSignedIn)
+              this.authService
+                .setUserData(`+91${this.dataProvider.userMobile}`)
+                .then(() => {
+                  this.dataProvider.checkingAuth = true;
+                  this.dataProvider.loggedIn = true;
+                  this.router.navigate(['authorized/profile/profile-info']);
+                });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        loader.dismiss();
+      }
     }
   }
 
@@ -92,7 +117,7 @@ export class OtpPage implements OnInit {
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: '',
-    inputmode: "tel",
+    inputmode: 'tel',
     inputStyles: {
       width: '38px',
       height: '38px',

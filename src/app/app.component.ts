@@ -15,6 +15,7 @@ import { App } from '@capacitor/app';
 import { Network } from '@capacitor/network';
 import { LocationService } from './authorized/new-address/services/location.service';
 import { AnalyticsService } from './analyticsServices/analytics.service';
+import { DataProviderService } from './core/data-provider.service';
 
 @Component({
   selector: 'app-root',
@@ -30,12 +31,15 @@ export class AppComponent implements OnInit {
     public _navigationBack: NavigationBackService,
     private locationService: LocationService,
     private router: Router,
-    private AnalyticsService: AnalyticsService
+    private AnalyticsService: AnalyticsService,
+    private dataProvider: DataProviderService
   ) {
     // this.setUser()
     // this.setProperty()
     // this.logEvent()
     // this.toggleDataCollection()
+    this.dataProvider.checkingAuth = false;
+    this.dataProvider.loggedIn = false;
 
     this.locationService.initLocation();
     this.createCasheFolder();

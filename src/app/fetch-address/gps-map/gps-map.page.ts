@@ -144,6 +144,10 @@ export class GpsMapPage implements OnInit {
     let city: string = '';
     let stateId: string = '';
     let cityId: string = '';
+    let newAddress: any = { ...this.selectedAddress };
+    newAddress.geometry.location =
+      this.selectedAddress.geometry.location.toJSON();
+    newAddress.geometry.viewport = '';
     this.selectedAddress.address_components.map((component) => {
       component.types.map((type) => {
         if (type == 'administrative_area_level_1') state = component.long_name;
@@ -172,10 +176,10 @@ export class GpsMapPage implements OnInit {
           });
           if (cityId !== '') {
             const addressObject = {
-              ...this.selectedAddress,
+              ...newAddress,
               cityId: cityId,
               stateId: stateId,
-              selectedArea: this.selectedAddress,
+              selectedArea: newAddress,
               isDefault: true,
             };
             this.dataProvider.authLessAddress = addressObject;

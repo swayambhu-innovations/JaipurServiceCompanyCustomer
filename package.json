@@ -26,6 +26,7 @@
     "@awesome-cordova-plugins/core": "^6.6.0",
     "@awesome-cordova-plugins/file": "^6.6.0",
     "@awesome-cordova-plugins/file-opener": "^6.6.0",
+    "@aws-amplify/ui-angular": "^5.0.18",
     "@capacitor-community/firebase-analytics": "^6.0.0",
     "@capacitor/android": "^5.0.0",
     "@capacitor/app": "^5.0.0",

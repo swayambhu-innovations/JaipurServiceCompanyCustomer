@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { ModalController, NavController } from '@ionic/angular';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
-import { getAuth, deleteUser, Auth, signOut } from '@angular/fire/auth';
+import { getAuth, deleteUser, Auth } from '@angular/fire/auth';
 import { error } from 'console';
+import { signOut } from 'aws-amplify/auth';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { UpcomingHistoryPage } from '../booking/upcoming-history/upcoming-history.page';
@@ -57,9 +58,8 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['unauthorized/login']);
   }
 
-  openNotification(){
+  openNotification() {
     this.router.navigate(['authorized/notification']);
-
   }
 
   async openUpcomingBooking() {
@@ -80,7 +80,7 @@ export class ProfilePage implements OnInit {
     if (this.dataProvider.currentUser)
       this.router.navigate(['/authorized/profile/profile-info']);
   }
-  openAddress(){
+  openAddress() {
     if (this.dataProvider.currentUser)
       this.router.navigate(['/authorized/select-address']);
   }
@@ -88,9 +88,10 @@ export class ProfilePage implements OnInit {
   signout() {
     this.router.navigate(['/signout']);
   }
-  logout() {
+
+  async logout() {
     this._navigationService.isAddressSubscription$ = false;
-    signOut(getAuth())
+    await signOut({ global: true })
       .then(() => {
         this.closeModal();
         window.location.reload();

@@ -656,7 +656,7 @@ export class BookingDetailsPage implements OnInit {
       SelectedService[0]['averageRating'] =
         avrg + '  (' + SelectedService[0].rating.length + ')';
       await this.bookingService.updateBookingSlot(
-        this.dataProvider.currentUser.user.uid,
+        this.dataProvider.currentUser.userData.uid,
         this.currentBooking.id,
         this.currentBooking
       );
