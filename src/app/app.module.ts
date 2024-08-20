@@ -34,7 +34,7 @@ import { FileInterceptorInterceptor } from './authorized/interceptors/file-inter
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
 // import { AppCheckService } from './app-check.service';
-import { Amplify } from 'aws-amplify';
+import {Amplify} from 'aws-amplify';
 
 const amplifyConfig = {
   aws_project_region: 'ap-south-1',
