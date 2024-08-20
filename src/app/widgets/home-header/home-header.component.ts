@@ -71,7 +71,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['unauthorized/login']);
+    this.router.navigate(['unauthorized/jsc-logo']);
   }
 
   navigateTOSearch() {
@@ -97,8 +97,9 @@ export class HomeHeaderComponent implements OnInit {
         if (comp.types.includes('locality')) city = comp.long_name;
         if (comp.types.includes('postal_code')) pinCode = comp.long_name;
       });
-      this.mainAddressLine = add1 + ', ' + add2 + ', ' + city + ', ' + pinCode;
-      this.addressLineOne = this.mainAddressLine;
+      this.mainAddressLine = add1 + ', ' + add2 + ', ' + city;
+      this.addressLineOne =
+        this.dataProvider.authLessAddress.formatted_address.toString();
       this.insertAddressAccordionButton = true;
       console.log(currentAddress);
       if (this.mainAddressLine.length > this.MAX_ADDRESS_LINE_LENGTH) {
@@ -157,7 +158,8 @@ export class HomeHeaderComponent implements OnInit {
     if (this.dataProvider.currentUser)
       this.router.navigate(['/authorized/select-address']);
     else {
-      let currentPosition = this.dataProvider.authLessAddress.geometry.location.toJSON();
+      localStorage.removeItem('address');
+      let currentPosition = this.dataProvider.authLessAddress.geometry.location;
       this.router.navigate(['/fetch-address/gps-map', currentPosition]);
     }
   }

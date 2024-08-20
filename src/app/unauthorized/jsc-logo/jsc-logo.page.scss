@@ -1,0 +1,52 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100% !important;
+
+  ion-img {
+    width: 47px;
+    height: 47px;
+    border-radius: 12px;
+    border-radius: 12px !important;
+    flex-shrink: 0;
+  }
+
+  ion-img::part(image) {
+    border-radius: 12px !important;
+  }
+
+  ion-text {
+    margin-top: 6rem;
+
+    .head {
+      color: #181f29;
+      text-align: center;
+      font-family: Poppins;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  ion-img {
+    width: 292px !important;
+    height: 265px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0;
+  }
+
+  .head {
+    color: #181f29;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 24px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: normal;
+  }
+}

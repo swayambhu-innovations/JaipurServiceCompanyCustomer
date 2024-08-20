@@ -40,7 +40,7 @@ export class HeaderWithBackComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['unauthorized/login']);
+    this.router.navigate(['unauthorized/jsc-logo']);
   }
 
   onBackButtonClick() {

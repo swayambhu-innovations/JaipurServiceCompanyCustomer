@@ -225,7 +225,7 @@ export class CartPage implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/unauthorized/login']);
+    this.router.navigate(['/unauthorized/jsc-logo']);
   }
 
   onIncrementCartQuantity(service, variant) {

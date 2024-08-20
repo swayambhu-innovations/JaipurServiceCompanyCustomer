@@ -69,7 +69,7 @@ export class ProfileInfoPage implements OnInit {
     this.isFocused = false;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
     this.dataProvider.currentUser$.subscribe((response) => {
@@ -82,12 +82,14 @@ export class ProfileInfoPage implements OnInit {
       this.route.navigate(['unauthorized/login']);
     }
 
-    this.activeRoute.queryParams.subscribe((param: any) => {
+    this.activeRoute.queryParams.subscribe(async (param: any) => {
       this.urlparam = param.from;
       if (this.userData?.name) {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
+
+        await this.auth.updateUserDate(false);
         // if(this.userData.dateofbirth){
         //   const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
         //   this.userProfileForm.controls.dateofbirth.setValue(momentDate)
