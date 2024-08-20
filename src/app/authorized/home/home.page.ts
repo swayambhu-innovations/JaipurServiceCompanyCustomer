@@ -28,6 +28,7 @@ import { SelectAddressPage } from '../select-address/select-address.page';
 import { SubCategoryPage } from '../sub-categories/sub-categories.page';
 import { AllCategoriesPage } from '../all-categories/all-categories.page';
 import { ServicesPage } from '../services/services.page';
+import { LoginPopupComponent } from 'src/app/widgets/login-popup/login-popup.component';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -45,6 +46,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
+  @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
+
+  openLoginPopup() {
+    // Logic to open the login popup, e.g., display it using *ngIf or a modal
+    console.log('Opening Login Popup...');
+    // You can use a method inside LoginPopupComponent if needed
+  }
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
@@ -91,7 +99,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     public _cartService: CartService,
     private _navigationService: NavigationBackService,
     private deviceService: DeviceDetectorService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private modalCtrl: ModalController,
   ) {
     if (this.dataProvider.currentUser)
       this._notificationService
@@ -567,6 +576,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       })
       .finally(() => {});
   }
+  //login popup
+  async openLoginModal() {
+    const modal = await this.modalCtrl.create({
+      component: LoginPopupComponent,
+      componentProps: { isOpen: true }
+    });
+    return await modal.present();
+  }
 
   async saveImage(url: string, path: string | undefined) {
     const response: any = await fetch(url, {
@@ -631,6 +648,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
+
+
 
 export interface Banner {
   id?: string | null | undefined;

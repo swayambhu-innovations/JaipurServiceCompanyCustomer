@@ -2,8 +2,9 @@
   [MAX_ADDRESS_LINE_LENGTH]="50"
   [showUnreadNotification]="unreadNotifications.length > 0"
 ></app-home-header>
-
 <ion-content #content class="ion-padding home-main" [fullscreen]="true">
+  <!-- <ion-button (click)="openLoginModal()">Open Login Modal</ion-button> -->
+
   <button id="search" routerLink="../search">
     <p>Search what you need</p>
     <span>
@@ -347,6 +348,8 @@
 
   <app-footer-web class="footer-div"></app-footer-web>
 </ion-content>
+
+
 
 <ion-modal
   [isOpen]="isNotServiceableModalOpen"
