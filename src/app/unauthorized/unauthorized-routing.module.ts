@@ -15,7 +15,11 @@ const routes: Routes = [
   {
     path:'otp',
     loadChildren: () => import('./otp/otp.module').then( m => m.OtpPageModule)
+  },  {
+    path: 'jsc-logo',
+    loadChildren: () => import('./jsc-logo/jsc-logo.module').then( m => m.JscLogoPageModule)
   },
+
 ];
 
 @NgModule({

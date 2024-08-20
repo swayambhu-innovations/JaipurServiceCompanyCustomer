@@ -47,7 +47,18 @@ export class GpsMapPage implements OnInit {
     public dataProvider: DataProviderService,
     private loadingController: LoadingController,
     public activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    let addressString: string | null;
+    dataProvider.currentUser$.subscribe((data) => {
+      if (data) {
+        addressString = localStorage.getItem('address');
+        if (addressString) {
+          this.dataProvider.authLessAddress = JSON.parse(addressString);
+          this.router.navigate(['/authorized/home']);
+        } 
+      }
+    });
+  }
 
   async ionViewDidEnter() {
     this.scrollToTop();
@@ -142,6 +153,7 @@ export class GpsMapPage implements OnInit {
   async confirmLoc() {
     let state: string = '';
     let city: string = '';
+    let area: string = '';
     let stateId: string = '';
     let cityId: string = '';
     let newAddress: any = { ...this.selectedAddress };
@@ -150,6 +162,7 @@ export class GpsMapPage implements OnInit {
     newAddress.geometry.viewport = '';
     this.selectedAddress.address_components.map((component) => {
       component.types.map((type) => {
+        if (type == 'sublocality') area = component.long_name;
         if (type == 'administrative_area_level_1') state = component.long_name;
         if (type == 'administrative_area_level_3') city = component.long_name;
       });
@@ -177,6 +190,7 @@ export class GpsMapPage implements OnInit {
           if (cityId !== '') {
             const addressObject = {
               ...newAddress,
+              name: area,
               cityId: cityId,
               stateId: stateId,
               selectedArea: newAddress,

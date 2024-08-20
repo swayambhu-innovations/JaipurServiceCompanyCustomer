@@ -16,6 +16,7 @@ export class HeaderWithBackComponent implements OnInit {
   @Input() showHomeIcon: boolean = false;
   @Input() orderPlaced: boolean = false;
   @Input() showBackButton: boolean = true;
+  @Input() showLogin: boolean = true;
 
   notifications: any[] = [];
   unreadNotifications: any[] = [];
@@ -39,7 +40,7 @@ export class HeaderWithBackComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['unauthorized/login']);
+    this.router.navigate(['unauthorized/jsc-logo']);
   }
 
   onBackButtonClick() {

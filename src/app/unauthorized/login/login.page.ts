@@ -16,8 +16,6 @@ import { confirmSignUp, deleteUser, signOut, signIn } from 'aws-amplify/auth';
 export class LoginPage implements OnInit {
   phoneNumber: string = '';
   terms: boolean = false;
-  verifier: RecaptchaVerifier | undefined;
-  private recaptchaScriptLoaded = false;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -25,10 +23,8 @@ export class LoginPage implements OnInit {
     private alertify: AlertsAndNotificationsService,
     private loaderService: LoadingController
   ) {
-    // this.initializeAppCheck();
-    // this.loadRecaptchaScript();
-    console.log(this.dataProvider.loggedIn);
-    console.log(this.dataProvider.checkingAuth);
+    if (dataProvider.currentUser?.userData == undefined)
+      dataProvider.checkingAuth = false;
   }
 
   ngOnInit() {}
