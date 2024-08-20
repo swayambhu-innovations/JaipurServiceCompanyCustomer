@@ -85,16 +85,18 @@ export class ProfilePage implements OnInit {
       this.router.navigate(['/authorized/select-address']);
   }
 
-  signout() {
-    this.router.navigate(['/signout']);
-  }
-
   async logout() {
     this._navigationService.isAddressSubscription$ = false;
     await signOut({ global: true })
       .then(() => {
         this.closeModal();
-        window.location.reload();
+        this.dataProvider.currentUser = undefined;
+        this.dataProvider.loggedIn = false;
+        this.dataProvider.checkingAuth = true;
+        this.dataProvider.authLessAddress = undefined;
+        localStorage.removeItem('address');
+        this.dataProvider.isSignUpUserID = '';
+        this.router.navigate(['/fetch-address']);
       })
       .catch((error: any) => console.log(error));
   }

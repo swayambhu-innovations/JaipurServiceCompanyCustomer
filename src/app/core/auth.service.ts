@@ -89,6 +89,7 @@ export class AuthService {
       this.dataProvider.currentUser!.userData.uid,
       this.dataProvider.authLessAddress
     );
+    this.dataProvider.selectedAddress.next(this.dataProvider.authLessAddress);
     let tempBooking, cart;
     tempBooking = localStorage.getItem('cart');
     if (tempBooking) cart = [...JSON.parse(tempBooking)];
@@ -101,7 +102,7 @@ export class AuthService {
         const addresses = result.docs.map((address: any) => {
           return { ...address.data(), id: address.id };
         });
-        this.router.navigate(['/authorized/profile']);
+        this.router.navigate(['/authorized/home']);
         // if (addresses.length > 0) {
         // } else {
         //   this.router.navigate(['/authorized/new-address']);

@@ -16,7 +16,7 @@
           <img src="assets/ui_icons/mapmarker.svg" alt="" />
         </ion-button>
         <ion-text (click)="setopen()">
-          <h4 *ngIf="addressess.length > 0">{{ selectedAddress?.name }}</h4>
+          <h4>{{ dataProvider.authLessAddress?.name }}</h4>
           <p>
             {{ addressLineOne }}
             <ng-container
