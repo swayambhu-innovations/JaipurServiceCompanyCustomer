@@ -235,7 +235,7 @@ export class CartService {
         },
         isPaid: false,
         isPaylater: false,
-        address: this.userCurrentAddress,
+        address: this.dataProvider.authLessAddress,
         isUpdateSlot: false,
         picsAfter: [],
         picsBefore: [],
@@ -540,9 +540,7 @@ export class CartService {
         return item.id === bookingId;
       });
     let data: Booking =
-      userId !== ''
-        ? (cart.data() as unknown as Booking)
-        : cart[0]
+      userId !== '' ? (cart.data() as unknown as Booking) : cart[0];
     console.log(data);
     let serviceIndex = data.services.findIndex((s) => s.serviceId == serviceId);
     if (
@@ -624,6 +622,7 @@ export class CartService {
     let cart = this.cart.find((bookingItem) => {
       return bookingItem.id == bookingId;
     });
+    console.log(cart);
     let data: any = cart;
     let serviceIndex = data.services.findIndex(
       (s) => s.serviceId == service.id

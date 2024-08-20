@@ -38,8 +38,6 @@ export class AppComponent implements OnInit {
     // this.setProperty()
     // this.logEvent()
     // this.toggleDataCollection()
-    this.dataProvider.checkingAuth = false;
-    this.dataProvider.loggedIn = false;
 
     this.locationService.initLocation();
     this.createCasheFolder();
