@@ -198,8 +198,6 @@ ion-toolbar {
   }
 
   .location-det {
-    display: flex;
-    align-items: center;
     width: 55%;
     border-radius: 10.951px;
     border: 1.095px solid #bebebe;
@@ -214,7 +212,6 @@ ion-toolbar {
 
     p {
       margin-bottom: 0;
-      
     }
   }
 }
