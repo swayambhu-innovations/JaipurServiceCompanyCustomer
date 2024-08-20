@@ -1,0 +1,64 @@
+.modal-content {
+  padding: 20px;
+  text-align: center;
+  border-radius: 30px 30px 0px 0px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+}
+
+.modal-title {
+  margin-bottom: 20px;
+  color: linear-gradient(100.99deg, #014868 0%, #001e42 45.1%, #451338 98%);
+}
+h2 {
+  font-family: Lato;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.2px;
+  text-align: center;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.modal-buttons ion-button {
+  flex: 1;
+  margin: 0 5px;
+}
+
+.primary {
+  --background: linear-gradient(
+    100.99deg,
+    #014868 0%,
+    #001e42 45.1%,
+    #451338 98%
+  );
+  color: #fff;
+  width: 141px;
+  height: 48px;
+  gap: 8px;
+  --border-radius: 13px 13px 13px 13px;
+}
+
+.secondary {
+  --background: #ffffff;
+  border: 1px solid #001e42;
+  color: #001e42;
+  width: 141px;
+  height: 48px;
+  gap: 8px;
+  --border-radius: 13px 13px 13px 13px;
+}

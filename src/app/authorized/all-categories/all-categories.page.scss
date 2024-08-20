@@ -1,7 +1,7 @@
 .allCategory-div {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   flex-wrap: wrap;
   row-gap: 40px;
   margin-top: 40px;
@@ -12,6 +12,10 @@
     align-items: center;
     overflow: hidden;
     width: 30%;
+
+    .category-det{
+      padding-left: 9px;
+    }
 
     a {
       width: 72px;

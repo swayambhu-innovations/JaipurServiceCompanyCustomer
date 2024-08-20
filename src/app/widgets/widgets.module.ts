@@ -6,10 +6,12 @@ import { RateComponent } from './rate/rate.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderWithBackComponent } from './header-with-back/header-with-back.component';
+import { LoginPopupComponent } from './login-popup/login-popup.component';
 
 const widgets = [
   Header1Component,
   RateComponent,
+  LoginPopupComponent,
   HomeHeaderComponent,
   HeaderComponent,
   HeaderWithBackComponent
@@ -21,6 +23,7 @@ const widgets = [
     RateComponent,
     HomeHeaderComponent,
     HeaderComponent,
+    LoginPopupComponent,
     HeaderWithBackComponent
   ],
   imports: [
