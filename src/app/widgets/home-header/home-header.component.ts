@@ -154,6 +154,7 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
+
     if (this.dataProvider.currentUser)
       this.router.navigate(['/authorized/select-address']);
     else {
