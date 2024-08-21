@@ -11,11 +11,11 @@
         <span>Jaipur Service Company</span>
       </div>
 
-      <div class="location-det">
-        <ion-button>
+      <div class="location-det" (click)="setopen()">
+        <ion-button style="margin: 0px;">
           <img src="assets/ui_icons/mapmarker.svg" alt="" />
         </ion-button>
-        <ion-text (click)="setopen()">
+        <ion-text >
           <h4>{{ dataProvider.authLessAddress?.name }}</h4>
           <p>
             {{ addressLineOne }}

@@ -234,12 +234,19 @@ ion-label {
     line-height: 14px;
     display: flex;
     width: 100%;
+    overflow: hidden; /* Prevents content overflow */
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+  // white-space: nowrap; /* Prevents text wrapping */
+  align-items: center; /* Vertically centers the content */
+
     // align-items: center;
 
     strong {
       display: flex;
       align-items: center;
       margin-left: 5px;
+      overflow: hidden;
+      padding-right: 25%;
       color: #222;
       font-family: Lato;
       font-size: 12px;
@@ -247,12 +254,18 @@ ion-label {
       font-weight: 400;
       line-height: 14px; /* 116.667% */
       letter-spacing: -0.24px;
+      
+    
     }
   }
 }
 .grird-margin-top {
-  margin-top: -6px;
+  margin-top: -12px;
 }
+// .cont{
+//   height:100px;
+//   min-height: 100px;
+// }
 
 .search-box {
   display: flex;
@@ -263,7 +276,7 @@ ion-label {
 .search-item {
   margin-bottom: 5px;
   // max-height: 26 6px;
-  height: 115px;
+  // height: 115px;
   min-height: 100px;
   // overflow: auto;
   display: flex;
