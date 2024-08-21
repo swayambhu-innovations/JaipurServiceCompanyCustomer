@@ -10,7 +10,7 @@
 
   <ng-container *ngIf="mobileView">
     <ion-card id="mobile-view">
-      <img
+      <!-- <img
         src="https://api.dicebear.com/6.x/initials/svg?seed"
         class="profile-pic"
         *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined || !this.dataProvider.currentUser"
@@ -19,15 +19,33 @@
         src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
         class="profile-pic"
         *ngIf="this.dataProvider.currentUser && this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
-      />
+      /> -->
 
-      <h4 style="text-align: center; color: #fff">
+      <!-- <h4 style="text-align: center; color:linear-gradient(100.99deg, #014868 0%, #001E42 45.1%, #451338 98%);
+">
         {{this.dataProvider.currentUser?.userData?.name}}
-      </h4>
+      </h4> -->
     </ion-card>
 
     <div id="mobile-view" class="nav">
+      <div class="nameimage">
+      <img
+      src="https://api.dicebear.com/6.x/initials/svg?seed"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined || !this.dataProvider.currentUser"
+    />
+    <img
+      src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser && this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+    />
       <!-- Navigating buttons -->
+      <h4 style="text-align: center; color:linear-gradient(100.99deg, #014868 0%, #001E42 45.1%, #451338 98%);
+      ">
+              {{this.dataProvider.currentUser?.userData?.name}}
+            </h4>
+          </div>
+          <div class="buttons">
       <ion-button
         expand="block"
         fill="clear"
@@ -263,6 +281,7 @@
         </div>
       </ng-template>
     </ion-modal> -->
+    </div>
     </div>
   </ng-container>
 
