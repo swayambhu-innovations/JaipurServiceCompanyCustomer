@@ -1,9 +1,9 @@
-<div id="mobile-view" class="main">
+<div id="" class="main hide-on-desktop">
 
-  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false"
+  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false" 
     [showBackButton]="userData.name"></app-header-with-back>
 
-  <div class="container">
+  <div class="container  hide-on-desktop">
     <form class="col" [formGroup]="userProfileForm" style="background-color: white;">
       <div class="container1">
         <div class="outer" *ngIf="this.userData?.photoUrl"
@@ -63,10 +63,10 @@
   <!-- main div -->
 </div>
 
-<app-header-with-back id="web-view" [showHomeIcon]="true" [title]="'User Profile'" [showNotificationIcon]="false"
+<app-header-with-back id="web-view" [showHomeIcon]="true" [title]="'User Profile'" [showNotificationIcon]="false" class="hide-on-mobile"
     [showBackButton]="userData.name"></app-header-with-back>
 
-<div id="web-view" class="back-container">
+<div id="web-view" class="back-container hide-on-mobile">
   <div class="main-container">
     <form class="col" [formGroup]="userProfileForm" style="background-color: white;">
       <div class="container1">

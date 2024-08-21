@@ -270,7 +270,7 @@
   }
 
   .price {
-    margin: 0px;
+    margin-top: 2rem;
     font-size: 18px;
     font-weight: 700;
     color: #2b780e;
@@ -389,6 +389,13 @@ ion-button {
       --padding-start: 16px;
       --icon-size: 400px;
       --icon-padding-end: 10px;
+      .button1{
+        background: none;
+        ion-icon{
+          height: 50px; 
+          width: 50px; 
+        }
+      }
       .larger-icon {
         font-size: 50px; /* Adjust the size as per your requirement */
         background: #95c28c;
@@ -581,14 +588,16 @@ ion-button {
 }
 
 .page-accordion {
-  margin-top: 20px;
-
+  margin-top: 50px;
+  margin-bottom: 30px;
   .descriptionBody {
     border-radius: 0px;
     margin: 3px;
   }
 }
-
+// .type{
+//   padding-bottom: 10px;
+// }
 .fixed-cart-button {
   position: fixed;
 }
