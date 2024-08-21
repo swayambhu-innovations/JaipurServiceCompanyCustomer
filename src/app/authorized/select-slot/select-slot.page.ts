@@ -106,6 +106,8 @@ export class SelectSlotPage implements OnInit {
   ngOnInit() {
     // regenrate the slots
     // this.currentTime = (new Date()).getHours();
+    console.log(this.dataProvider.authLessAddress)
+    console.log(this.dataProvider.currentUser)
     this.generateSlots();
     this.totalSlots();
     this.systeminfo();
