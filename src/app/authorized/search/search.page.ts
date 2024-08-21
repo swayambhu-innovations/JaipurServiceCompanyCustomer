@@ -14,6 +14,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
+showBackButton: any;
+onBackButtonClick() {
+throw new Error('Method not implemented.');
+}
+goToHome() {
+throw new Error('Method not implemented.');
+}
+  backButtonInSearch = true;
   private storage = 'Storage';
   searchInputSubject: Subject<string> = new Subject<string>();
 
@@ -28,6 +36,7 @@ export class SearchPage implements OnInit {
   resultsFetched: boolean = false;
   historyTerms: string[] = [];
   inputSearchVar: string = '';
+orderPlaced: any;
 
   constructor(
     private dataProvider: DataProviderService,
@@ -83,6 +92,9 @@ export class SearchPage implements OnInit {
       this.fuseSearchInstance.setCollection(services);
       this.serviceList = services;
     });
+  }
+  goBack() {
+    this.route.navigate(['./home']);
   }
 
   saveToHistory(term: string) {
@@ -152,6 +164,7 @@ export class SearchPage implements OnInit {
     this.historyTerms = this.getFromHistory();
   }
 }
+
 
 interface searchResult extends Service {
   price: number;

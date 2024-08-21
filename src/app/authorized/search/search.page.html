@@ -1,9 +1,16 @@
 <app-header-with-back
   [title]="''"
   [showNotificationIcon]="false"
+  [backButtonInSearch]="true"
 ></app-header-with-back>
 <ion-content class="ion-padding" [fullscreen]="true">
   <button id="search" routerLink="../search">
+    <img
+        class="back"
+        (click)="goBack()"
+        src="assets/icon/leftArrow/leftArrow.svg"
+        alt=""
+      />
     <!-- <p>Search what you need</p> -->
     <input
       type="search"

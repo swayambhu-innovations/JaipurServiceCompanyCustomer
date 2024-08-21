@@ -29,6 +29,7 @@ import { SubCategoryPage } from '../sub-categories/sub-categories.page';
 import { AllCategoriesPage } from '../all-categories/all-categories.page';
 import { ServicesPage } from '../services/services.page';
 import { LoginPopupComponent } from 'src/app/widgets/login-popup/login-popup.component';
+import { AuthService } from 'src/app/core/auth.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -101,6 +102,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private deviceService: DeviceDetectorService,
     private modalController: ModalController,
     private modalCtrl: ModalController,
+    private authService:AuthService,
   ) {
     if (this.dataProvider.currentUser)
       this._notificationService
@@ -278,6 +280,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.authService.scheduleLoginPrompt();
+
     this._navigationService.isAddressSubscription$ = true;
     this.fetchMainCategoryIcon();
     if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
