@@ -179,7 +179,7 @@ export class HomeService {
   }
 
   getRecentBookings() {
-    return getDocs(collection(doc(this.firestore, "users", this.dataProvider.currentUser!.user.uid), 'bookings'));
+    return getDocs(collection(doc(this.firestore, "users", this.dataProvider.currentUser!.userData.uid,), 'bookings'));
   }
 
   showMobileBanner() {

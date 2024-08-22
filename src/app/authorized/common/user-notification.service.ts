@@ -57,13 +57,13 @@ export class UserNotificationService {
   }
 
   getCurrentUserNotification(){
-    return getDocs(query(collection(this.firestore,'users',this.dataProvider.currentUser!.user.uid,'notifications'),orderBy("createdAt",'desc'),limit(100)));
+    return getDocs(query(collection(this.firestore,'users',this.dataProvider.currentUser!.userData.uid,'notifications'),orderBy("createdAt",'desc'),limit(100)));
   }
 
 
   async markAllNotificationsAsRead(): Promise<void> {
     const notificationsQuery = query(
-      collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'notifications')
+      collection(this.firestore, 'users', this.dataProvider.currentUser!.userData.uid, 'notifications')
     );
     const querySnapshot = await getDocs(notificationsQuery);
     const batch = writeBatch(this.firestore);
@@ -71,7 +71,7 @@ export class UserNotificationService {
       const notificationRef = doc(
         this.firestore,
         'users',
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         'notifications',
         doc1.id
       );
@@ -82,7 +82,7 @@ export class UserNotificationService {
 
   deleteNotification(notificationId: string): Promise<void> {
     return deleteDoc(
-      doc(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'notifications', notificationId)
+      doc(this.firestore, 'users', this.dataProvider.currentUser!.userData.uid, 'notifications', notificationId)
     );
   }
   

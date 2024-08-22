@@ -22,6 +22,7 @@ export class DataProviderService {
     []
   );
   checkingAuth: boolean = true;
+  firstTimeLogin: boolean = false;
   loginConfirmationResult: ConfirmationResult | undefined;
   currentBooking: Booking | undefined;
   isSignUpUserID: string = '';

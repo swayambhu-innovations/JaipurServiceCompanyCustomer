@@ -16,7 +16,7 @@ export class ProfileService {
     private loadingController: LoadingController,
     private fileService:FileService) {
     if(this.dataProvider.currentUser !== undefined)
-    collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.user.uid, 'profileId')).subscribe((profileDetailses:any)=>{
+    collectionData(collection(this.firestore, 'users', this.dataProvider.currentUser!.userData.uid, 'profileId')).subscribe((profileDetailses:any)=>{
       this.profileDetailses = profileDetailses;
       this.fetchedprofileDetailses.next(this.profileDetailses);
     })
@@ -25,7 +25,7 @@ export class ProfileService {
     return await Promise.all(
       (
         await getDocs(
-          collection(this.firestore , 'users', this.dataProvider.currentUser!.user.uid)
+          collection(this.firestore , 'users', this.dataProvider.currentUser!.userData.uid,)
         )
       ).docs.map(async (user) => {
         return {

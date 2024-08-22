@@ -9,18 +9,14 @@
     <div class="orderCard" *ngFor="let booking of cart">
       <div class="detail">
         <img [src]="booking.subCategory.image" alt="" />
-        <div class="categories">
           <div class="main">
-            <p>{{booking.subCategory.name}}</p>
+            <p style="font-size: 22px; color: #181F29; font-weight: 700;">{{booking.subCategory.name}}</p>
+            <p style="font-size: 19px; color: #7E8083; font-weight: 700; ">{{booking?.services?.length}} Services</p>
+            <span style="font-size: 19px; color: #579540; font-weight: 700;" >{{booking.billing.grandTotal | currency:'INR' : 'symbol' :'1.0-0'}}</span>
           </div>
-          <div class="sub">
-            <p>{{booking?.services?.length}} Services</p>
-            <span
-              >{{booking.billing.grandTotal | currency:'INR' : 'symbol' :
-              '1.0-0'}}</span
-            >
+          <div class="deleteicon">
+            <span style="align-items: right;"><img src="../../assets/icons/Delete.svg"></span>
           </div>
-        </div>
       </div>
 
       <!-- <hr class="dashed-line"> -->
@@ -34,9 +30,11 @@
           </ul>
         </ng-container>
       </div>
-      <ion-button color="dark" (click)="onSelectBooking(booking);"
-        >Checkout</ion-button
-      >
+      <div class="twinbutton">
+        <ion-button size="large" class="addservice">Add Service</ion-button>
+        <ion-button size="large" class="checkout" color="dark" (click)="onSelectBooking(booking);">Checkout</ion-button>
+      
+      </div>
     </div>
   </ion-content>
 
@@ -672,3 +670,6 @@
   </ng-template>
 </ion-modal>
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
+
+<!-- merged -->

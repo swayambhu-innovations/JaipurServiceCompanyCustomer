@@ -67,10 +67,12 @@ export class CartService {
       this.cartSubject.next(this.cart);
     });
 
-    if (dataProvider.currentUser) {
+    if (dataProvider.currentUser == undefined) {
       let cartStorage: any;
       cartStorage = localStorage.getItem('cart');
       if (cartStorage) this.cart = JSON.parse(cartStorage);
+      else this.cart = [];
+      this.cartSubject.next(this.cart);
     }
   }
 
@@ -213,6 +215,7 @@ export class CartService {
           cartItems = [...cartItems, data];
           localStorage.setItem('cart', JSON.stringify(cartItems));
           this.cart.push(data);
+          this.cartSubject.next(this.cart);
           setTimeout(() => {
             loader.dismiss();
           }, 1000);
@@ -307,15 +310,19 @@ export class CartService {
       let cartItems: any[] = [];
       if (localStorage.getItem('cart'))
         cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+      cartItems = cartItems.filter((item) => {
+        return item['id'] !== data['id'];
+      });
       cartItems = [...cartItems, data];
-      localStorage.setItem('cart', JSON.stringify(cartItems));
       cartItems.map((cartItem: any) => {
         cartItem = this.calculateBilling(cartItem);
       });
+      localStorage.setItem('cart', JSON.stringify(cartItems));
       this.cart.length = 0;
       this.cart = [...cartItems];
       console.log(this.cart);
     }
+    this.cartSubject.next(this.cart);
     setTimeout(() => {
       loader.dismiss();
     }, 1000);
@@ -480,8 +487,8 @@ export class CartService {
         ],
         currentUser: {
           name: this.dataProvider.currentUser!.userData.name!,
-          phoneNumber: this.dataProvider.currentUser!.user.phoneNumber!,
-          userId: this.dataProvider.currentUser!.user.uid,
+          phoneNumber: this.dataProvider.currentUser!.userData.phoneNumber!,
+          userId: this.dataProvider.currentUser!.userData.uid,
         },
         stage: 'allotmentPending',
         jobOtp: this.generateOtpCode(),
@@ -530,6 +537,7 @@ export class CartService {
       message: 'Please wait...',
     });
     loader.present();
+
     let cart: any;
     if (userId !== '')
       cart = await getDoc(
@@ -569,16 +577,24 @@ export class CartService {
       }
     else {
       let cartItems: any[] = [];
-      if (data.services.length === 0) localStorage.removeItem('cart');
-      else {
+      if (data.services.length === 0) {
+        localStorage.removeItem('cart');
+        this.cart = [];
+        this.cartSubject.next([]);
+      } else {
         if (localStorage.getItem('cart'))
           cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
         cartItems = cartItems.filter((item) => {
           return item.id !== bookingId;
         });
         cartItems.push(data);
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-        console.log('done');
+        if (cartItems.length !== 0) {
+          localStorage.setItem('cart', JSON.stringify(cartItems));
+          let cartStorage: any;
+          cartStorage = localStorage.getItem('cart');
+          if (cartStorage) this.cart = JSON.parse(cartStorage);
+          this.cartSubject.next(this.cart);
+        }
       }
     }
 
@@ -589,29 +605,30 @@ export class CartService {
   }
 
   async updateCart() {
-    this.getCurrentUserCart().then((cartRequest) => {
-      if (cartRequest)
-        this.cart = cartRequest.docs.map((cart: any) => {
-          return { ...cart.data(), id: cart.id };
+    if (this.dataProvider.currentUser)
+      this.getCurrentUserCart().then((cartRequest) => {
+        if (cartRequest)
+          this.cart = cartRequest.docs.map((cart: any) => {
+            return { ...cart.data(), id: cart.id };
+          });
+        this.cart.map((cartItem: any) => {
+          cartItem = this.calculateBilling(cartItem);
+          return cartItem;
         });
-      this.cart.map((cartItem: any) => {
-        cartItem = this.calculateBilling(cartItem);
-        return cartItem;
+        this.cartSubject.next(this.cart);
+        this.cart.map(async (cartItem: any) => {
+          await setDoc(
+            doc(
+              this.firestore,
+              'users',
+              this.dataProvider.currentUser?.user!.uid!,
+              'cart',
+              cartItem.id
+            ),
+            cartItem
+          );
+        });
       });
-      this.cartSubject.next(this.cart);
-      this.cart.map(async (cartItem: any) => {
-        await setDoc(
-          doc(
-            this.firestore,
-            'users',
-            this.dataProvider.currentUser?.user!.uid!,
-            'cart',
-            cartItem.id
-          ),
-          cartItem
-        );
-      });
-    });
   }
 
   async incrementQuantityAuthLess(
@@ -1170,7 +1187,7 @@ export class CartService {
         collection(
           this.firestore,
           'users',
-          this.dataProvider.currentUser!.user.uid,
+          this.dataProvider.currentUser!.userData.uid,
           'cart'
         )
       );

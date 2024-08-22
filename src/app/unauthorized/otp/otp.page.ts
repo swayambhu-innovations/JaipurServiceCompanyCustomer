@@ -111,6 +111,7 @@ export class OtpPage implements OnInit {
                 .then(() => {
                   this.dataProvider.checkingAuth = true;
                   this.dataProvider.loggedIn = true;
+                  this.dataProvider.firstTimeLogin = true;
                   this.router.navigate(['authorized/profile/profile-info']);
                 });
           })

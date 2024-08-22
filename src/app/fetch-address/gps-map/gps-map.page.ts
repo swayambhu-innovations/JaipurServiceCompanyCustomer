@@ -14,6 +14,7 @@ import { DataProviderService } from 'src/app/core/data-provider.service';
 export class GpsMapPage implements OnInit {
   @ViewChild('content', { static: true }) content: any;
   areaOptions: any;
+  loading: boolean = false;
   isValidMarker: boolean = false;
   selectedAddress: google.maps.GeocoderResult;
   formattedAdd: string = '';
@@ -55,7 +56,7 @@ export class GpsMapPage implements OnInit {
         if (addressString) {
           this.dataProvider.authLessAddress = JSON.parse(addressString);
           this.router.navigate(['/authorized/home']);
-        } 
+        }
       }
     });
   }
@@ -151,7 +152,9 @@ export class GpsMapPage implements OnInit {
   }
 
   async confirmLoc() {
+    this.loading = true;
     let state: string = '';
+    let postal: string = '';
     let city: string = '';
     let area: string = '';
     let stateId: string = '';
@@ -165,6 +168,7 @@ export class GpsMapPage implements OnInit {
         if (type == 'sublocality') area = component.long_name;
         if (type == 'administrative_area_level_1') state = component.long_name;
         if (type == 'administrative_area_level_3') city = component.long_name;
+        if (type == 'postal_code') postal = component.long_name;
       });
     });
     await this.addressService.getState().then(async (docs) => {
@@ -192,11 +196,15 @@ export class GpsMapPage implements OnInit {
               ...newAddress,
               name: area,
               cityId: cityId,
+              state: state,
+              city: city,
+              pincode: postal,
               stateId: stateId,
               selectedArea: newAddress,
               isDefault: true,
             };
             this.dataProvider.authLessAddress = addressObject;
+            console.log(this.dataProvider.authLessAddress);
             localStorage.removeItem('address');
             localStorage.setItem('address', JSON.stringify(addressObject));
             this.router.navigate(['/authorized/home']);
@@ -204,5 +212,6 @@ export class GpsMapPage implements OnInit {
         });
       } else this.isCatalogue = false;
     });
+    this.loading = false;
   }
 }

@@ -4,7 +4,7 @@
   [orderPlaced]="true"
 ></app-header-with-back>
 <ion-content>
-  <div id="mobile-view" class="container px-0">
+  <div id="" class="hide-on-desktop container px-0">
     <div
       class="first-section"
       *ngIf="this.dataProvider.currentBooking?.isPaylater || this.dataProvider.currentBooking?.payment?.status !== 'faild'"
@@ -112,7 +112,7 @@
             Name: {{dataProvider.currentBooking?.address?.name}}
           </h2>
           <h2>
-            Address: {{dataProvider.currentBooking?.address?.addressLine1}}
+            Address: {{dataProvider.currentBooking?.address?.formatted_address}}
           </h2>
           <p>
             Phone no.:
@@ -162,7 +162,7 @@
     </div>
   </div>
 
-  <div id="web-view" class="back-container">
+  <div id="" class="back-container hide-on-mobile">
     <div class="main-container">
       <div class="container px-0">
         <div
