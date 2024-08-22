@@ -109,30 +109,30 @@
       </ion-grid>
     </div>
 
-    <div
+    <!-- <div
       id="web-view"
       *ngFor="let result of results"
       (click)="searchInput.value = ''; openService(result)"
       class="search-item"
     >
       <ion-grid class="grird-margin-top">
-        <ion-row class="service-price ion-align-items-center">
-          <ion-col size="5" class="item-img">
+        <ion-row class="service-price ">
+          <ion-col class="item-img">
             <img
               class="search-image"
               [src]="result.image[0] ?  result.image[0] : 'https://placehold.co/70x70'"
               [alt]="result.name"
             />
           </ion-col>
-          <ion-col class="service-name" size="6"
+          <ion-col class="service-name" 
             ><ion-label class="">{{result.name}}</ion-label></ion-col
           >
-          <ion-col size="1" class="col-price">
+          <ion-col  class="col-price">
             <ion-label class="price">
               {{result.variants![0].price | currency: 'INR' : 'symbol' :
-              '1.0-0'}}
+              '1.0-0'}} -->
               <!-- <span>{{result.variants![0].price | currency: 'INR' : 'symbol' : '1.0-0'}}</span> -->
-            </ion-label>
+            <!-- </ion-label>
           </ion-col>
         </ion-row>
 
@@ -152,7 +152,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </div>
+    </div> -->
   </ion-list>
 
   <div class="notFound" *ngIf="results.length === 0 && resultsFetched">
