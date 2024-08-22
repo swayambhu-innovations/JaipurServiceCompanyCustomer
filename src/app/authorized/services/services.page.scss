@@ -8,6 +8,8 @@
     justify-content: flex-start;
     gap: 20px;
     background: white;
+    // background: #F0F0F0;
+
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-bottom: 2px solid #dcdcdc;
@@ -34,6 +36,7 @@
 }
 
 ion-content {
+  background-color: #F0F0F0;
   $secondaryTextColor: #9b9e9f;
   $primaryBackgroundColor: black;
   font-family: "Lato", sans-serif;
@@ -107,6 +110,16 @@ ion-content {
   ion-list {
     ion-item {
       --inner-padding-end: 0;
+      box-shadow: 2px 4px 4px 2px #0000001a;
+      width: 93%;
+      // height: 151px;
+      gap: 0px;
+      border-radius: 15px;
+      border: 1px solid #F0F0F0;
+      padding: 20px 0px 0px 0px;
+      position: relative;
+      left:3%;
+      // opacity: 0px;
     }
     .notFound {
       display: flex;
@@ -235,9 +248,9 @@ ion-label {
     display: flex;
     width: 100%;
     overflow: hidden; /* Prevents content overflow */
-  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
-  // white-space: nowrap; /* Prevents text wrapping */
-  align-items: center; /* Vertically centers the content */
+    text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+    // white-space: nowrap; /* Prevents text wrapping */
+    align-items: center; /* Vertically centers the content */
 
     // align-items: center;
 
@@ -254,8 +267,6 @@ ion-label {
       font-weight: 400;
       line-height: 14px; /* 116.667% */
       letter-spacing: -0.24px;
-      
-    
     }
   }
 }
@@ -288,16 +299,16 @@ ion-label {
   }
 }
 
-.no-rating{
+.no-rating {
   width: 15px;
-    margin-top: -8px;
-    margin-right: 5px;
+  margin-top: -8px;
+  margin-right: 5px;
 }
 
-.cross-div{
+.cross-div {
   margin-right: 15px;
   cursor: pointer;
-  img{
+  img {
     width: 22px;
     object-fit: cover;
   }
@@ -319,7 +330,7 @@ ion-label {
   box-shadow: none;
 
   ion-title {
-     font-weight: 700;
+    font-weight: 700;
   }
 }
 
@@ -331,7 +342,7 @@ ion-label {
     width: 48%;
     flex-direction: row;
     border-radius: 10px;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
     margin-bottom: 25px !important;
     padding-top: 30px;
     padding-left: 20px;

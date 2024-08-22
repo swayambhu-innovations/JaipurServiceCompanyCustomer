@@ -6,6 +6,7 @@ import Fuse from 'fuse.js';
 import { DataProviderService } from '../../core/data-provider.service';
 import { Service, SubCategory } from '../../core/types/category.structure';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 // @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 @Component({
@@ -40,7 +41,8 @@ orderPlaced: any;
 
   constructor(
     private dataProvider: DataProviderService,
-    private route: Router
+    private route: Router,
+    private location: Location,
   ) {
     this.searchInputSubject
       .pipe(debounceTime(600))
@@ -93,9 +95,12 @@ orderPlaced: any;
       this.serviceList = services;
     });
   }
-  goBack() {
-    this.route.navigate(['./home']);
-  }
+  // goBack() {
+    // this.route.navigate(['./home']);
+    goBack(): void {
+      this.location.back();
+    }
+  // }
 
   saveToHistory(term: string) {
     if (term.length <= 0) return;

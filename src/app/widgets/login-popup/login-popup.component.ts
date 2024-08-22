@@ -21,10 +21,13 @@ export class LoginPopupComponent  implements OnInit {
 
     closeModal() {
       this.modalCtrl.dismiss();
+      this.isOpen=false;
     }
   
     skipLogin() {
       this.modalCtrl.dismiss();
+      this.isOpen=false;
+      // this.router.navigate(['home'])
     }
   
     login() {

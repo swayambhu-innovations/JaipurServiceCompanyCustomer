@@ -47,13 +47,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
-  @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
-
-  openLoginPopup() {
-    // Logic to open the login popup, e.g., display it using *ngIf or a modal
-    console.log('Opening Login Popup...');
-    // You can use a method inside LoginPopupComponent if needed
-  }
+  // @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
+  
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
@@ -101,7 +96,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private _navigationService: NavigationBackService,
     private deviceService: DeviceDetectorService,
     private modalController: ModalController,
-    private modalCtrl: ModalController,
+    // private modalCtrl: ModalController,
     private authService:AuthService,
   ) {
     if (this.dataProvider.currentUser)
@@ -581,13 +576,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       .finally(() => {});
   }
   //login popup
-  async openLoginModal() {
-    const modal = await this.modalCtrl.create({
-      component: LoginPopupComponent,
-      componentProps: { isOpen: true }
-    });
-    return await modal.present();
-  }
+  // async openLoginModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: LoginPopupComponent,
+  //     componentProps: { isOpen: true }
+  //   });
+  //   return await modal.present();
+  // }
 
   async saveImage(url: string, path: string | undefined) {
     const response: any = await fetch(url, {
