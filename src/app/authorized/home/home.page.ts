@@ -100,7 +100,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private _navigationService: NavigationBackService,
     private deviceService: DeviceDetectorService,
     private modalController: ModalController,
-    private modalCtrl: ModalController,
+    private modalCtrl: ModalController
   ) {
     if (this.dataProvider.currentUser)
       this._notificationService
@@ -283,7 +283,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
       this.fetchAddressWithoutAuth();
     } else if (this.dataProvider.currentUser) {
-      this.fetchAddress();
+      this.fetchAddressWithoutAuth();
       this.recentActivity();
       this.bookingService.bookingsSubject.subscribe((bookings) => {
         this.upcomingBookings = bookings.filter((item) => {
@@ -397,8 +397,57 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     this.scrollToTop();
+    this._navigationService.isAddressSubscription$ = true;
+    this.fetchMainCategoryIcon();
+    if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
+      this.fetchAddressWithoutAuth();
+    } else if (this.dataProvider.currentUser) {
+      this.fetchAddressWithoutAuth();
+      this.recentActivity();
+      this.bookingService.bookingsSubject.subscribe((bookings) => {
+        this.upcomingBookings = bookings.filter((item) => {
+          if (
+            item.stage == 'expired' ||
+            item.stage == 'completed' ||
+            item.stage == 'discarded' ||
+            item.stage == 'cancelled'
+          ) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        if (this.upcomingBookings.length > 0) {
+          if (this.swiper1) {
+            this.swiper1.destroy();
+          }
+          this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+              el: '.swiper-pagination1',
+              clickable: true,
+            },
+            centeredSlides: true,
+            autoplay: {
+              delay: 2000,
+            },
+          });
+        }
+      });
+    }
+    this.systeminfo();
+    console.log(this.dataProvider.mainCategoriesLoaded);
+    this.dataProvider.mainCategories.subscribe((categories) => {
+      this.categories = categories;
+      if (this.dataProvider.mainCategoriesLoaded) {
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next('loaded');
+        }, 1000);
+      }
+    });
     if (this.dataProvider.currentUser)
       this._notificationService
         .getCurrentUserNotification()
@@ -580,7 +629,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   async openLoginModal() {
     const modal = await this.modalCtrl.create({
       component: LoginPopupComponent,
-      componentProps: { isOpen: true }
+      componentProps: { isOpen: true },
     });
     return await modal.present();
   }
@@ -648,8 +697,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
-
-
 
 export interface Banner {
   id?: string | null | undefined;

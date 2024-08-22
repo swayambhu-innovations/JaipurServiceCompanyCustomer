@@ -32,14 +32,14 @@
               <ion-item class="remove-pading" no-lines id="{{variant.id}}"
                 [ngStyle]="{'display':this.cartService.isInCart(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)?'block':'none'}">
                 <ion-button fill="outline" class="remove" color="dark"
-                  (click)="this.cartService.decrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)">-</ion-button>
+                  (click)="this.cartService.decrementQuantity(this.dataProvider.currentUser!.userData.uid,matchingService!,variant.id,cartDetils[0].id!)">-</ion-button>
                 <ion-input type="number" id="input{{variant.id}}" text-center
                   [value]="this.cartService.getQuantity(matchingService!,variant.id,matchingMainCategory!.id,matchingSubCategory!.id)"
                   min="1" max="5"></ion-input>
                 <ion-button fill="outline" class="add" color="dark"
-                  (click)="this.cartService.incrementQuantity(this.dataProvider.currentUser!.user.uid,matchingService!,variant.id,cartDetils[0].id!)">+</ion-button>
+                  (click)="this.cartService.incrementQuantity(this.dataProvider.currentUser!.userData.uid,matchingService!,variant.id,cartDetils[0].id!)">+</ion-button>
                 <ion-button fill="outline" class="remove-item"
-                  (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.user.uid,matchingService!.id,variant.id,cartDetils[0].id)"
+                  (click)="this.cartService.removeFromCart(this.dataProvider.currentUser!.userData.uid,matchingService!.id,variant.id,cartDetils[0].id)"
                   color="danger">Remove item</ion-button>
               </ion-item>
               <ion-item class="remove-pading" no-lines class="{{variant.id}}"

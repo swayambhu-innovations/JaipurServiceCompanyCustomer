@@ -33,7 +33,7 @@ export class BookingService {
         collection(
           this.firestore,
           'users',
-          this.dataProvider.currentUser!.user.uid,
+          this.dataProvider.currentUser!.userData.uid,
           'bookings'
         )
       ).subscribe((bookings: any) => {
@@ -72,7 +72,7 @@ export class BookingService {
       doc(
         this.firestore,
         'users',
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         'bookings',
         bookingId
       )

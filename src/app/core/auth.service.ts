@@ -90,18 +90,30 @@ export class AuthService {
       this.dataProvider.authLessAddress
     );
     this.dataProvider.selectedAddress.next(this.dataProvider.authLessAddress);
-    let tempBooking, cart;
+    let tempBooking,
+      cart: any[] = [];
     tempBooking = localStorage.getItem('cart');
     if (tempBooking) cart = [...JSON.parse(tempBooking)];
-    this.cartService.addLocalHostCart(
-      this.dataProvider.currentUser!.userData.uid,
-      cart
-    );
+    if (cart.length > 0) {
+      cart.map((item) => {
+        item['currentUser'] = {
+          name: this.dataProvider.currentUser?.userData['name'],
+          phoneNumber: this.dataProvider.currentUser?.userData['phoneNumber'],
+          userId: this.dataProvider.currentUser?.userData.uid,
+        };
+      });
+      this.cartService.addLocalHostCart(
+        this.dataProvider.currentUser!.userData.uid,
+        cart
+      );
+    }
+
     this.getAddresses(this.dataProvider.currentUser!.userData.uid).then(
       (result) => {
         const addresses = result.docs.map((address: any) => {
           return { ...address.data(), id: address.id };
         });
+        this.dataProvider.firstTimeLogin = false;
         this.router.navigate(['/authorized/home']);
         // if (addresses.length > 0) {
         // } else {
@@ -166,6 +178,10 @@ export class AuthService {
         userData: userDoc[0],
       };
       this.dataProvider.currentUser$.next(this.dataProvider.currentUser);
+      localStorage.setItem(
+        'user',
+        JSON.stringify(this.dataProvider.currentUser)
+      );
       loader.dismiss();
       this.alertify.presentToast('Welcome back,' + userDoc[0]['name'] + ' 😄');
       return;
@@ -187,6 +203,10 @@ export class AuthService {
           userData: { ...newUserData, uid: docRef.id },
         };
         this.dataProvider.currentUser$.next(this.dataProvider.currentUser);
+        localStorage.setItem(
+          'user',
+          JSON.stringify(this.dataProvider.currentUser)
+        );
       }
     );
     loader.dismiss();

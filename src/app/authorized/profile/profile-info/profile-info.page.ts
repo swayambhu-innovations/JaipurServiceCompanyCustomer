@@ -88,8 +88,8 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-
-        await this.auth.updateUserDate(false);
+        if (this.dataProvider.firstTimeLogin)
+          await this.auth.updateUserDate(false);
         // if(this.userData.dateofbirth){
         //   const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
         //   this.userProfileForm.controls.dateofbirth.setValue(momentDate)
@@ -180,7 +180,7 @@ export class ProfileInfoPage implements OnInit {
       this.auth.isProfileUpdated = true;
       await this.profileService
         .editUsers(
-          this.dataProvider.currentUser!.user.uid,
+          this.dataProvider.currentUser!.userData.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
         )
@@ -197,6 +197,8 @@ export class ProfileInfoPage implements OnInit {
     this.auth.isProfileUpdated = false;
   }
 
+  ionViewDidEnter() {}
+
   setPhoto(event: any) {
     this.photoUrl = event.target.files[0];
     this.updateUser(this.photoUrl);
@@ -208,7 +210,7 @@ export class ProfileInfoPage implements OnInit {
     });
     loader.present();
     this.profileService
-      .updatePic(file, this.dataProvider.currentUser!.user.uid)
+      .updatePic(file, this.dataProvider.currentUser!.userData.uid)
       .then((url) => {
         this.userData.photoUrl = url;
         loader.dismiss();

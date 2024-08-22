@@ -67,7 +67,7 @@ export class CartPopuPage implements OnInit {
     this.totalPrice  += variant.price;
     this.selectedItems +=1;
     this.itemList.push(variant);
-    this.cartService.addToCart(this.dataProvider.currentUser!.user.uid,variant.id,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
+    this.cartService.addToCart(this.dataProvider.currentUser!.userData.uid,variant.id,this.matchingService!,this.matchingMainCategory!,this.matchingSubCategory!);
   }
   async bookNow(variantId:string){
     let loader = await this.loadingController.create({message:'Please wait...'});

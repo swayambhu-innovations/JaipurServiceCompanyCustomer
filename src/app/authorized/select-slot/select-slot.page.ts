@@ -340,7 +340,7 @@ export class SelectSlotPage implements OnInit {
         )
         .then(async () => {
           await this.cartService.deleteBooking(
-            this.dataProvider.currentUser!.user.uid,
+            this.dataProvider.currentUser!.userData.uid,
             this.dataProvider.currentBooking!.id!
           );
           await this.cartService.updateCart();
@@ -358,7 +358,7 @@ export class SelectSlotPage implements OnInit {
     } else {
       this.bookingService
         .updateBookingSlot(
-          this.dataProvider.currentUser!.user.uid,
+          this.dataProvider.currentUser!.userData.uid,
           this.dataProvider.currentBooking!.id!,
           this.dataProvider.currentBooking
         )
@@ -408,7 +408,7 @@ export class SelectSlotPage implements OnInit {
               )
               .then(async () => {
                 await this.cartService.deleteBooking(
-                  this.dataProvider.currentUser!.user.uid,
+                  this.dataProvider.currentUser!.userData.uid,
                   this.dataProvider.currentBooking!.id!
                 );
                 await this.cartService.updateCart();
@@ -455,7 +455,7 @@ export class SelectSlotPage implements OnInit {
     //     )
     //     .then(async () => {
     //       await this.cartService.deleteBooking(
-    //         this.dataProvider.currentUser!.user.uid,
+    //         this.dataProvider.currentUser!.userData.uid,
     //         this.dataProvider.currentBooking!.id!
     //       )
     //       await this.cartService.updateCart();
@@ -465,7 +465,7 @@ export class SelectSlotPage implements OnInit {
     //       loader.dismiss();
     //     });
     //   }else{
-    //     this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.user.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
+    //     this.bookingService.updateBookingSlot(this.dataProvider.currentUser!.userData.uid, this.dataProvider.currentBooking!.id!, this.dataProvider.currentBooking).then(resp=>{
     //       this.router.navigate(['/authorized/order-placed']);
     //       loader.dismiss();
     //     });
@@ -482,7 +482,7 @@ export class SelectSlotPage implements OnInit {
     loader.present();
     this.bookingService
       .updateBookingSlot(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         this.dataProvider.currentBooking!.id!,
         this.dataProvider.currentBooking
       )
