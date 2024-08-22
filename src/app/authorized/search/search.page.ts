@@ -6,6 +6,7 @@ import Fuse from 'fuse.js';
 import { DataProviderService } from '../../core/data-provider.service';
 import { Service, SubCategory } from '../../core/types/category.structure';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 // @ViewChild('searchInput', { static: false }) searchInput: ElementRef;
 @Component({
@@ -14,6 +15,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./search.page.scss'],
 })
 export class SearchPage implements OnInit {
+showBackButton: any;
+onBackButtonClick() {
+throw new Error('Method not implemented.');
+}
+goToHome() {
+throw new Error('Method not implemented.');
+}
+  backButtonInSearch = true;
   private storage = 'Storage';
   searchInputSubject: Subject<string> = new Subject<string>();
 
@@ -28,10 +37,12 @@ export class SearchPage implements OnInit {
   resultsFetched: boolean = false;
   historyTerms: string[] = [];
   inputSearchVar: string = '';
+orderPlaced: any;
 
   constructor(
     private dataProvider: DataProviderService,
-    private route: Router
+    private route: Router,
+    private location: Location,
   ) {
     this.searchInputSubject
       .pipe(debounceTime(600))
@@ -84,6 +95,12 @@ export class SearchPage implements OnInit {
       this.serviceList = services;
     });
   }
+  // goBack() {
+    // this.route.navigate(['./home']);
+    goBack(): void {
+      this.location.back();
+    }
+  // }
 
   saveToHistory(term: string) {
     if (term.length <= 0) return;
@@ -152,6 +169,7 @@ export class SearchPage implements OnInit {
     this.historyTerms = this.getFromHistory();
   }
 }
+
 
 interface searchResult extends Service {
   price: number;

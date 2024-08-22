@@ -1,7 +1,8 @@
-<app-header-with-back [title]="'Help & FAQ'" [showHomeIcon]="true"
+<app-header-with-back [title]="'FAQs'" [showHomeIcon]="true"
   [showNotificationIcon]="false"></app-header-with-back>
 
 <ion-content id="mobile-view" class="main-container">
+  <h3>Frequently Asked Questions</h3>
   <div class="wrapper-container first" *ngFor="let question of getQuestions">
     <ion-grid>
       <ion-accordion-group style="background-color: transparent" [multiple]="true">

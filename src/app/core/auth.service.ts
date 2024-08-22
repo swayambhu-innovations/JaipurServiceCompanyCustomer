@@ -21,19 +21,24 @@ import {
 } from 'firebase/firestore';
 import { DataProviderService } from './data-provider.service';
 import { AlertsAndNotificationsService } from '../alerts-and-notifications.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProfileService } from '../authorized/db_services/profile.service';
 import { Network } from '@capacitor/network';
 import { from, map } from 'rxjs';
 import { AddressService } from '../authorized/db_services/address.service';
 import { CartService } from '../authorized/cart/cart.service';
+import { LoginPopupComponent } from '../widgets/login-popup/login-popup.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  testPhoneNumber = '9876543210';
+  testOtp = '654321';
   isProfileUpdated: boolean = false;
+  loginCheckTimeout: any;
+  isLoginPage=false;
   constructor(
     private profileService: ProfileService,
     private router: Router,
@@ -43,7 +48,8 @@ export class AuthService {
     private alertify: AlertsAndNotificationsService,
     private loadingController: LoadingController,
     private addressService: AddressService,
-    private cartService: CartService
+    private cartService: CartService,
+    private modalController: ModalController,
   ) {
     this.onAuth();
   }
@@ -77,10 +83,58 @@ export class AuthService {
       if (!status.connected) {
         this.router.navigate(['/no-internet']);
       } else if (!this.isProfileUpdated) {
+      //  await this.scheduleLoginPrompt();
         this.router.navigate(['../../authorized/home']);
       }
+      // if (!this.dataProvider.currentUser) {
+        else if (!this.isProfileUpdated) {
+          this.scheduleLoginPrompt();
+        }
+      // }
+    console.log("step1")
+      // this.scheduleLoginPrompt();
     }
   }
+  
+   scheduleLoginPrompt() {
+    if (this.loginCheckTimeout) {
+      clearTimeout(this.loginCheckTimeout);
+    }
+    
+    console.log("step2",this.dataProvider.currentUser)
+    
+        this.loginCheckTimeout = setTimeout(async () => {
+          if(!this.dataProvider.currentUser && !this.isLoginPage){
+          await this.openLoginModal();
+          }
+        }, 60000); // 2 minutes
+      }
+    
+      private async openLoginModal() {
+        const modal = await this.modalController.create({
+          component: LoginPopupComponent, 
+          componentProps: { isOpen: true },
+          initialBreakpoint: 0,
+          breakpoints: [0, 0],
+          // backdropDismiss: false,
+          backdropDismiss: true,
+        });
+        await modal.present();
+
+            const { data } = await modal.onWillDismiss();
+        
+            if (data && data.loggedIn) {
+              this.router.navigate(['../login']); 
+            }
+          }
+        
+          cancelLoginPrompt() {
+            if (this.loginCheckTimeout) {
+              clearTimeout(this.loginCheckTimeout);
+              this.loginCheckTimeout = null;
+              console.log('Login prompt canceled.');
+            }
+          }
 
   updateUserDate(redirect?: boolean) {
     this.dataProvider.checkingAuth = true;
@@ -149,6 +203,14 @@ export class AuthService {
   }
 
   async loginWithPhoneNumber(phone: string, appVerifier: ApplicationVerifier) {
+
+    if (phone === this.testPhoneNumber) {
+      // login for test phone number
+      return Promise.resolve({
+        user: { phoneNumber: this.testPhoneNumber } as User,
+      });
+    }
+    
     if (phone.length != 10) {
       return Promise.reject(new Error('Invalid Phone Number'));
     }
@@ -216,3 +278,7 @@ export class AuthService {
     return;
   }
 }
+
+
+
+
