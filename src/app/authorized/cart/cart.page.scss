@@ -503,18 +503,95 @@ ion-content {
 .header {
   margin: 20px;
 }
+// .orderCard {
+//   display: flex;
+//   flex-direction: column;
+//   background: white;
+//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+//   padding: 10px 14px;
+//   border-bottom: 2px solid #e6e6e6;
+//   margin-bottom: 9px;
+//   .detail {
+//     display: flex;
+//     //justify-content: space-between;
+//     justify-content: space-around;
+    
+//     img {
+//       width: 90px;
+//       height: 90px;
+//       object-fit: cover;
+//       border-radius: 10px;
+//       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+//     }
+//     // .categories {
+//     // display: flex;
+//     // flex-direction: column;
+//     .main {
+//       font-size: 18px;
+//       font-weight: 600;
+//       gap: 1rem;
+//     }
+//     .deleteicon {
+//       span {
+//         img {
+//           height: 40px;
+//           width: 40px;
+//           background: none;
+//           // justify-items: right;
+//         }
+//       }
+//     }
+
+//     // p{
+//     //   // color: var(--primary, #181f29);
+//     //   // font-family: Lato;
+//     //   // font-size: 18px;
+//     //   // font-style: normal;
+//     //   // font-weight: 700;
+//     //   // letter-spacing: -0.36px;
+//     //   // line-height: 1;
+//     // }
+//   }
+//   // .sub {
+//   //   font-size: 16px;
+//   //   font-weight: 500;
+//   //   color: grey;
+//   //   display: flex;
+//   //   justify-content: space-between;
+//   //   font-family: Lato;
+//   //   font-style: normal;
+//   //   line-height: normal;
+
+//   //   p {
+//   //     text-align: right;
+//   //     color: grey;
+//   //     font-size: 16px;
+//   //     font-weight: 500;
+//   //   }
+
+//   //   span {
+//   //     color: #579540;
+//   //     font-weight: 700;
+//   //   }
+//   // }
+// }
+// //}
+
+// hr.dashed-line {
+//   border: 1px dashed #d7d7d7;
+//   margin: 10px 0;
+// }
 .orderCard {
-  display: flex;
-  flex-direction: column;
+
   background: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px 14px;
+
+  padding: 10px 10px;
   border-bottom: 2px solid #e6e6e6;
-  margin-bottom: 9px;
+
   .detail {
     display: flex;
-    //justify-content: space-between;
     justify-content: space-around;
+    gap: 1rem;
     img {
       width: 90px;
       height: 90px;
@@ -522,66 +599,17 @@ ion-content {
       border-radius: 10px;
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
     }
-    // .categories {
-    // display: flex;
-    // flex-direction: column;
-    .main {
-      font-size: 20px;
-      font-weight: 600;
-      // display: flex;
-      // justify-content: flex-end;
-      // margin-bottom: 5px;
-    }
     .deleteicon {
       span {
         img {
           height: 40px;
           width: 40px;
           background: none;
-          // justify-items: right;
         }
       }
     }
-
-    p {
-      // color: var(--primary, #181f29);
-      // font-family: Lato;
-      // font-size: 18px;
-      // font-style: normal;
-      // font-weight: 700;
-      // letter-spacing: -0.36px;
-      // line-height: 1;
-    }
-  }
-  .sub {
-    font-size: 16px;
-    font-weight: 500;
-    color: grey;
-    display: flex;
-    justify-content: space-between;
-    font-family: Lato;
-    font-style: normal;
-    line-height: normal;
-
-    p {
-      text-align: right;
-      color: grey;
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    span {
-      color: #579540;
-      font-weight: 700;
-    }
   }
 }
-//}
-
-// hr.dashed-line {
-//   border: 1px dashed #d7d7d7;
-//   margin: 10px 0;
-// }
 .items {
   display: flex;
   flex-direction: column;
@@ -604,7 +632,7 @@ ion-content {
 .twinbutton {
   display: flex;
   justify-content: space-between;
-    gap: 1%;
+  gap: 1rem;
   .addservice {
     --background: none;
     color: #a8a8a8;
