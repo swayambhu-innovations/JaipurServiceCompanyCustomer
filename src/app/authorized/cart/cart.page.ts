@@ -149,6 +149,42 @@ export class CartPage implements OnInit {
   async ionViewDidEnter() {
     this.systeminfo();
     this.pageLeaved = false;
+    let tempBooking;
+    if (this.dataProvider.currentUser) this.cart = this.cartService.cart;
+    else {
+      tempBooking = localStorage.getItem('cart');
+      if (tempBooking) this.cart = [...JSON.parse(tempBooking)];
+    }
+    console.log(this.cart);
+    this.cartLoaded = true;
+    if (this.cart.length > 0) {
+      this.setCurrentBooking();
+    }
+    this.cartService.cartSubject.subscribe((bookings) => {
+      this.cart = bookings;
+
+      if (this.mainCategoryId != 'all') {
+        this.setCurrentBooking();
+      }
+      if (this.selectedBooking?.id && bookings.length > 0) {
+        let foundBooking = bookings.find(
+          (booking) => booking.id === this.selectedBooking!.id
+        );
+        if (foundBooking) {
+          this.selectedBooking = foundBooking;
+          this.createOfferCount();
+        } else {
+          this.selectedBooking = undefined;
+        }
+      } else {
+        this.selectedBooking = undefined;
+      }
+    });
+    if (this.dataProvider.currentUser) {
+      this.cartService.getMinPrice().then((res: any) => {
+        this.minPriceFromDB = res.data().minPrice;
+      });
+    }
   }
 
   onRemoveCoupon() {
@@ -277,7 +313,7 @@ export class CartPage implements OnInit {
   onDeleteItemFromCart(service, variant) {
     if (this.dataProvider.currentUser)
       this.cartService.removeFromCart(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         service!.serviceId,
         variant.variantId,
         this.selectedBooking?.id!
@@ -334,6 +370,7 @@ export class CartPage implements OnInit {
   }
 
   orderCount: any = 2;
+
   async ngOnInit() {
     let tempBooking;
     if (this.dataProvider.currentUser) this.cart = this.cartService.cart;

@@ -29,6 +29,7 @@ import { SubCategoryPage } from '../sub-categories/sub-categories.page';
 import { AllCategoriesPage } from '../all-categories/all-categories.page';
 import { ServicesPage } from '../services/services.page';
 import { LoginPopupComponent } from 'src/app/widgets/login-popup/login-popup.component';
+import { AuthService } from 'src/app/core/auth.service';
 const CASHE_FOLDER = 'CASHED_IMG';
 
 interface bannerConfig {
@@ -46,13 +47,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
-  @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
-
-  openLoginPopup() {
-    // Logic to open the login popup, e.g., display it using *ngIf or a modal
-    console.log('Opening Login Popup...');
-    // You can use a method inside LoginPopupComponent if needed
-  }
+  // @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
+  
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
@@ -100,7 +96,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private _navigationService: NavigationBackService,
     private deviceService: DeviceDetectorService,
     private modalController: ModalController,
-    private modalCtrl: ModalController,
+    // private modalCtrl: ModalController
+    private authService:AuthService,
   ) {
     if (this.dataProvider.currentUser)
       this._notificationService
@@ -278,12 +275,14 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.authService.scheduleLoginPrompt();
+
     this._navigationService.isAddressSubscription$ = true;
     this.fetchMainCategoryIcon();
     if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
       this.fetchAddressWithoutAuth();
     } else if (this.dataProvider.currentUser) {
-      this.fetchAddress();
+      this.fetchAddressWithoutAuth();
       this.recentActivity();
       this.bookingService.bookingsSubject.subscribe((bookings) => {
         this.upcomingBookings = bookings.filter((item) => {
@@ -397,8 +396,57 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     this.scrollToTop();
+    this._navigationService.isAddressSubscription$ = true;
+    this.fetchMainCategoryIcon();
+    if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
+      this.fetchAddressWithoutAuth();
+    } else if (this.dataProvider.currentUser) {
+      this.fetchAddressWithoutAuth();
+      this.recentActivity();
+      this.bookingService.bookingsSubject.subscribe((bookings) => {
+        this.upcomingBookings = bookings.filter((item) => {
+          if (
+            item.stage == 'expired' ||
+            item.stage == 'completed' ||
+            item.stage == 'discarded' ||
+            item.stage == 'cancelled'
+          ) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+        if (this.upcomingBookings.length > 0) {
+          if (this.swiper1) {
+            this.swiper1.destroy();
+          }
+          this.swiper1 = new Swiper(this.swiperContainer1.nativeElement, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+              el: '.swiper-pagination1',
+              clickable: true,
+            },
+            centeredSlides: true,
+            autoplay: {
+              delay: 2000,
+            },
+          });
+        }
+      });
+    }
+    this.systeminfo();
+    console.log(this.dataProvider.mainCategoriesLoaded);
+    this.dataProvider.mainCategories.subscribe((categories) => {
+      this.categories = categories;
+      if (this.dataProvider.mainCategoriesLoaded) {
+        setTimeout(() => {
+          this.dataProvider.isPageLoaded$.next('loaded');
+        }, 1000);
+      }
+    });
     if (this.dataProvider.currentUser)
       this._notificationService
         .getCurrentUserNotification()
@@ -577,13 +625,13 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       .finally(() => {});
   }
   //login popup
-  async openLoginModal() {
-    const modal = await this.modalCtrl.create({
-      component: LoginPopupComponent,
-      componentProps: { isOpen: true }
-    });
-    return await modal.present();
-  }
+  // async openLoginModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: LoginPopupComponent,
+  //     componentProps: { isOpen: true },
+  //   });
+  //   return await modal.present();
+  // }
 
   async saveImage(url: string, path: string | undefined) {
     const response: any = await fetch(url, {
@@ -648,8 +696,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate([`/authorized/services/${categoryId}/${itemsId}`]);
   }
 }
-
-
 
 export interface Banner {
   id?: string | null | undefined;

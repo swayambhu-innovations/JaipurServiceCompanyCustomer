@@ -46,7 +46,10 @@
 
           <ion-row class="ion-justify-content-center ion-align-items-center">
             <button (click)="confirmLoc()" *ngIf="isCatalogue" class="button">
-              Confirm Location
+              <svg *ngIf="loading" viewBox="25 25 50 50">
+                <circle r="24" cy="50" cx="50"></circle>
+              </svg>
+              <span *ngIf="!loading">Confirm Location</span>
             </button>
 
             <span *ngIf="!isCatalogue" class="warning">

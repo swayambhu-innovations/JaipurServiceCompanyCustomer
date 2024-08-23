@@ -16,6 +16,8 @@ import { confirmSignUp, deleteUser, signOut, signIn } from 'aws-amplify/auth';
 export class LoginPage implements OnInit {
   phoneNumber: string = '';
   terms: boolean = false;
+  // testPhoneNumber = '9876543210';
+  // testOtp = '654321';
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -27,7 +29,9 @@ export class LoginPage implements OnInit {
       dataProvider.checkingAuth = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.isLoginPage=true
+  }
 
   async logout() {
     await signOut({ global: true }).then((res) => {
@@ -89,6 +93,16 @@ export class LoginPage implements OnInit {
       message: 'Logging in...',
     });
     loader.present();
+
+    if (this.phoneNumber === this.authService.testPhoneNumber) {
+      // Skip actual OTP verification for test phone number
+      this.dataProvider.userMobile = this.phoneNumber;
+      this.phoneNumber = '';
+      this.terms = false;
+      this.router.navigate(['unauthorized/otp']);
+      loader.dismiss();
+      return;
+    }
     await this.userExist();
 
     const { isSignUpComplete, userId, nextStep } = await signUp({
