@@ -608,16 +608,17 @@ ion-content {
   .twinbutton{  
     display: flex;
     justify-content: space-between;
+    gap: 1%;
     .addservice{
       --background: none;
       color:#181F29;
       width: 180px;
-      height: 55px;
+      height: 45px;
       
     }
     .checkout{
       width: 180px;
-      height: 55px;
+      height: 45px;
     }
     ion-button {
       margin-top: 10px;
