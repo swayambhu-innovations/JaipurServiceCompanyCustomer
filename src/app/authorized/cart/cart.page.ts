@@ -77,6 +77,22 @@ export class CartPage implements OnInit {
     this.router.navigate(['authorized/notification']);
   }
 
+  async addService(booking: any) {
+    this.selectedBooking = booking;
+    this.router.navigate([
+      `/authorized/services/${this.selectedBooking?.mainCategory.id}/${this.selectedBooking?.subCategory.id}`,
+    ]);
+  }
+
+  async removeBooking(booking: any) {
+    await this.cartService.removeBookingFromCart(
+      booking?.id!,
+      this.dataProvider.currentUser !== undefined
+        ? this.dataProvider.currentUser?.userData['uid']
+        : ''
+    );
+  }
+
   async temp() {
     const selectSlotModal = await this.modalController.create({
       component: SelectSlotPage,

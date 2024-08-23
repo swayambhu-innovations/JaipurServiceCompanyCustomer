@@ -76,6 +76,38 @@ export class CartService {
     }
   }
 
+  async removeBookingFromCart(bookingId: string, userId: string) {
+    const loader = await this.loadingController.create({
+      message: 'Deleting Cart...',
+    });
+    loader.present();
+    if (userId !== '') {
+      await this.clearCart(userId, bookingId);
+      await this.updateCart();
+    } else {
+      let cartItems: any[] = [];
+      if (localStorage.getItem('cart'))
+        cartItems = [...JSON.parse(localStorage.getItem('cart')!)];
+      cartItems = cartItems.filter((item) => {
+        return item['id'] !== bookingId;
+      });
+
+      if (cartItems.length > 0) {
+        cartItems.map((cartItem: any) => {
+          cartItem = this.calculateBilling(cartItem);
+        });
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+      } else localStorage.removeItem('cart');
+
+      this.cart.length = 0;
+      this.cart = [...cartItems];
+      this.cartSubject.next(this.cart);
+    }
+    setTimeout(() => {
+      loader.dismiss();
+    }, 1000);
+  }
+
   async getServices(
     serviceCatalogueId: string,
     mainCategoryId: string,
@@ -663,9 +695,14 @@ export class CartService {
     cartItems = cartItems.filter((item) => {
       return item.id !== bookingId;
     });
-    cartItems.push(data);
+    cartItems = [...cartItems, data];
+    cartItems.map((cartItem: any) => {
+      cartItem = this.calculateBilling(cartItem);
+    });
     localStorage.setItem('cart', JSON.stringify(cartItems));
-    console.log('done');
+    this.cart.length = 0;
+    this.cart = [...cartItems];
+    this.cartSubject.next(this.cart);
   }
 
   async incrementQuantity(
@@ -774,9 +811,14 @@ export class CartService {
     cartItems = cartItems.filter((item) => {
       return item.id !== bookingId;
     });
-    cartItems.push(data);
+    cartItems = [...cartItems, data];
+    cartItems.map((cartItem: any) => {
+      cartItem = this.calculateBilling(cartItem);
+    });
     localStorage.setItem('cart', JSON.stringify(cartItems));
-    console.log('done');
+    this.cart.length = 0;
+    this.cart = [...cartItems];
+    this.cartSubject.next(this.cart);
   }
 
   async decrementQuantity(

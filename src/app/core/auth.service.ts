@@ -203,6 +203,10 @@ export class AuthService {
           return { ...address.data(), id: address.id };
         });
         this.dataProvider.firstTimeLogin = false;
+        localStorage.setItem(
+          'firstTimeLogin',
+          JSON.stringify({ firstTimeLogin: false })
+        );
         this.router.navigate(['/authorized/home']);
         // if (addresses.length > 0) {
         // } else {
@@ -278,6 +282,10 @@ export class AuthService {
         'user',
         JSON.stringify(this.dataProvider.currentUser)
       );
+      localStorage.setItem(
+        'firstTimeLogin',
+        JSON.stringify({ firstTimeLogin: true })
+      );
       loader.dismiss();
       this.alertify.presentToast('Welcome back,' + userDoc[0]['name'] + ' 😄');
       return;
@@ -302,6 +310,10 @@ export class AuthService {
         localStorage.setItem(
           'user',
           JSON.stringify(this.dataProvider.currentUser)
+        );
+        localStorage.setItem(
+          'firstTimeLogin',
+          JSON.stringify({ firstTimeLogin: true })
         );
       }
     );
