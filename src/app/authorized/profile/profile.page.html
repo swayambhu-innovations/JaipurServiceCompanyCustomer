@@ -29,129 +29,120 @@
 
     <div id="mobile-view" class="nav">
       <div class="nameimage">
-        <img
-          src="https://api.dicebear.com/6.x/initials/svg?seed"
-          class="profile-pic"
-          *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined || !this.dataProvider.currentUser"
-        />
-        <img
-          src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
-          class="profile-pic"
-          *ngIf="this.dataProvider.currentUser && this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
-        />
-        <!-- Navigating buttons -->
-        <h4
-          style="
-            text-align: center;
-            color: linear-gradient(
-              100.99deg,
-              #014868 0%,
-              #001e42 45.1%,
-              #451338 98%
-            );
-          "
-        >
-          {{this.dataProvider.currentUser?.userData?.name}}
-        </h4>
-      </div>
-      <div class="buttons">
-        <ion-button
-          expand="block"
-          fill="clear"
-          type="outline"
-          class="side-buttons"
-          (click)="editProfile()"
-        >
-          <div
-            [ngClass]="dataProvider.currentUser ? '':'disabled'"
-            class="w-100 d-flex align-items-center"
-          >
-            <img
-              style="padding: auto"
-              class="icons"
-              src="../../assets/User_2.svg"
-              alt=""
-            />
-            <p>
-              Edit Profile
-              <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
-                >Log In</span
-              >
-            </p>
+      <img
+      src="../../../assets/images/logo.png"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser?.userData?.photoUrl === undefined || !this.dataProvider.currentUser"
+    />
+    <img
+      src="{{this.dataProvider.currentUser?.userData?.photoUrl}}"
+      class="profile-pic"
+      *ngIf="this.dataProvider.currentUser && this.dataProvider.currentUser?.userData?.photoUrl !== undefined"
+    />
+      <!-- Navigating buttons -->
+      <h4 style="text-align: center; color:linear-gradient(100.99deg, #014868 0%, #001E42 45.1%, #451338 98%);
+      ">
+              {{this.dataProvider.currentUser?.userData?.name}}
+            </h4>
           </div>
-        </ion-button>
-        <ion-button
-          expand="block"
-          fill="clear"
-          class="side-buttons"
-          (click)="openBooking()"
+          <div class="buttons">
+      <ion-button
+        expand="block"
+        fill="clear"
+        type="outline"
+        class="side-buttons"
+        (click)="editProfile()"
+      >
+        <div
+          [ngClass]="dataProvider.currentUser ? '':'disabled'"
+          class="w-100 d-flex align-items-center"
         >
-          <div
-            [ngClass]="dataProvider.currentUser ? '':'disabled'"
-            class="w-100 d-flex align-items-center"
-          >
-            <img
-              style="padding: auto"
-              class="icons"
-              src="../../assets/Door to Door Delivery.svg"
-              alt=""
-            />
-            <p>
-              My Bookings
-              <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
-                >Log In</span
-              >
-            </p>
-          </div>
-        </ion-button>
-        <ion-button
-          expand="block"
-          fill="clear"
-          class="side-buttons"
-          (click)="openAddress()"
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/User_2.svg"
+            alt=""
+          />
+          <p>
+            Edit Profile
+            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+              >Log In</span
+            >
+          </p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        (click)="openBooking()"
+      >
+        <div
+          [ngClass]="dataProvider.currentUser ? '':'disabled'"
+          class="w-100 d-flex align-items-center"
         >
-          <div
-            [ngClass]="dataProvider.currentUser ? '':'disabled'"
-            class="w-100 d-flex align-items-center"
-          >
-            <img
-              style="padding: auto"
-              class="icons"
-              src="../../assets/location.svg"
-              alt=""
-            />
-            <p>
-              Address Book
-              <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
-                >Log In</span
-              >
-            </p>
-          </div>
-        </ion-button>
-        <ion-button
-          expand="block"
-          fill="clear"
-          class="side-buttons"
-          (click)="openNotification()"
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/Door to Door Delivery.svg"
+            alt=""
+          />
+          <p>
+            My Bookings
+            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+              >Log In</span
+            >
+          </p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        (click)="openAddress()"
+      >
+        <div
+          [ngClass]="dataProvider.currentUser ? '':'disabled'"
+          class="w-100 d-flex align-items-center"
         >
-          <div
-            [ngClass]="dataProvider.currentUser ? '':'disabled'"
-            class="w-100 d-flex align-items-center"
-          >
-            <img
-              style="padding: auto"
-              class="icons"
-              src="../../assets/Group 1000002396.svg"
-              alt=""
-            />
-            <p>
-              Notifications
-              <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
-                >Log In</span
-              >
-            </p>
-          </div>
-        </ion-button>
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/location.svg"
+            alt=""
+          />
+          <p>
+            Address Book
+            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+              >Log In</span
+            >
+          </p>
+        </div>
+      </ion-button>
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="side-buttons"
+        (click)="openNotification()"
+      >
+        <div
+          [ngClass]="dataProvider.currentUser ? '':'disabled'"
+          class="w-100 d-flex align-items-center"
+        >
+          <img
+            style="padding: auto"
+            class="icons"
+            src="../../assets/Group 1000002396.svg"
+            alt=""
+          />
+          <p>
+            Notifications
+            <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
+              >Log In</span
+            >
+          </p>
+        </div>
+      </ion-button>
 
         <a
           style="text-decoration: none"

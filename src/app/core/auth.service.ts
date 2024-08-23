@@ -38,7 +38,7 @@ export class AuthService {
   testOtp = '654321';
   isProfileUpdated: boolean = false;
   loginCheckTimeout: any;
-  isLoginPage=false;
+  isLoginPage = false;
   constructor(
     private profileService: ProfileService,
     private router: Router,
@@ -49,7 +49,7 @@ export class AuthService {
     private loadingController: LoadingController,
     private addressService: AddressService,
     private cartService: CartService,
-    private modalController: ModalController,
+    private modalController: ModalController
   ) {
     this.onAuth();
   }
@@ -83,58 +83,58 @@ export class AuthService {
       if (!status.connected) {
         this.router.navigate(['/no-internet']);
       } else if (!this.isProfileUpdated) {
-      //  await this.scheduleLoginPrompt();
+        //  await this.scheduleLoginPrompt();
         this.router.navigate(['../../authorized/home']);
       }
       // if (!this.dataProvider.currentUser) {
-        else if (!this.isProfileUpdated) {
-          this.scheduleLoginPrompt();
-        }
+      else if (!this.isProfileUpdated) {
+        this.scheduleLoginPrompt();
+      }
       // }
-    console.log("step1")
+      console.log('step1');
       // this.scheduleLoginPrompt();
     }
   }
-  
-   scheduleLoginPrompt() {
+
+  scheduleLoginPrompt() {
     if (this.loginCheckTimeout) {
       clearTimeout(this.loginCheckTimeout);
     }
-    
-    console.log("step2",this.dataProvider.currentUser)
-    
-        this.loginCheckTimeout = setTimeout(async () => {
-          if(!this.dataProvider.currentUser && !this.isLoginPage){
-          await this.openLoginModal();
-          }
-        }, 60000); // 2 minutes
-      }
-    
-      private async openLoginModal() {
-        const modal = await this.modalController.create({
-          component: LoginPopupComponent, 
-          componentProps: { isOpen: true },
-          initialBreakpoint: 0,
-          breakpoints: [0, 0],
-          // backdropDismiss: false,
-          backdropDismiss: true,
-        });
-        await modal.present();
 
-            const { data } = await modal.onWillDismiss();
-        
-            if (data && data.loggedIn) {
-              this.router.navigate(['../login']); 
-            }
-          }
-        
-          cancelLoginPrompt() {
-            if (this.loginCheckTimeout) {
-              clearTimeout(this.loginCheckTimeout);
-              this.loginCheckTimeout = null;
-              console.log('Login prompt canceled.');
-            }
-          }
+    console.log('step2', this.dataProvider.currentUser);
+
+    this.loginCheckTimeout = setTimeout(async () => {
+      if (!this.dataProvider.currentUser && !this.isLoginPage) {
+        await this.openLoginModal();
+      }
+    }, 60000); // 2 minutes
+  }
+
+  private async openLoginModal() {
+    const modal = await this.modalController.create({
+      component: LoginPopupComponent,
+      componentProps: { isOpen: true },
+      initialBreakpoint: 0,
+      breakpoints: [0, 0],
+      // backdropDismiss: false,
+      backdropDismiss: true,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data && data.loggedIn) {
+      this.router.navigate(['../login']);
+    }
+  }
+
+  cancelLoginPrompt() {
+    if (this.loginCheckTimeout) {
+      clearTimeout(this.loginCheckTimeout);
+      this.loginCheckTimeout = null;
+      console.log('Login prompt canceled.');
+    }
+  }
 
   updateUserDate(redirect?: boolean) {
     this.dataProvider.checkingAuth = true;
@@ -168,6 +168,10 @@ export class AuthService {
           return { ...address.data(), id: address.id };
         });
         this.dataProvider.firstTimeLogin = false;
+        localStorage.setItem(
+          'firstTimeLogin',
+          JSON.stringify({ firstTimeLogin: false })
+        );
         this.router.navigate(['/authorized/home']);
         // if (addresses.length > 0) {
         // } else {
@@ -203,14 +207,13 @@ export class AuthService {
   }
 
   async loginWithPhoneNumber(phone: string, appVerifier: ApplicationVerifier) {
-
     if (phone === this.testPhoneNumber) {
       // login for test phone number
       return Promise.resolve({
         user: { phoneNumber: this.testPhoneNumber } as User,
       });
     }
-    
+
     if (phone.length != 10) {
       return Promise.reject(new Error('Invalid Phone Number'));
     }
@@ -244,6 +247,10 @@ export class AuthService {
         'user',
         JSON.stringify(this.dataProvider.currentUser)
       );
+      localStorage.setItem(
+        'firstTimeLogin',
+        JSON.stringify({ firstTimeLogin: true })
+      );
       loader.dismiss();
       this.alertify.presentToast('Welcome back,' + userDoc[0]['name'] + ' 😄');
       return;
@@ -269,6 +276,10 @@ export class AuthService {
           'user',
           JSON.stringify(this.dataProvider.currentUser)
         );
+        localStorage.setItem(
+          'firstTimeLogin',
+          JSON.stringify({ firstTimeLogin: true })
+        );
       }
     );
     loader.dismiss();
@@ -278,7 +289,3 @@ export class AuthService {
     return;
   }
 }
-
-
-
-
