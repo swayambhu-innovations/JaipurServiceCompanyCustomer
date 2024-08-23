@@ -31,7 +31,9 @@ export class LoginPopupComponent  implements OnInit {
     }
   
     login() {
-      this.modalCtrl.dismiss({ loggedIn: true });
+     
+      this.router.navigate(['/unauthorized/jsc-logo']);
+       this.modalCtrl.dismiss({ loggedIn: true });
     }
 
 }

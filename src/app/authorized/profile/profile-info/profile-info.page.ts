@@ -15,6 +15,7 @@ import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.
 import * as moment from 'moment';
 import { AddressService } from '../../db_services/address.service';
 import { CartService } from '../../cart/cart.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.page.html',
@@ -46,6 +47,7 @@ export class ProfileInfoPage implements OnInit {
     public cartService: CartService,
     private activeRoute: ActivatedRoute,
     public auth: AuthService,
+    private location: Location,
     private alertify: AlertsAndNotificationsService
   ) {}
 
@@ -53,6 +55,7 @@ export class ProfileInfoPage implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]],
     // dateofbirth: [''],
     gender: [''],
+    phone:['',[Validators.required,Validators.maxLength(10)]]
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -68,7 +71,6 @@ export class ProfileInfoPage implements OnInit {
   onBlur() {
     this.isFocused = false;
   }
-
   async ngOnInit() {
     this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
