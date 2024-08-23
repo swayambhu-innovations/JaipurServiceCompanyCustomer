@@ -19,6 +19,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { DataProviderService } from './data-provider.service';
 import { AlertsAndNotificationsService } from '../alerts-and-notifications.service';
 import { LoadingController, ModalController } from '@ionic/angular';
@@ -29,6 +30,7 @@ import { from, map } from 'rxjs';
 import { AddressService } from '../authorized/db_services/address.service';
 import { CartService } from '../authorized/cart/cart.service';
 import { LoginPopupComponent } from '../widgets/login-popup/login-popup.component';
+import { LoginPopupDComponent } from '../widgets/login-popup-d/login-popup-d.component';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +41,9 @@ export class AuthService {
   isProfileUpdated: boolean = false;
   loginCheckTimeout: any;
   isLoginPage = false;
+  deviceInfo: any;
+  isWebModalOpen: boolean = false;
+  mobileView: boolean = true;
   constructor(
     private profileService: ProfileService,
     private router: Router,
@@ -49,6 +54,7 @@ export class AuthService {
     private loadingController: LoadingController,
     private addressService: AddressService,
     private cartService: CartService,
+    private deviceService: DeviceDetectorService,
     private modalController: ModalController
   ) {
     this.onAuth();
@@ -97,6 +103,14 @@ export class AuthService {
   }
 
   scheduleLoginPrompt() {
+    this.deviceInfo = this.deviceService.getDeviceInfo();
+    if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
+      this.isWebModalOpen = true;
+      this.mobileView = false;
+    } else {
+      this.isWebModalOpen = false;
+      this.mobileView = true;
+    }
     if (this.loginCheckTimeout) {
       clearTimeout(this.loginCheckTimeout);
     }
@@ -111,22 +125,43 @@ export class AuthService {
   }
 
   private async openLoginModal() {
-    const modal = await this.modalController.create({
-      component: LoginPopupComponent,
-      componentProps: { isOpen: true },
-      initialBreakpoint: 0,
-      breakpoints: [0, 0],
-      // backdropDismiss: false,
-      backdropDismiss: true,
-    });
-    await modal.present();
+    if (this.mobileView) {
+      const modal = await this.modalController.create({
+        component: LoginPopupComponent,
+        componentProps: { isOpen: true },
+        initialBreakpoint: 0,
+        breakpoints: [0, 0],
+        // backdropDismiss: false,
+        backdropDismiss: true,
+      });
+      await modal.present();
 
-    const { data } = await modal.onWillDismiss();
+      const { data } = await modal.onWillDismiss();
 
-    if (data && data.loggedIn) {
-      this.router.navigate(['../login']);
+      if (data && data.loggedIn) {
+        this.router.navigate(['../login']);
+      }
     }
+    // else if (this.isWebModalOpen) {
+    //   const modal = await this.modalController.create({
+    //     component: LoginPopupDComponent,
+    //     componentProps: { isOpen: false },
+    //     backdropDismiss: false,
+    //     // initialBreakpoint: 0,
+    //     // breakpoints: [0, 0],
+        
+        
+    //     // cssClass: 'desktop-login-modal-invisible', 
+    //   });
+    //   await modal.present();
+
+    //   const { data } = await modal.onWillDismiss();
+    //   if (data && data.loggedIn) {
+    //     this.router.navigate(['../login']);
+    //   }
+    // }
   }
+  
 
   cancelLoginPrompt() {
     if (this.loginCheckTimeout) {

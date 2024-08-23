@@ -1,10 +1,10 @@
-<ng-container id="mobile-view">
+<ng-container id="mobile-view" class="con">
   <app-header-with-back [title]="matchingSubCategory?.name?? 'Sub Categories'"
     [showNotificationIcon]="false" [showHomeIcon]="true"></app-header-with-back>
 
-  <ion-content>
+  <ion-content >
     <ion-list>
-      <ion-item *ngFor="let result of services" class="search-item" style="margin-bottom: 10px"
+      <ion-item *ngFor="let result of services" class="search-item" style="margin-bottom: 15px"
         routerLink="../../../service-detail/{{mainCatId}}/{{subCatId}}/{{result.id}}">
         <div class="item-img">
           <img class="search-image" [src]="result.image || 'https://placehold.co/70x70'" alt="" />
