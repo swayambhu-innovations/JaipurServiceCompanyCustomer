@@ -585,13 +585,18 @@ ion-content {
 
   background: white;
 
-  padding: 10px 10px;
+  padding: 10px 15px;
   border-bottom: 2px solid #e6e6e6;
 
   .detail {
     display: flex;
-    justify-content: space-around;
-    gap: 1rem;
+    justify-content: space-between;
+    .textimage{
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+    }
+   
     img {
       width: 90px;
       height: 90px;
@@ -601,10 +606,13 @@ ion-content {
     }
     .deleteicon {
       span {
+        align-items: end;
         img {
-          height: 40px;
-          width: 40px;
+        
+          height: 30px;
+          width: 30px;
           background: none;
+          justify-items: right;
         }
       }
     }
