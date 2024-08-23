@@ -93,7 +93,7 @@ export class OtpPage implements OnInit {
       //   .finally(() => {
       //     loader.dismiss();
       //   });
-     
+
       const { isSignUpComplete, nextStep } = await confirmSignUp({
         username: `+91${this.dataProvider.userMobile}`,
         confirmationCode: this.otp,
@@ -112,6 +112,10 @@ export class OtpPage implements OnInit {
                   this.dataProvider.checkingAuth = true;
                   this.dataProvider.loggedIn = true;
                   this.dataProvider.firstTimeLogin = true;
+                  localStorage.setItem(
+                    'firstTimeLogin',
+                    JSON.stringify({ firstTimeLogin: true })
+                  );
                   this.router.navigate(['authorized/profile/profile-info']);
                 });
           })
@@ -168,8 +172,6 @@ export class OtpPage implements OnInit {
     }, 1000);
   }
 }
-
-
 
 // import { Component, OnInit, ViewChild } from '@angular/core';
 // import { Router } from '@angular/router';
@@ -245,7 +247,6 @@ export class OtpPage implements OnInit {
 // console.log('Entered OTP:', this.otp);
 // console.log('Is Test User:', isTestUser);
 // console.log('Is Test OTP:', isTestOtp);
-
 
 //       if (isTestUser && isTestOtp) {
 //         console.log('Test user and OTP detected, bypassing real OTP verification...');

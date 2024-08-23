@@ -76,7 +76,7 @@ export class ProfileInfoPage implements OnInit {
       this.userData = response?.userData ?? '';
     });
 
-    if (!this.userData?.uid) {
+    if (this.dataProvider.currentUser === undefined) {
       this.dataProvider.checkingAuth = false;
       this.dataProvider.loggedIn = false;
       this.route.navigate(['unauthorized/login']);
@@ -88,17 +88,6 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-        if (this.dataProvider.firstTimeLogin)
-          await this.auth.updateUserDate(false);
-        // if(this.userData.dateofbirth){
-        //   const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
-        //   this.userProfileForm.controls.dateofbirth.setValue(momentDate)
-        // }
-        // else{
-        //   this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
-        // }
-      } else {
-        // this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
       }
     });
   }
@@ -130,13 +119,6 @@ export class ProfileInfoPage implements OnInit {
   async nextFunction() {
     let date = '';
     this.isSubmitForm = true;
-    // if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
-    //   date = this.userProfileForm.controls.dateofbirth.value.split('-');
-    //   date = date[2] + '/' + date[1] + '/' + date[0];
-    // } else {
-    //   date = "DD/MM/YYYY";
-    // }
-
     if (this.userProfileForm.controls.name.value == '') {
       return;
     }
@@ -197,7 +179,21 @@ export class ProfileInfoPage implements OnInit {
     this.auth.isProfileUpdated = false;
   }
 
-  ionViewDidEnter() {}
+  async ionViewDidEnter() {
+    this.dataProvider.isPageLoaded$.next('loaded');
+    this.userData = this.dataProvider.currentUser?.userData;
+    this.dataProvider.currentUser$.subscribe((response) => {
+      this.userData = response?.userData ?? '';
+    });
+      if (this.userData['name']) {
+        this.name = this.userData['name'];
+        this.userProfileForm.patchValue(this.userData);
+        this.selectedGender = this.userData.gender;
+      }
+    let userExist = JSON.parse(localStorage.getItem('firstTimeLogin')!);
+    if (userExist && userExist['firstTimeLogin'])
+      await this.auth.updateUserDate(false);
+  }
 
   setPhoto(event: any) {
     this.photoUrl = event.target.files[0];
