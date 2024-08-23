@@ -8,18 +8,20 @@
   <ion-content *ngIf="!selectedBooking && cart.length > 0">
     <div class="orderCard" *ngFor="let booking of cart">
       <div class="detail">
-        <img [src]="booking.subCategory.image" alt="" />
-        <div class="main">
-          <p style="font-size: 22px; color: #181f29; font-weight: 700">
-            {{booking.subCategory.name}}
-          </p>
-          <p style="font-size: 19px; color: #7e8083; font-weight: 700">
-            {{booking?.services?.length}} Services
-          </p>
-          <span style="font-size: 19px; color: #579540; font-weight: 700"
-            >{{booking.billing.grandTotal | currency:'INR' : 'symbol'
-            :'1.0-0'}}</span
-          >
+        <div class="textimage">
+          <img [src]="booking.subCategory.image" alt="" />
+          <div class="main">
+            <p style="font-size: 18px; color: #181f29; font-weight: 700">
+              {{booking.subCategory.name}}
+            </p>
+            <p style="font-size: 17px; color: #7e8083; font-weight: 700">
+              {{booking?.services?.length}} Services
+            </p>
+            <span style="font-size: 17px; color: #579540; font-weight: 700"
+              >{{booking.billing.grandTotal | currency:'INR' : 'symbol'
+              :'1.0-0'}}</span
+            >
+          </div>
         </div>
         <div (click)="removeBooking(booking)" class="deleteicon">
           <span style="align-items: right"
@@ -27,6 +29,8 @@
           /></span>
         </div>
       </div>
+     
+    
 
       <!-- <hr class="dashed-line"> -->
 
