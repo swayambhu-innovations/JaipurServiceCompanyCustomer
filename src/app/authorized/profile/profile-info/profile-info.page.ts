@@ -182,14 +182,11 @@ export class ProfileInfoPage implements OnInit {
   async ionViewDidEnter() {
     this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
-    this.dataProvider.currentUser$.subscribe((response) => {
-      this.userData = response?.userData ?? '';
-    });
-      if (this.userData['name']) {
-        this.name = this.userData['name'];
-        this.userProfileForm.patchValue(this.userData);
-        this.selectedGender = this.userData.gender;
-      }
+    if (this.userData['name']) {
+      this.name = this.userData['name'];
+      this.userProfileForm.patchValue(this.userData);
+      this.selectedGender = this.userData.gender;
+    }
     let userExist = JSON.parse(localStorage.getItem('firstTimeLogin')!);
     if (userExist && userExist['firstTimeLogin'])
       await this.auth.updateUserDate(false);
