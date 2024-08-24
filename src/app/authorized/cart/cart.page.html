@@ -456,7 +456,7 @@
         </div>
         <!-- when coupon is not applied -->
         <ng-container *ngIf="couponCount >0">
-          <div (click)="onOffersClick(modal2)" class="apply-coupon">
+          <div (click)="onOffersClick(modal2Desktop)" class="apply-coupon">
             <div class="coupon-items">
               <img src="../../../assets/images/Ticket Discount.png" alt="" />
               <span class="spacer"></span>
@@ -654,6 +654,7 @@
   </div>
 </div>
 
+
 <ion-modal
   #modal2
   trigger="open-modal"
@@ -684,6 +685,41 @@
         </div>
       </div>
       <button class="select-address-button" (click)="modal2.dismiss()">
+        Okay, Got it
+      </button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal
+   #modal2Desktop
+  trigger="open-modal"
+  [isOpen]="modal2Desktop"
+  [keyboardClose]="false"
+  [showBackdrop]="false"
+  
+>
+  <ng-template>
+    <ion-content>
+      <div class="row" style="margin: 30px 10px">
+        <div class="col-9">
+          <h6>
+            Yay! You will receive up to {{ selectedCoupan.type === 'flat' ||
+            selectedCoupan.type === "fixed"?'₹' +selectedCoupan.value + " "+
+            selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
+            order
+          </h6>
+        </div>
+        <div class="col-3">
+          <img src="assets/discount-shapecoupan.png" alt="" />
+        </div>
+        <div class="col-12">
+          <p class="par-info">
+            '{{selectedCoupan.code}}' - applied succesfully
+          </p>
+        </div>
+      </div>
+      <button class="select-address-button" (click)="modal2Desktop.dismiss()">
         Okay, Got it
       </button>
     </ion-content>

@@ -760,6 +760,7 @@ ion-content {
   }
 }
 .par-info {
+  text-align: center;
   font-size: 12px;
   font-weight: 500;
   color: #6f767e;
@@ -776,5 +777,27 @@ ion-content {
         border-radius: 9px;
       }
     }
+  }
+}
+
+
+@media only screen and (min-width: 600px) {
+  ion-modal {
+    --width: 60%;
+    --height: 30%;
+    --border-radius: 16px ;
+
+  }
+
+  .row {
+    margin: 30px 10px;
+  }
+
+  h6 {
+    font-size: 20px;
+  }
+
+  .par-info {
+    font-size: 14px;
   }
 }
