@@ -34,7 +34,8 @@ import { FileInterceptorInterceptor } from './authorized/interceptors/file-inter
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
 // import { AppCheckService } from './app-check.service';
-import {Amplify} from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 
 const amplifyConfig = {
   aws_project_region: 'ap-south-1',
@@ -91,6 +92,7 @@ Amplify.configure(amplifyConfig);
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ScreenTrackingService,
     UserTrackingService,
+    SmsRetriever,
     PaymentService,
     DataProviderService,
     CartService,

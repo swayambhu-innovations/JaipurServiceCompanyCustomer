@@ -155,14 +155,9 @@ export class HomeHeaderComponent implements OnInit {
   }
 
   async setopen() {
-
-    if (this.dataProvider.currentUser)
-      this.router.navigate(['/authorized/select-address']);
-    else {
-      localStorage.removeItem('address');
-      let currentPosition = this.dataProvider.authLessAddress.geometry.location;
-      this.router.navigate(['/fetch-address/gps-map', currentPosition]);
-    }
+    localStorage.removeItem('address');
+    let currentPosition = this.dataProvider.authLessAddress.geometry.location;
+    this.router.navigate(['/fetch-address/gps-map', currentPosition]);
   }
 
   onWillDismiss(event) {

@@ -55,7 +55,7 @@ export class ProfileInfoPage implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]],
     // dateofbirth: [''],
     gender: [''],
-    phone:['',[Validators.required,Validators.maxLength(10)]]
+    phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -185,6 +185,10 @@ export class ProfileInfoPage implements OnInit {
     this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
     if (this.userData['name']) {
+      this.userData['phoneNumber'] = this.userData['phoneNumber']?.substring(
+        3,
+        14
+      );
       this.name = this.userData['name'];
       this.userProfileForm.patchValue(this.userData);
       this.selectedGender = this.userData.gender;
