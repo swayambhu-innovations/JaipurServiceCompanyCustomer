@@ -18,6 +18,7 @@ import { AnalyticsService } from './analyticsServices/analytics.service';
 import { DataProviderService } from './core/data-provider.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit {
     private AnalyticsService: AnalyticsService,
     private dataProvider: DataProviderService,
     private deviceService: DeviceDetectorService
+    
   ) {
     // this.setUser()
     // this.setProperty()
