@@ -113,7 +113,7 @@ export class AuthService {
       if (!this.dataProvider.currentUser && !this.isLoginPage) {
         await this.openLoginModal();
       }
-    }, 60000); // 2 minutes
+    }, 600); // 2 minutes
   }
 
   private async openLoginModal() {
@@ -134,24 +134,28 @@ export class AuthService {
         this.router.navigate(['../login']);
       }
     }
-    // else if (this.isWebModalOpen) {
-    //   const modal = await this.modalController.create({
-    //     component: LoginPopupDComponent,
-    //     componentProps: { isOpen: false },
-    //     backdropDismiss: false,
-    //     // initialBreakpoint: 0,
-    //     // breakpoints: [0, 0],
+    else if (this.isWebModalOpen) {
+      const modal1 = await this.modalController.create({
+        component: LoginPopupDComponent,
+        componentProps: { isOpen: true },
+        backdropDismiss: true,
+        cssClass: 'desktop-login-modal-invisible , no-backdrop-modal',
+      
+      });
+      await modal1.present();
+   
 
-    //     // cssClass: 'desktop-login-modal-invisible',
-    //   });
-    //   await modal.present();
-
-    //   const { data } = await modal.onWillDismiss();
-    //   if (data && data.loggedIn) {
-    //     this.router.navigate(['../login']);
-    //   }
-    // }
+      // const { data } = await modal1.onWillDismiss();
+      // if (data && data.loggedIn) {
+      //   this.router.navigate(['../login']);
+      // }
+    }
+    const backdrop = document.querySelector('ion-backdrop');
+    if (backdrop) {
+      backdrop.remove();
+    }
   }
+  
 
   cancelLoginPrompt() {
     if (this.loginCheckTimeout) {
