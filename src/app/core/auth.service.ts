@@ -96,6 +96,12 @@ export class AuthService {
     }
   }
 
+  async checkVersion() {
+    return await getDoc(
+      doc(this.firestore, 'customer-settings', 'jsc-version')
+    );
+  }
+
   scheduleLoginPrompt() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
@@ -133,17 +139,14 @@ export class AuthService {
       if (data && data.loggedIn) {
         this.router.navigate(['../login']);
       }
-    }
-    else if (this.isWebModalOpen) {
+    } else if (this.isWebModalOpen) {
       const modal1 = await this.modalController.create({
         component: LoginPopupDComponent,
         componentProps: { isOpen: true },
         backdropDismiss: true,
         cssClass: 'desktop-login-modal-invisible , no-backdrop-modal',
-      
       });
       await modal1.present();
-   
 
       // const { data } = await modal1.onWillDismiss();
       // if (data && data.loggedIn) {
@@ -155,7 +158,6 @@ export class AuthService {
       backdrop.remove();
     }
   }
-  
 
   cancelLoginPrompt() {
     if (this.loginCheckTimeout) {

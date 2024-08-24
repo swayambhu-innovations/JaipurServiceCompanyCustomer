@@ -40,11 +40,14 @@
         (input)="setPhoto($event)"
         #profilePicker1
       />
+      <div class="phnNo">
+        {{userProfileForm.controls['phoneNumber'].value}}
+      </div>
       <div class="input mt-3">
         <ion-input
           class="inputs"
           formControlName="name"
-          label="Full Name"
+          label="Your Name"
           label-placement="floating"
           fill="outline"
           required
@@ -98,7 +101,7 @@
           </div>
         </div> -->
 
-        <ion-input
+        <!-- <ion-input
           class="inputs2"
           formControlName="phoneNumber"
           label="Mobile Number"
@@ -108,7 +111,7 @@
           label-placement="floating"
           fill="outline"
           required
-        ></ion-input>
+        ></ion-input> -->
       </div>
     </form>
     <!-- Cancel and Save buttons -->
