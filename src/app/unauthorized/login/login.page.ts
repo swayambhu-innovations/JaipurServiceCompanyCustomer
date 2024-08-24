@@ -1,3 +1,4 @@
+import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
@@ -7,7 +8,6 @@ import { AlertsAndNotificationsService } from '../../alerts-and-notifications.se
 import { LoadingController } from '@ionic/angular';
 import { signUp } from 'aws-amplify/auth';
 import { confirmSignUp, deleteUser, signOut, signIn } from 'aws-amplify/auth';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -23,14 +23,15 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     public dataProvider: DataProviderService,
     private alertify: AlertsAndNotificationsService,
-    private loaderService: LoadingController
+    private loaderService: LoadingController,
+    private smsRetriever: SmsRetriever
   ) {
     if (dataProvider.currentUser?.userData == undefined)
       dataProvider.checkingAuth = false;
   }
 
   ngOnInit() {
-    this.authService.isLoginPage=true
+    this.authService.isLoginPage = true;
   }
 
   async logout() {

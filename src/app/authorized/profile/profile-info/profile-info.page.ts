@@ -29,6 +29,7 @@ export class ProfileInfoPage implements OnInit {
   inputValue: string = '';
   updateText: string = 'Update';
   isSubmitForm: boolean = false;
+  inputDisabled: boolean = true;
   isFromProfile: boolean = false;
   selectedGender: string = '';
   isGenderSelected: boolean = false;
@@ -55,7 +56,7 @@ export class ProfileInfoPage implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]],
     // dateofbirth: [''],
     gender: [''],
-    phone:['',[Validators.required,Validators.maxLength(10)]]
+    phoneNumber: ['', [Validators.required, Validators.maxLength(10)]],
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -179,12 +180,16 @@ export class ProfileInfoPage implements OnInit {
   }
   ionViewDidLeave() {
     this.auth.isProfileUpdated = false;
+    this.userData = null;
   }
 
   async ionViewDidEnter() {
-    this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
+    this.dataProvider.isPageLoaded$.next('loaded');
     if (this.userData['name']) {
+      this.userData['phoneNumber'] = this.dataProvider.currentUser?.userData[
+        'phoneNumber'
+      ]?.substring(3, 14);
       this.name = this.userData['name'];
       this.userProfileForm.patchValue(this.userData);
       this.selectedGender = this.userData.gender;
@@ -192,6 +197,10 @@ export class ProfileInfoPage implements OnInit {
     let userExist = JSON.parse(localStorage.getItem('firstTimeLogin')!);
     if (userExist && userExist['firstTimeLogin'])
       await this.auth.updateUserDate(false);
+  }
+
+  closeProfile() {
+    this.route.navigate(['/authorized/profile']);
   }
 
   setPhoto(event: any) {

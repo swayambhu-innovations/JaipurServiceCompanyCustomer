@@ -16,6 +16,8 @@ import { Network } from '@capacitor/network';
 import { LocationService } from './authorized/new-address/services/location.service';
 import { AnalyticsService } from './analyticsServices/analytics.service';
 import { DataProviderService } from './core/data-provider.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 
 @Component({
   selector: 'app-root',
@@ -32,12 +34,15 @@ export class AppComponent implements OnInit {
     private locationService: LocationService,
     private router: Router,
     private AnalyticsService: AnalyticsService,
-    private dataProvider: DataProviderService
+    private dataProvider: DataProviderService,
+    private deviceService: DeviceDetectorService
+    
   ) {
     // this.setUser()
     // this.setProperty()
     // this.logEvent()
     // this.toggleDataCollection()
+    this.dataProvider.deviceInfo=this.deviceService.getDeviceInfo();
 
     this.locationService.initLocation();
     this.createCasheFolder();

@@ -43,6 +43,7 @@ export class CartPage implements OnInit {
   selectedCoupan: Coupon;
   // coupons array
   isOpenPopu: boolean = false;
+  modal2Desktop: boolean = false;
   discounts: any[] = [];
   fixedCharges: any = [];
   cart: any[] = [];
@@ -144,7 +145,18 @@ export class CartPage implements OnInit {
             this.selectedBooking?.id!
           );
         } else if (coupan) {
-          this.isOpenPopu = true;
+
+          
+          if (this.dataProvider.deviceInfo.deviceType == 'desktop'){
+            this.isOpenPopu = false;
+            this.modal2Desktop = true;
+          } else {
+            console.log('mobile');
+            this.isOpenPopu = true;
+            this.modal2Desktop = false;
+          }
+
+
           modal2.setCurrentBreakpoint(0.3);
           modal2.present();
           this.selectedCoupan = coupan;

@@ -11,13 +11,13 @@
         <div class="textimage">
           <img [src]="booking.subCategory.image" alt="" />
           <div class="main">
-            <p style="font-size: 18px; color: #181f29; font-weight: 700">
+            <p style="font-size: 16px; color: #181f29; font-weight: 600">
               {{booking.subCategory.name}}
             </p>
-            <p style="font-size: 17px; color: #7e8083; font-weight: 700">
+            <p style="font-size: 14px; color: #7e8083; font-weight: 700">
               {{booking?.services?.length}} Services
             </p>
-            <span style="font-size: 17px; color: #579540; font-weight: 700"
+            <span style="font-size: 14px; color: #579540; font-weight: 700"
               >{{booking.billing.grandTotal | currency:'INR' : 'symbol'
               :'1.0-0'}}</span
             >
@@ -456,7 +456,7 @@
         </div>
         <!-- when coupon is not applied -->
         <ng-container *ngIf="couponCount >0">
-          <div (click)="onOffersClick(modal2)" class="apply-coupon">
+          <div (click)="onOffersClick(modal2Desktop)" class="apply-coupon">
             <div class="coupon-items">
               <img src="../../../assets/images/Ticket Discount.png" alt="" />
               <span class="spacer"></span>
@@ -603,7 +603,7 @@
           *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB <= 0"
           class="danger"
         >
-          <p>Your Min. Cart Total should be ₹ {{minPriceFromDB}}</p>
+          <p style="color: #5e0080;">Your Min. Cart Total should be ₹ {{minPriceFromDB}}</p>
           <p>
             Add ₹ {{minPriceFromDB - selectedBooking.billing.grandTotal}} more
             to Checkout
@@ -654,6 +654,7 @@
   </div>
 </div>
 
+
 <ion-modal
   #modal2
   trigger="open-modal"
@@ -684,6 +685,41 @@
         </div>
       </div>
       <button class="select-address-button" (click)="modal2.dismiss()">
+        Okay, Got it
+      </button>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal
+   #modal2Desktop
+  trigger="open-modal"
+  [isOpen]="modal2Desktop"
+  [keyboardClose]="false"
+  [showBackdrop]="false"
+  
+>
+  <ng-template>
+    <ion-content>
+      <div class="row" style="margin: 30px 10px">
+        <div class="col-9">
+          <h6>
+            Yay! You will receive up to {{ selectedCoupan.type === 'flat' ||
+            selectedCoupan.type === "fixed"?'₹' +selectedCoupan.value + " "+
+            selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
+            order
+          </h6>
+        </div>
+        <div class="col-3">
+          <img src="assets/discount-shapecoupan.png" alt="" />
+        </div>
+        <div class="col-12">
+          <p class="par-info">
+            '{{selectedCoupan.code}}' - applied succesfully
+          </p>
+        </div>
+      </div>
+      <button class="select-address-button" (click)="modal2Desktop.dismiss()">
         Okay, Got it
       </button>
     </ion-content>

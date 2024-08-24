@@ -48,7 +48,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('swiperContainer1') swiperContainer1!: ElementRef;
   @ViewChild('swiperContainer2') swiperContainer2!: ElementRef;
   // @ViewChild(LoginPopupComponent) loginPopup!: LoginPopupComponent;
-  
+
   todayDate: number = Date.now();
   isNotServiceableModalOpen: boolean = false;
   utils: any;
@@ -97,8 +97,9 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     private deviceService: DeviceDetectorService,
     private modalController: ModalController,
     // private modalCtrl: ModalController
-    private authService:AuthService,
+    private authService: AuthService
   ) {
+    this.epicFunction();
     if (this.dataProvider.currentUser)
       this._notificationService
         .getCurrentUserNotification()
@@ -121,6 +122,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.mobileView) {
       //fetching mobile banners
+      console.log('mobile');
       this.homeService.showMobileBanner().then((show) => {
         this.bannerObject.showBanner = show.data()?.['show'];
         if (this.bannerObject.showBanner) {
@@ -189,8 +191,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
     } else {
       //fetching desktop banners
+      console.log('desktop');
       this.homeService.showDesktopBanner().then((show) => {
         this.desktopBannerObject.showBanner = show.data()?.['show'];
+        console.log(show);
         if (this.desktopBannerObject.showBanner) {
           this.homeService.showDesktopTop().then((top) => {
             this.desktopBannerObject.showTop = top.data()?.['show'];
@@ -267,11 +271,11 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
       this._cartService.fixedCharges = cartFixedCharges;
     });
-    this.epicFunction();
   }
 
-  epicFunction() {
+  async epicFunction() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
+    const done = await this.systeminfo();
   }
 
   async ngOnInit() {
@@ -689,7 +693,12 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
     if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isWebModalOpen = true;
       this.mobileView = false;
+      console.log('desktop');
+    } else {
+      this.isWebModalOpen = false;
+      this.mobileView = true;
     }
+    return true;
   }
 
   async openSubCategory(categoryId: any, itemsId: any) {
