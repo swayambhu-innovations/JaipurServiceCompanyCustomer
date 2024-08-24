@@ -1,0 +1,25 @@
+<ng-template>
+  <ion-content>
+    <div class="row" style="margin: 30px 10px">
+      <div class="col-9">
+        <h6>
+          Yay! You will receive up to {{ selectedCoupan.type === 'flat' ||
+          selectedCoupan.type === "fixed"?'₹' +selectedCoupan.value + " "+
+          selectedCoupan.type : selectedCoupan.value + ' %'}} cashback on this
+          order
+        </h6>
+      </div>
+      <div class="col-3">
+        <img src="assets/discount-shapecoupan.png" alt="" />
+      </div>
+      <div class="col-9">
+        <p class="par-info">
+          '{{selectedCoupan.code}}' - applied succesfully
+        </p>
+      </div>
+    </div>
+    <button class="select-address-button" (click)="modal2.dismiss()">
+      Okay, Got it
+    </button>
+  </ion-content>
+</ng-template>
