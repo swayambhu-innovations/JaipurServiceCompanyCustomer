@@ -7,6 +7,7 @@ import { HomeHeaderComponent } from './home-header/home-header.component';
 import { HeaderComponent } from './header/header.component';
 import { HeaderWithBackComponent } from './header-with-back/header-with-back.component';
 import { LoginPopupComponent } from './login-popup/login-popup.component';
+import { LoginPopupDComponent } from './login-popup-d/login-popup-d.component';
 
 const widgets = [
   Header1Component,
@@ -14,6 +15,7 @@ const widgets = [
   LoginPopupComponent,
   HomeHeaderComponent,
   HeaderComponent,
+  LoginPopupDComponent,
   HeaderWithBackComponent
 ]
 
@@ -22,6 +24,7 @@ const widgets = [
     Header1Component,
     RateComponent,
     HomeHeaderComponent,
+    LoginPopupDComponent,
     HeaderComponent,
     LoginPopupComponent,
     HeaderWithBackComponent

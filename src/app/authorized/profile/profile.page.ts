@@ -95,6 +95,7 @@ export class ProfilePage implements OnInit {
         this.dataProvider.checkingAuth = true;
         this.dataProvider.authLessAddress = undefined;
         localStorage.removeItem('address');
+        localStorage.removeItem('user');
         this.dataProvider.isSignUpUserID = '';
         this.router.navigate(['/fetch-address']);
       })

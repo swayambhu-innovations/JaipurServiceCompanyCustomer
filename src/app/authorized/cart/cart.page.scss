@@ -311,23 +311,29 @@ ion-content {
 }
 .select-address-button {
   margin-bottom: 20px;
+  background-color: #A8A8A8 !important;
 }
 
 .danger {
-  color: black;
-  background-color: rgb(197, 194, 194);
-  font-size: 16px !important;
-  font-family: "Lato", sans-serif;
-  font-weight: 600;
+  // color: black;
+  //background-color: rgb(197, 194, 194);
+  background-color: #f2ebf5;
+
+  // font-size: 16px !important;
+  // font-family: "Lato", sans-serif;
+  // font-weight: 600;
   margin: 10px 5%;
   width: 90%;
   text-align: center;
   border-radius: 10px;
   padding: 10px 20px;
 
-  p {
-    color: black !important;
-  }
+ p{
+  color: #5E0080;
+  font-size: 15px !important;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+ }
 }
 
 .btn-active {
@@ -499,98 +505,165 @@ ion-content {
 .header {
   margin: 20px;
 }
+// .orderCard {
+//   display: flex;
+//   flex-direction: column;
+//   background: white;
+//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+//   padding: 10px 14px;
+//   border-bottom: 2px solid #e6e6e6;
+//   margin-bottom: 9px;
+//   .detail {
+//     display: flex;
+//     //justify-content: space-between;
+//     justify-content: space-around;
+    
+//     img {
+//       width: 90px;
+//       height: 90px;
+//       object-fit: cover;
+//       border-radius: 10px;
+//       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+//     }
+//     // .categories {
+//     // display: flex;
+//     // flex-direction: column;
+//     .main {
+//       font-size: 18px;
+//       font-weight: 600;
+//       gap: 1rem;
+//     }
+//     .deleteicon {
+//       span {
+//         img {
+//           height: 40px;
+//           width: 40px;
+//           background: none;
+//           // justify-items: right;
+//         }
+//       }
+//     }
+
+//     // p{
+//     //   // color: var(--primary, #181f29);
+//     //   // font-family: Lato;
+//     //   // font-size: 18px;
+//     //   // font-style: normal;
+//     //   // font-weight: 700;
+//     //   // letter-spacing: -0.36px;
+//     //   // line-height: 1;
+//     // }
+//   }
+//   // .sub {
+//   //   font-size: 16px;
+//   //   font-weight: 500;
+//   //   color: grey;
+//   //   display: flex;
+//   //   justify-content: space-between;
+//   //   font-family: Lato;
+//   //   font-style: normal;
+//   //   line-height: normal;
+
+//   //   p {
+//   //     text-align: right;
+//   //     color: grey;
+//   //     font-size: 16px;
+//   //     font-weight: 500;
+//   //   }
+
+//   //   span {
+//   //     color: #579540;
+//   //     font-weight: 700;
+//   //   }
+//   // }
+// }
+// //}
+
+// hr.dashed-line {
+//   border: 1px dashed #d7d7d7;
+//   margin: 10px 0;
+// }
 .orderCard {
-  display: flex;
-  flex-direction: column;
+
   background: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px 14px;
+
+  padding: 10px 15px;
   border-bottom: 2px solid #e6e6e6;
-  margin-bottom: 9px;
+
   .detail {
     display: flex;
     justify-content: space-between;
+    .textimage{
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+    }
+   
     img {
-      width: 80px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       object-fit: cover;
       border-radius: 10px;
       box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
     }
-    .categories {
-      display: flex;
-      flex-direction: column;
-      .main {
-        font-size: 20px;
-        font-weight: 600;
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 5px;
-
-        p {
-          color: var(--primary, #181f29);
-          text-align: right;
-          font-family: Lato;
-          font-size: 18px;
-          font-style: normal;
-          font-weight: 700;
-          line-height: normal;
-          letter-spacing: -0.36px;
-        }
-      }
-      .sub {
-        font-size: 16px;
-        font-weight: 500;
-        color: grey;
-        display: flex;
-        justify-content: space-between;
-        font-family: Lato;
-        font-style: normal;
-        line-height: normal;
-
-        p {
-          text-align: right;
-          color: grey;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        span {
-          color: #579540;
-          font-weight: 700;
+    .deleteicon {
+      span {
+        align-items: end;
+        img {
+        
+          height: 25px;
+          width: 25px;
+          background: none;
+          justify-items: right;
         }
       }
     }
   }
+}
+.items {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 17px;
+  border-top: 2px dashed #d7d7d7;
+  padding-top: 8px;
 
-  // hr.dashed-line {
-  //   border: 1px dashed #d7d7d7;
-  //   margin: 10px 0;
-  // }
-  .items {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-top: 17px;
-    border-top: 2px dashed #d7d7d7;
-    padding-top: 8px;
+  ul {
+    padding-left: 17px;
+    margin-bottom: 0px;
 
-    ul {
-      padding-left: 17px;
-      margin-bottom: 0px;
-
-      li {
-        font-size: 14px;
-        font-weight: 500;
-        color: grey;
-      }
+    li {
+      font-size: 14px;
+      font-weight: 500;
+      color: grey;
     }
+  }
+}
+.twinbutton {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  .addservice {
+    --background: none;
+    color: #1a1d1f;
+    width: 180px;
+    height: 35px;
+    font-size: 12px;
+  
+  }
+  .checkout {
+    width: 180px;
+    height: 35px;
+    font-size: 12px;
+    font-weight: 500;
   }
   ion-button {
     margin-top: 10px;
     --border-radius: 12px;
+    --border-color: #1a1d1f;
     --padding-top: 16px;
     --padding-bottom: 16px;
+    font-size: 16px;
     font-weight: 700;
 
     button {
@@ -605,6 +678,7 @@ ion-content {
     }
   }
 }
+
 ion-content {
   display: flex;
   justify-content: center;

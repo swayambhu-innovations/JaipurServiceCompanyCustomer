@@ -1,0 +1,14 @@
+
+<div class="modal-background" *ngIf="isOpen">
+  <div class="modal">
+    <span class="close" (click)="closeModal()">×</span>
+    <div class="img">
+      <img src="assets/rafiki.svg" alt="Login Image">
+    </div>
+    <p>Login for a better experience</p>
+    <div class="button-group">
+      <button class="secondary" (click)="skipLogin()">Skip for now</button>
+      <button class="primary"(click)="login()">Login</button>
+    </div>
+  </div>
+</div>

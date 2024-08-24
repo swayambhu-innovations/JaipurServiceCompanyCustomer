@@ -198,7 +198,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     let variant = this.matchingService?.variants.find((v) => v.id == variantId);
     if (this.dataProvider.currentUser)
       await this.cartService.addToCart(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         variantId,
         this.matchingService!,
         this.matchingMainCategory!,
@@ -244,7 +244,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     this.itemList.push(variant);
     if (this.dataProvider.currentUser)
       await this.cartService.addToCart(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         variant.id,
         this.matchingService!,
         this.matchingMainCategory!,
@@ -257,6 +257,9 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
         this.matchingMainCategory!,
         this.matchingSubCategory!
       );
+    this.cartService.cartSubject.subscribe((cartDetils) => {
+      this.cartDetils = cartDetils;
+    });
   }
 
   decrementQuantity(
@@ -272,7 +275,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     );
     if (this.dataProvider.currentUser)
       this.cartService.decrementQuantity(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         matchingService!,
         variantId,
         bookingId
@@ -296,9 +299,10 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
       matchingSubCategoryId,
       matchingService
     );
+    console.log(bookingId);
     if (this.dataProvider.currentUser)
       this.cartService.incrementQuantity(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         matchingService!,
         variantId,
         bookingId
@@ -324,7 +328,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
     );
     if (this.dataProvider.currentUser)
       this.cartService.removeFromCart(
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         matchingService!.id,
         variantId,
         bookingId
@@ -340,6 +344,7 @@ export class ServiceDetailPage implements OnInit, AfterViewInit, OnDestroy {
 
   getBookingId(matchingCategoryId, matchingSubCategoryId, matchingService) {
     let bookingId = '';
+    console.log(this.cartDetils);
     this.cartDetils.map((booking) => {
       if (
         booking.mainCategory.id == matchingCategoryId &&

@@ -202,67 +202,69 @@
       </div>
     </div>
   </div>
-
-  <!-- Date and Time -->
-  <div class="third-section">
+  <!-- Address -->
+  <div class="address">
     <div class="row-1">
-      <p class="head">Date & Time</p>
+      <p class="head">Delivery Details</p>
     </div>
 
     <div class="row-2">
+      <div class="left">
+        <h2 class="mb-1">Name: {{currentBooking?.address?.name}}</h2>
+        <p>
+          Phone no.:
+          {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}
+        </p>
+        <p>Address: {{currentBooking?.address?.formatted_address}}</p>
+       
+        <!-- <p>City: {{currentBooking?.address?.city}}</p>
+        <p>State: {{currentBooking?.address?.state}}</p>
+        <p>Pincode: {{currentBooking?.address?.pincode}}</p> -->
+      </div>
+    </div>
+  </div>
+  <!-- Date and Time -->
+  <div class="third-section">
+    <div class="row-1">
+      <!-- <p class="head">Date & Time</p> -->
+    </div>
+    <div class="datetime">
+    <div class="row-2">
       <section>
-        <img style="margin-top: 4px" src="assets/calendar.svg" alt="" />
+        <img src="assets/calendar.svg" alt="" />
       </section>
 
       <section style="margin-left: 10px">
-        <span class="head">Date</span><br />
+        <!-- <span class="head">Date</span><br /> -->
         <span class="body"
           >{{this.currentBooking?.timeSlot?.date?.toDate()|
           date:'mediumDate'}}</span
         >
       </section>
     </div>
-    <div class="row-2">
+    <div class="row-3">
       <section>
-        <img style="margin-top: 4px" src="assets/clock.svg" alt="" />
+        <img  src="assets/clock.svg" alt="" />
       </section>
 
       <section style="margin-left: 10px">
-        <span class="head">Time</span><br />
+        <!-- <span class="head">Time</span><br /> -->
         <span class="body"
           >{{currentBooking?.timeSlot?.time?.startTime?.toDate() |
           date:'hh:mm'}} To {{currentBooking?.timeSlot?.time?.endTime?.toDate()
           | date:'shortTime'}}</span
-        ><br />
-        <span class="body"
+        >
+        <!-- <span class="body"
           >(Preferred Agent Arrival Time -
           {{currentBooking?.timeSlot?.agentArrivalTime?.toDate() | date:
           "shortTime" }})</span
-        >
+        > -->
       </section>
     </div>
   </div>
-
-  <!-- Address -->
-  <div class="address">
-    <div class="row-1">
-      <p class="head">Address</p>
-    </div>
-
-    <div class="row-2">
-      <div class="left">
-        <h2 class="mb-1">Name: {{currentBooking?.address?.name}}</h2>
-        <h2>Address: {{currentBooking?.address?.addressLine1}}</h2>
-        <p>
-          Phone no.:
-          {{(currentBooking?.currentUser?.phoneNumber)?.substring(3,14)}}
-        </p>
-        <p>City: {{currentBooking?.address?.city}}</p>
-        <p>State: {{currentBooking?.address?.state}}</p>
-        <p>Pincode: {{currentBooking?.address?.pincode}}</p>
-      </div>
-    </div>
   </div>
+
+
 
   <!-- pictures before and after work -->
   <div class="pictures-div" *ngIf="picAvalable">
@@ -290,14 +292,13 @@
       <ion-card-header style="border-bottom: 1px double #d7d7d7">
         <div
           class="title"
-          *ngIf="currentBooking?.stage === utils.completed.key"
-        >
+          *ngIf="currentBooking?.stage === utils.completed.key">
           <span>Payment Details</span>
           <button (click)="downloadPdf()">
             <img src="../../../../assets/download.svg" alt="" />
           </button>
         </div>
-
+        <h4>Invoice</h4>
         <div class="payment-row">
           <div class="payment-heading">Total Duration</div>
           <!-- <div class="payment-value">{{duration}}</div> -->

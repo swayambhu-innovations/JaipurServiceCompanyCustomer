@@ -15,6 +15,7 @@ import { AlertsAndNotificationsService } from 'src/app/alerts-and-notifications.
 import * as moment from 'moment';
 import { AddressService } from '../../db_services/address.service';
 import { CartService } from '../../cart/cart.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-profile-info',
   templateUrl: './profile-info.page.html',
@@ -46,6 +47,7 @@ export class ProfileInfoPage implements OnInit {
     public cartService: CartService,
     private activeRoute: ActivatedRoute,
     public auth: AuthService,
+    private location: Location,
     private alertify: AlertsAndNotificationsService
   ) {}
 
@@ -53,6 +55,7 @@ export class ProfileInfoPage implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]],
     // dateofbirth: [''],
     gender: [''],
+    phone:['',[Validators.required,Validators.maxLength(10)]]
     // agentGender: new FormControl('', Validators.required)
   });
 
@@ -68,7 +71,6 @@ export class ProfileInfoPage implements OnInit {
   onBlur() {
     this.isFocused = false;
   }
-
   async ngOnInit() {
     this.dataProvider.isPageLoaded$.next('loaded');
     this.userData = this.dataProvider.currentUser?.userData;
@@ -76,7 +78,7 @@ export class ProfileInfoPage implements OnInit {
       this.userData = response?.userData ?? '';
     });
 
-    if (!this.userData?.uid) {
+    if (this.dataProvider.currentUser === undefined) {
       this.dataProvider.checkingAuth = false;
       this.dataProvider.loggedIn = false;
       this.route.navigate(['unauthorized/login']);
@@ -88,17 +90,6 @@ export class ProfileInfoPage implements OnInit {
         this.name = this.userData.name;
         this.userProfileForm.patchValue(this.userData);
         this.selectedGender = this.userData.gender;
-
-        await this.auth.updateUserDate(false);
-        // if(this.userData.dateofbirth){
-        //   const momentDate = moment(this.userData.dateofbirth,"DD/MM/YYYY").format("YYYY-MM-DD");
-        //   this.userProfileForm.controls.dateofbirth.setValue(momentDate)
-        // }
-        // else{
-        //   this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
-        // }
-      } else {
-        // this.userProfileForm.controls.dateofbirth.setValue('YYYY-MM-DD')
       }
     });
   }
@@ -130,13 +121,6 @@ export class ProfileInfoPage implements OnInit {
   async nextFunction() {
     let date = '';
     this.isSubmitForm = true;
-    // if (this.userProfileForm.controls.dateofbirth.value && this.userProfileForm.controls.dateofbirth.value !== 'YYYY-MM-DD') {
-    //   date = this.userProfileForm.controls.dateofbirth.value.split('-');
-    //   date = date[2] + '/' + date[1] + '/' + date[0];
-    // } else {
-    //   date = "DD/MM/YYYY";
-    // }
-
     if (this.userProfileForm.controls.name.value == '') {
       return;
     }
@@ -180,7 +164,7 @@ export class ProfileInfoPage implements OnInit {
       this.auth.isProfileUpdated = true;
       await this.profileService
         .editUsers(
-          this.dataProvider.currentUser!.user.uid,
+          this.dataProvider.currentUser!.userData.uid,
           this.dataProvider.currentUser?.userData.uid,
           finalData
         )
@@ -197,6 +181,19 @@ export class ProfileInfoPage implements OnInit {
     this.auth.isProfileUpdated = false;
   }
 
+  async ionViewDidEnter() {
+    this.dataProvider.isPageLoaded$.next('loaded');
+    this.userData = this.dataProvider.currentUser?.userData;
+    if (this.userData['name']) {
+      this.name = this.userData['name'];
+      this.userProfileForm.patchValue(this.userData);
+      this.selectedGender = this.userData.gender;
+    }
+    let userExist = JSON.parse(localStorage.getItem('firstTimeLogin')!);
+    if (userExist && userExist['firstTimeLogin'])
+      await this.auth.updateUserDate(false);
+  }
+
   setPhoto(event: any) {
     this.photoUrl = event.target.files[0];
     this.updateUser(this.photoUrl);
@@ -208,7 +205,7 @@ export class ProfileInfoPage implements OnInit {
     });
     loader.present();
     this.profileService
-      .updatePic(file, this.dataProvider.currentUser!.user.uid)
+      .updatePic(file, this.dataProvider.currentUser!.userData.uid)
       .then((url) => {
         this.userData.photoUrl = url;
         loader.dismiss();

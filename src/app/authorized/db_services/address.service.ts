@@ -39,7 +39,7 @@ export class AddressService {
   ) {
     // if (
     //   this.dataProvider.currentUser &&
-    //   this.dataProvider.currentUser!.user.uid !== undefined
+    //   this.dataProvider.currentUser!.userData.uid, !== undefined
     // ) {
     //   this.setupAddress();
     // }
@@ -51,11 +51,11 @@ export class AddressService {
       collection(
         this.firestore,
         'users',
-        this.dataProvider.currentUser!.user.uid,
+        this.dataProvider.currentUser!.userData.uid,
         'addresses'
       )
     ).subscribe((addresses: any) => {
-      this.getAddresses2(this.dataProvider.currentUser!.user.uid).then(
+      this.getAddresses2(this.dataProvider.currentUser!.userData.uid,).then(
         (result) => {
           this.addresses = result.docs.map((address: any) => {
             return { ...address.data(), id: address.id };

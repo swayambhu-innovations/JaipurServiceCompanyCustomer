@@ -42,7 +42,7 @@ export class NoInternetComponent  implements OnInit {
         this.canDismiss = true;
         this.modal.dismiss();
         setTimeout(() => {
-          this.router.navigate(['unauthorized/login']);
+          this.router.navigate(['/']);
         },100);
       }
       else{
@@ -51,7 +51,7 @@ export class NoInternetComponent  implements OnInit {
       }
     });
     App.addListener('appRestoredResult', data => {
-      this.router.navigate(['unauthorized/login']);
+      this.router.navigate(['/']);
     });
   }
 
