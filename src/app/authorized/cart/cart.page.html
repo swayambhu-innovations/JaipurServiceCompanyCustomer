@@ -11,13 +11,13 @@
         <div class="textimage">
           <img [src]="booking.subCategory.image" alt="" />
           <div class="main">
-            <p style="font-size: 18px; color: #181f29; font-weight: 700">
+            <p style="font-size: 16px; color: #181f29; font-weight: 600">
               {{booking.subCategory.name}}
             </p>
-            <p style="font-size: 17px; color: #7e8083; font-weight: 700">
+            <p style="font-size: 14px; color: #7e8083; font-weight: 700">
               {{booking?.services?.length}} Services
             </p>
-            <span style="font-size: 17px; color: #579540; font-weight: 700"
+            <span style="font-size: 14px; color: #579540; font-weight: 700"
               >{{booking.billing.grandTotal | currency:'INR' : 'symbol'
               :'1.0-0'}}</span
             >
@@ -603,7 +603,7 @@
           *ngIf="selectedBooking.billing.grandTotal - minPriceFromDB <= 0"
           class="danger"
         >
-          <p>Your Min. Cart Total should be ₹ {{minPriceFromDB}}</p>
+          <p style="color: #5e0080;">Your Min. Cart Total should be ₹ {{minPriceFromDB}}</p>
           <p>
             Add ₹ {{minPriceFromDB - selectedBooking.billing.grandTotal}} more
             to Checkout
