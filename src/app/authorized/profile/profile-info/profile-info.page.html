@@ -1,6 +1,6 @@
 <div id="" class="main hide-on-desktop">
 
-  <app-header-with-back [title]="'User Profile'" [showNotificationIcon]="false" 
+  <app-header-with-back [title]="'Edit Profile'" [showNotificationIcon]="false" 
     [showBackButton]="userData.name"></app-header-with-back>
 
   <div class="container  hide-on-desktop">
@@ -52,11 +52,15 @@
             <ion-text color="danger">Gender is required.</ion-text>
           </div>
         </div> -->
+
+        <ion-input class="inputs2" formControlName="phone" label="Mobile Number" min-length="10" maxlength="10" label-placement="floating" fill="outline"
+        required></ion-input>
       </div>
     </form>
     <!-- Cancel and Save buttons -->
     <div class="buttons">
-      <button class="save" (click)="nextFunction()">Save Details</button>
+      <button class="cancel" (click)="nextFunction()">Cancel</button>
+      <button class="save" (click)="nextFunction()">Save </button>
     </div>
 
   </div>

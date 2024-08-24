@@ -1,3 +1,8 @@
+.custom-modal {
+  --border-radius: 35px 35px 0 0;
+  background:rgb(179, 177, 177);
+}
+
 .modal-content {
   padding: 20px;
   text-align: center;
@@ -23,7 +28,7 @@
 h2 {
   font-family: Lato;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 19.2px;
   text-align: center;
 }
@@ -32,11 +37,14 @@ h2 {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  gap: 10px;
 }
 
 .modal-buttons ion-button {
   flex: 1;
-  margin: 0 5px;
+  justify-content: space-between;
+  margin: 0px 6px 0px 6px;
+  gap: 10px;
 }
 
 .primary {
@@ -47,18 +55,51 @@ h2 {
     #451338 98%
   );
   color: #fff;
-  width: 141px;
+  font-size: 14px;
+  font-family: Lato;
+
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  text-align: center;
+
+  // font-weight: 650;
+  box-shadow: #001e42;
+  width: 136px;
   height: 48px;
   gap: 8px;
   --border-radius: 13px 13px 13px 13px;
 }
 
+// .secondary {
+//   --background: #ffffff;
+//   border: 1px solid #001e42;
+//   color: #001e42;
+//   width: 141px;
+//   height: 48px;
+//   gap: 8px;
+//   --border-radius: 13px 13px 13px 13px;
+// }
+
 .secondary {
   --background: #ffffff;
-  border: 1px solid #001e42;
+  --border-radius: 13px;
+  font-size: 14px;
+  font-family: Lato;
+
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.01em;
+  text-align: center;
+  --border: 1px solid #001e42;
+  box-shadow: #001e42;
   color: #001e42;
-  width: 141px;
+  // font-size: 13px;
+  // font-weight: 650;
+  width: 136px;
   height: 48px;
-  gap: 8px;
-  --border-radius: 13px 13px 13px 13px;
 }
+
+
+
+
