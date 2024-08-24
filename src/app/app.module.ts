@@ -36,6 +36,7 @@ import { EffectsModule, EffectsRootModule } from '@ngrx/effects';
 // import { AppCheckService } from './app-check.service';
 import { Amplify } from 'aws-amplify';
 import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 const amplifyConfig = {
   aws_project_region: 'ap-south-1',
@@ -96,6 +97,7 @@ Amplify.configure(amplifyConfig);
     PaymentService,
     DataProviderService,
     CartService,
+    AppVersion,
     // AppCheckService,
   ],
   bootstrap: [AppComponent],

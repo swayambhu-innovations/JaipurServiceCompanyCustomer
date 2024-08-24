@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
 import { getAuth, deleteUser, Auth } from '@angular/fire/auth';
@@ -9,6 +9,7 @@ import { signOut } from 'aws-amplify/auth';
 import { NavigationBackService } from 'src/app/navigation-back.service';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { UpcomingHistoryPage } from '../booking/upcoming-history/upcoming-history.page';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -21,12 +22,15 @@ export class ProfilePage implements OnInit {
   isWebModalOpen: boolean = false;
   mobileView: boolean = true;
   signoutUser: boolean = false;
+  version: any;
   public isFaq: boolean = false;
   constructor(
     public router: Router,
     private modalCtrl: ModalController,
     public navCtrl: NavController,
     public dataProvider: DataProviderService,
+    private appVersion: AppVersion,
+    private platform: Platform,
     public _navigationService: NavigationBackService,
     public firestore: Firestore
   ) {
@@ -38,6 +42,29 @@ export class ProfilePage implements OnInit {
       await getDoc(doc(this.firestore, 'customer-settings', 'faqs'))
     ).data()?.['show'];
     this.systeminfo();
+    if (this.platform.is('capacitor')) {
+      this.appVersion.getPackageName().then((res) => {
+        console.log(res);
+        this.version = res;
+      });
+
+      this.appVersion.getAppName().then((res) => {
+        console.log(res);
+        this.version = res;
+      });
+
+      if (this.platform.is('android')) {
+        this.appVersion.getVersionNumber().then((res) => {
+          console.log(res);
+          this.version = res;
+        });
+      } else if (this.platform.is('ios')) {
+        this.appVersion.getVersionNumber().then((res) => {
+          console.log(res);
+          this.version = res;
+        });
+      }
+    }
   }
 
   close(url: any) {

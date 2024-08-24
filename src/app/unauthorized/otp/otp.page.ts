@@ -6,6 +6,7 @@ import { AuthService } from '../../core/auth.service';
 import { LoadingController } from '@ionic/angular';
 import { RecaptchaVerifier } from 'firebase/auth';
 import { confirmSignUp, autoSignIn, signOut, signIn } from 'aws-amplify/auth';
+import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 
 @Component({
   selector: 'app-otp',
@@ -13,7 +14,7 @@ import { confirmSignUp, autoSignIn, signOut, signIn } from 'aws-amplify/auth';
   styleUrls: ['./otp.page.scss'],
 })
 export class OtpPage implements OnInit {
-  testOtp = '654321';
+  testOtp = '12345';
   otp: any;
   showOtpComponent = true;
   verifier: RecaptchaVerifier | undefined;
@@ -24,7 +25,8 @@ export class OtpPage implements OnInit {
     public dataProvider: DataProviderService,
     private alertify: AlertsAndNotificationsService,
     private authService: AuthService,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private smsRetriever: SmsRetriever
   ) {}
 
   ngOnInit() {
@@ -64,18 +66,40 @@ export class OtpPage implements OnInit {
         });
     }
   }
-  async login() {
+
+  start() {
+    this.smsRetriever.startWatching()
+      .then((res: any) => {
+        console.log(res);
+        this.login(res);
+      })
+      .catch((error: any) => console.error(error));
+  }
+
+  async login(data:any) {
     if (this.dataProvider.isSignUpUserID) {
       let loader = await this.loadingController.create({
         message: 'Logging in...',
       });
       loader.present();
 
-      if (this.otp === this.testOtp) {
+      if (
+        this.otp === this.testOtp &&
+        this.dataProvider.userMobile == '1234567890'
+      ) {
         // Simulate successful login for test OTP
-        this.dataProvider.checkingAuth = true;
-        this.dataProvider.loggedIn = true;
-        this.router.navigate(['authorized/profile/profile-info']);
+        this.authService
+          .setUserData(`+91${this.dataProvider.userMobile}`)
+          .then(() => {
+            this.dataProvider.checkingAuth = true;
+            this.dataProvider.loggedIn = true;
+            this.dataProvider.firstTimeLogin = true;
+            localStorage.setItem(
+              'firstTimeLogin',
+              JSON.stringify({ firstTimeLogin: true })
+            );
+            this.router.navigate(['authorized/profile/profile-info']);
+          });
         loader.dismiss();
         return;
       }

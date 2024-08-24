@@ -29,6 +29,7 @@ export class ProfileInfoPage implements OnInit {
   inputValue: string = '';
   updateText: string = 'Update';
   isSubmitForm: boolean = false;
+  inputDisabled: boolean = true;
   isFromProfile: boolean = false;
   selectedGender: string = '';
   isGenderSelected: boolean = false;

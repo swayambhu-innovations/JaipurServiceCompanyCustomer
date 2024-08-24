@@ -89,16 +89,10 @@ export class AuthService {
       if (!status.connected) {
         this.router.navigate(['/no-internet']);
       } else if (!this.isProfileUpdated) {
-        //  await this.scheduleLoginPrompt();
         this.router.navigate(['../../authorized/home']);
-      }
-      // if (!this.dataProvider.currentUser) {
-      else if (!this.isProfileUpdated) {
+      } else if (!this.isProfileUpdated) {
         this.scheduleLoginPrompt();
       }
-      // }
-      console.log('step1');
-      // this.scheduleLoginPrompt();
     }
   }
 
@@ -114,8 +108,6 @@ export class AuthService {
     if (this.loginCheckTimeout) {
       clearTimeout(this.loginCheckTimeout);
     }
-
-    console.log('step2', this.dataProvider.currentUser);
 
     this.loginCheckTimeout = setTimeout(async () => {
       if (!this.dataProvider.currentUser && !this.isLoginPage) {
@@ -149,9 +141,8 @@ export class AuthService {
     //     backdropDismiss: false,
     //     // initialBreakpoint: 0,
     //     // breakpoints: [0, 0],
-        
-        
-    //     // cssClass: 'desktop-login-modal-invisible', 
+
+    //     // cssClass: 'desktop-login-modal-invisible',
     //   });
     //   await modal.present();
 
@@ -161,7 +152,6 @@ export class AuthService {
     //   }
     // }
   }
-  
 
   cancelLoginPrompt() {
     if (this.loginCheckTimeout) {
