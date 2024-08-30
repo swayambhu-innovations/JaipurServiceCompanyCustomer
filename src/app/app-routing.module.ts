@@ -5,7 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'fetch-address/update-app',
+    redirectTo: 'fetch-address',
     pathMatch: 'full',
   },
   {
@@ -55,6 +55,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./fetch-address/fetch-address.module').then(
         (m) => m.FetchAddressPageModule
+      ),
+  },
+  {
+    path: 'update-app',
+    loadChildren: () =>
+      import('./update-app/update-app.module').then(
+        (m) => m.UpdateAppPageModule
       ),
   },
 ];

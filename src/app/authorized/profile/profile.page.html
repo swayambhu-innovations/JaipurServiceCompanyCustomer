@@ -108,7 +108,7 @@
           expand="block"
           fill="clear"
           class="side-buttons"
-          (click)="openAddress()"
+          (click)="setopen()"
         >
           <div
             [ngClass]="dataProvider.currentUser ? '':'disabled'"
@@ -121,7 +121,7 @@
               alt=""
             />
             <p>
-              Address Book
+              Change Address
               <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
                 >Log In</span
               >
@@ -373,7 +373,7 @@
             expand="block"
             fill="clear"
             class="side-buttons"
-            (click)="openAddress()"
+            (click)="setopen()"
           >
             <div
               [ngClass]="dataProvider.currentUser ? '':'disabled'"
@@ -386,7 +386,7 @@
                 alt=""
               />
               <p>
-                Address Book
+                Change Address
                 <span (click)="openLogin()" *ngIf="!dataProvider.currentUser"
                   >Log In</span
                 >

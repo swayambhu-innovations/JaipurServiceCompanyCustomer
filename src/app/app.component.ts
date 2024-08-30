@@ -18,7 +18,6 @@ import { AnalyticsService } from './analyticsServices/analytics.service';
 import { DataProviderService } from './core/data-provider.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -36,14 +35,12 @@ export class AppComponent implements OnInit {
     private AnalyticsService: AnalyticsService,
     private dataProvider: DataProviderService,
     private deviceService: DeviceDetectorService
-    
   ) {
     // this.setUser()
     // this.setProperty()
     // this.logEvent()
     // this.toggleDataCollection()
-    this.dataProvider.deviceInfo=this.deviceService.getDeviceInfo();
-
+    this.dataProvider.deviceInfo = this.deviceService.getDeviceInfo();
     this.locationService.initLocation();
     this.createCasheFolder();
     this.platform.backButton.subscribeWithPriority(10, () => {

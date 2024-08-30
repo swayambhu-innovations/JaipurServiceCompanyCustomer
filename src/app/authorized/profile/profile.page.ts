@@ -71,6 +71,12 @@ export class ProfilePage implements OnInit {
     this.router.navigate([url]);
   }
 
+  async setopen() {
+    localStorage.removeItem('address');
+    let currentPosition = this.dataProvider.authLessAddress.geometry.location;
+    this.router.navigate(['/fetch-address/gps-map', currentPosition]);
+  }
+
   openProfileInfo() {}
 
   systeminfo() {

@@ -19,11 +19,7 @@ const routes: Routes = [
   {
     path: 'search-loc',
     loadChildren: () => import('./search-loc/search-loc.module').then( m => m.SearchLocPageModule)
-  },  {
-    path: 'update-app',
-    loadChildren: () => import('./update-app/update-app.module').then( m => m.UpdateAppPageModule)
-  }
-
+  },
 ];
 
 @NgModule({

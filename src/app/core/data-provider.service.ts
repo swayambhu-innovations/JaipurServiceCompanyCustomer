@@ -21,7 +21,7 @@ export class DataProviderService {
   selectedAddress: BehaviorSubject<Address[]> = new BehaviorSubject<Address[]>(
     []
   );
-  versionCode: string = '1.113';
+  versionCode: number = 113;
   checkingAuth: boolean = true;
   firstTimeLogin: boolean = false;
   loginConfirmationResult: ConfirmationResult | undefined;

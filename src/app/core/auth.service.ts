@@ -119,7 +119,7 @@ export class AuthService {
       if (!this.dataProvider.currentUser && !this.isLoginPage) {
         await this.openLoginModal();
       }
-    }, 600); // 2 minutes
+    }, 6000); // 2 minutes
   }
 
   private async openLoginModal() {
