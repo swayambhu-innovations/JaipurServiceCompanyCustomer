@@ -89,6 +89,7 @@ export class SearchLocPage implements OnInit {
   }
 
   currLoc() {
+    this.dataProvider.currLoc = true
     this.router.navigate(['/fetch-address']);
   }
 

@@ -40,7 +40,6 @@ export class AuthService {
   testOtp = '654321';
   isProfileUpdated: boolean = false;
   loginCheckTimeout: any;
-  isLoginPage = false;
   deviceInfo: any;
   isWebModalOpen: boolean = false;
   mobileView: boolean = true;
@@ -104,6 +103,7 @@ export class AuthService {
 
   scheduleLoginPrompt() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
+    clearTimeout(this.loginCheckTimeout);
     if (this.dataProvider.deviceInfo.deviceType === 'desktop') {
       this.isWebModalOpen = true;
       this.mobileView = false;
@@ -116,10 +116,10 @@ export class AuthService {
     }
 
     this.loginCheckTimeout = setTimeout(async () => {
-      if (!this.dataProvider.currentUser && !this.isLoginPage) {
+      if (this.dataProvider.currentUser === undefined) {
         await this.openLoginModal();
       }
-    }, 6000); // 2 minutes
+    }, 60000); // 2 minutes
   }
 
   private async openLoginModal() {

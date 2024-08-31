@@ -27,19 +27,22 @@ export class FetchAddressPage implements OnInit {
   ngOnInit() {}
 
   async ionViewDidEnter() {
-    this.dataProvider.currentUser = undefined;
-    this.dataProvider.authLessAddress = undefined;
-    let isLogined: string | null = '',
-      isAddress: string | null = '';
-    isLogined = localStorage.getItem('user');
-    if (isLogined) {
-      isAddress = localStorage.getItem('address');
-      this.dataProvider.currentUser = JSON.parse(isLogined);
-      if (isAddress) this.dataProvider.authLessAddress = JSON.parse(isAddress);
-      this.router.navigate(['/authorized/home']);
-    } else {
-      this.getLocation();
-    }
+    if (!this.dataProvider.currLoc) {
+      this.dataProvider.currentUser = undefined;
+      this.dataProvider.authLessAddress = undefined;
+      let isLogined: string | null = '',
+        isAddress: string | null = '';
+      isLogined = localStorage.getItem('user');
+      if (isLogined) {
+        isAddress = localStorage.getItem('address');
+        this.dataProvider.currentUser = JSON.parse(isLogined);
+        if (isAddress)
+          this.dataProvider.authLessAddress = JSON.parse(isAddress);
+        this.router.navigate(['/authorized/home']);
+      } else {
+        this.getLocation();
+      }
+    } else this.getLocation();
   }
 
   async getLocation() {

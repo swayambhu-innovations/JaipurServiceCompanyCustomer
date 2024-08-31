@@ -25,6 +25,7 @@ export class ProfileInfoPage implements OnInit {
   name = '';
   name2 = '';
   userData: any;
+  mblNo: string = '';
   fromDate: any;
   inputValue: string = '';
   updateText: string = 'Update';
@@ -187,10 +188,10 @@ export class ProfileInfoPage implements OnInit {
     this.userData = this.dataProvider.currentUser?.userData;
     this.dataProvider.isPageLoaded$.next('loaded');
     if (this.userData['name']) {
-      this.userData['phoneNumber'] = this.dataProvider.currentUser?.userData[
+      this.name = this.userData['name'];
+      this.mblNo = this.dataProvider.currentUser?.userData[
         'phoneNumber'
       ]?.substring(3, 14);
-      this.name = this.userData['name'];
       this.userProfileForm.patchValue(this.userData);
       this.selectedGender = this.userData.gender;
     }

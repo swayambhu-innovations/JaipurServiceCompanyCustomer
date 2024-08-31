@@ -14,6 +14,7 @@ export class DataProviderService {
   mainCategories: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>(
     []
   );
+  currLoc: boolean = false;
   mainCategoriesLoaded: boolean = false;
   loggedIn: boolean = false;
   selectedCatalog: string = '';

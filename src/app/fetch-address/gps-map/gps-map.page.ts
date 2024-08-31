@@ -153,6 +153,7 @@ export class GpsMapPage implements OnInit {
 
   async confirmLoc() {
     this.loading = true;
+    this.dataProvider.currLoc = false;
     let state: string = '';
     let postal: string = '';
     let city: string = '';

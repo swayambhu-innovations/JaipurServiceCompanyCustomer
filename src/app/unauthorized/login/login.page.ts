@@ -30,9 +30,7 @@ export class LoginPage implements OnInit {
       dataProvider.checkingAuth = false;
   }
 
-  ngOnInit() {
-    this.authService.isLoginPage = true;
-  }
+  ngOnInit() {}
 
   async logout() {
     await signOut({ global: true }).then((res) => {
