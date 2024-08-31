@@ -1,4 +1,4 @@
-import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
+// import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
     public dataProvider: DataProviderService,
     private alertify: AlertsAndNotificationsService,
     private loaderService: LoadingController,
-    private smsRetriever: SmsRetriever
+    // private smsRetriever: SmsRetriever
   ) {
     if (dataProvider.currentUser?.userData == undefined)
       dataProvider.checkingAuth = false;

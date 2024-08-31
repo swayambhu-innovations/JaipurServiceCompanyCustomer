@@ -6,7 +6,7 @@ import { AuthService } from '../../core/auth.service';
 import { LoadingController } from '@ionic/angular';
 import { RecaptchaVerifier } from 'firebase/auth';
 import { confirmSignUp, autoSignIn, signOut, signIn } from 'aws-amplify/auth';
-import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
+// import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 
 @Component({
   selector: 'app-otp',
@@ -26,7 +26,7 @@ export class OtpPage implements OnInit {
     private alertify: AlertsAndNotificationsService,
     private authService: AuthService,
     private loadingController: LoadingController,
-    private smsRetriever: SmsRetriever
+    // private smsRetriever: SmsRetriever
   ) {}
 
   ngOnInit() {
@@ -68,12 +68,12 @@ export class OtpPage implements OnInit {
   }
 
   start() {
-    this.smsRetriever.startWatching()
-      .then((res: any) => {
-        console.log(res);
-        this.login(res);
-      })
-      .catch((error: any) => console.error(error));
+    // this.smsRetriever.startWatching()
+    //   .then((res: any) => {
+    //     console.log(res);
+    //     this.login(res);
+    //   })
+    //   .catch((error: any) => console.error(error));
   }
 
   async login(data:any) {
