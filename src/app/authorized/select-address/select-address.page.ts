@@ -91,7 +91,6 @@ export class SelectAddressPage implements OnInit {
   }
   editAddress(address: Address) {
     // this.addressService.action.next({ isEdit: true, data: address });
-    localStorage.removeItem('address')
     this.dataProvider.authLessAddress = null;
     this.router.navigate(['/fetch-address']);
   }

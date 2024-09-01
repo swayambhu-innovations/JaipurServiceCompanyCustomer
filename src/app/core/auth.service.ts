@@ -116,10 +116,10 @@ export class AuthService {
     }
 
     this.loginCheckTimeout = setTimeout(async () => {
-      if (this.dataProvider.currentUser === undefined) {
+      if (this.dataProvider.currentUser === undefined && !this.dataProvider.isLoginPage) {
         await this.openLoginModal();
       }
-    }, 60000); // 2 minutes
+    }, 300000); // 5 minutes
   }
 
   private async openLoginModal() {

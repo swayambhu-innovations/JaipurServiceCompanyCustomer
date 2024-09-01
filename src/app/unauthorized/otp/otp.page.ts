@@ -38,6 +38,7 @@ export class OtpPage implements OnInit {
     // } else {
     //   this.startResendTimer();
     // }
+    this.dataProvider.isLoginPage = true;
   }
   async sendOTP() {
     if (this.dataProvider.loginConfirmationResult) {

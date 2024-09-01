@@ -15,6 +15,7 @@ export class DataProviderService {
     []
   );
   currLoc: boolean = false;
+  isLoginPage: boolean = false;
   mainCategoriesLoaded: boolean = false;
   loggedIn: boolean = false;
   selectedCatalog: string = '';

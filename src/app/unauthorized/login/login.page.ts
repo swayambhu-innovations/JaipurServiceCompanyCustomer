@@ -23,14 +23,16 @@ export class LoginPage implements OnInit {
     private authService: AuthService,
     public dataProvider: DataProviderService,
     private alertify: AlertsAndNotificationsService,
-    private loaderService: LoadingController,
-    // private smsRetriever: SmsRetriever
-  ) {
+    private loaderService: LoadingController
+  ) // private smsRetriever: SmsRetriever
+  {
     if (dataProvider.currentUser?.userData == undefined)
       dataProvider.checkingAuth = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataProvider.isLoginPage = true;
+  }
 
   async logout() {
     await signOut({ global: true }).then((res) => {
