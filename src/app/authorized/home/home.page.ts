@@ -122,7 +122,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.mobileView) {
       //fetching mobile banners
-      console.log('mobile');
       this.homeService.showMobileBanner().then((show) => {
         this.bannerObject.showBanner = show.data()?.['show'];
         if (this.bannerObject.showBanner) {
@@ -191,7 +190,6 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
       });
     } else {
       //fetching desktop banners
-      console.log('desktop');
       this.homeService.showDesktopBanner().then((show) => {
         this.desktopBannerObject.showBanner = show.data()?.['show'];
         console.log(show);
@@ -280,10 +278,10 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     this.authService.scheduleLoginPrompt();
-
     this._navigationService.isAddressSubscription$ = true;
     this.fetchMainCategoryIcon();
-    if (!this.dataProvider.currentUser && localStorage.getItem('address')) {
+    const addressString = localStorage.getItem('address');
+    if (!this.dataProvider.currentUser || addressString) {
       this.fetchAddressWithoutAuth();
     } else if (this.dataProvider.currentUser) {
       this.fetchAddressWithoutAuth();
@@ -319,6 +317,8 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
           });
         }
       });
+    } else if (!addressString) {
+      this.router.navigate(['/fetch-address']);
     }
     this.systeminfo();
     console.log(this.dataProvider.mainCategoriesLoaded);

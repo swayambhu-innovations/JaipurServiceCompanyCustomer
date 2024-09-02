@@ -36,9 +36,10 @@ export class FetchAddressPage implements OnInit {
       if (isLogined) {
         isAddress = localStorage.getItem('address');
         this.dataProvider.currentUser = JSON.parse(isLogined);
-        if (isAddress)
+        if (isAddress) {
           this.dataProvider.authLessAddress = JSON.parse(isAddress);
-        this.router.navigate(['/authorized/home']);
+          this.router.navigate(['/authorized/home']);
+        } else this.getLocation();
       } else {
         this.getLocation();
       }

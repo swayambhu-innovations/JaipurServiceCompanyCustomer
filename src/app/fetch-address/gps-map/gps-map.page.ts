@@ -55,7 +55,6 @@ export class GpsMapPage implements OnInit {
         addressString = localStorage.getItem('address');
         if (addressString) {
           this.dataProvider.authLessAddress = JSON.parse(addressString);
-          this.router.navigate(['/authorized/home']);
         }
       }
     });
@@ -206,7 +205,6 @@ export class GpsMapPage implements OnInit {
             };
             this.dataProvider.authLessAddress = addressObject;
             console.log(this.dataProvider.authLessAddress);
-            localStorage.removeItem('address');
             localStorage.setItem('address', JSON.stringify(addressObject));
             this.router.navigate(['/authorized/home']);
           } else this.isCatalogue = false;
