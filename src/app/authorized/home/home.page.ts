@@ -385,6 +385,7 @@ export class HomePage implements OnInit, AfterViewInit, OnDestroy {
             area['geoProofingLocality'] ===
               this.currentAddress?.geoProofingLocality && area.serviceCatalogue
         );
+      console.log(areas);
       if (areas.length > 0) {
         this.homeService.fetchData(areas[0].serviceCatalogue);
         this._cartService.selectedCatalogue = areas[0].serviceCatalogue;

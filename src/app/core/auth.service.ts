@@ -56,7 +56,7 @@ export class AuthService {
     private deviceService: DeviceDetectorService,
     private modalController: ModalController
   ) {
-    this.onAuth();
+    // this.onAuth();
   }
   async onAuth() {
     if (

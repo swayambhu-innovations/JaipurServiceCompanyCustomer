@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
     this.platform.backButton.subscribeWithPriority(10, () => {
       const previousUrlArray = this._navigationBack.getPreviourUrl();
       if (
-        this.currentUrl == '/authorized/home' ||
+        // this.currentUrl == '/authorized/home' ||
         this.currentUrl == '/no-internet'
       ) {
         if (this.platform.is('cordova') || this.platform.is('mobile')) {

@@ -116,6 +116,7 @@ export class GpsMapPage implements OnInit {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: this.center }).then((res) => {
       this.selectedAddress = res.results[0];
+      console.log(this.selectedAddress);
       this.areaName =
         res.results[0].address_components[1].long_name.toString() +
         ', ' +
@@ -139,6 +140,7 @@ export class GpsMapPage implements OnInit {
 
   newPosition(event: any) {
     this.currentPosition = event.latLng.toJSON();
+    console.log(event);
   }
 
   onAreaChange($event) {

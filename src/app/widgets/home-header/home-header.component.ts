@@ -167,7 +167,7 @@ export class HomeHeaderComponent implements OnInit {
 
   navigate() {
     setTimeout(() => {
-      this.router.navigate(['/authorized/new-address']);
+      // this.router.navigate(['/authorized/new-address']);
     }, 10);
     this.addressLineTwoVisible = false;
     this.showmodal = false;

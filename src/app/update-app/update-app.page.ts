@@ -18,33 +18,15 @@ export class UpdateAppPage implements OnInit {
     private dataProvider: DataProviderService
   ) {}
 
-  ngOnInit() {
-    this.authService
-    .checkVersion()
-    .then((res) => {
-      this.currentVersion = Number(res.data()!['versionCode']);
-      this.installedVersion = Number(this.dataProvider.versionCode);
-      // console.log(res.data());
-      // console.log(this.installedVersion);
-      // console.log(this.currentVersion);
-      // if (this.installedVersion >= this.currentVersion)
-      //   this.router.navigate(['/fetch-address']);
-    })
-  }
+  ngOnInit() {}
 
   ionViewDidEnter() {
-    this.authService
-      .checkVersion()
-      .then((res) => {
-        this.currentVersion = Number(res.data()!['versionCode']);
-        this.installedVersion = Number(this.dataProvider.versionCode);
-        console.log(this.installedVersion);
-        console.log(this.currentVersion);
-        if (this.installedVersion >= this.currentVersion)
-          console.log('version');
-          // this.router.navigate(['/fetch-address']);
-      })
-     
+    this.authService.checkVersion().then((res) => {
+      this.currentVersion = Number(res.data()!['versionCode']);
+      this.installedVersion = Number(this.dataProvider.versionCode);
+      if (this.installedVersion >= this.currentVersion)
+        this.router.navigate(['/fetch-address']);
+    });
   }
 
   confirmUpdate() {}
