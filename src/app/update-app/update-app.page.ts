@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { App } from '@capacitor/app';
+import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/core/auth.service';
 import { DataProviderService } from 'src/app/core/data-provider.service';
 
@@ -15,18 +17,25 @@ export class UpdateAppPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private platform: Platform,
     private dataProvider: DataProviderService
   ) {}
 
   ngOnInit() {}
 
-  ionViewDidEnter() {
-    this.authService.checkVersion().then((res) => {
-      this.currentVersion = Number(res.data()!['versionCode']);
-      this.installedVersion = Number(this.dataProvider.versionCode);
-      if (this.installedVersion >= this.currentVersion)
-        this.router.navigate(['/fetch-address']);
-    });
+  async ionViewDidEnter() {
+    if (this.platform.is('capacitor')) {
+      await App.getInfo().then(async (info) => {
+        this.installedVersion = Number(info.version);
+        await this.authService.checkVersion().then((res) => {
+          this.currentVersion = Number(res.data()!['versionCode']);
+          if (this.installedVersion >= this.currentVersion)
+            this.router.navigate(['/fetch-address']);
+        });
+      });
+    } else {
+      this.router.navigate(['/fetch-address']);
+    }
   }
 
   confirmUpdate() {}

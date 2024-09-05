@@ -243,53 +243,26 @@
           </div>
         </ion-button>
 
-        <a
-          style="text-decoration: none"
-          href="https://shreeva.in/"
-          target="_blank"
-        >
-          <ion-button expand="block" fill="clear" class="side-buttons">
-            <div class="w-100 d-flex align-items-center shreeva">
-              <!-- <a href="https://shreeva.in/" target="_blank"> -->
-              <img
-                style="padding: auto"
-                class="icons"
-                src="../../../assets/images/shreevaIcon.png"
-                alt=""
-              />
-              <p>Powered By Shreeva</p>
-              <!-- </a> -->
-            </div>
-          </ion-button>
-        </a>
-
-        <!-- <ion-button expand="block" fill="clear" class="side-buttons" routerLink = "../contact-us">
-      <div class="w-100 d-flex align-items-center">
-        <img style="padding:auto;" class="icons"
-        src="../../assets/Call(1).svg" alt="" />
-        <p>Contact Us</p>
-      </div>
-    </ion-button> -->
-
-        <!-- <ion-button class="side-buttons" id="open-modal"  fill="clear"  expand="block">
-      <div class="w-100 d-flex align-items-center">
-        <img src="../../assets/Icons.svg" style="padding:auto;" class="icons"/>
-        <p>Sign out</p>
-      </div>
-    </ion-button> -->
-
-        <!-- <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-      <ng-template>
-        <ion-card-title class="logout-title">Logout</ion-card-title>
-        <ion-item-divider></ion-item-divider>
-        <ion-card-subtitle class="subtitle">Are you sure want to Logout ?</ion-card-subtitle>
-        <div style="display: flex;margin: auto;padding: 20px;">
-          <ion-button class="cancel-btn" fill="clear" (click)="closeModal()">Cancel</ion-button>
-          <ion-button class="logout-btn" (click)="logout()" fill="clear">Yes , Logout
-          </ion-button>
-        </div>
-      </ng-template>
-    </ion-modal> -->
+        <ion-button expand="block" fill="clear" class="side-buttons">
+          <div class="w-100 d-flex align-items-center version">
+            <img
+              style="padding: auto"
+              class="icons"
+              src="../../../assets/images/shreevaIcon.png"
+              alt=""
+            />
+            <p>
+              <a
+                style="text-decoration: none"
+                href="https://shreeva.in/"
+                target="_blank"
+              >
+                Powered By Shreeva
+              </a>
+              <span>v{{setVersion}}</span>
+            </p>
+          </div>
+        </ion-button>
       </div>
     </div>
   </ng-container>
@@ -312,7 +285,6 @@
 
             <h4 style="text-align: center; color: #fff">
               {{this.dataProvider.currentUser?.userData?.name}}
-              {{!this.dataProvider.currentUser && 'You are not Logged In'}}
             </h4>
           </div>
         </div>
@@ -506,32 +478,26 @@
             </div>
           </ion-button>
 
-          <a
-            style="text-decoration: none"
-            href="https://shreeva.in/"
-            target="_blank"
-          >
-            <ion-button expand="block" fill="clear" class="side-buttons">
-              <div
-                class="w-100 d-flex justify-between align-items-center shreeva"
-              >
-                <div class="w-50 d-flex align-items-center shreeva">
-                  <!-- <a href="https://shreeva.in/" target="_blank"> -->
-                  <img
-                    style="padding: auto"
-                    class="icons"
-                    src="../../../assets/images/shreevaIcon.png"
-                    alt=""
-                  />
-                  <p>Powered By Shreeva</p>
-                  <!-- </a> -->
-                </div>
-                <!-- <div class="w-50 d-flex align-items-center shreeva">
-                  {{version.toString()}}
-                </div> -->
-              </div>
-            </ion-button>
-          </a>
+          <ion-button expand="block" fill="clear" class="side-buttons">
+            <div class="w-100 d-flex align-items-center version">
+              <img
+                style="padding: auto"
+                class="icons"
+                src="../../../assets/images/shreevaIcon.png"
+                alt=""
+              />
+              <p>
+                <a
+                  style="text-decoration: none"
+                  href="https://shreeva.in/"
+                  target="_blank"
+                >
+                  Powered By Shreeva
+                </a>
+                <span>v{{setVersion}}</span>
+              </p>
+            </div>
+          </ion-button>
         </div>
       </div>
     </div>

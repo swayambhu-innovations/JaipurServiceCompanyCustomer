@@ -10,6 +10,8 @@ import { NavigationBackService } from 'src/app/navigation-back.service';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { UpcomingHistoryPage } from '../booking/upcoming-history/upcoming-history.page';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { App } from '@capacitor/app';
+import { AuthService } from 'src/app/core/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +25,7 @@ export class ProfilePage implements OnInit {
   mobileView: boolean = true;
   signoutUser: boolean = false;
   version: any;
+  setVersion: any;
   public isFaq: boolean = false;
   constructor(
     public router: Router,
@@ -31,6 +34,7 @@ export class ProfilePage implements OnInit {
     public dataProvider: DataProviderService,
     private appVersion: AppVersion,
     private platform: Platform,
+    private authService: AuthService,
     public _navigationService: NavigationBackService,
     public firestore: Firestore
   ) {
@@ -43,27 +47,13 @@ export class ProfilePage implements OnInit {
     ).data()?.['show'];
     this.systeminfo();
     if (this.platform.is('capacitor')) {
-      this.appVersion.getPackageName().then((res) => {
-        console.log(res);
-        this.version = res;
+      await App.getInfo().then((info) => {
+        this.setVersion = info.version;
       });
-
-      this.appVersion.getAppName().then((res) => {
-        console.log(res);
-        this.version = res;
+    } else {
+      await this.authService.checkVersion().then((res) => {
+        this.setVersion = String(res.data()!['versionCode']);
       });
-
-      if (this.platform.is('android')) {
-        this.appVersion.getVersionNumber().then((res) => {
-          console.log(res);
-          this.version = res;
-        });
-      } else if (this.platform.is('ios')) {
-        this.appVersion.getVersionNumber().then((res) => {
-          console.log(res);
-          this.version = res;
-        });
-      }
     }
   }
 

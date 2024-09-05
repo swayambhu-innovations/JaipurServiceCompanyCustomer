@@ -14,7 +14,8 @@
   ion-text {
     margin-top: 6rem;
 
-    .head {
+    .head,
+    .head1 {
       color: #181f29;
       text-align: center;
       font-family: Poppins;
@@ -22,6 +23,10 @@
       font-style: normal;
       font-weight: 500;
       line-height: normal;
+    }
+
+    .head1 {
+      font-weight: 600 !important;
     }
 
     .content {
